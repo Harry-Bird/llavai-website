@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Llavai — Apartment viewings booked for you in Barcelona</title>
+<meta name="description" content="An AI assistant that calls Barcelona estate agents in Spanish on your behalf and books apartment viewings. Built by someone who lived it." />
+<meta property="og:title" content="Llavai — Apartment viewings, booked for you" />
+<meta property="og:description" content="Your AI assistant calls Barcelona estate agents in Spanish and books viewings. You just show up." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #F4EFE5;
+    --cream-deep: #ECE5D5;
+    --ink: #1B388F;
+    --ink-deep: #142869;
+    --coral: #E55B45;
+    --coral-deep: #C8462F;
+    --pencil: #6E6253;
+    --paper-shadow: rgba(27, 56, 143, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 800px 600px at 15% 10%, rgba(229, 91, 69, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 800px at 90% 60%, rgba(27, 56, 143, 0.05) 0%, transparent 50%);
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+  }
+
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* NAV */
+  nav {
+    padding: 28px 32px;
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+    display: flex;
+    align-items: baseline;
+    gap: 0;
+  }
+  .nav-logo .ai { color: var(--coral); }
+
+  .lang-toggle {
+    display: flex;
+    gap: 4px;
+    font-size: 13px;
+    font-family: 'Newsreader', serif;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--pencil);
+  }
+  .lang-toggle button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--pencil);
+    padding: 4px 8px;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    transition: color 0.2s ease;
+  }
+  .lang-toggle button:hover { color: var(--ink); }
+  .lang-toggle button.active {
+    color: var(--ink);
+    font-weight: 600;
+    border-bottom: 1.5px solid var(--coral);
+  }
+
+  /* HERO */
+  .hero {
+    padding: 60px 0 100px;
+    position: relative;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  @media (max-width: 880px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 50px; }
+  }
+
+  .eyebrow {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--coral);
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 350;
+    font-size: clamp(40px, 5.6vw, 68px);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 28px;
+    font-variation-settings: "SOFT" 60, "WONK" 0;
+  }
+
+  h1 .accent {
+    font-style: italic;
+    font-weight: 350;
+    color: var(--coral);
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+
+  .lede {
+    font-size: 19px;
+    line-height: 1.6;
+    color: var(--ink-deep);
+    margin-bottom: 36px;
+    max-width: 480px;
+  }
+
+  .cta-row {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: var(--ink);
+    color: var(--cream);
+    border: none;
+    font-family: 'Newsreader', serif;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    padding: 16px 28px;
+    border-radius: 2px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.25s ease;
+    box-shadow: 0 4px 0 var(--ink-deep);
+  }
+  .btn-primary:hover {
+    background: var(--ink-deep);
+    transform: translateY(-1px);
+    box-shadow: 0 5px 0 var(--ink-deep);
+  }
+  .btn-primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 var(--ink-deep);
+  }
+
+  .meta-note {
+    font-style: italic;
+    color: var(--pencil);
+    font-size: 15px;
+  }
+
+  /* HERO LOGO */
+  .hero-visual {
+    position: relative;
+    text-align: center;
+  }
+  .hero-visual img {
+    max-width: 100%;
+    width: 380px;
+    height: auto;
+    filter: drop-shadow(0 20px 40px var(--paper-shadow));
+  }
+
+  /* SECTION HEADERS */
+  .section-eyebrow {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--coral);
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-eyebrow::before {
+    content: "";
+    width: 32px;
+    height: 1px;
+    background: var(--coral);
+  }
+
+  h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: clamp(32px, 4vw, 46px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 40px;
+    max-width: 700px;
+    font-variation-settings: "SOFT" 60;
+  }
+  h2 em {
+    font-style: italic;
+    color: var(--coral);
+    font-weight: 400;
+  }
+
+  /* WORKFLOW */
+  .workflow {
+    padding: 100px 0;
+    border-top: 1px solid rgba(27, 56, 143, 0.12);
+    border-bottom: 1px solid rgba(27, 56, 143, 0.12);
+    background: var(--cream-deep);
+  }
+
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 50px;
+    margin-top: 30px;
+    position: relative;
+  }
+  @media (max-width: 880px) {
+    .steps { grid-template-columns: 1fr; gap: 40px; }
+  }
+
+  .step {
+    position: relative;
+  }
+  .step-number {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 60px;
+    color: var(--coral);
+    line-height: 1;
+    font-weight: 300;
+    margin-bottom: 16px;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+  .step-icon {
+    width: 56px;
+    height: 56px;
+    margin-bottom: 16px;
+  }
+  .step h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .step p {
+    color: var(--ink-deep);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  /* STORY */
+  .story {
+    padding: 100px 0;
+    position: relative;
+  }
+  .story-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.4fr;
+    gap: 80px;
+    align-items: start;
+  }
+  @media (max-width: 880px) {
+    .story-grid { grid-template-columns: 1fr; gap: 30px; }
+  }
+  .story-prose p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: var(--ink-deep);
+    margin-bottom: 18px;
+  }
+  .story-prose p:first-of-type::first-letter {
+    font-family: 'Fraunces', serif;
+    font-size: 64px;
+    float: left;
+    line-height: 0.85;
+    padding: 4px 8px 0 0;
+    color: var(--coral);
+    font-weight: 400;
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+  .signature {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: var(--ink);
+    margin-top: 24px;
+    font-weight: 400;
+  }
+
+  /* VALUE CARDS */
+  .value {
+    padding: 100px 0;
+    position: relative;
+  }
+  .value-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 56px;
+    margin-top: 30px;
+  }
+  @media (max-width: 720px) {
+    .value-grid { grid-template-columns: 1fr; gap: 36px; }
+  }
+  .value-card {
+    position: relative;
+    padding-left: 28px;
+    border-left: 1.5px solid var(--coral);
+  }
+  .value-card h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+  }
+  .value-card h3 .badge {
+    display: inline-block;
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 12px;
+    color: var(--coral);
+    background: rgba(229, 91, 69, 0.1);
+    padding: 2px 8px;
+    border-radius: 2px;
+    margin-left: 8px;
+    letter-spacing: 0.02em;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+  }
+  .value-card p {
+    color: var(--ink-deep);
+    font-size: 16.5px;
+    line-height: 1.6;
+  }
+  .value-footnote {
+    margin-top: 50px;
+    padding-top: 24px;
+    border-top: 1px dashed rgba(27, 56, 143, 0.2);
+    font-size: 14px;
+    font-style: italic;
+    color: var(--pencil);
+    max-width: 600px;
+  }
+  .value-footnote .star {
+    color: var(--coral);
+    font-style: normal;
+    margin-right: 4px;
+  }
+
+  /* PRICING */
+  .pricing {
+    padding: 100px 0;
+    background: var(--cream-deep);
+    border-top: 1px solid rgba(27, 56, 143, 0.12);
+    border-bottom: 1px solid rgba(27, 56, 143, 0.12);
+  }
+  .pricing-statement {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.3;
+    color: var(--ink);
+    max-width: 720px;
+    margin-bottom: 48px;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .pricing-statement em {
+    font-style: italic;
+    color: var(--coral);
+  }
+  .credit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 24px;
+  }
+  @media (max-width: 720px) {
+    .credit-grid { grid-template-columns: 1fr; }
+  }
+  .credit-card {
+    background: var(--cream);
+    border: 1px solid rgba(27, 56, 143, 0.15);
+    padding: 28px 24px;
+    position: relative;
+    transition: transform 0.2s ease;
+  }
+  .credit-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--coral);
+  }
+  .credit-card.featured {
+    border-color: var(--coral);
+    box-shadow: 0 8px 24px rgba(229, 91, 69, 0.12);
+  }
+  .credit-card.featured::before {
+    content: "Most chosen";
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    background: var(--coral);
+    color: var(--cream);
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 12px;
+    padding: 2px 12px;
+    letter-spacing: 0.02em;
+  }
+  .credit-card-pack {
+    font-family: 'Fraunces', serif;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--pencil);
+    margin-bottom: 12px;
+  }
+  .credit-card-price {
+    font-family: 'Fraunces', serif;
+    font-size: 44px;
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+  .credit-card-per {
+    font-size: 14px;
+    color: var(--pencil);
+    margin-top: 8px;
+    font-style: italic;
+  }
+  .credit-card-line {
+    height: 1px;
+    background: rgba(27, 56, 143, 0.15);
+    margin: 20px 0;
+  }
+  .credit-card-detail {
+    font-size: 15px;
+    color: var(--ink-deep);
+  }
+
+  /* CTA */
+  .final-cta {
+    padding: 100px 0 80px;
+    text-align: left;
+  }
+  .cta-headline {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(34px, 4.5vw, 52px);
+    font-weight: 350;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin-bottom: 24px;
+    max-width: 640px;
+    font-variation-settings: "SOFT" 80;
+  }
+  .cta-headline em {
+    font-style: italic;
+    color: var(--coral);
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+  .cta-sub {
+    font-size: 18px;
+    color: var(--ink-deep);
+    margin-bottom: 36px;
+    max-width: 560px;
+  }
+
+  .signup-form {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    align-items: stretch;
+    max-width: 560px;
+  }
+  .signup-form input {
+    flex: 1;
+    min-width: 220px;
+    padding: 14px 18px;
+    font-family: 'Newsreader', serif;
+    font-size: 16px;
+    border: 1.5px solid var(--ink);
+    background: var(--cream);
+    color: var(--ink);
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  .signup-form input::placeholder {
+    color: var(--pencil);
+    font-style: italic;
+  }
+  .signup-form input:focus {
+    border-color: var(--coral);
+  }
+
+  .form-note {
+    margin-top: 16px;
+    font-size: 14px;
+    color: var(--pencil);
+    font-style: italic;
+  }
+  .form-note a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--coral);
+    text-underline-offset: 3px;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 0 60px;
+    border-top: 1px solid rgba(27, 56, 143, 0.12);
+  }
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--pencil);
+  }
+  .footer-row a {
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .footer-row a:hover { color: var(--coral); }
+
+  /* ANIMATION */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .reveal {
+    opacity: 0;
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+  .reveal-1 { animation-delay: 0.1s; }
+  .reveal-2 { animation-delay: 0.25s; }
+  .reveal-3 { animation-delay: 0.4s; }
+  .reveal-4 { animation-delay: 0.55s; }
+  .reveal-5 { animation-delay: 0.7s; }
+
+  /* Decorative scribble underline */
+  .scribble-underline {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8'%3E%3Cpath d='M2 5 Q 25 1, 50 5 T 98 5' stroke='%23E55B45' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 100% 8px;
+    padding-bottom: 4px;
+  }
+
+  /* Hide content for inactive language */
+  [data-lang="es"] { display: none; }
+  body.es [data-lang="en"] { display: none; }
+  body.es [data-lang="es"] { display: block; }
+  body.es [data-lang="es"].inline { display: inline; }
+  body.es h1 [data-lang="es"], body.es .accent[data-lang="es"] { display: inline; }
+</style>
+</head>
+
+<body>
+<div class="grain"></div>
+
+<nav>
+  <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
+  <div class="lang-toggle">
+    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+    <span style="opacity: 0.4;">/</span>
+    <button id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow reveal reveal-1">
+          <span data-lang="en">Apartment hunting in Barcelona</span>
+          <span data-lang="es">Buscando piso en Barcelona</span>
+        </p>
+
+        <h1 class="reveal reveal-2">
+          <span data-lang="en">Your AI assistant calls the agents. <span class="accent">You just show up.</span></span>
+          <span data-lang="es">Tu asistente de IA llama a las agencias. <span class="accent">Tú solo apareces.</span></span>
+        </h1>
+
+        <p class="lede reveal reveal-3">
+          <span data-lang="en">Llavai is a voice agent that calls Barcelona estate agents in native Spanish, qualifies the property, sells your profile, and books viewings around your calendar.</span>
+          <span data-lang="es">Llavai es un agente de voz que llama a inmobiliarias en Barcelona en castellano nativo, comprueba el piso, presenta tu perfil y agenda visitas según tu disponibilidad.</span>
+        </p>
+
+        <div class="cta-row reveal reveal-4">
+          <a href="#join" class="btn-primary">
+            <span data-lang="en">Get early access</span>
+            <span data-lang="es">Solicita acceso anticipado</span>
+          </a>
+          <span class="meta-note">
+            <span data-lang="en">Free for the first viewings</span>
+            <span data-lang="es">Primeras visitas gratis</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal reveal-3">
+        <img src="logo.webp" alt="Llavai logo — a key with a brain inside, symbolising AI-powered apartment finding" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== WORKFLOW ============== -->
+<section class="workflow">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">How it works</span>
+      <span data-lang="es">Cómo funciona</span>
+    </p>
+    <h2>
+      <span data-lang="en">Three steps. <em>One booked viewing.</em></span>
+      <span data-lang="es">Tres pasos. <em>Una visita agendada.</em></span>
+    </h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <svg class="step-icon" viewBox="0 0 56 56" fill="none">
+          <rect x="6" y="10" width="44" height="36" rx="3" stroke="#1B388F" stroke-width="2"/>
+          <line x1="6" y1="20" x2="50" y2="20" stroke="#1B388F" stroke-width="2"/>
+          <line x1="14" y1="28" x2="36" y2="28" stroke="#1B388F" stroke-width="1.5"/>
+          <line x1="14" y1="34" x2="42" y2="34" stroke="#1B388F" stroke-width="1.5"/>
+          <line x1="14" y1="40" x2="30" y2="40" stroke="#1B388F" stroke-width="1.5"/>
+          <circle cx="44" cy="14" r="3" fill="#E55B45"/>
+        </svg>
+        <h3>
+          <span data-lang="en">Tell us what you want</span>
+          <span data-lang="es">Cuéntanos qué buscas</span>
+        </h3>
+        <p>
+          <span data-lang="en">Send your Idealista filter and a quick profile — neighbourhood, budget, when you can visit. We set up your account.</span>
+          <span data-lang="es">Envíanos tu filtro de Idealista y un perfil breve: zona, presupuesto, cuándo puedes visitar. Te abrimos la cuenta.</span>
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <svg class="step-icon" viewBox="0 0 56 56" fill="none">
+          <path d="M14 8 L14 48 C14 48 22 52 28 52 C34 52 42 48 42 48 L42 8 C42 8 34 12 28 12 C22 12 14 8 14 8 Z" stroke="#1B388F" stroke-width="2" fill="none"/>
+          <circle cx="28" cy="32" r="3" fill="#E55B45"/>
+          <path d="M22 22 Q 28 18 34 22" stroke="#1B388F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+          <path d="M24 26 Q 28 23 32 26" stroke="#1B388F" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        </svg>
+        <h3>
+          <span data-lang="en">Julia makes the calls</span>
+          <span data-lang="es">Julia hace las llamadas</span>
+        </h3>
+        <p>
+          <span data-lang="en">Native Barcelona Spanish. Polite and professional. She qualifies the property, presents your profile, and finds a slot in your calendar.</span>
+          <span data-lang="es">Castellano de Barcelona, nativo. Profesional y cercana. Comprueba el piso, presenta tu perfil y encuentra hueco en tu calendario.</span>
+        </p>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <svg class="step-icon" viewBox="0 0 56 56" fill="none">
+          <rect x="8" y="12" width="40" height="34" rx="2" stroke="#1B388F" stroke-width="2"/>
+          <line x1="8" y1="22" x2="48" y2="22" stroke="#1B388F" stroke-width="2"/>
+          <line x1="18" y1="6" x2="18" y2="18" stroke="#1B388F" stroke-width="2" stroke-linecap="round"/>
+          <line x1="38" y1="6" x2="38" y2="18" stroke="#1B388F" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="20" cy="32" r="2.5" fill="#E55B45"/>
+          <text x="26" y="35" font-family="Fraunces" font-size="9" fill="#1B388F" font-style="italic">17:30</text>
+        </svg>
+        <h3>
+          <span data-lang="en">You show up to the viewing</span>
+          <span data-lang="es">Tú vas a la visita</span>
+        </h3>
+        <p>
+          <span data-lang="en">Day, time, address, agent contact — all in your inbox. Just show up and find your apartment.</span>
+          <span data-lang="es">Día, hora, dirección, contacto del agente — todo en tu correo. Solo vas y encuentras tu piso.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== STORY ============== -->
+<section class="story">
+  <div class="container">
+    <div class="story-grid">
+      <div>
+        <p class="section-eyebrow">
+          <span data-lang="en">Why I built this</span>
+          <span data-lang="es">Por qué lo hice</span>
+        </p>
+        <h2>
+          <span data-lang="en"><em>I lived</em> the Barcelona apartment hunt.</span>
+          <span data-lang="es"><em>Yo viví</em> la búsqueda de piso en Barcelona.</span>
+        </h2>
+      </div>
+
+      <div class="story-prose">
+        <div data-lang="en">
+          <p>Picture this: 5pm. Idealista alert pings. New listing in your filter. You're in a meeting. By the time you call back, the agency has already spoken to twelve people.</p>
+          <p>That's not searching for an apartment. That's competing in a sport nobody trained you for — in a language that probably isn't your first.</p>
+          <p>I built Llavai because I wanted out. Not just out of the calls themselves — out of the pressure of being on standby for them.</p>
+          <p class="signature">— Harry, founder</p>
+        </div>
+        <div data-lang="es">
+          <p>Imagínate: las cinco de la tarde. Te llega una alerta de Idealista. Piso nuevo en tu filtro. Estás en una reunión. Cuando llamas, la inmobiliaria ya ha hablado con doce personas.</p>
+          <p>Eso no es buscar piso. Es competir en un deporte para el que nadie te ha entrenado — en un idioma que probablemente no es el tuyo.</p>
+          <p>Hice Llavai porque quería salirme. No solo de las llamadas — de la presión de estar pendiente de ellas.</p>
+          <p class="signature">— Harry, fundador</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== VALUE ============== -->
+<section class="value">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">What Llavai actually does</span>
+      <span data-lang="es">Qué hace Llavai</span>
+    </p>
+    <h2>
+      <span data-lang="en">More than a call. <em>An unfair advantage.</em></span>
+      <span data-lang="es">Más que una llamada. <em>Una ventaja injusta.</em></span>
+    </h2>
+
+    <div class="value-grid">
+      <div class="value-card">
+        <h3>
+          <span data-lang="en">First in the queue</span>
+          <span data-lang="es">El primero en la cola</span>
+        </h3>
+        <p>
+          <span data-lang="en">When the alert lands in your inbox, Llavai is already dialling. You don't have to drop what you're doing to be the fastest caller — that's the whole point.</span>
+          <span data-lang="es">Cuando llega la alerta a tu bandeja, Llavai ya está llamando. No tienes que dejar lo que estás haciendo para ser el primero — esa es justo la idea.</span>
+        </p>
+      </div>
+
+      <div class="value-card">
+        <h3>
+          <span data-lang="en">Native Spanish, professional tone</span>
+          <span data-lang="es">Castellano nativo, tono profesional</span>
+        </h3>
+        <p>
+          <span data-lang="en">Julia speaks like a Barcelona local. She presents your profile properly — contract, salary, references — so agents take you seriously from the first call.</span>
+          <span data-lang="es">Julia habla como una de aquí. Presenta tu perfil bien — contrato, sueldo, referencias — para que las inmobiliarias te tomen en serio desde la primera llamada.</span>
+        </p>
+      </div>
+
+      <div class="value-card">
+        <h3>
+          <span data-lang="en">Calls, WhatsApp, follow-ups — tracked</span>
+          <span data-lang="es">Llamadas, WhatsApp, seguimientos — todo registrado</span>
+        </h3>
+        <p>
+          <span data-lang="en">Every interaction with every agency lands in one place. You see what's been booked, what's pending, who ghosted you. No more spreadsheets.</span>
+          <span data-lang="es">Cada interacción con cada inmobiliaria queda registrada. Ves qué hay reservado, qué está pendiente, quién no ha contestado. Sin hojas de cálculo.</span>
+        </p>
+      </div>
+
+      <div class="value-card">
+        <h3>
+          <span data-lang="en">Property intelligence <span class="badge">growing*</span></span>
+          <span data-lang="es">Inteligencia de mercado <span class="badge">en mejora*</span></span>
+        </h3>
+        <p>
+          <span data-lang="en">Llavai tracks booking patterns across every call. Over time you'll know if a listing is already saturated with viewings, when agencies tend to confirm, and which neighbourhoods move fastest.</span>
+          <span data-lang="es">Llavai registra los patrones de reserva en cada llamada. Con el tiempo sabrás si un piso ya está saturado de visitas, cuándo confirman las inmobiliarias y qué barrios se mueven más rápido.</span>
+        </p>
+      </div>
+
+      <div class="value-card">
+        <h3>
+          <span data-lang="en">Built for rejection fatigue</span>
+          <span data-lang="es">Pensado contra el desgaste</span>
+        </h3>
+        <p>
+          <span data-lang="en">Apartment hunting is exhausting. Llavai handles the calls that drain you, so you can spend your energy on what matters — the actual viewings.</span>
+          <span data-lang="es">Buscar piso agota. Llavai se encarga de las llamadas que te desgastan para que tu energía vaya a lo importante — las visitas.</span>
+        </p>
+      </div>
+
+      <div class="value-card">
+        <h3>
+          <span data-lang="en">Best-time scheduling <span class="badge">growing*</span></span>
+          <span data-lang="es">Horarios óptimos <span class="badge">en mejora*</span></span>
+        </h3>
+        <p>
+          <span data-lang="en">As more calls happen, Llavai learns when agencies are most responsive, when slots are most likely to be available, and when to push for a viewing vs hold off.</span>
+          <span data-lang="es">A medida que se acumulan llamadas, Llavai aprende cuándo responden mejor las inmobiliarias, cuándo hay más huecos disponibles y cuándo conviene insistir o esperar.</span>
+        </p>
+      </div>
+    </div>
+
+    <p class="value-footnote">
+      <span data-lang="en"><span class="star">*</span>These features work today and become smarter over time. The more calls Llavai makes across all users, the sharper the intelligence gets — without ever sharing your personal data.</span>
+      <span data-lang="es"><span class="star">*</span>Estas funciones ya están activas y mejoran con el tiempo. Cuantas más llamadas haga Llavai en total, más afinada será la inteligencia — sin compartir nunca tus datos personales.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ============== PRICING ============== -->
+<section class="pricing">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">Pricing</span>
+      <span data-lang="es">Precios</span>
+    </p>
+    <p class="pricing-statement">
+      <span data-lang="en">You only pay <em>when we successfully book a viewing</em>. Failed calls, dead-end agencies, properties that turn out to be unavailable — all on us.</span>
+      <span data-lang="es">Solo pagas <em>cuando agendamos una visita</em>. Llamadas fallidas, inmobiliarias que no responden, pisos ya alquilados — corren de nuestra cuenta.</span>
+    </p>
+
+    <div class="credit-grid">
+      <div class="credit-card">
+        <div class="credit-card-pack">
+          <span data-lang="en">Starter</span>
+          <span data-lang="es">Para empezar</span>
+        </div>
+        <div class="credit-card-price">€20</div>
+        <div class="credit-card-per">
+          <span data-lang="en">5 booked viewings · €4 each</span>
+          <span data-lang="es">5 visitas agendadas · €4 c/u</span>
+        </div>
+        <div class="credit-card-line"></div>
+        <div class="credit-card-detail">
+          <span data-lang="en">For trying out the service.</span>
+          <span data-lang="es">Para probar el servicio.</span>
+        </div>
+      </div>
+
+      <div class="credit-card featured">
+        <div class="credit-card-pack">
+          <span data-lang="en">Hunter</span>
+          <span data-lang="es">Buscador</span>
+        </div>
+        <div class="credit-card-price">€35</div>
+        <div class="credit-card-per">
+          <span data-lang="en">10 booked viewings · €3.50 each</span>
+          <span data-lang="es">10 visitas agendadas · €3,50 c/u</span>
+        </div>
+        <div class="credit-card-line"></div>
+        <div class="credit-card-detail">
+          <span data-lang="en">For most apartment searches.</span>
+          <span data-lang="es">Para una búsqueda completa.</span>
+        </div>
+      </div>
+
+      <div class="credit-card">
+        <div class="credit-card-pack">
+          <span data-lang="en">Power</span>
+          <span data-lang="es">Volumen</span>
+        </div>
+        <div class="credit-card-price">€90</div>
+        <div class="credit-card-per">
+          <span data-lang="en">30 booked viewings · €3 each</span>
+          <span data-lang="es">30 visitas agendadas · €3 c/u</span>
+        </div>
+        <div class="credit-card-line"></div>
+        <div class="credit-card-detail">
+          <span data-lang="en">For agencies & power users.</span>
+          <span data-lang="es">Para agencias y usuarios intensivos.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FINAL CTA ============== -->
+<section class="final-cta" id="join">
+  <div class="container">
+    <h2 class="cta-headline">
+      <span data-lang="en">Be among the <em>first</em> to try Llavai.</span>
+      <span data-lang="es">Sé de los <em>primeros</em> en probar Llavai.</span>
+    </h2>
+    <p class="cta-sub">
+      <span data-lang="en">We're piloting with the first few users right now. Drop your name and email — we'll get in touch when there's a spot.</span>
+      <span data-lang="es">Estamos probando con los primeros usuarios. Déjanos tu nombre y correo y te avisamos cuando haya hueco.</span>
+    </p>
+
+    <form class="signup-form" id="signup">
+      <input type="text" id="name" placeholder="" required />
+      <input type="email" id="email" placeholder="" required />
+      <button type="submit" class="btn-primary">
+        <span data-lang="en">Send</span>
+        <span data-lang="es">Enviar</span>
+      </button>
+    </form>
+
+    <p class="form-note">
+      <span data-lang="en">Or just email us directly: <a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+      <span data-lang="es">O escríbenos directamente: <a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+    </p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span></span>
+      <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Language toggle
+  function setLang(lang) {
+    document.body.classList.toggle('es', lang === 'es');
+    document.documentElement.lang = lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    updatePlaceholders(lang);
+    try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
+  }
+
+  function updatePlaceholders(lang) {
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    if (lang === 'es') {
+      nameInput.placeholder = 'Tu nombre';
+      emailInput.placeholder = 'tu@email.com';
+    } else {
+      nameInput.placeholder = 'Your name';
+      emailInput.placeholder = 'you@email.com';
+    }
+  }
+
+  // Restore saved language preference
+  try {
+    const saved = localStorage.getItem('llavai-lang');
+    if (saved === 'es') setLang('es');
+    else updatePlaceholders('en');
+  } catch(e) { updatePlaceholders('en'); }
+
+  // Signup form: open the user's email client pre-filled to hello@llavai.com
+  document.getElementById('signup').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const isEs = document.body.classList.contains('es');
+
+    const subject = isEs
+      ? 'Acceso anticipado a Llavai'
+      : 'Early access to Llavai';
+
+    const body = isEs
+      ? `Hola Harry,\n\nMe gustaría probar Llavai en cuanto haya hueco.\n\nNombre: ${name}\nEmail: ${email}\n\nGracias,`
+      : `Hi Harry,\n\nI'd like to try Llavai when there's a spot available.\n\nName: ${name}\nEmail: ${email}\n\nThanks,`;
+
+    const mailto = `mailto:hello@llavai.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    window.location.href = mailto;
+  });
+</script>
+
+</body>
+</html>

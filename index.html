@@ -115,22 +115,6 @@
   align-items: center;
   gap: 16px;
 }
-  <nav>
-  <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
-
-  <div class="nav-right">
-    <a href="signup.html" class="btn-primary">
-      <span data-lang="en">Sign up</span>
-      <span data-lang="es">Registrarse</span>
-    </a>
-
-    <div class="lang-toggle">
-      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-      <span style="opacity: 0.4;">/</span>
-      <button id="btn-es" onclick="setLang('es')">ES</button>
-    </div>
-  </div>
-</nav>
 
   /* HERO */
   .hero {
@@ -778,15 +762,22 @@
 <body>
 <div class="grain"></div>
 
-<nav>
+  <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
-  <div class="lang-toggle">
-    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-    <span style="opacity: 0.4;">/</span>
-    <button id="btn-es" onclick="setLang('es')">ES</button>
+
+  <div class="nav-right">
+    <a href="signup.html" class="btn-primary">
+      <span data-lang="en">Sign up</span>
+      <span data-lang="es">Registrarse</span>
+    </a>
+
+    <div class="lang-toggle">
+      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+      <span style="opacity: 0.4;">/</span>
+      <button id="btn-es" onclick="setLang('es')">ES</button>
+    </div>
   </div>
 </nav>
-
 <!-- ============== HERO ============== -->
 <section class="hero">
   <div class="container">

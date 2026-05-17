@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>404 — Llavai</title>
+<meta name="description" content="The page you're looking for doesn't exist. Let's get you back to apartment hunting." />
+<meta name="robots" content="noindex" />
+
+<!-- EDIT: Favicon links — will work once favicon files are added to your project root -->
+<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #F4EFE5; --cream-deep: #ECE5D5;
+    --ink: #1B388F; --ink-deep: #142869;
+    --coral: #E55B45; --coral-deep: #C8462F;
+    --pencil: #6E6253;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream); color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif; font-size: 18px;
+    line-height: 1.55; font-weight: 400; -webkit-font-smoothing: antialiased;
+    overflow-x: hidden; min-height: 100vh;
+    display: flex; flex-direction: column;
+    background-image:
+      radial-gradient(ellipse 800px 600px at 15% 10%, rgba(229,91,69,.04) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 800px at 90% 60%, rgba(27,56,143,.05) 0%, transparent 50%);
+  }
+  .grain {
+    position: fixed; inset: 0; pointer-events: none;
+    opacity: .35; mix-blend-mode: multiply; z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+  }
+  nav {
+    padding: 28px 32px; max-width: 1100px; margin: 0 auto; width: 100%;
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 10;
+  }
+  .nav-logo { font-family:'Fraunces',serif; font-size:24px; font-weight:600; letter-spacing:-.02em; color:var(--ink); text-decoration:none; }
+  .nav-logo .ai { color:var(--coral); }
+  .lang-toggle { display:flex; gap:4px; font-size:13px; font-family:'Newsreader',serif; letter-spacing:.05em; text-transform:uppercase; color:var(--pencil); align-items:center; }
+  .lang-toggle button { background:none; border:none; cursor:pointer; color:var(--pencil); padding:4px 8px; font-family:inherit; font-size:inherit; letter-spacing:inherit; text-transform:inherit; transition:color .2s; }
+  .lang-toggle button:hover { color:var(--ink); }
+  .lang-toggle button.active { color:var(--ink); font-weight:600; border-bottom:1.5px solid var(--coral); }
+  .lang-sep { opacity:.4; }
+  main {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    padding: 60px 32px 100px;
+  }
+  .container {
+    max-width: 720px; width: 100%; text-align: center;
+  }
+  .error-number {
+    font-family: 'Fraunces', serif; font-style: italic; font-weight: 300;
+    font-size: clamp(120px, 22vw, 220px); line-height: .85; color: var(--coral);
+    letter-spacing: -.04em; margin-bottom: 24px;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+    opacity: 0; animation: fadeUp .7s ease-out .1s forwards;
+  }
+  h1 {
+    font-family: 'Fraunces', serif; font-weight: 350;
+    font-size: clamp(32px, 4.5vw, 52px); line-height: 1.05;
+    letter-spacing: -.02em; color: var(--ink); margin-bottom: 24px;
+    font-variation-settings: "SOFT" 60;
+    opacity: 0; animation: fadeUp .7s ease-out .25s forwards;
+  }
+  h1 em { font-style: italic; color: var(--coral); font-variation-settings: "SOFT" 100, "WONK" 1; }
+  .lede {
+    font-size: 19px; line-height: 1.6; color: var(--ink-deep);
+    max-width: 460px; margin: 0 auto 40px;
+    opacity: 0; animation: fadeUp .7s ease-out .4s forwards;
+  }
+  .cta-row {
+    display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap;
+    opacity: 0; animation: fadeUp .7s ease-out .55s forwards;
+  }
+  .btn-primary {
+    background: var(--ink); color: var(--cream); border: none;
+    font-family: 'Newsreader', serif; font-size: 16px; font-weight: 500;
+    letter-spacing: .01em; padding: 16px 28px; border-radius: 2px;
+    cursor: pointer; text-decoration: none; display: inline-block;
+    transition: all .25s; box-shadow: 0 4px 0 var(--ink-deep);
+  }
+  .btn-primary:hover { background: var(--ink-deep); transform: translateY(-1px); box-shadow: 0 5px 0 var(--ink-deep); }
+  .btn-primary:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--ink-deep); }
+  .btn-secondary {
+    color: var(--ink); font-family: 'Newsreader', serif; font-style: italic;
+    font-size: 16px; text-decoration: underline;
+    text-decoration-color: var(--coral); text-underline-offset: 4px;
+    transition: color .2s;
+  }
+  .btn-secondary:hover { color: var(--coral); }
+  footer { padding: 30px 32px 40px; border-top: 1px solid rgba(27,56,143,.12); }
+  .footer-row {
+    max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+    font-size: 14px; color: var(--pencil);
+  }
+  .footer-row a { color: var(--ink); text-decoration: none; }
+  .footer-row a:hover { color: var(--coral); }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── i18n: three languages ── */
+  [data-lang="es"],[data-lang="uk"] { display:none; }
+  body.es [data-lang="en"],body.es [data-lang="uk"] { display:none; }
+  body.es [data-lang="es"] { display:block; }
+  body.es [data-lang="es"].inline { display:inline; }
+  body.es h1 [data-lang="es"] { display:inline; }
+  body.uk [data-lang="en"],body.uk [data-lang="es"] { display:none; }
+  body.uk [data-lang="uk"] { display:block; }
+  body.uk [data-lang="uk"].inline { display:inline; }
+  body.uk h1 [data-lang="uk"] { display:inline; }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<nav>
+  <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
+  <div class="lang-toggle">
+    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+    <span class="lang-sep">/</span>
+    <button id="btn-es" onclick="setLang('es')">ES</button>
+    <span class="lang-sep">/</span>
+    <button id="btn-uk" onclick="setLang('uk')">UA</button>
+  </div>
+</nav>
+
+<main>
+  <div class="container">
+    <div class="error-number">404</div>
+
+    <!-- EDIT: 404 headline. Keep it short and a little playful. -->
+    <h1>
+      <span data-lang="en">This page <em>vanished</em> faster than a 2-bed in Gràcia.</span>
+      <span data-lang="es">Esta página <em>desapareció</em> más rápido que un dos habitaciones en Gràcia.</span>
+      <span data-lang="uk">Ця сторінка <em>зникла</em> швидше за двокімнатну в Граcії.</span>
+    </h1>
+
+    <!-- EDIT: 404 supporting line — empathetic, gets them moving again. -->
+    <p class="lede">
+      <span data-lang="en">Wrong link, mistyped URL, or it never existed. Either way, let's get you back to finding a flat.</span>
+      <span data-lang="es">Enlace roto, URL mal escrita, o simplemente nunca existió. En cualquier caso, volvamos a buscarte piso.</span>
+      <span data-lang="uk">Невірне посилання, помилка в URL або сторінки просто ніколи не існувало. У будь-якому разі — повертаймось до пошуку квартири.</span>
+    </p>
+
+    <div class="cta-row">
+      <a href="/" class="btn-primary">
+        <span data-lang="en">Back to Llavai</span>
+        <span data-lang="es">Volver a Llavai</span>
+        <span data-lang="uk">Назад до Llavai</span>
+      </a>
+      <a href="/profile" class="btn-secondary">
+        <span data-lang="en">Or build my profile →</span>
+        <span data-lang="es">O crear mi perfil →</span>
+        <span data-lang="uk">Або створити профіль →</span>
+      </a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-row">
+    <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span></span>
+    <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+  </div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.classList.remove('es','uk');
+    if (lang !== 'en') document.body.classList.add(lang);
+    document.documentElement.lang = lang;
+    ['en','es','uk'].forEach(function(l){ document.getElementById('btn-'+l).classList.toggle('active', l===lang); });
+    try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
+  }
+  try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
+</script>
+</body>
+</html>

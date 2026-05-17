@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Llavai — Forward your Idealista alerts</title>
+<meta name="description" content="A 3-minute setup guide for forwarding your Idealista alerts to Llavai, so Julia can call estate agents the moment a flat appears." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --cream: #F4EFE5;
+    --cream-deep: #ECE5D5;
+    --ink: #1B388F;
+    --ink-deep: #142869;
+    --coral: #E55B45;
+    --coral-deep: #C8462F;
+    --pencil: #6E6253;
+    --paper-shadow: rgba(27, 56, 143, 0.08);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 800px 600px at 15% 10%, rgba(229, 91, 69, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 800px at 90% 60%, rgba(27, 56, 143, 0.05) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+
+  .grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.35;
+    mix-blend-mode: multiply;
+    z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* NAV */
+  nav {
+    padding: 28px 32px;
+    max-width: 880px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    z-index: 10;
+  }
+  .nav-logo {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+  .nav-logo .ai { color: var(--coral); }
+  .lang-toggle {
+    display: flex;
+    gap: 4px;
+    font-size: 13px;
+    font-family: 'Newsreader', serif;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--pencil);
+  }
+  .lang-toggle button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--pencil);
+    padding: 4px 8px;
+    font-family: inherit;
+    font-size: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    transition: color 0.2s ease;
+  }
+  .lang-toggle button:hover { color: var(--ink); }
+  .lang-toggle button.active {
+    color: var(--ink);
+    font-weight: 600;
+    border-bottom: 1.5px solid var(--coral);
+  }
+
+  /* HEADER */
+  .page-header {
+    padding: 48px 0 40px;
+    border-bottom: 1px solid rgba(27, 56, 143, 0.12);
+  }
+  .section-eyebrow {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--coral);
+    letter-spacing: 0.04em;
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-eyebrow::before {
+    content: "";
+    width: 32px;
+    height: 1px;
+    background: var(--coral);
+  }
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 350;
+    font-size: clamp(34px, 4.5vw, 50px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin-bottom: 20px;
+    font-variation-settings: "SOFT" 60, "WONK" 0;
+    max-width: 640px;
+  }
+  h1 em {
+    font-style: italic;
+    color: var(--coral);
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+  .lede {
+    font-size: 18px;
+    color: var(--ink-deep);
+    max-width: 580px;
+    line-height: 1.6;
+  }
+
+  /* INTRO CARD */
+  .intro-card {
+    background: var(--cream-deep);
+    border-left: 3px solid var(--coral);
+    padding: 24px 28px;
+    margin: 40px 0 56px;
+  }
+  .intro-card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .intro-card p {
+    font-size: 16px;
+    color: var(--ink-deep);
+    line-height: 1.6;
+  }
+
+  /* ADDRESS BLOCK — the cloudmailin email */
+  .address-block {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 24px 28px;
+    margin: 40px 0 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    position: relative;
+    overflow: hidden;
+  }
+  .address-block::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -10%;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(circle, rgba(229, 91, 69, 0.2) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .address-block-label {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--coral);
+    margin-bottom: 6px;
+    position: relative;
+  }
+  .address-block-email {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(14px, 2.4vw, 18px);
+    color: var(--cream);
+    word-break: break-all;
+    position: relative;
+  }
+  .copy-btn {
+    background: var(--coral);
+    color: var(--cream);
+    border: none;
+    font-family: 'Newsreader', serif;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 18px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+    white-space: nowrap;
+    box-shadow: 0 3px 0 var(--coral-deep);
+  }
+  .copy-btn:hover { background: var(--coral-deep); transform: translateY(-1px); box-shadow: 0 4px 0 var(--coral-deep); }
+  .copy-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--coral-deep); }
+  .copy-btn.copied { background: #2d8659; box-shadow: 0 3px 0 #1f5e3e; }
+
+  /* PROVIDER TABS */
+  .provider-tabs {
+    display: flex;
+    gap: 0;
+    margin-bottom: 0;
+    border-bottom: 1px solid rgba(27, 56, 143, 0.15);
+  }
+  .provider-tab {
+    flex: 1;
+    background: none;
+    border: none;
+    padding: 18px 12px;
+    cursor: pointer;
+    font-family: 'Fraunces', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--pencil);
+    letter-spacing: -0.01em;
+    transition: color 0.2s ease;
+    position: relative;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+  }
+  .provider-tab:hover { color: var(--ink); }
+  .provider-tab.active {
+    color: var(--ink);
+    border-bottom-color: var(--coral);
+    font-weight: 500;
+  }
+  .provider-tab .icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin-right: 8px;
+    vertical-align: -3px;
+  }
+
+  /* PROVIDER PANEL */
+  .provider-panel {
+    display: none;
+    padding: 40px 0 16px;
+  }
+  .provider-panel.active { display: block; }
+
+  /* PARTS — Part 1, Part 2 dividers */
+  .part-label {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-size: 13px;
+    color: var(--pencil);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .part-label::before {
+    content: "";
+    width: 24px;
+    height: 1px;
+    background: var(--pencil);
+  }
+  h2.part-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.2;
+    color: var(--ink);
+    letter-spacing: -0.015em;
+    margin-bottom: 28px;
+    max-width: 600px;
+  }
+  h2.part-title em {
+    font-style: italic;
+    color: var(--coral);
+  }
+
+  /* STEPS */
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    margin-bottom: 48px;
+  }
+  .steps > li {
+    counter-increment: step;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px dashed rgba(27, 56, 143, 0.15);
+  }
+  .steps > li:last-child { border-bottom: none; }
+  .steps > li::before {
+    content: counter(step);
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 36px;
+    color: var(--coral);
+    line-height: 1;
+    font-weight: 300;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+  .step-body strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+  }
+  .step-body p {
+    font-size: 16px;
+    color: var(--ink-deep);
+    line-height: 1.6;
+  }
+  .step-body p + p { margin-top: 8px; }
+
+  /* INLINE CODE/MENU PATH */
+  .path {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    background: var(--cream-deep);
+    color: var(--ink);
+    padding: 2px 8px;
+    border-radius: 2px;
+    display: inline-block;
+    border: 1px solid rgba(27, 56, 143, 0.12);
+  }
+  .path-arrow { color: var(--coral); margin: 0 4px; }
+
+  .field-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    background: rgba(229, 91, 69, 0.08);
+    color: var(--coral-deep);
+    padding: 2px 8px;
+    border-radius: 2px;
+    word-break: break-all;
+    display: inline-block;
+    border: 1px solid rgba(229, 91, 69, 0.2);
+  }
+
+  /* CALLOUT — verification waiting */
+  .callout {
+    background: var(--cream-deep);
+    border: 1px solid rgba(27, 56, 143, 0.15);
+    padding: 24px 28px;
+    margin: 32px 0;
+    position: relative;
+    padding-left: 60px;
+  }
+  .callout::before {
+    content: "!";
+    position: absolute;
+    left: 22px;
+    top: 22px;
+    width: 26px;
+    height: 26px;
+    background: var(--coral);
+    color: var(--cream);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .callout strong {
+    display: block;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 17px;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+  .callout p {
+    font-size: 15.5px;
+    color: var(--ink-deep);
+    line-height: 1.6;
+  }
+
+  /* SUCCESS / PRIVACY CALLOUT — alternate style */
+  .callout.privacy::before {
+    content: "✓";
+    background: #2d8659;
+    font-style: normal;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  /* OTHER PROVIDERS */
+  .other-providers {
+    padding: 56px 0;
+    border-top: 1px solid rgba(27, 56, 143, 0.12);
+    margin-top: 32px;
+  }
+  .other-providers h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 28px;
+    color: var(--ink);
+    margin-bottom: 16px;
+    letter-spacing: -0.015em;
+  }
+  .other-providers h2 em { font-style: italic; color: var(--coral); }
+  .other-providers p {
+    font-size: 16px;
+    color: var(--ink-deep);
+    line-height: 1.6;
+    max-width: 600px;
+    margin-bottom: 12px;
+  }
+
+  /* FAQ */
+  .faq {
+    padding: 56px 0;
+    border-top: 1px solid rgba(27, 56, 143, 0.12);
+  }
+  .faq h2 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: var(--ink);
+    margin-bottom: 28px;
+    letter-spacing: -0.015em;
+  }
+  .faq h2 em { font-style: italic; color: var(--coral); }
+  .faq-item {
+    border-bottom: 1px solid rgba(27, 56, 143, 0.12);
+    padding: 18px 0;
+  }
+  .faq-item summary {
+    cursor: pointer;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item summary::after {
+    content: "+";
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 26px;
+    color: var(--coral);
+    line-height: 1;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .faq-item[open] summary::after { content: "−"; }
+  .faq-item p {
+    font-size: 16px;
+    color: var(--ink-deep);
+    line-height: 1.65;
+    margin-top: 12px;
+    padding-right: 40px;
+  }
+  .faq-item p + p { margin-top: 10px; }
+
+  /* HELP CTA */
+  .help-cta {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 36px 36px;
+    margin: 60px 0 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .help-cta::before {
+    content: "";
+    position: absolute;
+    top: -40%;
+    right: -10%;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(229, 91, 69, 0.22) 0%, transparent 65%);
+    pointer-events: none;
+  }
+  .help-cta h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 400;
+    font-size: 26px;
+    color: var(--cream);
+    margin-bottom: 10px;
+    letter-spacing: -0.015em;
+    position: relative;
+  }
+  .help-cta h3 em { font-style: italic; color: var(--coral); }
+  .help-cta p {
+    font-size: 16px;
+    color: rgba(244, 239, 229, 0.85);
+    margin-bottom: 18px;
+    max-width: 560px;
+    position: relative;
+  }
+  .help-cta a {
+    display: inline-block;
+    background: var(--coral);
+    color: var(--cream);
+    text-decoration: none;
+    font-family: 'Newsreader', serif;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 12px 24px;
+    border-radius: 2px;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 0 var(--coral-deep);
+    position: relative;
+  }
+  .help-cta a:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--coral-deep); }
+
+  /* FOOTER */
+  footer {
+    padding: 40px 0 60px;
+    border-top: 1px solid rgba(27, 56, 143, 0.12);
+  }
+  .footer-row {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    font-size: 14px;
+    color: var(--pencil);
+  }
+  .footer-row a { color: var(--ink); text-decoration: none; }
+  .footer-row a:hover { color: var(--coral); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal { opacity: 0; animation: fadeUp 0.7s ease-out forwards; }
+  .reveal-1 { animation-delay: 0.05s; }
+  .reveal-2 { animation-delay: 0.15s; }
+  .reveal-3 { animation-delay: 0.25s; }
+  .reveal-4 { animation-delay: 0.35s; }
+
+  /* i18n */
+  [data-lang="es"] { display: none; }
+  body.es [data-lang="en"] { display: none; }
+  body.es [data-lang="es"] { display: block; }
+  body.es [data-lang="es"].inline,
+  body.es .step-body strong [data-lang="es"],
+  body.es .step-body p [data-lang="es"],
+  body.es .callout strong [data-lang="es"],
+  body.es .callout p [data-lang="es"],
+  body.es summary [data-lang="es"],
+  body.es h1 [data-lang="es"],
+  body.es h2 [data-lang="es"],
+  body.es h3 [data-lang="es"],
+  body.es .path [data-lang="es"] { display: inline; }
+
+  /* Mobile tweaks */
+  @media (max-width: 600px) {
+    .steps > li { grid-template-columns: 44px 1fr; gap: 14px; padding: 18px 0; }
+    .steps > li::before { font-size: 28px; }
+    .provider-tab { font-size: 16px; padding: 16px 8px; }
+    .address-block { padding: 20px 22px; }
+    .help-cta { padding: 28px 24px; }
+  }
+</style>
+</head>
+
+<body>
+<div class="grain"></div>
+
+<nav>
+  <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
+  <div class="lang-toggle">
+    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+    <span style="opacity: 0.4;">/</span>
+    <button id="btn-es" onclick="setLang('es')">ES</button>
+  </div>
+</nav>
+
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="page-header reveal reveal-1">
+    <p class="section-eyebrow">
+      <span data-lang="en">Email setup · 3 minutes</span>
+      <span data-lang="es">Configuración de correo · 3 minutos</span>
+    </p>
+    <h1>
+      <span data-lang="en">Forward your Idealista alerts to <em>Llavai.</em></span>
+      <span data-lang="es">Reenvía tus alertas de Idealista a <em>Llavai.</em></span>
+    </h1>
+    <p class="lede">
+      <span data-lang="en">Julia calls agents the moment a flat appears — but only if she sees it the moment you do. This one-time setup forwards your Idealista alerts (and only those) straight to her.</span>
+      <span data-lang="es">Julia llama a los agentes en cuanto aparece un piso — pero solo si lo ve al mismo tiempo que tú. Esta configuración, que se hace una sola vez, reenvía tus alertas de Idealista (y solo esas) directamente a ella.</span>
+    </p>
+  </div>
+
+  <!-- PRIVACY CALLOUT -->
+  <div class="callout privacy reveal reveal-2">
+    <strong>
+      <span data-lang="en">We only see your Idealista alerts. Nothing else.</span>
+      <span data-lang="es">Solo vemos tus alertas de Idealista. Nada más.</span>
+    </strong>
+    <p>
+      <span data-lang="en">You'll set up a <em>filter</em>, not a blanket forward. Personal email, bank statements, work — none of it reaches us. You can switch the filter off any time.</span>
+      <span data-lang="es">Vas a configurar un <em>filtro</em>, no un reenvío total. Tu correo personal, extractos bancarios, trabajo — nada de eso llega hasta nosotros. Puedes desactivar el filtro cuando quieras.</span>
+    </p>
+  </div>
+
+  <!-- THE ADDRESS -->
+  <p class="part-label reveal reveal-2">
+    <span data-lang="en">The forwarding address</span>
+    <span data-lang="es">La dirección de reenvío</span>
+  </p>
+  <div class="address-block reveal reveal-3">
+    <div>
+      <div class="address-block-label">
+        <span data-lang="en">You'll need this address below</span>
+        <span data-lang="es">Necesitarás esta dirección más abajo</span>
+      </div>
+      <div class="address-block-email" id="addressEmail">724eb5e5735d49167e54@cloudmailin.net</div>
+    </div>
+    <button class="copy-btn" id="copyBtn" onclick="copyAddress()">
+      <span id="copyBtnText" data-lang="en">Copy address</span>
+      <span id="copyBtnTextEs" data-lang="es">Copiar dirección</span>
+    </button>
+  </div>
+
+  <!-- PROVIDER TABS -->
+  <div class="provider-tabs reveal reveal-3">
+    <button class="provider-tab active" onclick="showProvider('gmail')" id="tab-gmail">
+      <svg class="icon" viewBox="0 0 24 24" fill="none">
+        <path d="M3 5L12 13L21 5" stroke="#1B388F" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <rect x="2" y="4.5" width="20" height="15" rx="1" stroke="#1B388F" stroke-width="2"/>
+      </svg>
+      Gmail
+    </button>
+    <button class="provider-tab" onclick="showProvider('outlook')" id="tab-outlook">
+      <svg class="icon" viewBox="0 0 24 24" fill="none">
+        <rect x="3" y="6" width="18" height="13" rx="1" stroke="#1B388F" stroke-width="2"/>
+        <path d="M8 6V19" stroke="#1B388F" stroke-width="2"/>
+        <circle cx="5.5" cy="12.5" r="1.5" fill="#E55B45"/>
+      </svg>
+      Outlook
+    </button>
+  </div>
+
+  <!-- ============ GMAIL ============ -->
+  <div class="provider-panel active" id="panel-gmail">
+
+    <!-- Part 1: Add forwarding address -->
+    <p class="part-label">
+      <span data-lang="en">Part 1 of 2 · About 90 seconds</span>
+      <span data-lang="es">Parte 1 de 2 · Unos 90 segundos</span>
+    </p>
+    <h2 class="part-title">
+      <span data-lang="en">Add Llavai as a <em>forwarding address</em></span>
+      <span data-lang="es">Añade a Llavai como <em>dirección de reenvío</em></span>
+    </h2>
+
+    <ol class="steps">
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Open Gmail on your computer</span>
+            <span data-lang="es">Abre Gmail en tu ordenador</span>
+          </strong>
+          <p>
+            <span data-lang="en">This setup is much easier on a laptop or desktop than on a phone. Go to <span class="path">gmail.com</span> and sign in.</span>
+            <span data-lang="es">Esta configuración es mucho más fácil en ordenador que en el móvil. Ve a <span class="path">gmail.com</span> e inicia sesión.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Open Settings</span>
+            <span data-lang="es">Abre Ajustes</span>
+          </strong>
+          <p>
+            <span data-lang="en">Top right corner: click the <span class="path">⚙ gear icon</span> <span class="path-arrow">→</span> <span class="path">See all settings</span>.</span>
+            <span data-lang="es">Arriba a la derecha: pulsa el <span class="path">⚙ icono de engranaje</span> <span class="path-arrow">→</span> <span class="path">Ver todos los ajustes</span>.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Go to the Forwarding tab</span>
+            <span data-lang="es">Ve a la pestaña Reenvío</span>
+          </strong>
+          <p>
+            <span data-lang="en">Click the tab labelled <span class="path">Forwarding and POP/IMAP</span>.</span>
+            <span data-lang="es">Pulsa la pestaña <span class="path">Reenvío y correo POP/IMAP</span>.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Add the Llavai address</span>
+            <span data-lang="es">Añade la dirección de Llavai</span>
+          </strong>
+          <p>
+            <span data-lang="en">Click <span class="path">Add a forwarding address</span> and paste:</span>
+            <span data-lang="es">Pulsa <span class="path">Añadir una dirección de reenvío</span> y pega:</span>
+          </p>
+          <p><span class="field-value">724eb5e5735d49167e54@cloudmailin.net</span></p>
+          <p>
+            <span data-lang="en">Click <span class="path">Next</span> <span class="path-arrow">→</span> <span class="path">Proceed</span> <span class="path-arrow">→</span> <span class="path">OK</span>.</span>
+            <span data-lang="es">Pulsa <span class="path">Siguiente</span> <span class="path-arrow">→</span> <span class="path">Continuar</span> <span class="path-arrow">→</span> <span class="path">Aceptar</span>.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Wait for our email with the verification code</span>
+            <span data-lang="es">Espera nuestro correo con el código de verificación</span>
+          </strong>
+          <p>
+            <span data-lang="en">Gmail just sent a 9-digit code to us (not to you). We'll forward it to you by email — usually within a few hours.</span>
+            <span data-lang="es">Gmail acaba de enviarnos a nosotros (no a ti) un código de 9 dígitos. Te lo reenviaremos por correo — normalmente en pocas horas.</span>
+          </p>
+          <p>
+            <span data-lang="en">Once you have it, return to <span class="path">Forwarding and POP/IMAP</span>, paste the code, and click <span class="path">Verify</span>.</span>
+            <span data-lang="es">Cuando lo tengas, vuelve a <span class="path">Reenvío y correo POP/IMAP</span>, pega el código y pulsa <span class="path">Verificar</span>.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Important: leave forwarding set to "Disable"</span>
+            <span data-lang="es">Importante: deja el reenvío en "Desactivar"</span>
+          </strong>
+          <p>
+            <span data-lang="en">In the same tab, make sure <span class="path">Disable forwarding</span> is selected. This stops Gmail from forwarding everything. The filter you create next will forward only Idealista emails.</span>
+            <span data-lang="es">En la misma pestaña, asegúrate de que <span class="path">Desactivar reenvío</span> está marcado. Así Gmail no reenvía todo. El filtro que crearás a continuación reenviará solo los correos de Idealista.</span>
+          </p>
+          <p>
+            <span data-lang="en">Click <span class="path">Save Changes</span> at the bottom.</span>
+            <span data-lang="es">Pulsa <span class="path">Guardar cambios</span> abajo.</span>
+          </p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <strong>
+        <span data-lang="en">Heads up — there's a waiting moment here</span>
+        <span data-lang="es">Atención — aquí hay una espera</span>
+      </strong>
+      <p>
+        <span data-lang="en">After step 4, Gmail sends the verification code to us, not you. We need to manually pass it back to you — so this is the one place the setup pauses. You can continue to Part 2 below as soon as the code is verified.</span>
+        <span data-lang="es">Después del paso 4, Gmail nos envía el código a nosotros, no a ti. Tenemos que reenviártelo manualmente — es el único punto donde la configuración se detiene. En cuanto verifiques el código, puedes continuar con la Parte 2.</span>
+      </p>
+    </div>
+
+    <!-- Part 2: Filter -->
+    <p class="part-label" style="margin-top: 48px;">
+      <span data-lang="en">Part 2 of 2 · About 60 seconds</span>
+      <span data-lang="es">Parte 2 de 2 · Unos 60 segundos</span>
+    </p>
+    <h2 class="part-title">
+      <span data-lang="en">Create the <em>Idealista-only</em> filter</span>
+      <span data-lang="es">Crea el filtro <em>solo para Idealista</em></span>
+    </h2>
+
+    <ol class="steps">
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Find the From address Idealista uses</span>
+            <span data-lang="es">Busca la dirección de remitente de Idealista</span>
+          </strong>
+          <p>
+            <span data-lang="en">Open one of your Idealista alert emails. Look at the sender — it usually ends in <span class="field-value">@idealista.com</span>. Common variants: <span class="field-value">noresponder@idealista.com</span>, <span class="field-value">alertas@idealista.com</span>. Copy whichever yours uses.</span>
+            <span data-lang="es">Abre una de tus alertas de Idealista. Mira el remitente — suele terminar en <span class="field-value">@idealista.com</span>. Variantes habituales: <span class="field-value">noresponder@idealista.com</span>, <span class="field-value">alertas@idealista.com</span>. Copia la que use tu cuenta.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Open Filters in Gmail Settings</span>
+            <span data-lang="es">Abre Filtros en los Ajustes de Gmail</span>
+          </strong>
+          <p>
+            <span data-lang="en"><span class="path">⚙</span> <span class="path-arrow">→</span> <span class="path">See all settings</span> <span class="path-arrow">→</span> <span class="path">Filters and Blocked Addresses</span> <span class="path-arrow">→</span> <span class="path">Create a new filter</span>.</span>
+            <span data-lang="es"><span class="path">⚙</span> <span class="path-arrow">→</span> <span class="path">Ver todos los ajustes</span> <span class="path-arrow">→</span> <span class="path">Filtros y direcciones bloqueadas</span> <span class="path-arrow">→</span> <span class="path">Crear filtro</span>.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Set the From condition</span>
+            <span data-lang="es">Configura la condición Remitente</span>
+          </strong>
+          <p>
+            <span data-lang="en">In the <span class="path">From</span> field, paste the Idealista sender address. Leave everything else blank. Click <span class="path">Create filter</span> at the bottom right.</span>
+            <span data-lang="es">En el campo <span class="path">De</span>, pega la dirección de remitente de Idealista. Deja el resto en blanco. Pulsa <span class="path">Crear filtro</span> abajo a la derecha.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Tell the filter to forward to Llavai</span>
+            <span data-lang="es">Indica al filtro que reenvíe a Llavai</span>
+          </strong>
+          <p>
+            <span data-lang="en">In the next screen, tick <span class="path">Forward it to</span> and pick the Llavai address from the dropdown.</span>
+            <span data-lang="es">En la pantalla siguiente, marca <span class="path">Reenviarlo a</span> y elige la dirección de Llavai en el menú desplegable.</span>
+          </p>
+          <p>
+            <span data-lang="en">Optional but recommended: also tick <span class="path">Never send it to Spam</span>. Idealista alerts sometimes get flagged and you don't want to miss any.</span>
+            <span data-lang="es">Opcional pero recomendado: marca también <span class="path">No enviar a Spam</span>. A veces las alertas de Idealista van a Spam y no quieres perdértelas.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Save the filter</span>
+            <span data-lang="es">Guarda el filtro</span>
+          </strong>
+          <p>
+            <span data-lang="en">Click <span class="path">Create filter</span>. Done. From now on, every Idealista alert is forwarded to Llavai the second it lands — and Julia starts calling.</span>
+            <span data-lang="es">Pulsa <span class="path">Crear filtro</span>. Listo. A partir de ahora, cada alerta de Idealista se reenvía a Llavai en el momento — y Julia empieza a llamar.</span>
+          </p>
+        </div>
+      </li>
+    </ol>
+  </div>
+
+  <!-- ============ OUTLOOK ============ -->
+  <div class="provider-panel" id="panel-outlook">
+
+    <p class="part-label">
+      <span data-lang="en">One part · About 2 minutes · No verification needed</span>
+      <span data-lang="es">Una sola parte · Unos 2 minutos · Sin verificación</span>
+    </p>
+    <h2 class="part-title">
+      <span data-lang="en">Create an <em>Outlook rule</em> that forwards Idealista alerts</span>
+      <span data-lang="es">Crea una <em>regla en Outlook</em> que reenvíe las alertas de Idealista</span>
+    </h2>
+
+    <ol class="steps">
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Open Outlook on the web</span>
+            <span data-lang="es">Abre Outlook en la web</span>
+          </strong>
+          <p>
+            <span data-lang="en">Go to <span class="path">outlook.com</span> or <span class="path">outlook.live.com</span> and sign in. The web interface is easier than the app for this setup.</span>
+            <span data-lang="es">Ve a <span class="path">outlook.com</span> u <span class="path">outlook.live.com</span> e inicia sesión. La versión web es más fácil que la app para esta configuración.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Find the From address Idealista uses</span>
+            <span data-lang="es">Busca la dirección de remitente de Idealista</span>
+          </strong>
+          <p>
+            <span data-lang="en">Open one of your Idealista alert emails and copy the sender address. It usually ends in <span class="field-value">@idealista.com</span> — common variants are <span class="field-value">noresponder@idealista.com</span> or <span class="field-value">alertas@idealista.com</span>.</span>
+            <span data-lang="es">Abre una de tus alertas de Idealista y copia la dirección del remitente. Suele terminar en <span class="field-value">@idealista.com</span> — variantes habituales: <span class="field-value">noresponder@idealista.com</span> o <span class="field-value">alertas@idealista.com</span>.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Open Outlook Settings</span>
+            <span data-lang="es">Abre los Ajustes de Outlook</span>
+          </strong>
+          <p>
+            <span data-lang="en">Top right: click the <span class="path">⚙ gear icon</span>. In the panel that opens, go to <span class="path">Mail</span> <span class="path-arrow">→</span> <span class="path">Rules</span>.</span>
+            <span data-lang="es">Arriba a la derecha: pulsa el <span class="path">⚙ icono de engranaje</span>. En el panel que se abre, ve a <span class="path">Correo</span> <span class="path-arrow">→</span> <span class="path">Reglas</span>.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Add a new rule</span>
+            <span data-lang="es">Añade una nueva regla</span>
+          </strong>
+          <p>
+            <span data-lang="en">Click <span class="path">+ Add new rule</span>. Give it a name like <span class="field-value">Forward Idealista alerts to Llavai</span>.</span>
+            <span data-lang="es">Pulsa <span class="path">+ Añadir nueva regla</span>. Ponle un nombre como <span class="field-value">Reenviar alertas de Idealista a Llavai</span>.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Set the condition: From Idealista</span>
+            <span data-lang="es">Define la condición: De Idealista</span>
+          </strong>
+          <p>
+            <span data-lang="en">Under <span class="path">Add a condition</span>, choose <span class="path">From</span>. Paste the Idealista sender address you copied earlier.</span>
+            <span data-lang="es">En <span class="path">Añadir una condición</span>, elige <span class="path">De</span>. Pega la dirección de remitente de Idealista que copiaste antes.</span>
+          </p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Set the action: Forward to Llavai</span>
+            <span data-lang="es">Define la acción: Reenviar a Llavai</span>
+          </strong>
+          <p>
+            <span data-lang="en">Under <span class="path">Add an action</span>, choose <span class="path">Forward to</span> and paste:</span>
+            <span data-lang="es">En <span class="path">Añadir una acción</span>, elige <span class="path">Reenviar a</span> y pega:</span>
+          </p>
+          <p><span class="field-value">724eb5e5735d49167e54@cloudmailin.net</span></p>
+        </div>
+      </li>
+
+      <li>
+        <div class="step-body">
+          <strong>
+            <span data-lang="en">Save the rule</span>
+            <span data-lang="es">Guarda la regla</span>
+          </strong>
+          <p>
+            <span data-lang="en">Click <span class="path">Save</span>. That's it — Outlook doesn't need a verification step. From now on, every Idealista alert reaches Llavai instantly and Julia gets to work.</span>
+            <span data-lang="es">Pulsa <span class="path">Guardar</span>. Ya está — Outlook no necesita verificación. A partir de ahora, cada alerta de Idealista llega a Llavai al instante y Julia se pone a trabajar.</span>
+          </p>
+        </div>
+      </li>
+    </ol>
+
+    <div class="callout">
+      <strong>
+        <span data-lang="en">Using a work or school Microsoft 365 account?</span>
+        <span data-lang="es">¿Usas una cuenta de Microsoft 365 del trabajo o de estudios?</span>
+      </strong>
+      <p>
+        <span data-lang="en">Some company Outlook accounts block forwarding to external addresses. If you get an error when saving the rule, your IT admin has external forwarding disabled — email us at hello@llavai.com and we'll suggest a workaround.</span>
+        <span data-lang="es">Algunas cuentas de Outlook del trabajo bloquean el reenvío externo. Si te da un error al guardar la regla, tu departamento de IT lo tiene desactivado — escríbenos a hello@llavai.com y te indicamos cómo seguir.</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- OTHER PROVIDERS -->
+  <section class="other-providers">
+    <h2>
+      <span data-lang="en">Other email <em>providers?</em></span>
+      <span data-lang="es">¿Otros proveedores de <em>correo?</em></span>
+    </h2>
+    <p>
+      <span data-lang="en">If you use iCloud, Yahoo, ProtonMail, or another provider, forwarding is still possible — the menus just look different. Email <a href="mailto:hello@llavai.com" style="color: var(--coral);">hello@llavai.com</a> with your provider name and we'll walk you through it personally.</span>
+      <span data-lang="es">Si usas iCloud, Yahoo, ProtonMail u otro proveedor, el reenvío sigue siendo posible — los menús simplemente son distintos. Escribe a <a href="mailto:hello@llavai.com" style="color: var(--coral);">hello@llavai.com</a> con el nombre de tu proveedor y te guiamos personalmente.</span>
+    </p>
+    <p>
+      <span data-lang="en">Even simpler: create a free Gmail or Outlook account just for your apartment hunt, set your Idealista alerts to go there, and follow the guide above. Many of our users do this — it keeps personal email completely separate.</span>
+      <span data-lang="es">Aún más fácil: crea una cuenta gratuita de Gmail u Outlook solo para tu búsqueda de piso, configura tus alertas de Idealista para que vayan ahí y sigue la guía de arriba. Muchos de nuestros usuarios lo hacen — así el correo personal queda totalmente separado.</span>
+    </p>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <h2>
+      <span data-lang="en">If something goes <em>wrong.</em></span>
+      <span data-lang="es">Si algo va <em>mal.</em></span>
+    </h2>
+
+    <details class="faq-item">
+      <summary>
+        <span data-lang="en">The verification code hasn't arrived yet</span>
+        <span data-lang="es">No me ha llegado el código de verificación</span>
+      </summary>
+      <p>
+        <span data-lang="en">Gmail sends the code to us, not to you, and we forward it manually. It usually arrives within a few hours but can take up to one business day. If 24 hours have passed, email us at hello@llavai.com and we'll send it immediately.</span>
+        <span data-lang="es">Gmail nos envía el código a nosotros, no a ti, y te lo reenviamos manualmente. Normalmente llega en pocas horas, pero puede tardar hasta un día laborable. Si han pasado 24 horas, escríbenos a hello@llavai.com y te lo enviamos al momento.</span>
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>
+        <span data-lang="en">I can't find "Filters" or "Forwarding" in my Gmail</span>
+        <span data-lang="es">No encuentro "Filtros" ni "Reenvío" en mi Gmail</span>
+      </summary>
+      <p>
+        <span data-lang="en">On mobile, those settings aren't visible. You have to use a desktop browser — laptop, computer, or even tablet in desktop mode. The Gmail mobile app doesn't expose forwarding settings.</span>
+        <span data-lang="es">En el móvil, esos ajustes no están visibles. Tienes que usar un navegador de escritorio — portátil, ordenador, o incluso tablet en modo escritorio. La app móvil de Gmail no muestra los ajustes de reenvío.</span>
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>
+        <span data-lang="en">How do I stop the forwarding later?</span>
+        <span data-lang="es">¿Cómo desactivo el reenvío después?</span>
+      </summary>
+      <p>
+        <span data-lang="en"><strong>Gmail:</strong> Settings <span class="path-arrow">→</span> Filters and Blocked Addresses <span class="path-arrow">→</span> find the Idealista filter <span class="path-arrow">→</span> Delete. The forwarding stops instantly.</span>
+        <span data-lang="es"><strong>Gmail:</strong> Ajustes <span class="path-arrow">→</span> Filtros y direcciones bloqueadas <span class="path-arrow">→</span> busca el filtro de Idealista <span class="path-arrow">→</span> Eliminar. El reenvío se detiene al instante.</span>
+      </p>
+      <p>
+        <span data-lang="en"><strong>Outlook:</strong> Settings <span class="path-arrow">→</span> Mail <span class="path-arrow">→</span> Rules <span class="path-arrow">→</span> find the Idealista rule <span class="path-arrow">→</span> toggle off or delete.</span>
+        <span data-lang="es"><strong>Outlook:</strong> Ajustes <span class="path-arrow">→</span> Correo <span class="path-arrow">→</span> Reglas <span class="path-arrow">→</span> busca la regla de Idealista <span class="path-arrow">→</span> desactívala o elimínala.</span>
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>
+        <span data-lang="en">Will Llavai see emails other than Idealista?</span>
+        <span data-lang="es">¿Verá Llavai correos que no sean de Idealista?</span>
+      </summary>
+      <p>
+        <span data-lang="en">No, as long as you follow the filter-based setup above. The filter only triggers on emails from the Idealista sender address. We never see anything else — and we couldn't, even if we wanted to.</span>
+        <span data-lang="es">No, siempre que sigas la configuración con filtro de arriba. El filtro solo se activa con correos del remitente de Idealista. Nunca vemos nada más — y no podríamos, aunque quisiéramos.</span>
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>
+        <span data-lang="en">I have multiple Idealista alerts — does this still work?</span>
+        <span data-lang="es">Tengo varias alertas de Idealista — ¿esto sigue funcionando?</span>
+      </summary>
+      <p>
+        <span data-lang="en">Yes. Idealista sends every alert from the same address, so a single filter forwards all of them. You can have as many active alerts as you like — Julia will call about each new listing as it arrives.</span>
+        <span data-lang="es">Sí. Idealista envía todas las alertas desde la misma dirección, así que un solo filtro las reenvía todas. Puedes tener tantas alertas activas como quieras — Julia llamará por cada piso nuevo en cuanto llegue.</span>
+      </p>
+    </details>
+
+    <details class="faq-item">
+      <summary>
+        <span data-lang="en">How do I know it's working?</span>
+        <span data-lang="es">¿Cómo sé si está funcionando?</span>
+      </summary>
+      <p>
+        <span data-lang="en">Once a new Idealista alert arrives in your inbox and gets forwarded, you'll get a confirmation from Julia by email within minutes — usually with a viewing already booked. If you've had alerts arrive but heard nothing from us within a few hours, send us a screenshot of the alert and we'll diagnose immediately.</span>
+        <span data-lang="es">En cuanto llegue una nueva alerta de Idealista a tu bandeja y se reenvíe, recibirás una confirmación de Julia por correo en pocos minutos — normalmente con una visita ya agendada. Si te han llegado alertas pero no has tenido respuesta nuestra en unas horas, mándanos una captura de la alerta y lo revisamos al momento.</span>
+      </p>
+    </details>
+  </section>
+
+  <!-- HELP CTA -->
+  <div class="help-cta">
+    <h3>
+      <span data-lang="en">Stuck? <em>Just email Harry.</em></span>
+      <span data-lang="es">¿Atascado? <em>Escribe a Harry.</em></span>
+    </h3>
+    <p>
+      <span data-lang="en">This setup catches almost everyone out at least once. There's no dumb question. If anything looks different from these instructions, send a screenshot — we'll either walk you through it or do it for you on a quick screen share.</span>
+      <span data-lang="es">Esta configuración da problemas a casi todo el mundo alguna vez. Ninguna pregunta es tonta. Si algo no coincide con estas instrucciones, manda una captura — te ayudamos paso a paso o lo hacemos juntos en una breve videollamada.</span>
+    </p>
+    <a href="mailto:hello@llavai.com?subject=Email%20forwarding%20setup%20help">
+      <span data-lang="en">Email hello@llavai.com</span>
+      <span data-lang="es">Escribe a hello@llavai.com</span>
+    </a>
+  </div>
+
+</div>
+
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span></span>
+      <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ─── LANGUAGE ──────────────────────────────────────────────────────
+  function setLang(lang) {
+    document.body.classList.toggle('es', lang === 'es');
+    document.documentElement.lang = lang;
+    document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+    document.getElementById('btn-es').classList.toggle('active', lang === 'es');
+    try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
+  }
+
+  try {
+    const saved = localStorage.getItem('llavai-lang');
+    if (saved === 'es') setLang('es');
+  } catch(e) {}
+
+  // ─── PROVIDER TABS ─────────────────────────────────────────────────
+  function showProvider(provider) {
+    document.querySelectorAll('.provider-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.provider-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-' + provider).classList.add('active');
+    document.getElementById('panel-' + provider).classList.add('active');
+  }
+
+  // ─── COPY ADDRESS ──────────────────────────────────────────────────
+  function copyAddress() {
+    const address = '724eb5e5735d49167e54@cloudmailin.net';
+    const btn = document.getElementById('copyBtn');
+    const isEs = document.body.classList.contains('es');
+
+    const copy = async () => {
+      try {
+        await navigator.clipboard.writeText(address);
+        return true;
+      } catch (e) {
+        // Fallback for older browsers
+        const ta = document.createElement('textarea');
+        ta.value = address;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        let ok = false;
+        try { ok = document.execCommand('copy'); } catch (e2) {}
+        document.body.removeChild(ta);
+        return ok;
+      }
+    };
+
+    copy().then(success => {
+      if (success) {
+        btn.classList.add('copied');
+        const en = document.getElementById('copyBtnText');
+        const es = document.getElementById('copyBtnTextEs');
+        en.textContent = '✓ Copied';
+        es.textContent = '✓ Copiado';
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          en.textContent = 'Copy address';
+          es.textContent = 'Copiar dirección';
+        }, 2500);
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

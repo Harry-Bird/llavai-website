@@ -1,0 +1,8 @@
+# Llavai — robots.txt
+# Allow all crawlers full access. Update if you ever need to block specific bots.
+
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://llavai.com/sitemap.xml

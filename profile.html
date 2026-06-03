@@ -8,7 +8,7 @@
 <title>Llavai — Your tenant profile</title>
 
 <!-- EDIT: Page description -->
-<meta name="description" content="Tell Julia who you are. She'll handle the calls. Build your Barcelona tenant profile in two minutes." />
+<meta name="description" content="Build your Barcelona tenant profile in two minutes — so you're ready to move the moment Llavai flags a great new listing." />
 
 <!-- EDIT: Canonical URL of this page (clean URL — Vercel hides the .html) -->
 <link rel="canonical" href="https://llavai.com/profile" />
@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="Llavai" />
 <meta property="og:url" content="https://llavai.com/profile" />
 <meta property="og:title" content="Build your Llavai tenant profile" />
-<meta property="og:description" content="Two minutes. Then Julia starts calling Barcelona estate agents in Spanish on your behalf." />
+<meta property="og:description" content="Two minutes. Then Llavai alerts you to strong new Barcelona listings the moment they appear." />
 <meta property="og:image" content="https://llavai.com/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -37,7 +37,7 @@
 <!-- ============ TWITTER / X CARD ============ -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Build your Llavai tenant profile" />
-<meta name="twitter:description" content="Two minutes. Then Julia starts calling Barcelona estate agents in Spanish on your behalf." />
+<meta name="twitter:description" content="Two minutes. Then Llavai alerts you to strong new Barcelona listings the moment they appear." />
 <meta name="twitter:image" content="https://llavai.com/og-image.jpg" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -190,6 +190,7 @@
   </div>
 
   <!-- SUCCESS -->
+  <!-- EDIT: Success screen shown after the form is submitted. Edit in all three languages. -->
   <div class="success-screen" id="successScreen">
     <div class="success-tick">
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
@@ -197,14 +198,14 @@
       </svg>
     </div>
     <h2>
-      <span data-lang="en"><em>You're in.</em> Julia's almost ready.</span>
-      <span data-lang="es"><em>Ya estás.</em> Julia casi lista.</span>
-      <span data-lang="uk"><em>Ви в системі.</em> Julia вже майже готова.</span>
+      <span data-lang="en"><em>You're in.</em> We're setting up your search.</span>
+      <span data-lang="es"><em>Ya estás.</em> Estamos configurando tu búsqueda.</span>
+      <span data-lang="uk"><em>Ви в системі.</em> Ми налаштовуємо ваш пошук.</span>
     </h2>
     <p>
-      <span data-lang="en">We've received your full profile. Harry will be in touch shortly to confirm your account and get Julia dialling for you.</span>
-      <span data-lang="es">Hemos recibido tu perfil completo. Harry se pondrá en contacto pronto para confirmar tu cuenta y poner a Julia a llamar por ti.</span>
-      <span data-lang="uk">Ми отримали ваш повний профіль. Harry незабаром зв'яжеться, щоб підтвердити ваш акаунт і запустити Julia для вас.</span>
+      <span data-lang="en">We've received your full profile. Harry will be in touch shortly to confirm your account and switch on your listing alerts.</span>
+      <span data-lang="es">Hemos recibido tu perfil completo. Harry se pondrá en contacto pronto para confirmar tu cuenta y activar tus avisos de pisos.</span>
+      <span data-lang="uk">Ми отримали ваш повний профіль. Harry незабаром зв'яжеться, щоб підтвердити ваш акаунт і увімкнути сповіщення про квартири.</span>
     </p>
     <p>
       <span data-lang="en">Check your email — including your spam folder.</span>
@@ -225,10 +226,11 @@
         <span data-lang="en">Step 1 of 3</span><span data-lang="es">Paso 1 de 3</span><span data-lang="uk">Крок 1 з 3</span>
       </p>
       <h1><span data-lang="en">Who are <em>you?</em></span><span data-lang="es">¿Quién <em>eres?</em></span><span data-lang="uk">Хто <em>ви?</em></span></h1>
+      <!-- EDIT: Step 1 subtitle -->
       <p class="sub">
-        <span data-lang="en">Julia uses this to introduce you to agents. Your profile makes the first impression — make it count.</span>
-        <span data-lang="es">Julia usa esto para presentarte a los agentes. Tu perfil causa la primera impresión — hazla buena.</span>
-        <span data-lang="uk">Julia використовує це для представлення вас агентам. Ваш профіль — перше враження. Зробіть його гідним.</span>
+        <span data-lang="en">This gets your profile ready, so you can move fast and look strong the moment you call an agent.</span>
+        <span data-lang="es">Esto deja tu perfil listo, para que puedas moverte rápido y dar buena impresión en cuanto llames a un agente.</span>
+        <span data-lang="uk">Це готує ваш профіль, щоб ви могли діяти швидко й справити гарне враження, щойно зателефонуєте агенту.</span>
       </p>
     </div>
     <div class="form-error" id="err1"></div>
@@ -251,9 +253,9 @@
         <label><span data-lang="en">Phone <span class="req">*</span></span><span data-lang="es">Teléfono <span class="req">*</span></span><span data-lang="uk">Телефон <span class="req">*</span></span></label>
         <input type="tel" id="phone" autocomplete="tel" placeholder="+34 600 000 000" />
         <span class="field-hint">
-          <span data-lang="en">Include country code. Julia will send confirmed viewing details here.</span>
-          <span data-lang="es">Incluye el prefijo del país. Julia enviará aquí los detalles de las visitas confirmadas.</span>
-          <span data-lang="uk">Вкажіть код країни. Julia надішле сюди підтверджені деталі переглядів.</span>
+          <span data-lang="en">Include country code. We'll send your listing alerts here.</span>
+          <span data-lang="es">Incluye el prefijo del país. Aquí te enviaremos los avisos de pisos.</span>
+          <span data-lang="uk">Вкажіть код країни. Сюди ми надсилатимемо сповіщення про квартири.</span>
         </span>
       </div>
       <div class="field-divider"></div>
@@ -323,10 +325,11 @@
     <div class="step-header">
       <p class="section-eyebrow"><span data-lang="en">Step 2 of 3</span><span data-lang="es">Paso 2 de 3</span><span data-lang="uk">Крок 2 з 3</span></p>
       <h1><span data-lang="en">Your <em>financial</em> profile</span><span data-lang="es">Tu perfil <em>económico</em></span><span data-lang="uk">Ваш <em>фінансовий</em> профіль</span></h1>
+      <!-- EDIT: Step 2 subtitle -->
       <p class="sub">
-        <span data-lang="en">Agents will ask. Julia will answer. The stronger your profile sounds, the faster you get viewings.</span>
-        <span data-lang="es">Los agentes lo preguntarán. Julia responderá. Cuanto más sólido suene tu perfil, más rápido conseguirás visitas.</span>
-        <span data-lang="uk">Агенти запитають. Julia відповість. Чим переконливіший ваш профіль, тим швидше ви отримаєте перегляди.</span>
+        <span data-lang="en">Agents will ask about this when you call. The stronger your profile, the faster you'll get a viewing.</span>
+        <span data-lang="es">Los agentes preguntarán por esto cuando llames. Cuanto más sólido sea tu perfil, más rápido conseguirás una visita.</span>
+        <span data-lang="uk">Агенти запитають про це, коли ви зателефонуєте. Чим переконливіший ваш профіль, тим швидше ви отримаєте перегляд.</span>
       </p>
     </div>
     <div class="form-error" id="err2"></div>
@@ -405,7 +408,7 @@
       <div class="conditional-field" id="guarantorDetailsWrap">
         <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)"><span data-lang="en">Brief guarantor details</span><span data-lang="es">Datos del avalista</span><span data-lang="uk">Дані про поручителя</span></label>
         <input type="text" id="guarantorDetails" placeholder="e.g. Spanish resident, property owner in Barcelona" />
-        <span class="field-hint"><span data-lang="en">Julia may mention this to persuade reluctant agents.</span><span data-lang="es">Julia puede mencionarlo para convencer a agentes reacios.</span><span data-lang="uk">Julia може згадати це, щоб переконати нерішучих агентів.</span></span>
+        <span class="field-hint"><span data-lang="en">Handy to have ready when you call — it can reassure a hesitant agent.</span><span data-lang="es">Útil tenerlo a mano cuando llames — puede tranquilizar a un agente indeciso.</span><span data-lang="uk">Корисно мати напоготові, коли телефонуєте — це може заспокоїти нерішучого агента.</span></span>
       </div>
     </div>
     <div class="form-nav">
@@ -418,11 +421,12 @@
   <div id="step3" class="step-panel" style="display:none">
     <div class="step-header">
       <p class="section-eyebrow"><span data-lang="en">Step 3 of 3</span><span data-lang="es">Paso 3 de 3</span><span data-lang="uk">Крок 3 з 3</span></p>
-      <h1><span data-lang="en">How Julia should <em>reach you</em></span><span data-lang="es">Cómo Julia <em>te contacta</em></span><span data-lang="uk">Як Julia має <em>зв'язатися з вами</em></span></h1>
+      <!-- EDIT: Step 3 heading + subtitle -->
+      <h1><span data-lang="en">How we should <em>reach you</em></span><span data-lang="es">Cómo <em>te contactamos</em></span><span data-lang="uk">Як з вами <em>зв'язатися</em></span></h1>
       <p class="sub">
-        <span data-lang="en">Tell us when you're free for viewings and how you want to hear about confirmed slots.</span>
-        <span data-lang="es">Dinos cuándo estás libre para visitas y cómo quieres recibir las confirmaciones.</span>
-        <span data-lang="uk">Розкажіть, коли ви вільні для переглядів і як хочете отримувати підтвердження.</span>
+        <span data-lang="en">Tell us when you're free to view, and how you'd like to receive your listing alerts.</span>
+        <span data-lang="es">Dinos cuándo puedes ir a visitas y cómo quieres recibir tus avisos de pisos.</span>
+        <span data-lang="uk">Розкажіть, коли ви вільні для переглядів і як хочете отримувати сповіщення про квартири.</span>
       </p>
     </div>
     <div class="form-error" id="err3"></div>
@@ -431,9 +435,9 @@
         <label><span data-lang="en">Viewing availability <span class="req">*</span></span><span data-lang="es">Disponibilidad para visitas <span class="req">*</span></span><span data-lang="uk">Доступність для переглядів <span class="req">*</span></span></label>
         <textarea id="viewingAvailability"></textarea>
         <span class="field-hint">
-          <span data-lang="en">e.g. Weekday mornings (9–13h), Saturday afternoons — flexible from June 1st. Julia will only book slots that fit.</span>
-          <span data-lang="es">p. ej. Mañanas entre semana (9–13h), tardes del sábado — flexible desde el 1 de junio.</span>
-          <span data-lang="uk">напр., будні вранці (9–13:00), суботи вдень — гнучко з 1 червня. Julia бронюватиме лише слоти, що підходять.</span>
+          <span data-lang="en">e.g. Weekday mornings (9–13h), Saturday afternoons — flexible from June 1st. Helps you judge which viewings to chase.</span>
+          <span data-lang="es">p. ej. Mañanas entre semana (9–13h), tardes del sábado — flexible desde el 1 de junio. Te ayuda a decidir qué visitas perseguir.</span>
+          <span data-lang="uk">напр., будні вранці (9–13:00), суботи вдень — гнучко з 1 червня. Допомагає вирішити, які перегляди варто переслідувати.</span>
         </span>
       </div>
       <div class="field">
@@ -457,9 +461,10 @@
       </div>
       <div class="field-divider"></div>
       <div class="field">
-        <label><span data-lang="en">Questions you want Julia to ask agents</span><span data-lang="es">Preguntas que quieres que Julia haga</span><span data-lang="uk">Питання, які ви хочете, щоб Julia ставила агентам</span></label>
+        <!-- EDIT: Agent-questions field — now framed as questions for YOU to ask -->
+        <label><span data-lang="en">Questions worth asking the agent</span><span data-lang="es">Preguntas que vale la pena hacer al agente</span><span data-lang="uk">Питання, які варто поставити агенту</span></label>
         <textarea id="agentQuestions"></textarea>
-        <span class="field-hint"><span data-lang="en">e.g. Is it furnished? Pets allowed? Min contract length? Julia will weave these in naturally.</span><span data-lang="es">p. ej. ¿Amueblado? ¿Mascotas? ¿Duración mínima? Julia los incluirá de forma natural.</span><span data-lang="uk">напр., З меблями? Дозволені тварини? Мін. термін договору? Julia включить їх природно.</span></span>
+        <span class="field-hint"><span data-lang="en">e.g. Is it furnished? Pets allowed? Min contract length? We'll include these in your alert so they're ready when you call.</span><span data-lang="es">p. ej. ¿Amueblado? ¿Mascotas? ¿Duración mínima? Los incluiremos en tu aviso para que los tengas listos al llamar.</span><span data-lang="uk">напр., З меблями? Дозволені тварини? Мін. термін договору? Ми додамо їх до сповіщення, щоб вони були напоготові, коли телефонуєте.</span></span>
       </div>
       <div class="field">
         <label><span data-lang="en">Anything else we should know?</span><span data-lang="es">¿Algo más que debamos saber?</span><span data-lang="uk">Що ще нам варто знати?</span></label>
@@ -478,14 +483,16 @@
     <div class="step-header">
       <p class="section-eyebrow"><span data-lang="en">Almost there</span><span data-lang="es">Casi listo</span><span data-lang="uk">Майже готово</span></p>
       <h1><span data-lang="en">Check your <em>profile</em></span><span data-lang="es">Revisa tu <em>perfil</em></span><span data-lang="uk">Перевірте ваш <em>профіль</em></span></h1>
-      <p class="sub"><span data-lang="en">This is what Julia will tell agents. Make sure everything looks right before confirming.</span><span data-lang="es">Esto es lo que Julia dirá a los agentes. Asegúrate de que todo está correcto antes de confirmar.</span><span data-lang="uk">Це те, що Julia розкаже агентам. Переконайтесь, що все правильно, перш ніж підтвердити.</span></p>
+      <!-- EDIT: Review-step subtitle -->
+      <p class="sub"><span data-lang="en">This is the profile you'll lean on when you call agents. Make sure everything looks right before confirming.</span><span data-lang="es">Este es el perfil en el que te apoyarás al llamar a los agentes. Asegúrate de que todo está correcto antes de confirmar.</span><span data-lang="uk">Це профіль, на який ви спиратиметесь, коли телефонуватимете агентам. Переконайтесь, що все правильно, перш ніж підтвердити.</span></p>
     </div>
     <div class="form-error" id="err4"></div>
     <div id="reviewContent"></div>
+    <!-- EDIT: Consent / confirmation note -->
     <div class="review-confirm-note">
-      <span data-lang="en">By confirming, you agree that Llavai (Julia) will contact Barcelona estate agents on your behalf using the profile above. No payment is taken now — Harry will be in touch to confirm your account and next steps.</span>
-      <span data-lang="es">Al confirmar, aceptas que Llavai (Julia) contactará con inmobiliarias de Barcelona en tu nombre. No se realiza ningún pago ahora — Harry se pondrá en contacto para confirmar tu cuenta.</span>
-      <span data-lang="uk">Підтверджуючи, ви погоджуєтесь, що Llavai (Julia) зв'яжеться з агентствами нерухомості Барселони від вашого імені. Жодних платежів зараз — Harry підтвердить ваш акаунт.</span>
+      <span data-lang="en">By confirming, you agree to Llavai alerting you to matching new Barcelona listings using the profile above. No payment is taken now — Harry will be in touch to confirm your account and next steps.</span>
+      <span data-lang="es">Al confirmar, aceptas que Llavai te avise de nuevos pisos en Barcelona que encajen con el perfil de arriba. No se realiza ningún pago ahora — Harry se pondrá en contacto para confirmar tu cuenta.</span>
+      <span data-lang="uk">Підтверджуючи, ви погоджуєтесь, що Llavai сповіщатиме вас про нові оголошення в Барселоні, які відповідають профілю вище. Жодних платежів зараз — Harry підтвердить ваш акаунт.</span>
     </div>
     <div class="form-nav">
       <button class="btn-back" onclick="prevStep(4)"><span data-lang="en">← Edit</span><span data-lang="es">← Editar</span><span data-lang="uk">← Редагувати</span></button>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- EDIT: Page title (max ~60 chars) — shows in browser tab + Google search results -->
+<title>Llavai — Be first to Barcelona's new rental listings</title>
+
+<!-- EDIT: Page description (max ~155 chars) — shows in Google search results -->
+<meta name="description" content="Llavai alerts you to strong new Barcelona rentals within seconds of listing — with the agency's number ready to call. Be first, skip the junk." />
+
+<!-- EDIT: Canonical URL of this page -->
+<link rel="canonical" href="https://llavai.com/" />
+
+<!-- ============ FAVICON SET ============ -->
+<!-- These files must all live at the root of your site (next to index.html) -->
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#F4EFE5" />
+
+<!-- ============ OPEN GRAPH (social previews on Facebook, LinkedIn, WhatsApp, Slack…) ============ -->
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Llavai" />
+<meta property="og:url" content="https://llavai.com/" />
+<meta property="og:title" content="Llavai — Be first to Barcelona's new rentals" />
+<meta property="og:description" content="We flag strong new Barcelona listings the moment they go live, with the agency's number ready to call. You call, you view, you win the flat." />
+<meta property="og:image" content="https://llavai.com/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:image:alt" content="Llavai — Barcelona apartments don't wait. Neither does Llavai." />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:locale:alternate" content="es_ES" />
+<meta property="og:locale:alternate" content="uk_UA" />
+
+<!-- ============ TWITTER / X CARD ============ -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Llavai — Be first to Barcelona's new rentals" />
+<meta name="twitter:description" content="We flag strong new Barcelona listings the moment they go live, with the agency's number ready to call. You call, you view, you win the flat." />
+<meta name="twitter:image" content="https://llavai.com/og-image.jpg" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F4EFE5; --cream-deep: #ECE5D5;
+    --ink: #1B388F; --ink-deep: #142869;
+    --coral: #E55B45; --coral-deep: #C8462F;
+    --pencil: #6E6253; --paper-shadow: rgba(27,56,143,0.08);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream); color: var(--ink);
+    font-family: 'Newsreader', Georgia, serif; font-size: 18px;
+    line-height: 1.55; font-weight: 400; -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(ellipse 800px 600px at 15% 10%, rgba(229,91,69,.04) 0%, transparent 50%),
+      radial-gradient(ellipse 600px 800px at 90% 60%, rgba(27,56,143,.05) 0%, transparent 50%);
+  }
+  .grain {
+    position: fixed; inset: 0; pointer-events: none;
+    opacity: .35; mix-blend-mode: multiply; z-index: 100;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+  nav {
+    padding: 28px 32px; max-width: 1100px; margin: 0 auto;
+    display: flex; justify-content: space-between; align-items: center;
+    position: relative; z-index: 10;
+  }
+  .nav-logo { font-family:'Fraunces',serif; font-size:24px; font-weight:600; letter-spacing:-.02em; color:var(--ink); text-decoration:none; }
+  .nav-logo .ai { color:var(--coral); }
+  .nav-right { display:flex; align-items:center; gap:16px; }
+  .lang-toggle { display:flex; gap:4px; font-size:13px; font-family:'Newsreader',serif; letter-spacing:.05em; text-transform:uppercase; color:var(--pencil); align-items:center; }
+  .lang-toggle button { background:none; border:none; cursor:pointer; color:var(--pencil); padding:4px 8px; font-family:inherit; font-size:inherit; letter-spacing:inherit; text-transform:inherit; transition:color .2s; }
+  .lang-toggle button:hover { color:var(--ink); }
+  .lang-toggle button.active { color:var(--ink); font-weight:600; border-bottom:1.5px solid var(--coral); }
+  .lang-sep { opacity:.4; }
+  .btn-primary {
+    background:var(--ink); color:var(--cream); border:none;
+    font-family:'Newsreader',serif; font-size:16px; font-weight:500;
+    letter-spacing:.01em; padding:16px 28px; border-radius:2px;
+    cursor:pointer; text-decoration:none; display:inline-block;
+    transition:all .25s; box-shadow:0 4px 0 var(--ink-deep);
+  }
+  .btn-primary:hover { background:var(--ink-deep); transform:translateY(-1px); box-shadow:0 5px 0 var(--ink-deep); }
+  .btn-primary:active { transform:translateY(2px); box-shadow:0 2px 0 var(--ink-deep); }
+  .hero { padding:60px 0 100px; }
+  .hero-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:80px; align-items:center; }
+  @media(max-width:880px){ .hero-grid { grid-template-columns:1fr; gap:50px; } }
+  .eyebrow { font-family:'Newsreader',serif; font-style:italic; font-size:16px; color:var(--coral); margin-bottom:20px; }
+  h1 { font-family:'Fraunces',serif; font-weight:350; font-size:clamp(40px,5.6vw,68px); line-height:1.02; letter-spacing:-.025em; color:var(--ink); margin-bottom:28px; font-variation-settings:"SOFT" 60,"WONK" 0; }
+  h1 .accent { font-style:italic; font-weight:350; color:var(--coral); font-variation-settings:"SOFT" 100,"WONK" 1; }
+  .lede { font-size:19px; line-height:1.6; color:var(--ink-deep); margin-bottom:36px; max-width:480px; }
+  .cta-row { display:flex; gap:16px; align-items:center; flex-wrap:wrap; }
+  .meta-note { font-style:italic; color:var(--pencil); font-size:15px; }
+  .hero-visual { text-align:center; }
+  .hero-visual img { max-width:100%; width:380px; filter:drop-shadow(0 20px 40px var(--paper-shadow)); }
+  .section-eyebrow { font-family:'Newsreader',serif; font-style:italic; font-size:15px; color:var(--coral); letter-spacing:.04em; margin-bottom:16px; display:flex; align-items:center; gap:16px; }
+  .section-eyebrow::before { content:""; width:32px; height:1px; background:var(--coral); }
+  h2 { font-family:'Fraunces',serif; font-weight:400; font-size:clamp(32px,4vw,46px); line-height:1.1; letter-spacing:-.02em; color:var(--ink); margin-bottom:40px; max-width:700px; font-variation-settings:"SOFT" 60; }
+  h2 em { font-style:italic; color:var(--coral); font-weight:400; }
+  .workflow { padding:100px 0; border-top:1px solid rgba(27,56,143,.12); border-bottom:1px solid rgba(27,56,143,.12); background:var(--cream-deep); }
+  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:50px; margin-top:30px; }
+  @media(max-width:880px){ .steps { grid-template-columns:1fr; gap:40px; } }
+  .step-number { font-family:'Fraunces',serif; font-style:italic; font-size:60px; color:var(--coral); line-height:1; font-weight:300; margin-bottom:16px; font-variation-settings:"SOFT" 100,"WONK" 1; }
+  .step-icon { width:56px; height:56px; margin-bottom:16px; }
+  .step h3 { font-family:'Fraunces',serif; font-size:22px; font-weight:500; color:var(--ink); margin-bottom:10px; letter-spacing:-.01em; }
+  .step p { color:var(--ink-deep); font-size:16px; line-height:1.6; }
+  .story { padding:100px 0; }
+  .story-grid { display:grid; grid-template-columns:1fr 1.4fr; gap:80px; align-items:start; }
+  @media(max-width:880px){ .story-grid { grid-template-columns:1fr; gap:30px; } }
+  .story-prose p { font-size:18px; line-height:1.7; color:var(--ink-deep); margin-bottom:18px; }
+  .story-prose p:first-of-type::first-letter { font-family:'Fraunces',serif; font-size:64px; float:left; line-height:.85; padding:4px 8px 0 0; color:var(--coral); font-weight:400; font-style:italic; font-variation-settings:"SOFT" 100,"WONK" 1; }
+  .signature { font-family:'Fraunces',serif; font-style:italic; font-size:20px; color:var(--ink); margin-top:24px; font-weight:400; }
+  .value { padding:100px 0; }
+  .value-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:40px 56px; margin-top:30px; }
+  @media(max-width:720px){ .value-grid { grid-template-columns:1fr; gap:36px; } }
+  .value-card { padding-left:28px; border-left:1.5px solid var(--coral); }
+  .value-card h3 { font-family:'Fraunces',serif; font-weight:500; font-size:22px; color:var(--ink); margin-bottom:10px; letter-spacing:-.01em; line-height:1.25; }
+  .value-card h3 .badge { display:inline-block; font-family:'Newsreader',serif; font-style:italic; font-weight:400; font-size:12px; color:var(--coral); background:rgba(229,91,69,.1); padding:2px 8px; border-radius:2px; margin-left:8px; vertical-align:middle; position:relative; top:-2px; }
+  .value-card p { color:var(--ink-deep); font-size:16.5px; line-height:1.6; }
+  .value-footnote { margin-top:50px; padding-top:24px; border-top:1px dashed rgba(27,56,143,.2); font-size:14px; font-style:italic; color:var(--pencil); max-width:600px; }
+  .value-footnote .star { color:var(--coral); font-style:normal; margin-right:4px; }
+  .guides { padding:100px 0; border-top:1px solid rgba(27,56,143,.12); }
+  .guides-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-top:30px; }
+  @media(max-width:880px){ .guides-grid { grid-template-columns:1fr; gap:24px; } }
+  .guide-card { border:1px solid rgba(27,56,143,.12); border-radius:2px; padding:32px 28px; background:var(--cream); transition:box-shadow .2s, transform .2s; display:flex; flex-direction:column; }
+  .guide-card:hover { box-shadow:0 8px 32px var(--paper-shadow); transform:translateY(-2px); }
+  .guide-card-tag { font-family:'Newsreader',serif; font-style:italic; font-size:13px; color:var(--coral); letter-spacing:.04em; text-transform:uppercase; margin-bottom:14px; }
+  .guide-card h3 { font-family:'Fraunces',serif; font-size:20px; font-weight:500; color:var(--ink); line-height:1.25; letter-spacing:-.01em; margin-bottom:12px; }
+  .guide-card p { font-size:15.5px; line-height:1.65; color:var(--ink-deep); flex:1; margin-bottom:24px; }
+  .guide-card-link { font-family:'Newsreader',serif; font-size:15px; font-weight:500; color:var(--ink); text-decoration:underline; text-decoration-color:var(--coral); text-underline-offset:3px; }
+  .guide-card-link:hover { color:var(--coral); }
+  .final-cta { padding:100px 0; background:var(--cream-deep); border-top:1px solid rgba(27,56,143,.12); border-bottom:1px solid rgba(27,56,143,.12); }
+  .cta-headline { font-family:'Fraunces',serif; font-size:clamp(34px,4.5vw,52px); font-weight:350; line-height:1.05; letter-spacing:-.02em; color:var(--ink); margin-bottom:24px; max-width:680px; font-variation-settings:"SOFT" 80; }
+  .cta-headline em { font-style:italic; color:var(--coral); font-variation-settings:"SOFT" 100,"WONK" 1; }
+  .cta-sub { font-size:18px; color:var(--ink-deep); margin-bottom:40px; max-width:520px; line-height:1.65; }
+  .cta-actions { display:flex; align-items:center; gap:24px; flex-wrap:wrap; }
+  .cta-or-note { font-style:italic; font-size:15px; color:var(--pencil); }
+  .cta-or-note a { color:var(--ink); text-decoration:underline; text-decoration-color:var(--coral); text-underline-offset:3px; }
+  footer { padding:40px 0 60px; border-top:1px solid rgba(27,56,143,.12); }
+  .footer-row { display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; font-size:14px; color:var(--pencil); }
+  .footer-row a { color:var(--ink); text-decoration:none; }
+  .footer-row a:hover { color:var(--coral); }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  .reveal { opacity:0; animation:fadeUp .8s ease-out forwards; }
+  .reveal-1{animation-delay:.1s} .reveal-2{animation-delay:.25s} .reveal-3{animation-delay:.4s} .reveal-4{animation-delay:.55s}
+
+  /* ── i18n: three languages ── */
+  [data-lang="es"],[data-lang="uk"] { display:none; }
+  body.es [data-lang="en"],[data-lang="uk"] { display:none; }
+  body.es [data-lang="es"] { display:block; }
+  body.es [data-lang="es"].inline { display:inline; }
+  body.es h1 [data-lang="es"],body.es .accent[data-lang="es"] { display:inline; }
+  body.uk [data-lang="en"],body.uk [data-lang="es"] { display:none; }
+  body.uk [data-lang="uk"] { display:block; }
+  body.uk [data-lang="uk"].inline { display:inline; }
+  body.uk h1 [data-lang="uk"],body.uk .accent[data-lang="uk"] { display:inline; }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+
+<nav>
+  <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
+  <div class="nav-right">
+    <a href="profile.html" class="btn-primary">
+      <span data-lang="en">Get started</span>
+      <span data-lang="es">Empezar</span>
+      <span data-lang="uk">Почати</span>
+    </a>
+    <div class="lang-toggle">
+      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
+      <span class="lang-sep">/</span>
+      <button id="btn-es" onclick="setLang('es')">ES</button>
+      <span class="lang-sep">/</span>
+      <button id="btn-uk" onclick="setLang('uk')">UA</button>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<!-- EDIT: Hero headline + subtext — your main pitch. Edit the wording in all three languages (en / es / uk). -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <p class="eyebrow reveal reveal-1">
+          <span data-lang="en">Apartment hunting in Barcelona</span>
+          <span data-lang="es">Buscando piso en Barcelona</span>
+          <span data-lang="uk">Пошук квартири в Барселоні</span>
+        </p>
+        <h1 class="reveal reveal-2">
+          <span data-lang="en">Barcelona apartments don't wait. <span class="accent">Neither does Llavai.</span></span>
+          <span data-lang="es">Los pisos en Barcelona no esperan. <span class="accent">Llavai tampoco.</span></span>
+          <span data-lang="uk">Барселонські квартири не чекають. <span class="accent">Llavai теж.</span></span>
+        </h1>
+        <p class="lede reveal reveal-3">
+          <span data-lang="en">Llavai watches the Barcelona rental market for you and flags strong new listings within seconds of them going live — with the agency's number ready to call. You make the call while you're still first in the queue.</span>
+          <span data-lang="es">Llavai vigila el mercado del alquiler de Barcelona por ti y te avisa de los buenos pisos nuevos a los pocos segundos de publicarse — con el teléfono de la inmobiliaria listo para llamar. Tú llamas mientras todavía eres el primero de la cola.</span>
+          <span data-lang="uk">Llavai стежить за ринком оренди Барселони замість вас і повідомляє про вартісні нові оголошення вже за кілька секунд після їх появи — з номером агентства, готовим до дзвінка. Ви телефонуєте, поки ще першими в черзі.</span>
+        </p>
+        <div class="cta-row reveal reveal-4">
+          <a href="profile.html" class="btn-primary">
+            <span data-lang="en">Build my tenant profile</span>
+            <span data-lang="es">Crear mi perfil de inquilino</span>
+            <span data-lang="uk">Створити профіль орендаря</span>
+          </a>
+          <span class="meta-note">
+            <span data-lang="en">Takes two minutes</span>
+            <span data-lang="es">Solo dos minutos</span>
+            <span data-lang="uk">Лише дві хвилини</span>
+          </span>
+        </div>
+      </div>
+      <div class="hero-visual reveal reveal-3">
+       <img src="logo_transparent.png" alt="Llavai logo" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<!-- EDIT: The three "how it works" steps. Edit each heading + paragraph in all three languages. -->
+<section class="workflow">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">How it works</span>
+      <span data-lang="es">Cómo funciona</span>
+      <span data-lang="uk">Як це працює</span>
+    </p>
+    <h2>
+      <span data-lang="en">Three steps. <em>First in line.</em></span>
+      <span data-lang="es">Tres pasos. <em>El primero de la cola.</em></span>
+      <span data-lang="uk">Три кроки. <em>Першими в черзі.</em></span>
+    </h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-number">1</div>
+        <svg class="step-icon" viewBox="0 0 56 56" fill="none">
+          <rect x="6" y="10" width="44" height="36" rx="3" stroke="#1B388F" stroke-width="2"/>
+          <line x1="6" y1="20" x2="50" y2="20" stroke="#1B388F" stroke-width="2"/>
+          <line x1="14" y1="28" x2="36" y2="28" stroke="#1B388F" stroke-width="1.5"/>
+          <line x1="14" y1="34" x2="42" y2="34" stroke="#1B388F" stroke-width="1.5"/>
+          <line x1="14" y1="40" x2="30" y2="40" stroke="#1B388F" stroke-width="1.5"/>
+          <circle cx="44" cy="14" r="3" fill="#E55B45"/>
+        </svg>
+        <h3>
+          <span data-lang="en">Tell us what you want</span>
+          <span data-lang="es">Cuéntanos qué buscas</span>
+          <span data-lang="uk">Розкажіть, що шукаєте</span>
+        </h3>
+        <p>
+          <span data-lang="en">Your area, your budget, what makes a flat worth your time. Send your Idealista filter and we set up your search.</span>
+          <span data-lang="es">Tu zona, tu presupuesto, qué hace que un piso valga la pena. Envíanos tu filtro de Idealista y configuramos tu búsqueda.</span>
+          <span data-lang="uk">Ваш район, ваш бюджет, що робить квартиру вартою уваги. Надішліть фільтр Idealista — і ми налаштуємо ваш пошук.</span>
+        </p>
+      </div>
+      <div class="step">
+        <div class="step-number">2</div>
+        <svg class="step-icon" viewBox="0 0 56 56" fill="none">
+          <circle cx="24" cy="24" r="14" stroke="#1B388F" stroke-width="2"/>
+          <line x1="34" y1="34" x2="47" y2="47" stroke="#1B388F" stroke-width="2.5" stroke-linecap="round"/>
+          <circle cx="24" cy="24" r="4" fill="#E55B45"/>
+        </svg>
+        <h3>
+          <span data-lang="en">We catch the good ones</span>
+          <span data-lang="es">Cazamos los buenos</span>
+          <span data-lang="uk">Ми ловимо найкращі</span>
+        </h3>
+        <p>
+          <span data-lang="en">The moment a matching listing goes live, Llavai catches it within seconds and scores it — so the overpriced, the duplicates and the junk never reach you.</span>
+          <span data-lang="es">En cuanto sale un piso que encaja, Llavai lo detecta en segundos y lo puntúa — para que los sobrevalorados, los duplicados y la basura nunca te lleguen.</span>
+          <span data-lang="uk">Щойно з'являється підходяще оголошення, Llavai вловлює його за лічені секунди й оцінює — щоб завищені, дублікати та мотлох ніколи до вас не потрапляли.</span>
+        </p>
+      </div>
+      <div class="step">
+        <div class="step-number">3</div>
+        <svg class="step-icon" viewBox="0 0 56 56" fill="none">
+          <rect x="16" y="6" width="22" height="44" rx="3" stroke="#1B388F" stroke-width="2"/>
+          <line x1="24" y1="44" x2="30" y2="44" stroke="#1B388F" stroke-width="2" stroke-linecap="round"/>
+          <line x1="22" y1="16" x2="32" y2="16" stroke="#1B388F" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="22" x2="29" y2="22" stroke="#1B388F" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="40" cy="12" r="5" fill="#E55B45"/>
+        </svg>
+        <h3>
+          <span data-lang="en">You get the alert and call</span>
+          <span data-lang="es">Recibes el aviso y llamas</span>
+          <span data-lang="uk">Ви отримуєте сповіщення й телефонуєте</span>
+        </h3>
+        <p>
+          <span data-lang="en">An instant alert lands with the listing and the agency's number, ready to tap. You call, book the viewing, and beat the crowd.</span>
+          <span data-lang="es">Te llega un aviso al instante con el piso y el teléfono de la inmobiliaria, listo para pulsar. Llamas, agendas la visita y te adelantas a los demás.</span>
+          <span data-lang="uk">Миттєве сповіщення приходить разом з оголошенням і номером агентства, готовим до дзвінка. Ви телефонуєте, домовляєтесь про перегляд і випереджаєте інших.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STORY -->
+<!-- EDIT: Founder story — Harry's voice. Edit the paragraphs in all three languages if needed. -->
+<section class="story">
+  <div class="container">
+    <div class="story-grid">
+      <div>
+        <p class="section-eyebrow">
+          <span data-lang="en">Why I built it</span>
+          <span data-lang="es">Por qué lo hice</span>
+          <span data-lang="uk">Чому я це створив</span>
+        </p>
+        <h2>
+          <span data-lang="en"><em>I lived</em> the Barcelona apartment hunt.</span>
+          <span data-lang="es"><em>Yo viví</em> la búsqueda de piso en Barcelona.</span>
+          <span data-lang="uk"><em>Я сам пройшов</em> через пошук квартири в Барселоні.</span>
+        </h2>
+      </div>
+      <div class="story-prose">
+        <div data-lang="en">
+          <p>Here's what nobody tells you about finding a flat in Barcelona:</p>
+          <p>The search doesn't happen on Idealista. It happens in the thirty seconds after the alert hits your phone.</p>
+          <p>Miss that window and it's gone. And if Spanish isn't your first language — you're already behind before you've dialled.</p>
+          <p>That's not searching for an apartment. That's competing in a sport nobody trained you for.</p>
+          <p>I built Llavai because I was tired of losing apartments I could actually afford to people who were simply faster, or luckier, or more fluent. You shouldn't need to be all three.</p>
+          <p class="signature">— Harry, founder</p>
+        </div>
+        <div data-lang="es">
+          <p>Esto es lo que nadie te cuenta de buscar piso en Barcelona:</p>
+          <p>La búsqueda no pasa en Idealista. Pasa en los treinta segundos después de que la alerta llega a tu móvil.</p>
+          <p>Pierde esa ventana y se acabó. Y si el castellano no es tu primer idioma — ya vas con desventaja antes incluso de marcar.</p>
+          <p>Eso no es buscar piso. Es competir en un deporte para el que nadie te ha entrenado.</p>
+          <p>Hice Llavai porque estaba harto de perder pisos que sí podía pagar con gente que simplemente era más rápida, más afortunada o hablaba mejor el idioma. No deberías tener que ser las tres cosas.</p>
+          <p class="signature">— Harry, fundador</p>
+        </div>
+        <div data-lang="uk">
+          <p>Ось що ніхто вам не скаже про пошук квартири в Барселоні:</p>
+          <p>Пошук відбувається не на Idealista. Він відбувається протягом тридцяти секунд після того, як сповіщення надходить на ваш телефон.</p>
+          <p>Пропустіть це вікно — і квартира пішла. А якщо іспанська не є вашою рідною мовою, ви вже відстаєте ще до того, як набрали номер.</p>
+          <p>Це не пошук квартири. Це змагання у виді спорту, до якого вас ніхто не готував.</p>
+          <p>Я створив Llavai, бо втомився втрачати квартири, які міг собі дозволити, на користь тих, хто просто швидший, щасливіший або краще говорить іспанською. Вам не потрібно бути усіма трьома.</p>
+          <p class="signature">— Harry, засновник</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VALUE -->
+<!-- EDIT: The six value cards. Each has a heading + paragraph in all three languages. The "growing*" badge marks features that improve over time. -->
+<section class="value">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">What Llavai actually does</span>
+      <span data-lang="es">Qué hace Llavai</span>
+      <span data-lang="uk">Що насправді робить Llavai</span>
+    </p>
+    <h2>
+      <span data-lang="en">More than an alert. <em>An unfair advantage.</em></span>
+      <span data-lang="es">Más que un aviso. <em>Una ventaja injusta.</em></span>
+      <span data-lang="uk">Більше ніж сповіщення. <em>Несправедлива перевага.</em></span>
+    </h2>
+    <div class="value-grid">
+      <div class="value-card">
+        <h3><span data-lang="en">First in the queue</span><span data-lang="es">El primero en la cola</span><span data-lang="uk">Перший у черзі</span></h3>
+        <p>
+          <span data-lang="en">The moment a matching listing goes live, Llavai alerts you — usually within seconds. You're calling the agency while everyone else is still scrolling.</span>
+          <span data-lang="es">En cuanto sale un piso que encaja, Llavai te avisa — normalmente en segundos. Estás llamando a la inmobiliaria mientras los demás siguen mirando la pantalla.</span>
+          <span data-lang="uk">Щойно з'являється підходяще оголошення, Llavai сповіщає вас — зазвичай за секунди. Ви телефонуєте в агентство, поки інші ще гортають стрічку.</span>
+        </p>
+      </div>
+      <div class="value-card">
+        <h3><span data-lang="en">Only the listings worth your time</span><span data-lang="es">Solo los pisos que valen la pena</span><span data-lang="uk">Лише оголошення, варті вашого часу</span></h3>
+        <p>
+          <span data-lang="en">Llavai scores every new listing and filters out the overpriced, the duplicates and the scams — so the only alerts you get are ones worth dropping everything for.</span>
+          <span data-lang="es">Llavai puntúa cada piso nuevo y descarta los sobrevalorados, los duplicados y las estafas — para que solo recibas avisos por los que merece la pena dejarlo todo.</span>
+          <span data-lang="uk">Llavai оцінює кожне нове оголошення й відсіює завищені, дублікати та шахрайські — щоб ви отримували сповіщення лише про ті, заради яких варто кинути все.</span>
+        </p>
+      </div>
+      <div class="value-card">
+        <h3><span data-lang="en">The agency's number, ready to tap</span><span data-lang="es">El teléfono de la inmobiliaria, listo para pulsar</span><span data-lang="uk">Номер агентства, готовий до дзвінка</span></h3>
+        <p>
+          <span data-lang="en">Every alert comes with the agency's direct number as a tap-to-call link. No digging through the listing, no copy-pasting — just dial and ask for a viewing.</span>
+          <span data-lang="es">Cada aviso incluye el teléfono directo de la inmobiliaria como enlace para llamar con un toque. Sin rebuscar en el anuncio, sin copiar y pegar — solo marcas y pides la visita.</span>
+          <span data-lang="uk">Кожне сповіщення містить прямий номер агентства як посилання для дзвінка в один дотик. Не треба копатися в оголошенні чи копіювати — просто наберіть і попросіть перегляд.</span>
+        </p>
+      </div>
+      <div class="value-card">
+        <h3><span data-lang="en">Market intelligence <span class="badge">growing*</span></span><span data-lang="es">Inteligencia de mercado <span class="badge">en mejora*</span></span><span data-lang="uk">Аналітика ринку <span class="badge">зростає*</span></span></h3>
+        <p>
+          <span data-lang="en">Llavai learns from every listing it scores. Over time it gets sharper at spotting which flats are worth chasing, which are overpriced, and which neighbourhoods move fastest.</span>
+          <span data-lang="es">Llavai aprende de cada piso que puntúa. Con el tiempo afina al detectar qué pisos vale la pena perseguir, cuáles están sobrevalorados y qué barrios se mueven más rápido.</span>
+          <span data-lang="uk">Llavai вчиться на кожному оцінюваному оголошенні. З часом вона точніше визначає, які квартири варто переслідувати, які завищені та які райони рухаються найшвидше.</span>
+        </p>
+      </div>
+      <div class="value-card">
+        <h3><span data-lang="en">Built for rejection fatigue</span><span data-lang="es">Pensado contra el desgaste</span><span data-lang="uk">Створено проти виснаження від відмов</span></h3>
+        <p>
+          <span data-lang="en">The hunt is exhausting — endless refreshing, sifting junk, always feeling late. Llavai does the watching and filtering, so your energy goes where it counts: the listings worth a call.</span>
+          <span data-lang="es">Buscar piso agota — actualizar sin parar, filtrar basura, sentir que siempre llegas tarde. Llavai vigila y filtra por ti, para que tu energía vaya a lo que importa: los pisos que merecen una llamada.</span>
+          <span data-lang="uk">Пошук виснажує — безкінечне оновлення, відсіювання мотлоху, відчуття, що ви завжди спізнюєтесь. Llavai стежить і фільтрує за вас, щоб ваша енергія йшла на головне: оголошення, варті дзвінка.</span>
+        </p>
+      </div>
+      <div class="value-card">
+        <h3><span data-lang="en">Smarter alerts over time <span class="badge">growing*</span></span><span data-lang="es">Avisos más afinados <span class="badge">en mejora*</span></span><span data-lang="uk">Точніші сповіщення з часом <span class="badge">зростає*</span></span></h3>
+        <p>
+          <span data-lang="en">As Llavai scores more listings, it gets better at learning your taste and flagging the ones you'll actually want — fewer false alarms, more real matches.</span>
+          <span data-lang="es">A medida que Llavai puntúa más pisos, aprende mejor tus gustos y te avisa de los que de verdad querrás — menos falsas alarmas, más coincidencias reales.</span>
+          <span data-lang="uk">Що більше оголошень оцінює Llavai, то краще вона вивчає ваші смаки й повідомляє про ті, що вам справді сподобаються — менше хибних сповіщень, більше реальних збігів.</span>
+        </p>
+      </div>
+    </div>
+    <p class="value-footnote">
+      <span data-lang="en"><span class="star">*</span>These features work today and get sharper over time. The more listings Llavai scores across all users, the better it gets at spotting the good ones — without ever sharing your personal data.</span>
+      <span data-lang="es"><span class="star">*</span>Estas funciones ya están activas y mejoran con el tiempo. Cuantos más pisos puntúa Llavai en total, mejor detecta los buenos — sin compartir nunca tus datos personales.</span>
+      <span data-lang="uk"><span class="star">*</span>Ці функції вже працюють і з часом стають точнішими. Що більше оголошень оцінює Llavai для всіх користувачів, то краще вона розпізнає вартісні — і ніколи не передає ваші особисті дані.</span>
+    </p>
+  </div>
+</section>
+
+<!-- GUIDES -->
+<section class="guides">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">Renter's guides</span>
+      <span data-lang="es">Guías para inquilinos</span>
+      <span data-lang="uk">Посібники для орендарів</span>
+    </p>
+    <h2>
+      <span data-lang="en">Everything you need to <em>rent in Barcelona.</em></span>
+      <span data-lang="es">Todo lo que necesitas para <em>alquilar en Barcelona.</em></span>
+      <span data-lang="uk">Все, що вам потрібно для <em>оренди в Барселоні.</em></span>
+    </h2>
+    <div class="guides-grid">
+      <a href="/blog/rent-apartment-barcelona-foreigner/" class="guide-card" style="text-decoration:none;">
+        <p class="guide-card-tag">
+          <span data-lang="en">Step-by-step guide</span>
+          <span data-lang="es" class="inline">Guía paso a paso</span>
+          <span data-lang="uk" class="inline">Покрокова інструкція</span>
+        </p>
+        <h3>
+          <span data-lang="en">How to rent in Barcelona as a foreigner</span>
+          <span data-lang="es">Cómo alquilar en Barcelona siendo extranjero</span>
+          <span data-lang="uk">Як орендувати квартиру в Барселоні іноземцю</span>
+        </h3>
+        <p>
+          <span data-lang="en">Documents, NIE, deposit rules, agency fees, rent control, and how to beat faster applicants — everything in one place.</span>
+          <span data-lang="es">Documentos, NIE, fianza, honorarios de agencia, control de alquileres y cómo adelantarte a otros candidatos.</span>
+          <span data-lang="uk">Документи, NIE, застава, комісія агентства, контроль орендної плати та як обігнати конкурентів.</span>
+        </p>
+        <span class="guide-card-link">
+          <span data-lang="en">Read guide →</span>
+          <span data-lang="es" class="inline">Leer guía →</span>
+          <span data-lang="uk" class="inline">Читати посібник →</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<!-- EDIT: Closing call-to-action. Edit the headline + subtext in all three languages. -->
+<section class="final-cta" id="join">
+  <div class="container">
+    <h2 class="cta-headline">
+      <span data-lang="en">Ready to stop losing flats? <em>Let's go.</em></span>
+      <span data-lang="es">¿Listo para dejar de perder pisos? <em>Vamos.</em></span>
+      <span data-lang="uk">Готові перестати втрачати квартири? <em>Починаємо.</em></span>
+    </h2>
+    <p class="cta-sub">
+      <span data-lang="en">Build your tenant profile in two minutes. The moment a matching listing goes live, Llavai makes sure you hear about it first — with the number ready to call.</span>
+      <span data-lang="es">Crea tu perfil de inquilino en dos minutos. En cuanto sale un piso que encaja, Llavai se asegura de que te enteres el primero — con el teléfono listo para llamar.</span>
+      <span data-lang="uk">Створіть профіль орендаря за дві хвилини. Щойно з'являється підходяще оголошення, Llavai подбає, щоб ви дізналися про нього першими — з номером, готовим до дзвінка.</span>
+    </p>
+    <div class="cta-actions">
+      <a href="profile.html" class="btn-primary">
+        <span data-lang="en">Build my tenant profile →</span>
+        <span data-lang="es">Crear mi perfil de inquilino →</span>
+        <span data-lang="uk">Створити профіль орендаря →</span>
+      </a>
+      <span class="cta-or-note">
+        <span data-lang="en">Or email Harry: <a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+        <span data-lang="es">O escríbele a Harry: <a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+        <span data-lang="uk">Або напишіть Harry: <a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+      </span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-row">
+      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span></span>
+      <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.classList.remove('es','uk');
+    if (lang !== 'en') document.body.classList.add(lang);
+    document.documentElement.lang = lang;
+    ['en','es','uk'].forEach(function(l){ document.getElementById('btn-'+l).classList.toggle('active', l===lang); });
+    try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
+  }
+  try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
+</script>
+</body>
+</html>

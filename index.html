@@ -127,6 +127,16 @@
   .value-card p { color:var(--ink-deep); font-size:16.5px; line-height:1.6; }
   .value-footnote { margin-top:50px; padding-top:24px; border-top:1px dashed rgba(27,56,143,.2); font-size:14px; font-style:italic; color:var(--pencil); max-width:600px; }
   .value-footnote .star { color:var(--coral); font-style:normal; margin-right:4px; }
+  .guides { padding:100px 0; border-top:1px solid rgba(27,56,143,.12); }
+  .guides-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:32px; margin-top:30px; }
+  @media(max-width:880px){ .guides-grid { grid-template-columns:1fr; gap:24px; } }
+  .guide-card { border:1px solid rgba(27,56,143,.12); border-radius:2px; padding:32px 28px; background:var(--cream); transition:box-shadow .2s, transform .2s; display:flex; flex-direction:column; }
+  .guide-card:hover { box-shadow:0 8px 32px var(--paper-shadow); transform:translateY(-2px); }
+  .guide-card-tag { font-family:'Newsreader',serif; font-style:italic; font-size:13px; color:var(--coral); letter-spacing:.04em; text-transform:uppercase; margin-bottom:14px; }
+  .guide-card h3 { font-family:'Fraunces',serif; font-size:20px; font-weight:500; color:var(--ink); line-height:1.25; letter-spacing:-.01em; margin-bottom:12px; }
+  .guide-card p { font-size:15.5px; line-height:1.65; color:var(--ink-deep); flex:1; margin-bottom:24px; }
+  .guide-card-link { font-family:'Newsreader',serif; font-size:15px; font-weight:500; color:var(--ink); text-decoration:underline; text-decoration-color:var(--coral); text-underline-offset:3px; }
+  .guide-card-link:hover { color:var(--coral); }
   .final-cta { padding:100px 0; background:var(--cream-deep); border-top:1px solid rgba(27,56,143,.12); border-bottom:1px solid rgba(27,56,143,.12); }
   .cta-headline { font-family:'Fraunces',serif; font-size:clamp(34px,4.5vw,52px); font-weight:350; line-height:1.05; letter-spacing:-.02em; color:var(--ink); margin-bottom:24px; max-width:680px; font-variation-settings:"SOFT" 80; }
   .cta-headline em { font-style:italic; color:var(--coral); font-variation-settings:"SOFT" 100,"WONK" 1; }
@@ -408,6 +418,46 @@
       <span data-lang="es"><span class="star">*</span>Estas funciones ya están activas y mejoran con el tiempo. Cuantas más llamadas haga Llavai en total, más afinada será la inteligencia — sin compartir nunca tus datos personales.</span>
       <span data-lang="uk"><span class="star">*</span>Ці функції вже працюють і з часом стають розумнішими. Що більше дзвінків робить Llavai для всіх користувачів — то точнішою стає аналітика. Ваші особисті дані ніколи не передаються.</span>
     </p>
+  </div>
+</section>
+
+<!-- GUIDES -->
+<section class="guides">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">Renter's guides</span>
+      <span data-lang="es">Guías para inquilinos</span>
+      <span data-lang="uk">Посібники для орендарів</span>
+    </p>
+    <h2>
+      <span data-lang="en">Everything you need to <em>rent in Barcelona.</em></span>
+      <span data-lang="es">Todo lo que necesitas para <em>alquilar en Barcelona.</em></span>
+      <span data-lang="uk">Все, що вам потрібно для <em>оренди в Барселоні.</em></span>
+    </h2>
+    <div class="guides-grid">
+      <a href="/blog/rent-apartment-barcelona-foreigner/" class="guide-card" style="text-decoration:none;">
+        <p class="guide-card-tag">
+          <span data-lang="en">Step-by-step guide</span>
+          <span data-lang="es" class="inline">Guía paso a paso</span>
+          <span data-lang="uk" class="inline">Покрокова інструкція</span>
+        </p>
+        <h3>
+          <span data-lang="en">How to rent in Barcelona as a foreigner</span>
+          <span data-lang="es">Cómo alquilar en Barcelona siendo extranjero</span>
+          <span data-lang="uk">Як орендувати квартиру в Барселоні іноземцю</span>
+        </h3>
+        <p>
+          <span data-lang="en">Documents, NIE, deposit rules, agency fees, rent control, and how to beat faster applicants — everything in one place.</span>
+          <span data-lang="es">Documentos, NIE, fianza, honorarios de agencia, control de alquileres y cómo adelantarte a otros candidatos.</span>
+          <span data-lang="uk">Документи, NIE, застава, комісія агентства, контроль орендної плати та як обігнати конкурентів.</span>
+        </p>
+        <span class="guide-card-link">
+          <span data-lang="en">Read guide →</span>
+          <span data-lang="es" class="inline">Leer guía →</span>
+          <span data-lang="uk" class="inline">Читати посібник →</span>
+        </span>
+      </a>
+    </div>
   </div>
 </section>
 

@@ -7,10 +7,12 @@
 <meta name="description" content="The page you're looking for doesn't exist. Let's get you back to apartment hunting." />
 <meta name="robots" content="noindex" />
 
-<!-- EDIT: Favicon links — will work once favicon files are added to your project root -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+<!-- Favicon set (matches the rest of the site) -->
+<link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#F4EFE5" />
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +23,7 @@
     --cream: #F4EFE5; --cream-deep: #ECE5D5;
     --ink: #1B388F; --ink-deep: #142869;
     --coral: #E55B45; --coral-deep: #C8462F;
+    --coral-text: #AB3B25;
     --pencil: #6E6253;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -98,7 +101,7 @@
     text-decoration-color: var(--coral); text-underline-offset: 4px;
     transition: color .2s;
   }
-  .btn-secondary:hover { color: var(--coral); }
+  .btn-secondary:hover { color: var(--coral-text); }
   footer { padding: 30px 32px 40px; border-top: 1px solid rgba(27,56,143,.12); }
   .footer-row {
     max-width: 1100px; margin: 0 auto;
@@ -106,8 +109,19 @@
     font-size: 14px; color: var(--pencil);
   }
   .footer-row a { color: var(--ink); text-decoration: none; }
-  .footer-row a:hover { color: var(--coral); }
+  .footer-row a:hover { color: var(--coral-text); }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* ── focus + skip link + reduced motion (a11y) ── */
+  :focus-visible { outline:2px solid var(--ink); outline-offset:3px; border-radius:2px; }
+  .skip-link { position:absolute; left:-9999px; top:0; z-index:200; background:var(--ink); color:var(--cream); padding:12px 20px; border-radius:2px; font-family:'Newsreader',serif; font-size:15px; text-decoration:none; }
+  .skip-link:focus { left:16px; top:16px; }
+  #main:focus { outline:none; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto; }
+    *,*::before,*::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+    .error-number,h1,.lede,.cta-row { opacity:1 !important; }
+  }
 
   /* ── i18n: three languages ── */
   [data-lang="es"],[data-lang="uk"] { display:none; }
@@ -122,20 +136,21 @@
 </style>
 </head>
 <body>
-<div class="grain"></div>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
 
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
-  <div class="lang-toggle">
-    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-    <span class="lang-sep">/</span>
-    <button id="btn-es" onclick="setLang('es')">ES</button>
-    <span class="lang-sep">/</span>
-    <button id="btn-uk" onclick="setLang('uk')">UA</button>
+  <div class="lang-toggle" role="group" aria-label="Select language">
+    <button id="btn-en" class="active" aria-pressed="true" onclick="setLang('en')">EN</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button id="btn-es" aria-pressed="false" onclick="setLang('es')">ES</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
   </div>
 </nav>
 
-<main>
+<main id="main" tabindex="-1">
   <div class="container">
     <div class="error-number">404</div>
 
@@ -180,7 +195,7 @@
     document.body.classList.remove('es','uk');
     if (lang !== 'en') document.body.classList.add(lang);
     document.documentElement.lang = lang;
-    ['en','es','uk'].forEach(function(l){ document.getElementById('btn-'+l).classList.toggle('active', l===lang); });
+    ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
     try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
   }
   try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}

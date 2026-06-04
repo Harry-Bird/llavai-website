@@ -12,7 +12,7 @@ faster applicants.
 - Every page is trilingual: English / Spanish / Ukrainian, using the [data-lang] span system
   and the EN/ES/UA setLang() toggle from index.html. Always replicate that exactly.
 - The repo auto-deploys to live the moment changes are pushed to the main branch on GitHub.
-- Publishing is automatic: after writing a page, commit and push without asking.
+- Publishing is automatic: after writing a page, commit and push directly to main. Never open a PR — always push straight to main so the page deploys immediately.
 
 ## Brand
 - Colours: Cream canvas #F4EFE5, Deep Blue structure #1B388F, Coral accent #E55B45.

@@ -7,7 +7,7 @@ faster applicants.
 
 ## Site
 - Static HTML, no framework, no build step. Plain HTML/CSS/JS in single files.
-- Existing pages: index.html (landing), profile.html (tenant onboarding form).
+- Existing pages: `index.html (OLD)` is the live homepage (NOT `index (2).html`). Always edit `index.html (OLD)` for homepage changes — e.g. adding guide cards to the guides-grid section. profile.html is the tenant onboarding form.
 - New SEO/AEO guides live at: blog/<slug>/index.html
 - Every page is trilingual: English / Spanish / Ukrainian, using the [data-lang] span system
   and the EN/ES/UA setLang() toggle from index.html. Always replicate that exactly.

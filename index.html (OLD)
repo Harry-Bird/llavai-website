@@ -41,6 +41,43 @@
 <meta name="twitter:description" content="Your AI assistant calls Barcelona estate agents in Spanish and books viewings. You just show up." />
 <meta name="twitter:image" content="https://llavai.com/og-image.jpg" />
 
+<!-- ============ STRUCTURED DATA (Organization + WebSite + Service) for SEO/AEO ============ -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://llavai.com/#org",
+      "name": "Llavai",
+      "url": "https://llavai.com/",
+      "logo": "https://llavai.com/logo.webp",
+      "image": "https://llavai.com/og-image.jpg",
+      "email": "hello@llavai.com",
+      "description": "AI rental concierge for Barcelona. Llavai's voice agent calls estate agents in native Spanish the moment a listing goes live and books apartment viewings for you.",
+      "areaServed": { "@type": "City", "name": "Barcelona" }
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://llavai.com/#website",
+      "url": "https://llavai.com/",
+      "name": "Llavai",
+      "inLanguage": ["en", "es", "uk"],
+      "publisher": { "@id": "https://llavai.com/#org" }
+    },
+    {
+      "@type": "Service",
+      "name": "AI rental concierge for Barcelona",
+      "serviceType": "Apartment viewing booking",
+      "provider": { "@id": "https://llavai.com/#org" },
+      "areaServed": { "@type": "City", "name": "Barcelona" },
+      "description": "An AI voice agent that calls Barcelona estate agents in native Spanish within seconds of a new listing, presents your tenant profile professionally, and books viewings around your calendar.",
+      "audience": { "@type": "Audience", "audienceType": "International renters and expats moving to Barcelona" }
+    }
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">

@@ -20,6 +20,11 @@ faster applicants.
 - Tone: high-empathy, tactical, fiercely protective of the reader's time. Premium, editorial.
 - Always reuse the existing nav and footer. Primary CTA everywhere: link to profile.html.
 
+## Git setup (run at the start of every session)
+- `git config user.email noreply@anthropic.com && git config user.name Claude`
+- After every push to main, also push to the current feature branch: `git push --force-with-lease origin <branch>`
+- This keeps the branch in sync and prevents the stop-hook from flagging unverified commits.
+
 ## Hard rules
 - Never invent legal/financial figures about Spanish rentals; verify or defer to a professional.
 - Mobile-first: inherit existing responsive CSS; layout must work at 375px.

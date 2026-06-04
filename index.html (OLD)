@@ -457,6 +457,28 @@
           <span data-lang="uk" class="inline">Читати посібник →</span>
         </span>
       </a>
+      <a href="/blog/documents-to-rent-barcelona/" class="guide-card" style="text-decoration:none;">
+        <p class="guide-card-tag">
+          <span data-lang="en">Documents checklist</span>
+          <span data-lang="es" class="inline">Lista de documentos</span>
+          <span data-lang="uk" class="inline">Список документів</span>
+        </p>
+        <h3>
+          <span data-lang="en">What documents do you need to rent in Barcelona?</span>
+          <span data-lang="es">¿Qué documentos necesitas para alquilar en Barcelona?</span>
+          <span data-lang="uk">Які документи потрібні для оренди в Барселоні?</span>
+        </h3>
+        <p>
+          <span data-lang="en">NIE, payslips, bank statements, aval bancario and self-employed requirements — the complete checklist landlords actually check.</span>
+          <span data-lang="es">NIE, nóminas, extractos bancarios, aval bancario y documentación para autónomos — la lista completa que exigen los propietarios.</span>
+          <span data-lang="uk">NIE, платіжні відомості, банківські виписки, aval bancario та вимоги для самозайнятих — повний перелік, який перевіряють орендодавці.</span>
+        </p>
+        <span class="guide-card-link">
+          <span data-lang="en">Read guide →</span>
+          <span data-lang="es" class="inline">Leer guía →</span>
+          <span data-lang="uk" class="inline">Читати посібник →</span>
+        </span>
+      </a>
     </div>
   </div>
 </section>

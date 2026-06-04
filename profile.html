@@ -548,6 +548,16 @@ function setLang(lang) {
 }
 try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
 
+// Pre-fill from the lean /get-started capture, if the visitor came through it.
+try {
+  const lead = JSON.parse(localStorage.getItem('llavai-lead') || 'null');
+  if (lead) {
+    if (lead.firstName && !val('firstName')) document.getElementById('firstName').value = lead.firstName;
+    if (lead.email && !val('email')) document.getElementById('email').value = lead.email;
+    if (lead.phone && !val('phone')) document.getElementById('phone').value = lead.phone;
+  }
+} catch(e) {}
+
 function updateProgress(step) {
   for (let i=1;i<=4;i++) {
     const ps = document.getElementById('ps'+i);

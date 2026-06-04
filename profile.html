@@ -8,7 +8,7 @@
 <title>Llavai — Your tenant profile</title>
 
 <!-- EDIT: Page description -->
-<meta name="description" content="Build your Barcelona tenant profile in two minutes — so you're ready to move the moment Llavai flags a great new listing." />
+<meta name="description" content="Build your Barcelona tenant profile in two minutes — so Julia can call agents and book viewings the moment a great new listing appears." />
 
 <!-- EDIT: Canonical URL of this page (clean URL — Vercel hides the .html) -->
 <link rel="canonical" href="https://llavai.com/profile" />
@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="Llavai" />
 <meta property="og:url" content="https://llavai.com/profile" />
 <meta property="og:title" content="Build your Llavai tenant profile" />
-<meta property="og:description" content="Two minutes. Then Llavai alerts you to strong new Barcelona listings the moment they appear." />
+<meta property="og:description" content="Two minutes. Then Julia calls Barcelona agents and books your viewings the moment a strong listing appears." />
 <meta property="og:image" content="https://llavai.com/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
@@ -37,14 +37,12 @@
 <!-- ============ TWITTER / X CARD ============ -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Build your Llavai tenant profile" />
-<meta name="twitter:description" content="Two minutes. Then Llavai alerts you to strong new Barcelona listings the moment they appear." />
+<meta name="twitter:description" content="Two minutes. Then Julia calls Barcelona agents and books your viewings the moment a strong listing appears." />
 <meta name="twitter:image" content="https://llavai.com/og-image.jpg" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts.css">
 <style>
-  :root{--cream:#F4EFE5;--cream-deep:#ECE5D5;--ink:#1B388F;--ink-deep:#142869;--coral:#E55B45;--coral-deep:#C8462F;--pencil:#6E6253;--paper-shadow:rgba(27,56,143,0.08)}
+  :root{--cream:#F4EFE5;--cream-deep:#ECE5D5;--ink:#1B388F;--ink-deep:#142869;--coral:#E55B45;--coral-deep:#C8462F;--coral-text:#AB3B25;--pencil:#6E6253;--paper-shadow:rgba(27,56,143,0.08)}
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth}
   body{background:var(--cream);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55;font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;background-image:radial-gradient(ellipse 800px 600px at 15% 10%,rgba(229,91,69,.04) 0%,transparent 50%),radial-gradient(ellipse 600px 800px at 90% 60%,rgba(27,56,143,.05) 0%,transparent 50%)}
@@ -66,22 +64,22 @@
   .progress-step:last-child::after{display:none}
   .progress-step.done::after{background:var(--coral)}
   .step-dot{width:28px;height:28px;border-radius:50%;border:1.5px solid rgba(27,56,143,.25);display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-size:13px;color:var(--pencil);flex-shrink:0;transition:all .3s;background:var(--cream)}
-  .progress-step.active .step-dot{background:var(--coral);border-color:var(--coral);color:var(--cream);box-shadow:0 0 0 4px rgba(229,91,69,.15)}
+  .progress-step.active .step-dot{background:var(--coral-text);border-color:var(--coral-text);color:var(--cream);box-shadow:0 0 0 4px rgba(229,91,69,.18)}
   .progress-step.done .step-dot{background:var(--ink);border-color:var(--ink);color:var(--cream)}
   .step-label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.04em;text-transform:uppercase;color:var(--pencil);white-space:nowrap;transition:color .3s}
   .progress-step.active .step-label{color:var(--ink);font-weight:600}
   .progress-step.done .step-label{color:var(--ink)}
   @media(max-width:600px){.step-label{display:none}.progress-step::after{margin:0 4px}}
   .step-header{margin-bottom:40px;animation:fadeUp .5s ease-out forwards}
-  .section-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral);letter-spacing:.04em;margin-bottom:14px;display:flex;align-items:center;gap:16px}
+  .section-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral-text);letter-spacing:.04em;margin-bottom:14px;display:flex;align-items:center;gap:16px}
   .section-eyebrow::before{content:"";width:32px;height:1px;background:var(--coral)}
   .step-header h1{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(28px,4vw,42px);line-height:1.05;letter-spacing:-.025em;color:var(--ink);margin-bottom:12px;font-variation-settings:"SOFT" 60,"WONK" 0}
   .step-header h1 em{font-style:italic;color:var(--coral);font-variation-settings:"SOFT" 100,"WONK" 1}
   .step-header .sub{font-size:16px;color:var(--pencil);font-style:italic;max-width:520px;line-height:1.55}
   .field-group{display:flex;flex-direction:column;gap:20px;margin-bottom:36px}
   .field{display:flex;flex-direction:column;gap:7px}
-  .field label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)}
-  .field label .req{color:var(--coral);margin-left:2px}
+  .field label,.field-label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)}
+  .field label .req,.field-label .req{color:var(--coral-text);margin-left:2px}
   .field input,.field select,.field textarea{padding:14px 16px;font-family:'Newsreader',serif;font-size:16px;border:1.5px solid rgba(27,56,143,.2);background:var(--cream);color:var(--ink);border-radius:2px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none;width:100%}
   .field input::placeholder,.field textarea::placeholder{color:var(--pencil);font-style:italic}
   .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--coral)}
@@ -109,7 +107,7 @@
   .conditional-field.visible{display:flex;animation:fadeUp .3s ease-out forwards}
   .review-block{background:var(--cream-deep);padding:20px 24px;margin-bottom:16px;border-left:2px solid rgba(27,56,143,.15)}
   .review-section-head{font-family:'Fraunces',serif;font-style:italic;font-size:16px;color:var(--ink);padding-bottom:10px;margin-bottom:4px;border-bottom:1px solid rgba(27,56,143,.15);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-  .review-section-head .edit-link{font-family:'Newsreader',serif;font-style:italic;font-size:13px;color:var(--coral);text-decoration:underline;text-underline-offset:3px}
+  .review-section-head .edit-link{font-family:'Newsreader',serif;font-style:italic;font-size:13px;color:var(--coral-text);text-decoration:underline;text-underline-offset:3px}
   .review-row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:8px 0;border-bottom:1px solid rgba(27,56,143,.07);font-size:15px}
   .review-row:last-child{border-bottom:none}
   .review-key{color:var(--pencil);font-style:italic;flex-shrink:0;min-width:140px;font-size:14px}
@@ -137,9 +135,23 @@
   footer{padding:40px 0 60px;border-top:1px solid rgba(27,56,143,.12);margin-top:60px}
   .footer-row{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--pencil)}
   .footer-row a{color:var(--ink);text-decoration:none}
-  .footer-row a:hover{color:var(--coral)}
+  .footer-row a:hover{color:var(--coral-text)}
   @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   .step-panel{animation:fadeUp .4s ease-out forwards}
+
+  /* ── focus + skip link (a11y) ── */
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:var(--cream);padding:12px 20px;border-radius:2px;font-family:'Newsreader',serif;font-size:15px;text-decoration:none}
+  .skip-link:focus{left:16px;top:16px}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+  .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  #main:focus{outline:none}
+
+  /* ── respect reduced-motion preferences ── */
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+    .spinner{animation:spin .7s linear infinite !important}
+  }
 
   /* ── i18n ── */
   [data-lang="es"],[data-lang="uk"]{display:none}
@@ -152,19 +164,21 @@
 </style>
 </head>
 <body>
-<div class="grain"></div>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
 
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
-  <div class="lang-toggle">
-    <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-    <span class="lang-sep">/</span>
-    <button id="btn-es" onclick="setLang('es')">ES</button>
-    <span class="lang-sep">/</span>
-    <button id="btn-uk" onclick="setLang('uk')">UA</button>
+  <div class="lang-toggle" role="group" aria-label="Select language">
+    <button id="btn-en" class="active" aria-pressed="true" onclick="setLang('en')">EN</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button id="btn-es" aria-pressed="false" onclick="setLang('es')">ES</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
   </div>
 </nav>
 
+<main id="main" tabindex="-1">
 <div class="container">
 
   <!-- PROGRESS -->
@@ -191,7 +205,7 @@
 
   <!-- SUCCESS -->
   <!-- EDIT: Success screen shown after the form is submitted. Edit in all three languages. -->
-  <div class="success-screen" id="successScreen">
+  <div class="success-screen" id="successScreen" role="status" tabindex="-1">
     <div class="success-tick">
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
         <path d="M5 14L11 20L23 8" stroke="#F4EFE5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -203,9 +217,9 @@
       <span data-lang="uk"><em>Ви в системі.</em> Ми налаштовуємо ваш пошук.</span>
     </h2>
     <p>
-      <span data-lang="en">We've received your full profile. Harry will be in touch shortly to confirm your account and switch on your listing alerts.</span>
-      <span data-lang="es">Hemos recibido tu perfil completo. Harry se pondrá en contacto pronto para confirmar tu cuenta y activar tus avisos de pisos.</span>
-      <span data-lang="uk">Ми отримали ваш повний профіль. Harry незабаром зв'яжеться, щоб підтвердити ваш акаунт і увімкнути сповіщення про квартири.</span>
+      <span data-lang="en">We've received your full profile. We'll be in touch shortly to confirm your account and get Julia calling agents for you.</span>
+      <span data-lang="es">Hemos recibido tu perfil completo. Nos pondremos en contacto pronto para confirmar tu cuenta y poner a Julia a llamar a las agencias por ti.</span>
+      <span data-lang="uk">Ми отримали ваш повний профіль. Ми незабаром зв'яжемося, щоб підтвердити ваш акаунт і доручити Julia телефонувати агентствам замість вас.</span>
     </p>
     <p>
       <span data-lang="en">Check your email — including your spam folder.</span>
@@ -228,41 +242,41 @@
       <h1><span data-lang="en">Who are <em>you?</em></span><span data-lang="es">¿Quién <em>eres?</em></span><span data-lang="uk">Хто <em>ви?</em></span></h1>
       <!-- EDIT: Step 1 subtitle -->
       <p class="sub">
-        <span data-lang="en">This gets your profile ready, so you can move fast and look strong the moment you call an agent.</span>
-        <span data-lang="es">Esto deja tu perfil listo, para que puedas moverte rápido y dar buena impresión en cuanto llames a un agente.</span>
-        <span data-lang="uk">Це готує ваш профіль, щоб ви могли діяти швидко й справити гарне враження, щойно зателефонуєте агенту.</span>
+        <span data-lang="en">This builds your profile, so Julia can present you professionally the moment she calls an agent.</span>
+        <span data-lang="es">Esto crea tu perfil, para que Julia pueda presentarte con profesionalidad en cuanto llame a un agente.</span>
+        <span data-lang="uk">Це формує ваш профіль, щоб Julia могла професійно представити вас, щойно зателефонує агенту.</span>
       </p>
     </div>
-    <div class="form-error" id="err1"></div>
+    <div class="form-error" id="err1" role="alert" aria-live="assertive"></div>
     <div class="field-group">
       <div class="field-row-2">
         <div class="field">
-          <label><span data-lang="en">First name <span class="req">*</span></span><span data-lang="es">Nombre <span class="req">*</span></span><span data-lang="uk">Ім'я <span class="req">*</span></span></label>
-          <input type="text" id="firstName" autocomplete="given-name" />
+          <label for="firstName"><span data-lang="en">First name <span class="req">*</span></span><span data-lang="es">Nombre <span class="req">*</span></span><span data-lang="uk">Ім'я <span class="req">*</span></span></label>
+          <input type="text" id="firstName" autocomplete="given-name" aria-required="true" />
         </div>
         <div class="field">
-          <label><span data-lang="en">Last name <span class="req">*</span></span><span data-lang="es">Apellido <span class="req">*</span></span><span data-lang="uk">Прізвище <span class="req">*</span></span></label>
-          <input type="text" id="lastName" autocomplete="family-name" />
+          <label for="lastName"><span data-lang="en">Last name <span class="req">*</span></span><span data-lang="es">Apellido <span class="req">*</span></span><span data-lang="uk">Прізвище <span class="req">*</span></span></label>
+          <input type="text" id="lastName" autocomplete="family-name" aria-required="true" />
         </div>
       </div>
       <div class="field">
-        <label>Email <span class="req">*</span></label>
-        <input type="email" id="email" autocomplete="email" placeholder="you@email.com" />
+        <label for="email">Email <span class="req">*</span></label>
+        <input type="email" id="email" autocomplete="email" placeholder="you@email.com" aria-required="true" />
       </div>
       <div class="field">
-        <label><span data-lang="en">Phone <span class="req">*</span></span><span data-lang="es">Teléfono <span class="req">*</span></span><span data-lang="uk">Телефон <span class="req">*</span></span></label>
-        <input type="tel" id="phone" autocomplete="tel" placeholder="+34 600 000 000" />
+        <label for="phone"><span data-lang="en">Phone <span class="req">*</span></span><span data-lang="es">Teléfono <span class="req">*</span></span><span data-lang="uk">Телефон <span class="req">*</span></span></label>
+        <input type="tel" id="phone" autocomplete="tel" placeholder="+34 600 000 000" aria-required="true" />
         <span class="field-hint">
-          <span data-lang="en">Include country code. We'll send your listing alerts here.</span>
-          <span data-lang="es">Incluye el prefijo del país. Aquí te enviaremos los avisos de pisos.</span>
-          <span data-lang="uk">Вкажіть код країни. Сюди ми надсилатимемо сповіщення про квартири.</span>
+          <span data-lang="en">Include country code — it's how we'll reach you about your viewings.</span>
+          <span data-lang="es">Incluye el prefijo del país — así te contactaremos sobre tus visitas.</span>
+          <span data-lang="uk">Вкажіть код країни — так ми зв'язуватимемося з вами щодо ваших переглядів.</span>
         </span>
       </div>
       <div class="field-divider"></div>
       <div class="field">
-        <label><span data-lang="en">Nationality <span class="req">*</span></span><span data-lang="es">Nacionalidad <span class="req">*</span></span><span data-lang="uk">Громадянство <span class="req">*</span></span></label>
+        <label for="nationality"><span data-lang="en">Nationality <span class="req">*</span></span><span data-lang="es">Nacionalidad <span class="req">*</span></span><span data-lang="uk">Громадянство <span class="req">*</span></span></label>
         <div class="select-wrap">
-          <select id="nationality">
+          <select id="nationality" aria-required="true">
             <option value="" disabled selected></option>
             <option>British</option><option>American</option><option>Australian</option><option>Canadian</option><option>Irish</option>
             <option>Ukrainian</option><option>German</option><option>French</option><option>Dutch</option><option>Belgian</option>
@@ -277,15 +291,15 @@
         </div>
       </div>
       <div class="conditional-field" id="nationalityOtherWrap">
-        <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)">
+        <label for="nationalityOther" style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)">
           <span data-lang="en">Your nationality</span><span data-lang="es">Tu nacionalidad</span><span data-lang="uk">Ваше громадянство</span>
         </label>
         <input type="text" id="nationalityOther" placeholder="e.g. Colombian" />
       </div>
       <div class="field">
-        <label><span data-lang="en">Residency status <span class="req">*</span></span><span data-lang="es">Situación de residencia <span class="req">*</span></span><span data-lang="uk">Статус проживання <span class="req">*</span></span></label>
+        <label for="residencyStatus"><span data-lang="en">Residency status <span class="req">*</span></span><span data-lang="es">Situación de residencia <span class="req">*</span></span><span data-lang="uk">Статус проживання <span class="req">*</span></span></label>
         <div class="select-wrap">
-          <select id="residencyStatus">
+          <select id="residencyStatus" aria-required="true">
             <option value="" disabled selected></option>
             <option value="eu_citizen">EU citizen / Ciudadano UE / Громадянин ЄС</option>
             <option value="nie">NIE holder</option>
@@ -299,8 +313,8 @@
       </div>
       <div class="field-divider"></div>
       <div class="field">
-        <label><span data-lang="en">Moving in as <span class="req">*</span></span><span data-lang="es">Te mudas como <span class="req">*</span></span><span data-lang="uk">Переїжджаєте як <span class="req">*</span></span></label>
-        <div class="card-group">
+        <span class="field-label" id="movingAsLabel"><span data-lang="en">Moving in as <span class="req">*</span></span><span data-lang="es">Te mudas como <span class="req">*</span></span><span data-lang="uk">Переїжджаєте як <span class="req">*</span></span></span>
+        <div class="card-group" role="radiogroup" aria-labelledby="movingAsLabel">
           <div class="card-option"><input type="radio" name="movingAs" id="ma_single" value="Single" /><label for="ma_single"><span class="card-icon">🧍</span><span data-lang="en">Single</span><span data-lang="es">Solo/a</span><span data-lang="uk">Один/Одна</span></label></div>
           <div class="card-option"><input type="radio" name="movingAs" id="ma_couple" value="Couple" /><label for="ma_couple"><span class="card-icon">👫</span><span data-lang="en">Couple</span><span data-lang="es">Pareja</span><span data-lang="uk">Пара</span></label></div>
           <div class="card-option"><input type="radio" name="movingAs" id="ma_family" value="Family" /><label for="ma_family"><span class="card-icon">👨‍👩‍👧</span><span data-lang="en">Family</span><span data-lang="es">Familia</span><span data-lang="uk">Сім'я</span></label></div>
@@ -308,7 +322,7 @@
         </div>
       </div>
       <div class="conditional-field" id="numPeopleWrap">
-        <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)">
+        <label for="numPeople" style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)">
           <span data-lang="en">Total number of occupants</span><span data-lang="es">Número total de ocupantes</span><span data-lang="uk">Загальна кількість мешканців</span>
         </label>
         <div class="select-wrap" style="max-width:180px"><select id="numPeople"><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6+">6+</option></select></div>
@@ -327,22 +341,22 @@
       <h1><span data-lang="en">Your <em>financial</em> profile</span><span data-lang="es">Tu perfil <em>económico</em></span><span data-lang="uk">Ваш <em>фінансовий</em> профіль</span></h1>
       <!-- EDIT: Step 2 subtitle -->
       <p class="sub">
-        <span data-lang="en">Agents will ask about this when you call. The stronger your profile, the faster you'll get a viewing.</span>
-        <span data-lang="es">Los agentes preguntarán por esto cuando llames. Cuanto más sólido sea tu perfil, más rápido conseguirás una visita.</span>
-        <span data-lang="uk">Агенти запитають про це, коли ви зателефонуєте. Чим переконливіший ваш профіль, тим швидше ви отримаєте перегляд.</span>
+        <span data-lang="en">Agents ask about this, so Julia presents it when she calls. The stronger your profile, the faster you'll get a viewing.</span>
+        <span data-lang="es">Los agentes preguntan por esto, así que Julia lo presenta cuando llama. Cuanto más sólido sea tu perfil, más rápido conseguirás una visita.</span>
+        <span data-lang="uk">Агенти запитують про це, тож Julia представляє це під час дзвінка. Чим переконливіший ваш профіль, тим швидше ви отримаєте перегляд.</span>
       </p>
     </div>
-    <div class="form-error" id="err2"></div>
+    <div class="form-error" id="err2" role="alert" aria-live="assertive"></div>
     <div class="field-group">
       <div class="field-row-2">
         <div class="field">
-          <label><span data-lang="en">Profession <span class="req">*</span></span><span data-lang="es">Profesión <span class="req">*</span></span><span data-lang="uk">Професія <span class="req">*</span></span></label>
-          <input type="text" id="profession" placeholder="e.g. Software Engineer" />
+          <label for="profession"><span data-lang="en">Profession <span class="req">*</span></span><span data-lang="es">Profesión <span class="req">*</span></span><span data-lang="uk">Професія <span class="req">*</span></span></label>
+          <input type="text" id="profession" placeholder="e.g. Software Engineer" aria-required="true" />
         </div>
         <div class="field">
-          <label><span data-lang="en">Employment type <span class="req">*</span></span><span data-lang="es">Tipo de contrato <span class="req">*</span></span><span data-lang="uk">Тип зайнятості <span class="req">*</span></span></label>
+          <label for="employmentType"><span data-lang="en">Employment type <span class="req">*</span></span><span data-lang="es">Tipo de contrato <span class="req">*</span></span><span data-lang="uk">Тип зайнятості <span class="req">*</span></span></label>
           <div class="select-wrap">
-            <select id="employmentType">
+            <select id="employmentType" aria-required="true">
               <option value="" disabled selected></option>
               <option value="permanent">Permanent / Indefinido / Безстроковий</option>
               <option value="temporary">Fixed-term / Temporal / Строковий</option>
@@ -357,9 +371,9 @@
       </div>
       <div class="field-row-2">
         <div class="field">
-          <label><span data-lang="en">Individual monthly income (€) <span class="req">*</span></span><span data-lang="es">Ingresos mensuales individuales (€) <span class="req">*</span></span><span data-lang="uk">Особистий місячний дохід (€) <span class="req">*</span></span></label>
+          <label for="individualIncome"><span data-lang="en">Individual monthly income (€) <span class="req">*</span></span><span data-lang="es">Ingresos mensuales individuales (€) <span class="req">*</span></span><span data-lang="uk">Особистий місячний дохід (€) <span class="req">*</span></span></label>
           <div class="select-wrap">
-            <select id="individualIncome">
+            <select id="individualIncome" aria-required="true">
               <option value="" disabled selected></option>
               <option value="under_1500">&lt; €1,500</option>
               <option value="1500_2500">€1,500 – €2,500</option>
@@ -372,7 +386,7 @@
           </div>
         </div>
         <div class="field">
-          <label><span data-lang="en">Household monthly income (€)</span><span data-lang="es">Ingresos del hogar (€)</span><span data-lang="uk">Дохід домогосподарства (€)</span></label>
+          <label for="householdIncome"><span data-lang="en">Household monthly income (€)</span><span data-lang="es">Ingresos del hogar (€)</span><span data-lang="uk">Дохід домогосподарства (€)</span></label>
           <div class="select-wrap">
             <select id="householdIncome">
               <option value="">If applicable</option>
@@ -388,8 +402,8 @@
       </div>
       <div class="field-divider"></div>
       <div class="field">
-        <label><span data-lang="en">Spanish nóminas (payslips)? <span class="req">*</span></span><span data-lang="es">¿Tienes nóminas españolas? <span class="req">*</span></span><span data-lang="uk">Іспанські nóminas (розрахункові листки)? <span class="req">*</span></span></label>
-        <div class="toggle-group">
+        <span class="field-label" id="nominasLabel"><span data-lang="en">Spanish nóminas (payslips)? <span class="req">*</span></span><span data-lang="es">¿Tienes nóminas españolas? <span class="req">*</span></span><span data-lang="uk">Іспанські nóminas (розрахункові листки)? <span class="req">*</span></span></span>
+        <div class="toggle-group" role="radiogroup" aria-labelledby="nominasLabel">
           <div class="toggle-chip"><input type="radio" name="hasNominas" id="nom_yes" value="Yes" /><label for="nom_yes"><span data-lang="en">Yes</span><span data-lang="es">Sí</span><span data-lang="uk">Так</span></label></div>
           <div class="toggle-chip"><input type="radio" name="hasNominas" id="nom_no" value="No" /><label for="nom_no">No</label></div>
           <div class="toggle-chip"><input type="radio" name="hasNominas" id="nom_foreign" value="Foreign payslips" /><label for="nom_foreign"><span data-lang="en">Foreign payslips</span><span data-lang="es">Nóminas extranjeras</span><span data-lang="uk">Іноземні листки</span></label></div>
@@ -398,17 +412,17 @@
       </div>
       <div class="field-divider"></div>
       <div class="field">
-        <label><span data-lang="en">Do you have a guarantor? <span class="req">*</span></span><span data-lang="es">¿Tienes un avalista? <span class="req">*</span></span><span data-lang="uk">Чи є у вас поручитель? <span class="req">*</span></span></label>
-        <div class="toggle-group">
+        <span class="field-label" id="guarantorLabel"><span data-lang="en">Do you have a guarantor? <span class="req">*</span></span><span data-lang="es">¿Tienes un avalista? <span class="req">*</span></span><span data-lang="uk">Чи є у вас поручитель? <span class="req">*</span></span></span>
+        <div class="toggle-group" role="radiogroup" aria-labelledby="guarantorLabel">
           <div class="toggle-chip"><input type="radio" name="hasGuarantor" id="guar_yes" value="Yes" /><label for="guar_yes"><span data-lang="en">Yes</span><span data-lang="es">Sí</span><span data-lang="uk">Так</span></label></div>
           <div class="toggle-chip"><input type="radio" name="hasGuarantor" id="guar_no" value="No" /><label for="guar_no">No</label></div>
           <div class="toggle-chip"><input type="radio" name="hasGuarantor" id="guar_working" value="Working on it" /><label for="guar_working"><span data-lang="en">Working on it</span><span data-lang="es">En ello</span><span data-lang="uk">Вирішуємо</span></label></div>
         </div>
       </div>
       <div class="conditional-field" id="guarantorDetailsWrap">
-        <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)"><span data-lang="en">Brief guarantor details</span><span data-lang="es">Datos del avalista</span><span data-lang="uk">Дані про поручителя</span></label>
+        <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)" for="guarantorDetails"><span data-lang="en">Brief guarantor details</span><span data-lang="es">Datos del avalista</span><span data-lang="uk">Дані про поручителя</span></label>
         <input type="text" id="guarantorDetails" placeholder="e.g. Spanish resident, property owner in Barcelona" />
-        <span class="field-hint"><span data-lang="en">Handy to have ready when you call — it can reassure a hesitant agent.</span><span data-lang="es">Útil tenerlo a mano cuando llames — puede tranquilizar a un agente indeciso.</span><span data-lang="uk">Корисно мати напоготові, коли телефонуєте — це може заспокоїти нерішучого агента.</span></span>
+        <span class="field-hint"><span data-lang="en">Handy for Julia to have ready — it can reassure a hesitant agent.</span><span data-lang="es">Útil que Julia lo tenga a mano — puede tranquilizar a un agente indeciso.</span><span data-lang="uk">Корисно, щоб Julia мала це напоготові — це може заспокоїти нерішучого агента.</span></span>
       </div>
     </div>
     <div class="form-nav">
@@ -424,16 +438,16 @@
       <!-- EDIT: Step 3 heading + subtitle -->
       <h1><span data-lang="en">How we should <em>reach you</em></span><span data-lang="es">Cómo <em>te contactamos</em></span><span data-lang="uk">Як з вами <em>зв'язатися</em></span></h1>
       <p class="sub">
-        <span data-lang="en">Tell us when you're free to view, and how you'd like to receive your listing alerts.</span>
-        <span data-lang="es">Dinos cuándo puedes ir a visitas y cómo quieres recibir tus avisos de pisos.</span>
-        <span data-lang="uk">Розкажіть, коли ви вільні для переглядів і як хочете отримувати сповіщення про квартири.</span>
+        <span data-lang="en">Tell us when you're free to view, and how you'd like us to keep you updated.</span>
+        <span data-lang="es">Dinos cuándo puedes ir a visitas y cómo prefieres que te mantengamos al día.</span>
+        <span data-lang="uk">Розкажіть, коли ви вільні для переглядів і як вам зручніше отримувати від нас новини.</span>
       </p>
     </div>
-    <div class="form-error" id="err3"></div>
+    <div class="form-error" id="err3" role="alert" aria-live="assertive"></div>
     <div class="field-group">
       <div class="field">
-        <label><span data-lang="en">Viewing availability <span class="req">*</span></span><span data-lang="es">Disponibilidad para visitas <span class="req">*</span></span><span data-lang="uk">Доступність для переглядів <span class="req">*</span></span></label>
-        <textarea id="viewingAvailability"></textarea>
+        <label for="viewingAvailability"><span data-lang="en">Viewing availability <span class="req">*</span></span><span data-lang="es">Disponibilidad para visitas <span class="req">*</span></span><span data-lang="uk">Доступність для переглядів <span class="req">*</span></span></label>
+        <textarea id="viewingAvailability" aria-required="true"></textarea>
         <span class="field-hint">
           <span data-lang="en">e.g. Weekday mornings (9–13h), Saturday afternoons — flexible from June 1st. Helps you judge which viewings to chase.</span>
           <span data-lang="es">p. ej. Mañanas entre semana (9–13h), tardes del sábado — flexible desde el 1 de junio. Te ayuda a decidir qué visitas perseguir.</span>
@@ -441,8 +455,8 @@
         </span>
       </div>
       <div class="field">
-        <label><span data-lang="en">Preferred contact method <span class="req">*</span></span><span data-lang="es">Método de contacto preferido <span class="req">*</span></span><span data-lang="uk">Бажаний спосіб зв'язку <span class="req">*</span></span></label>
-        <div class="card-group">
+        <span class="field-label" id="contactLabel"><span data-lang="en">Preferred contact method <span class="req">*</span></span><span data-lang="es">Método de contacto preferido <span class="req">*</span></span><span data-lang="uk">Бажаний спосіб зв'язку <span class="req">*</span></span></span>
+        <div class="card-group" role="radiogroup" aria-labelledby="contactLabel">
           <div class="card-option"><input type="radio" name="contactMethod" id="cm_whatsapp" value="WhatsApp" /><label for="cm_whatsapp"><span class="card-icon">💬</span>WhatsApp</label></div>
           <div class="card-option"><input type="radio" name="contactMethod" id="cm_telegram" value="Telegram" /><label for="cm_telegram"><span class="card-icon">✈️</span>Telegram</label></div>
           <div class="card-option"><input type="radio" name="contactMethod" id="cm_email" value="Email" /><label for="cm_email"><span class="card-icon">📧</span>Email</label></div>
@@ -450,24 +464,24 @@
         </div>
       </div>
       <div class="conditional-field" id="telegramWrap">
-        <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)"><span data-lang="en">Telegram username</span><span data-lang="es">Usuario de Telegram</span><span data-lang="uk">Нікнейм у Telegram</span></label>
+        <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)" for="telegramUsername"><span data-lang="en">Telegram username</span><span data-lang="es">Usuario de Telegram</span><span data-lang="uk">Нікнейм у Telegram</span></label>
         <input type="text" id="telegramUsername" placeholder="@yourusername" />
       </div>
       <div class="field-divider"></div>
       <div class="field">
-        <label><span data-lang="en">Idealista alert URL</span><span data-lang="es">URL de alerta de Idealista</span><span data-lang="uk">URL сповіщення Idealista</span></label>
+        <label for="idealistaUrl"><span data-lang="en">Idealista alert URL</span><span data-lang="es">URL de alerta de Idealista</span><span data-lang="uk">URL сповіщення Idealista</span></label>
         <input type="url" id="idealistaUrl" placeholder="https://www.idealista.com/alquiler-viviendas/..." />
         <span class="field-hint"><span data-lang="en">Optional — paste your saved Idealista search link.</span><span data-lang="es">Opcional — pega el enlace de tu búsqueda guardada de Idealista.</span><span data-lang="uk">Необов'язково — вставте посилання на збережений пошук Idealista.</span></span>
       </div>
       <div class="field-divider"></div>
       <div class="field">
         <!-- EDIT: Agent-questions field — now framed as questions for YOU to ask -->
-        <label><span data-lang="en">Questions worth asking the agent</span><span data-lang="es">Preguntas que vale la pena hacer al agente</span><span data-lang="uk">Питання, які варто поставити агенту</span></label>
+        <label for="agentQuestions"><span data-lang="en">Questions worth asking the agent</span><span data-lang="es">Preguntas que vale la pena hacer al agente</span><span data-lang="uk">Питання, які варто поставити агенту</span></label>
         <textarea id="agentQuestions"></textarea>
-        <span class="field-hint"><span data-lang="en">e.g. Is it furnished? Pets allowed? Min contract length? We'll include these in your alert so they're ready when you call.</span><span data-lang="es">p. ej. ¿Amueblado? ¿Mascotas? ¿Duración mínima? Los incluiremos en tu aviso para que los tengas listos al llamar.</span><span data-lang="uk">напр., З меблями? Дозволені тварини? Мін. термін договору? Ми додамо їх до сповіщення, щоб вони були напоготові, коли телефонуєте.</span></span>
+        <span class="field-hint"><span data-lang="en">e.g. Is it furnished? Pets allowed? Min contract length? Julia will ask these when she calls the agency.</span><span data-lang="es">p. ej. ¿Amueblado? ¿Mascotas? ¿Duración mínima? Julia las preguntará cuando llame a la agencia.</span><span data-lang="uk">напр., З меблями? Дозволені тварини? Мін. термін договору? Julia запитає це, коли зателефонує до агентства.</span></span>
       </div>
       <div class="field">
-        <label><span data-lang="en">Anything else we should know?</span><span data-lang="es">¿Algo más que debamos saber?</span><span data-lang="uk">Що ще нам варто знати?</span></label>
+        <label for="additionalNotes"><span data-lang="en">Anything else we should know?</span><span data-lang="es">¿Algo más que debamos saber?</span><span data-lang="uk">Що ще нам варто знати?</span></label>
         <textarea id="additionalNotes"></textarea>
         <span class="field-hint"><span data-lang="en">e.g. I have a small dog. Need storage. Flexible on budget for the right place.</span><span data-lang="es">p. ej. Tengo un perro pequeño. Necesito trastero. Flexible en el presupuesto.</span><span data-lang="uk">напр., У мене є собака. Потрібне місце для зберігання. Гнучкий бюджет для потрібного місця.</span></span>
       </div>
@@ -484,15 +498,15 @@
       <p class="section-eyebrow"><span data-lang="en">Almost there</span><span data-lang="es">Casi listo</span><span data-lang="uk">Майже готово</span></p>
       <h1><span data-lang="en">Check your <em>profile</em></span><span data-lang="es">Revisa tu <em>perfil</em></span><span data-lang="uk">Перевірте ваш <em>профіль</em></span></h1>
       <!-- EDIT: Review-step subtitle -->
-      <p class="sub"><span data-lang="en">This is the profile you'll lean on when you call agents. Make sure everything looks right before confirming.</span><span data-lang="es">Este es el perfil en el que te apoyarás al llamar a los agentes. Asegúrate de que todo está correcto antes de confirmar.</span><span data-lang="uk">Це профіль, на який ви спиратиметесь, коли телефонуватимете агентам. Переконайтесь, що все правильно, перш ніж підтвердити.</span></p>
+      <p class="sub"><span data-lang="en">This is the profile Julia leans on when she calls agents for you. Make sure everything looks right before confirming.</span><span data-lang="es">Este es el perfil en el que Julia se apoya al llamar a los agentes por ti. Asegúrate de que todo está correcto antes de confirmar.</span><span data-lang="uk">Це профіль, на який спирається Julia, коли телефонує агентам замість вас. Переконайтесь, що все правильно, перш ніж підтвердити.</span></p>
     </div>
-    <div class="form-error" id="err4"></div>
+    <div class="form-error" id="err4" role="alert" aria-live="assertive"></div>
     <div id="reviewContent"></div>
     <!-- EDIT: Consent / confirmation note -->
     <div class="review-confirm-note">
-      <span data-lang="en">By confirming, you agree to Llavai alerting you to matching new Barcelona listings using the profile above. No payment is taken now — Harry will be in touch to confirm your account and next steps.</span>
-      <span data-lang="es">Al confirmar, aceptas que Llavai te avise de nuevos pisos en Barcelona que encajen con el perfil de arriba. No se realiza ningún pago ahora — Harry se pondrá en contacto para confirmar tu cuenta.</span>
-      <span data-lang="uk">Підтверджуючи, ви погоджуєтесь, що Llavai сповіщатиме вас про нові оголошення в Барселоні, які відповідають профілю вище. Жодних платежів зараз — Harry підтвердить ваш акаунт.</span>
+      <span data-lang="en">By confirming, you agree to Llavai calling estate agents and booking viewings on your behalf using the profile above. No payment is taken now — we'll be in touch to confirm your account and next steps.</span>
+      <span data-lang="es">Al confirmar, aceptas que Llavai llame a las inmobiliarias y reserve visitas en tu nombre usando el perfil de arriba. No se realiza ningún pago ahora — nos pondremos en contacto para confirmar tu cuenta.</span>
+      <span data-lang="uk">Підтверджуючи, ви погоджуєтесь, що Llavai телефонуватиме агентствам і бронюватиме перегляди від вашого імені, використовуючи профіль вище. Жодних платежів зараз — ми зв'яжемося, щоб підтвердити ваш акаунт.</span>
     </div>
     <div class="form-nav">
       <button class="btn-back" onclick="prevStep(4)"><span data-lang="en">← Edit</span><span data-lang="es">← Editar</span><span data-lang="uk">← Редагувати</span></button>
@@ -508,6 +522,7 @@
   </div>
 
 </div>
+</main>
 
 <footer>
   <div class="container">
@@ -526,10 +541,20 @@ function setLang(lang) {
   document.body.classList.remove('es','uk');
   if (lang !== 'en') document.body.classList.add(lang);
   document.documentElement.lang = lang;
-  ['en','es','uk'].forEach(function(l){ document.getElementById('btn-'+l).classList.toggle('active', l===lang); });
+  ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
   try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
 }
 try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
+
+// Pre-fill from the lean /get-started capture, if the visitor came through it.
+try {
+  const lead = JSON.parse(localStorage.getItem('llavai-lead') || 'null');
+  if (lead) {
+    if (lead.firstName && !val('firstName')) document.getElementById('firstName').value = lead.firstName;
+    if (lead.email && !val('email')) document.getElementById('email').value = lead.email;
+    if (lead.phone && !val('phone')) document.getElementById('phone').value = lead.phone;
+  }
+} catch(e) {}
 
 function updateProgress(step) {
   for (let i=1;i<=4;i++) {
@@ -718,11 +743,14 @@ async function submitProfile() {
   };
 
   try {
-    await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const res = await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    if (!res.ok) throw new Error('Webhook responded ' + res.status);
     document.getElementById('progressWrap').style.display='none';
     document.getElementById('step4').style.display='none';
-    document.getElementById('successScreen').classList.add('visible');
+    const success=document.getElementById('successScreen');
+    success.classList.add('visible');
     window.scrollTo({top:0,behavior:'smooth'});
+    success.focus();
   } catch(err) {
     const msg={
       en:'Something went wrong. <a href="mailto:hello@llavai.com?subject=Profile error">Email us directly</a> and we\'ll sort it out.',

@@ -3,6 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Unused draft (not the live homepage); keep out of the index to avoid duplicate content. -->
+<meta name="robots" content="noindex" />
 
 <!-- EDIT: Page title (max ~60 chars) — shows in browser tab + Google search results -->
 <title>Llavai — Be first to Barcelona's new rental listings</title>
@@ -41,9 +43,7 @@
 <meta name="twitter:description" content="We flag strong new Barcelona listings the moment they go live, with the agency's number ready to call. You call, you view, you win the flat." />
 <meta name="twitter:image" content="https://llavai.com/og-image.jpg" />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts.css">
 <style>
   :root {
     --cream: #F4EFE5; --cream-deep: #ECE5D5;
@@ -220,7 +220,7 @@
         </div>
       </div>
       <div class="hero-visual reveal reveal-3">
-       <img src="logo_transparent.png" alt="Llavai logo" />
+       <img src="logo-hero.webp" alt="Llavai logo" />
       </div>
     </div>
   </div>

@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Private onboarding page — reachable only via the direct link we send, kept out of search. -->
+<meta name="robots" content="noindex, nofollow" />
 <title>Llavai — Forward your Idealista alerts</title>
 <meta name="description" content="A 3-minute setup guide for forwarding your Idealista alerts to Llavai, so Julia can call estate agents the moment a flat appears." />
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts.css">
 
 <style>
   :root {
@@ -583,7 +583,7 @@
 
   /* ─── i18n: three languages ─────────────────────────────────────── */
   /* Default: show EN only */
-  [data-lang="es"], [data-lang="ua"] { display: none; }
+  [data-lang="es"], [data-lang="uk"] { display: none; }
 
   /* ES mode */
   body.es [data-lang="en"] { display: none; }
@@ -600,18 +600,18 @@
   body.es .path [data-lang="es"] { display: inline; }
 
   /* UK mode */
-  body.ua [data-lang="en"] { display: none; }
-  body.ua [data-lang="ua"] { display: block; }
-  body.ua [data-lang="ua"].inline,
-  body.ua summary [data-lang="ua"],
-  body.ua h1 [data-lang="ua"],
-  body.ua h2 [data-lang="ua"],
-  body.ua h3 [data-lang="ua"],
-  body.ua .step-body strong [data-lang="ua"],
-  body.ua .step-body p [data-lang="ua"],
-  body.ua .callout strong [data-lang="ua"],
-  body.ua .callout p [data-lang="ua"],
-  body.ua .path [data-lang="ua"] { display: inline; }
+  body.uk [data-lang="en"] { display: none; }
+  body.uk [data-lang="uk"] { display: block; }
+  body.uk [data-lang="uk"].inline,
+  body.uk summary [data-lang="uk"],
+  body.uk h1 [data-lang="uk"],
+  body.uk h2 [data-lang="uk"],
+  body.uk h3 [data-lang="uk"],
+  body.uk .step-body strong [data-lang="uk"],
+  body.uk .step-body p [data-lang="uk"],
+  body.uk .callout strong [data-lang="uk"],
+  body.uk .callout p [data-lang="uk"],
+  body.uk .path [data-lang="uk"] { display: inline; }
 
   /* Mobile */
   @media (max-width: 600px) {
@@ -634,7 +634,7 @@
     <span class="lang-sep">/</span>
     <button id="btn-es" onclick="setLang('es')">ES</button>
     <span class="lang-sep">/</span>
-    <button id="btn-ua" onclick="setLang('ua')">UA</button>
+    <button id="btn-uk" onclick="setLang('uk')">UA</button>
   </div>
 </nav>
 
@@ -645,17 +645,17 @@
     <p class="section-eyebrow">
       <span data-lang="en">Email setup · 3 minutes</span>
       <span data-lang="es">Configuración de correo · 3 minutos</span>
-      <span data-lang="ua">Налаштування пошти · 3 хвилини</span>
+      <span data-lang="uk">Налаштування пошти · 3 хвилини</span>
     </p>
     <h1>
       <span data-lang="en">Forward your Idealista alerts to <em>Llavai.</em></span>
       <span data-lang="es">Reenvía tus alertas de Idealista a <em>Llavai.</em></span>
-      <span data-lang="ua">Пересилай сповіщення Idealista до <em>Llavai.</em></span>
+      <span data-lang="uk">Пересилай сповіщення Idealista до <em>Llavai.</em></span>
     </h1>
     <p class="lede">
       <span data-lang="en">Julia calls agents the moment a flat appears — but only if she sees it the moment you do. This one-time setup forwards your Idealista alerts (and only those) straight to her.</span>
       <span data-lang="es">Julia llama a los agentes en cuanto aparece un piso — pero solo si lo ve al mismo tiempo que tú. Esta configuración, que se hace una sola vez, reenvía tus alertas de Idealista (y solo esas) directamente a ella.</span>
-      <span data-lang="ua">Julia дзвонить агентам у ту ж мить, коли з'являється квартира — але тільки якщо вона бачить її одночасно з тобою. Це одноразове налаштування пересилатиме твої сповіщення Idealista (і тільки їх) одразу до неї.</span>
+      <span data-lang="uk">Julia дзвонить агентам у ту ж мить, коли з'являється квартира — але тільки якщо вона бачить її одночасно з тобою. Це одноразове налаштування пересилатиме твої сповіщення Idealista (і тільки їх) одразу до неї.</span>
     </p>
   </div>
 
@@ -664,12 +664,12 @@
     <strong>
       <span data-lang="en">We only see your Idealista alerts. Nothing else.</span>
       <span data-lang="es">Solo vemos tus alertas de Idealista. Nada más.</span>
-      <span data-lang="ua">Ми бачимо лише твої сповіщення з Idealista. Більше нічого.</span>
+      <span data-lang="uk">Ми бачимо лише твої сповіщення з Idealista. Більше нічого.</span>
     </strong>
     <p>
       <span data-lang="en">You'll set up a <em>filter</em>, not a blanket forward. Personal email, bank statements, work — none of it reaches us. You can switch the filter off any time.</span>
       <span data-lang="es">Vas a configurar un <em>filtro</em>, no un reenvío total. Tu correo personal, extractos bancarios, trabajo — nada de eso llega hasta nosotros. Puedes desactivar el filtro cuando quieras.</span>
-      <span data-lang="ua">Ти налаштуєш <em>фільтр</em>, а не загальне пересилання. Особисті листи, банківські виписки, робоча пошта — нічого з цього до нас не потрапляє. Фільтр можна вимкнути будь-коли.</span>
+      <span data-lang="uk">Ти налаштуєш <em>фільтр</em>, а не загальне пересилання. Особисті листи, банківські виписки, робоча пошта — нічого з цього до нас не потрапляє. Фільтр можна вимкнути будь-коли.</span>
     </p>
   </div>
 
@@ -677,14 +677,14 @@
   <p class="part-label reveal reveal-2">
     <span data-lang="en">The forwarding address</span>
     <span data-lang="es">La dirección de reenvío</span>
-    <span data-lang="ua">Адреса для пересилання</span>
+    <span data-lang="uk">Адреса для пересилання</span>
   </p>
   <div class="address-block reveal reveal-3">
     <div>
       <div class="address-block-label">
         <span data-lang="en">You'll need this address below</span>
         <span data-lang="es">Necesitarás esta dirección más abajo</span>
-        <span data-lang="ua">Ця адреса знадобиться нижче</span>
+        <span data-lang="uk">Ця адреса знадобиться нижче</span>
       </div>
       <div class="address-block-email" id="addressEmail">724eb5e5735d49167e54@cloudmailin.net</div>
     </div>
@@ -692,7 +692,7 @@
       <span id="copyBtnText">
         <span data-lang="en">Copy address</span>
         <span data-lang="es">Copiar dirección</span>
-        <span data-lang="ua">Скопіювати адресу</span>
+        <span data-lang="uk">Скопіювати адресу</span>
       </span>
     </button>
   </div>
@@ -723,12 +723,12 @@
     <p class="part-label">
       <span data-lang="en">Part 1 of 2 · About 90 seconds</span>
       <span data-lang="es">Parte 1 de 2 · Unos 90 segundos</span>
-      <span data-lang="ua">Частина 1 з 2 · Близько 90 секунд</span>
+      <span data-lang="uk">Частина 1 з 2 · Близько 90 секунд</span>
     </p>
     <h2 class="part-title">
       <span data-lang="en">Add Llavai as a <em>forwarding address</em></span>
       <span data-lang="es">Añade a Llavai como <em>dirección de reenvío</em></span>
-      <span data-lang="ua">Додай Llavai як <em>адресу пересилання</em></span>
+      <span data-lang="uk">Додай Llavai як <em>адресу пересилання</em></span>
     </h2>
 
     <ol class="steps">
@@ -737,12 +737,12 @@
           <strong>
             <span data-lang="en">Open Gmail on your computer</span>
             <span data-lang="es">Abre Gmail en tu ordenador</span>
-            <span data-lang="ua">Відкрий Gmail на комп'ютері</span>
+            <span data-lang="uk">Відкрий Gmail на комп'ютері</span>
           </strong>
           <p>
             <span data-lang="en">This setup is much easier on a laptop or desktop than on a phone. Go to <span class="path">gmail.com</span> and sign in.</span>
             <span data-lang="es">Esta configuración es mucho más fácil en ordenador que en el móvil. Ve a <span class="path">gmail.com</span> e inicia sesión.</span>
-            <span data-lang="ua">Це налаштування набагато простіше зробити на ноутбуці чи комп'ютері, ніж на телефоні. Перейди на <span class="path">gmail.com</span> і увійди в обліковий запис.</span>
+            <span data-lang="uk">Це налаштування набагато простіше зробити на ноутбуці чи комп'ютері, ніж на телефоні. Перейди на <span class="path">gmail.com</span> і увійди в обліковий запис.</span>
           </p>
         </div>
       </li>
@@ -752,12 +752,12 @@
           <strong>
             <span data-lang="en">Open Settings</span>
             <span data-lang="es">Abre Ajustes</span>
-            <span data-lang="ua">Відкрий Налаштування</span>
+            <span data-lang="uk">Відкрий Налаштування</span>
           </strong>
           <p>
             <span data-lang="en">Top right corner: click the <span class="path">⚙ gear icon</span> <span class="path-arrow">→</span> <span class="path">See all settings</span>.</span>
             <span data-lang="es">Arriba a la derecha: pulsa el <span class="path">⚙ icono de engranaje</span> <span class="path-arrow">→</span> <span class="path">Ver todos los ajustes</span>.</span>
-            <span data-lang="ua">У правому верхньому куті натисни значок <span class="path">⚙ шестерні</span> <span class="path-arrow">→</span> <span class="path">Усі налаштування</span>.</span>
+            <span data-lang="uk">У правому верхньому куті натисни значок <span class="path">⚙ шестерні</span> <span class="path-arrow">→</span> <span class="path">Усі налаштування</span>.</span>
           </p>
         </div>
       </li>
@@ -767,12 +767,12 @@
           <strong>
             <span data-lang="en">Go to the Forwarding tab</span>
             <span data-lang="es">Ve a la pestaña Reenvío</span>
-            <span data-lang="ua">Перейди на вкладку Пересилання</span>
+            <span data-lang="uk">Перейди на вкладку Пересилання</span>
           </strong>
           <p>
             <span data-lang="en">Click the tab labelled <span class="path">Forwarding and POP/IMAP</span>.</span>
             <span data-lang="es">Pulsa la pestaña <span class="path">Reenvío y correo POP/IMAP</span>.</span>
-            <span data-lang="ua">Натисни вкладку <span class="path">Пересилання і POP/IMAP</span>.</span>
+            <span data-lang="uk">Натисни вкладку <span class="path">Пересилання і POP/IMAP</span>.</span>
           </p>
         </div>
       </li>
@@ -782,18 +782,18 @@
           <strong>
             <span data-lang="en">Add the Llavai address</span>
             <span data-lang="es">Añade la dirección de Llavai</span>
-            <span data-lang="ua">Додай адресу Llavai</span>
+            <span data-lang="uk">Додай адресу Llavai</span>
           </strong>
           <p>
             <span data-lang="en">Click <span class="path">Add a forwarding address</span> and paste:</span>
             <span data-lang="es">Pulsa <span class="path">Añadir una dirección de reenvío</span> y pega:</span>
-            <span data-lang="ua">Натисни <span class="path">Додати адресу для пересилання</span> і встав:</span>
+            <span data-lang="uk">Натисни <span class="path">Додати адресу для пересилання</span> і встав:</span>
           </p>
           <p><span class="field-value">724eb5e5735d49167e54@cloudmailin.net</span></p>
           <p>
             <span data-lang="en">Click <span class="path">Next</span> <span class="path-arrow">→</span> <span class="path">Proceed</span> <span class="path-arrow">→</span> <span class="path">OK</span>.</span>
             <span data-lang="es">Pulsa <span class="path">Siguiente</span> <span class="path-arrow">→</span> <span class="path">Continuar</span> <span class="path-arrow">→</span> <span class="path">Aceptar</span>.</span>
-            <span data-lang="ua">Натисни <span class="path">Далі</span> <span class="path-arrow">→</span> <span class="path">Продовжити</span> <span class="path-arrow">→</span> <span class="path">OK</span>.</span>
+            <span data-lang="uk">Натисни <span class="path">Далі</span> <span class="path-arrow">→</span> <span class="path">Продовжити</span> <span class="path-arrow">→</span> <span class="path">OK</span>.</span>
           </p>
         </div>
       </li>
@@ -803,17 +803,17 @@
           <strong>
             <span data-lang="en">Wait for our email with the verification code</span>
             <span data-lang="es">Espera nuestro correo con el código de verificación</span>
-            <span data-lang="ua">Зачекай наш лист із кодом підтвердження</span>
+            <span data-lang="uk">Зачекай наш лист із кодом підтвердження</span>
           </strong>
           <p>
             <span data-lang="en">Gmail just sent a 9-digit code to us (not to you). We'll forward it to you by email — usually within a few minutes.</span>
             <span data-lang="es">Gmail acaba de enviarnos a nosotros (no a ti) un código de 9 dígitos. Te lo reenviaremos por correo — normalmente en pocos minutos.</span>
-            <span data-lang="ua">Gmail щойно надіслав 9-значний код нам (не тобі). Ми перешлемо його тобі електронною поштою — зазвичай протягом кількох хвилин.</span>
+            <span data-lang="uk">Gmail щойно надіслав 9-значний код нам (не тобі). Ми перешлемо його тобі електронною поштою — зазвичай протягом кількох хвилин.</span>
           </p>
           <p>
             <span data-lang="en">Once you have it, return to <span class="path">Forwarding and POP/IMAP</span>, paste the code, and click <span class="path">Verify</span>.</span>
             <span data-lang="es">Cuando lo tengas, vuelve a <span class="path">Reenvío y correo POP/IMAP</span>, pega el código y pulsa <span class="path">Verificar</span>.</span>
-            <span data-lang="ua">Коли отримаєш код, поверніся до <span class="path">Пересилання і POP/IMAP</span>, встав код і натисни <span class="path">Підтвердити</span>.</span>
+            <span data-lang="uk">Коли отримаєш код, поверніся до <span class="path">Пересилання і POP/IMAP</span>, встав код і натисни <span class="path">Підтвердити</span>.</span>
           </p>
         </div>
       </li>
@@ -823,17 +823,17 @@
           <strong>
             <span data-lang="en">Important: leave forwarding set to "Disable"</span>
             <span data-lang="es">Importante: deja el reenvío en "Desactivar"</span>
-            <span data-lang="ua">Важливо: залиш пересилання у режимі «Вимкнено»</span>
+            <span data-lang="uk">Важливо: залиш пересилання у режимі «Вимкнено»</span>
           </strong>
           <p>
             <span data-lang="en">In the same tab, make sure <span class="path">Disable forwarding</span> is selected. This stops Gmail from forwarding everything. The filter you create next will forward only Idealista emails.</span>
             <span data-lang="es">En la misma pestaña, asegúrate de que <span class="path">Desactivar reenvío</span> está marcado. Así Gmail no reenvía todo. El filtro que crearás a continuación reenviará solo los correos de Idealista.</span>
-            <span data-lang="ua">На тій самій вкладці перевір, що вибрано <span class="path">Вимкнути пересилання</span>. Так Gmail не пересилатиме все підряд. Фільтр, який ти створиш далі, пересилатиме лише листи від Idealista.</span>
+            <span data-lang="uk">На тій самій вкладці перевір, що вибрано <span class="path">Вимкнути пересилання</span>. Так Gmail не пересилатиме все підряд. Фільтр, який ти створиш далі, пересилатиме лише листи від Idealista.</span>
           </p>
           <p>
             <span data-lang="en">Click <span class="path">Save Changes</span> at the bottom.</span>
             <span data-lang="es">Pulsa <span class="path">Guardar cambios</span> abajo.</span>
-            <span data-lang="ua">Натисни <span class="path">Зберегти зміни</span> внизу сторінки.</span>
+            <span data-lang="uk">Натисни <span class="path">Зберегти зміни</span> внизу сторінки.</span>
           </p>
         </div>
       </li>
@@ -843,12 +843,12 @@
       <strong>
         <span data-lang="en">Heads up — there's a waiting moment here</span>
         <span data-lang="es">Atención — aquí hay una pausa</span>
-        <span data-lang="ua">Увага — тут буде невелика пауза</span>
+        <span data-lang="uk">Увага — тут буде невелика пауза</span>
       </strong>
       <p>
         <span data-lang="en">After step 4, Gmail sends the verification code to us, not you. We'll email it back to you within a few minutes — so this is the one place the setup pauses. You can continue to Part 2 below as soon as the code is verified.</span>
         <span data-lang="es">Después del paso 4, Gmail nos envía el código a nosotros, no a ti. Te lo reenviaremos por correo en pocos minutos — es el único punto donde la configuración se detiene. En cuanto verifiques el código, puedes continuar con la Parte 2.</span>
-        <span data-lang="ua">Після кроку 4 Gmail надсилає код підтвердження нам, а не тобі. Ми перешлемо його тобі електронною поштою протягом кількох хвилин — це єдиний момент, де налаштування призупиняється. Щойно код буде підтверджено, переходь до Частини 2 нижче.</span>
+        <span data-lang="uk">Після кроку 4 Gmail надсилає код підтвердження нам, а не тобі. Ми перешлемо його тобі електронною поштою протягом кількох хвилин — це єдиний момент, де налаштування призупиняється. Щойно код буде підтверджено, переходь до Частини 2 нижче.</span>
       </p>
     </div>
 
@@ -856,12 +856,12 @@
     <p class="part-label" style="margin-top: 48px;">
       <span data-lang="en">Part 2 of 2 · About 60 seconds</span>
       <span data-lang="es">Parte 2 de 2 · Unos 60 segundos</span>
-      <span data-lang="ua">Частина 2 з 2 · Близько 60 секунд</span>
+      <span data-lang="uk">Частина 2 з 2 · Близько 60 секунд</span>
     </p>
     <h2 class="part-title">
       <span data-lang="en">Create the <em>Idealista-only</em> filter</span>
       <span data-lang="es">Crea el filtro <em>solo para Idealista</em></span>
-      <span data-lang="ua">Створи фільтр <em>тільки для Idealista</em></span>
+      <span data-lang="uk">Створи фільтр <em>тільки для Idealista</em></span>
     </h2>
 
     <ol class="steps">
@@ -870,12 +870,12 @@
           <strong>
             <span data-lang="en">Confirm the Idealista sender address</span>
             <span data-lang="es">Confirma la dirección de remitente de Idealista</span>
-            <span data-lang="ua">Підтверди адресу відправника Idealista</span>
+            <span data-lang="uk">Підтверди адресу відправника Idealista</span>
           </strong>
           <p>
             <span data-lang="en">Idealista alerts come from <span class="field-value">noresponder@idealista.com</span>. To double-check, open one of your alert emails and look at the sender — it should match exactly.</span>
             <span data-lang="es">Las alertas de Idealista llegan desde <span class="field-value">noresponder@idealista.com</span>. Para asegurarte, abre una de tus alertas y mira el remitente — debe coincidir exactamente.</span>
-            <span data-lang="ua">Сповіщення Idealista надходять з адреси <span class="field-value">noresponder@idealista.com</span>. Щоб впевнитися, відкрий одне зі своїх сповіщень і подивись на відправника — адреса має збігатися точно.</span>
+            <span data-lang="uk">Сповіщення Idealista надходять з адреси <span class="field-value">noresponder@idealista.com</span>. Щоб впевнитися, відкрий одне зі своїх сповіщень і подивись на відправника — адреса має збігатися точно.</span>
           </p>
         </div>
       </li>
@@ -885,12 +885,12 @@
           <strong>
             <span data-lang="en">Open Filters in Gmail Settings</span>
             <span data-lang="es">Abre Filtros en los Ajustes de Gmail</span>
-            <span data-lang="ua">Відкрий Фільтри в налаштуваннях Gmail</span>
+            <span data-lang="uk">Відкрий Фільтри в налаштуваннях Gmail</span>
           </strong>
           <p>
             <span data-lang="en"><span class="path">⚙</span> <span class="path-arrow">→</span> <span class="path">See all settings</span> <span class="path-arrow">→</span> <span class="path">Filters and Blocked Addresses</span> <span class="path-arrow">→</span> <span class="path">Create a new filter</span>.</span>
             <span data-lang="es"><span class="path">⚙</span> <span class="path-arrow">→</span> <span class="path">Ver todos los ajustes</span> <span class="path-arrow">→</span> <span class="path">Filtros y direcciones bloqueadas</span> <span class="path-arrow">→</span> <span class="path">Crear filtro</span>.</span>
-            <span data-lang="ua"><span class="path">⚙</span> <span class="path-arrow">→</span> <span class="path">Усі налаштування</span> <span class="path-arrow">→</span> <span class="path">Фільтри та заблоковані адреси</span> <span class="path-arrow">→</span> <span class="path">Створити фільтр</span>.</span>
+            <span data-lang="uk"><span class="path">⚙</span> <span class="path-arrow">→</span> <span class="path">Усі налаштування</span> <span class="path-arrow">→</span> <span class="path">Фільтри та заблоковані адреси</span> <span class="path-arrow">→</span> <span class="path">Створити фільтр</span>.</span>
           </p>
         </div>
       </li>
@@ -900,12 +900,12 @@
           <strong>
             <span data-lang="en">Set the From condition</span>
             <span data-lang="es">Configura la condición Remitente</span>
-            <span data-lang="ua">Встанови умову «Від кого»</span>
+            <span data-lang="uk">Встанови умову «Від кого»</span>
           </strong>
           <p>
             <span data-lang="en">In the <span class="path">From</span> field, paste <span class="field-value">noresponder@idealista.com</span>. Leave everything else blank. Click <span class="path">Create filter</span> at the bottom right.</span>
             <span data-lang="es">En el campo <span class="path">De</span>, pega <span class="field-value">noresponder@idealista.com</span>. Deja el resto en blanco. Pulsa <span class="path">Crear filtro</span> abajo a la derecha.</span>
-            <span data-lang="ua">У полі <span class="path">Від</span> встав <span class="field-value">noresponder@idealista.com</span>. Решту полів залиш порожніми. Натисни <span class="path">Створити фільтр</span> у нижньому правому куті.</span>
+            <span data-lang="uk">У полі <span class="path">Від</span> встав <span class="field-value">noresponder@idealista.com</span>. Решту полів залиш порожніми. Натисни <span class="path">Створити фільтр</span> у нижньому правому куті.</span>
           </p>
         </div>
       </li>
@@ -915,17 +915,17 @@
           <strong>
             <span data-lang="en">Tell the filter to forward to Llavai</span>
             <span data-lang="es">Indica al filtro que reenvíe a Llavai</span>
-            <span data-lang="ua">Вкажи фільтру пересилати на Llavai</span>
+            <span data-lang="uk">Вкажи фільтру пересилати на Llavai</span>
           </strong>
           <p>
             <span data-lang="en">In the next screen, tick <span class="path">Forward it to</span> and pick the Llavai address from the dropdown.</span>
             <span data-lang="es">En la pantalla siguiente, marca <span class="path">Reenviarlo a</span> y elige la dirección de Llavai en el menú desplegable.</span>
-            <span data-lang="ua">На наступному екрані постав галочку <span class="path">Переслати на адресу</span> і вибери адресу Llavai зі списку.</span>
+            <span data-lang="uk">На наступному екрані постав галочку <span class="path">Переслати на адресу</span> і вибери адресу Llavai зі списку.</span>
           </p>
           <p>
             <span data-lang="en">Optional but recommended: also tick <span class="path">Never send it to Spam</span>. Idealista alerts sometimes get flagged and you don't want to miss any.</span>
             <span data-lang="es">Opcional pero recomendado: marca también <span class="path">No enviar a Spam</span>. A veces las alertas de Idealista van a Spam y no quieres perdértelas.</span>
-            <span data-lang="ua">Не обов'язково, але радимо: постав також галочку <span class="path">Ніколи не надсилати в спам</span>. Сповіщення Idealista іноді потрапляють у спам, а ти не хочеш їх пропустити.</span>
+            <span data-lang="uk">Не обов'язково, але радимо: постав також галочку <span class="path">Ніколи не надсилати в спам</span>. Сповіщення Idealista іноді потрапляють у спам, а ти не хочеш їх пропустити.</span>
           </p>
         </div>
       </li>
@@ -935,12 +935,12 @@
           <strong>
             <span data-lang="en">Save the filter</span>
             <span data-lang="es">Guarda el filtro</span>
-            <span data-lang="ua">Збережи фільтр</span>
+            <span data-lang="uk">Збережи фільтр</span>
           </strong>
           <p>
             <span data-lang="en">Click <span class="path">Create filter</span>. Done. From now on, every Idealista alert is forwarded to Llavai the second it lands — and Julia starts calling.</span>
             <span data-lang="es">Pulsa <span class="path">Crear filtro</span>. Listo. A partir de ahora, cada alerta de Idealista se reenvía a Llavai en el momento — y Julia empieza a llamar.</span>
-            <span data-lang="ua">Натисни <span class="path">Створити фільтр</span>. Готово. Відтепер кожне сповіщення Idealista пересилається до Llavai миттєво — і Julia починає дзвонити.</span>
+            <span data-lang="uk">Натисни <span class="path">Створити фільтр</span>. Готово. Відтепер кожне сповіщення Idealista пересилається до Llavai миттєво — і Julia починає дзвонити.</span>
           </p>
         </div>
       </li>
@@ -953,12 +953,12 @@
     <p class="part-label">
       <span data-lang="en">One part · About 2 minutes · No verification needed</span>
       <span data-lang="es">Una sola parte · Unos 2 minutos · Sin verificación</span>
-      <span data-lang="ua">Одна частина · Близько 2 хвилин · Без підтвердження</span>
+      <span data-lang="uk">Одна частина · Близько 2 хвилин · Без підтвердження</span>
     </p>
     <h2 class="part-title">
       <span data-lang="en">Create an <em>Outlook rule</em> that forwards Idealista alerts</span>
       <span data-lang="es">Crea una <em>regla en Outlook</em> que reenvíe las alertas de Idealista</span>
-      <span data-lang="ua">Створи <em>правило в Outlook</em>, яке пересилатиме сповіщення Idealista</span>
+      <span data-lang="uk">Створи <em>правило в Outlook</em>, яке пересилатиме сповіщення Idealista</span>
     </h2>
 
     <ol class="steps">
@@ -967,12 +967,12 @@
           <strong>
             <span data-lang="en">Open Outlook on the web</span>
             <span data-lang="es">Abre Outlook en la web</span>
-            <span data-lang="ua">Відкрий Outlook у браузері</span>
+            <span data-lang="uk">Відкрий Outlook у браузері</span>
           </strong>
           <p>
             <span data-lang="en">Go to <span class="path">outlook.com</span> or <span class="path">outlook.live.com</span> and sign in. The web interface is easier than the app for this setup.</span>
             <span data-lang="es">Ve a <span class="path">outlook.com</span> u <span class="path">outlook.live.com</span> e inicia sesión. La versión web es más fácil que la app para esta configuración.</span>
-            <span data-lang="ua">Перейди на <span class="path">outlook.com</span> або <span class="path">outlook.live.com</span> і увійди. Веб-версія зручніша для цього налаштування, ніж застосунок.</span>
+            <span data-lang="uk">Перейди на <span class="path">outlook.com</span> або <span class="path">outlook.live.com</span> і увійди. Веб-версія зручніша для цього налаштування, ніж застосунок.</span>
           </p>
         </div>
       </li>
@@ -982,12 +982,12 @@
           <strong>
             <span data-lang="en">Note the Idealista sender address</span>
             <span data-lang="es">Anota la dirección de remitente de Idealista</span>
-            <span data-lang="ua">Запам'ятай адресу відправника Idealista</span>
+            <span data-lang="uk">Запам'ятай адресу відправника Idealista</span>
           </strong>
           <p>
             <span data-lang="en">You'll need it in step 5. Idealista alerts come from <span class="field-value">noresponder@idealista.com</span>.</span>
             <span data-lang="es">La necesitarás en el paso 5. Las alertas de Idealista llegan desde <span class="field-value">noresponder@idealista.com</span>.</span>
-            <span data-lang="ua">Вона знадобиться на кроці 5. Сповіщення Idealista надходять з адреси <span class="field-value">noresponder@idealista.com</span>.</span>
+            <span data-lang="uk">Вона знадобиться на кроці 5. Сповіщення Idealista надходять з адреси <span class="field-value">noresponder@idealista.com</span>.</span>
           </p>
         </div>
       </li>
@@ -997,12 +997,12 @@
           <strong>
             <span data-lang="en">Open Outlook Settings</span>
             <span data-lang="es">Abre los Ajustes de Outlook</span>
-            <span data-lang="ua">Відкрий параметри Outlook</span>
+            <span data-lang="uk">Відкрий параметри Outlook</span>
           </strong>
           <p>
             <span data-lang="en">Top right: click the <span class="path">⚙ gear icon</span>. In the panel that opens, go to <span class="path">Mail</span> <span class="path-arrow">→</span> <span class="path">Rules</span>.</span>
             <span data-lang="es">Arriba a la derecha: pulsa el <span class="path">⚙ icono de engranaje</span>. En el panel que se abre, ve a <span class="path">Correo</span> <span class="path-arrow">→</span> <span class="path">Reglas</span>.</span>
-            <span data-lang="ua">Угорі праворуч натисни значок <span class="path">⚙ шестерні</span>. У панелі, що відкриється, перейди до <span class="path">Пошта</span> <span class="path-arrow">→</span> <span class="path">Правила</span>.</span>
+            <span data-lang="uk">Угорі праворуч натисни значок <span class="path">⚙ шестерні</span>. У панелі, що відкриється, перейди до <span class="path">Пошта</span> <span class="path-arrow">→</span> <span class="path">Правила</span>.</span>
           </p>
         </div>
       </li>
@@ -1012,12 +1012,12 @@
           <strong>
             <span data-lang="en">Add a new rule</span>
             <span data-lang="es">Añade una nueva regla</span>
-            <span data-lang="ua">Додай нове правило</span>
+            <span data-lang="uk">Додай нове правило</span>
           </strong>
           <p>
             <span data-lang="en">Click <span class="path">+ Add new rule</span>. Give it a name like <span class="field-value">Forward Idealista alerts to Llavai</span>.</span>
             <span data-lang="es">Pulsa <span class="path">+ Añadir nueva regla</span>. Ponle un nombre como <span class="field-value">Reenviar alertas de Idealista a Llavai</span>.</span>
-            <span data-lang="ua">Натисни <span class="path">+ Додати нове правило</span>. Назви його, наприклад, <span class="field-value">Пересилати сповіщення Idealista до Llavai</span>.</span>
+            <span data-lang="uk">Натисни <span class="path">+ Додати нове правило</span>. Назви його, наприклад, <span class="field-value">Пересилати сповіщення Idealista до Llavai</span>.</span>
           </p>
         </div>
       </li>
@@ -1027,12 +1027,12 @@
           <strong>
             <span data-lang="en">Set the condition: From Idealista</span>
             <span data-lang="es">Define la condición: De Idealista</span>
-            <span data-lang="ua">Встанови умову: «Від Idealista»</span>
+            <span data-lang="uk">Встанови умову: «Від Idealista»</span>
           </strong>
           <p>
             <span data-lang="en">Under <span class="path">Add a condition</span>, choose <span class="path">From</span>. Paste <span class="field-value">noresponder@idealista.com</span>.</span>
             <span data-lang="es">En <span class="path">Añadir una condición</span>, elige <span class="path">De</span>. Pega <span class="field-value">noresponder@idealista.com</span>.</span>
-            <span data-lang="ua">У розділі <span class="path">Додати умову</span> вибери <span class="path">Від</span>. Встав <span class="field-value">noresponder@idealista.com</span>.</span>
+            <span data-lang="uk">У розділі <span class="path">Додати умову</span> вибери <span class="path">Від</span>. Встав <span class="field-value">noresponder@idealista.com</span>.</span>
           </p>
         </div>
       </li>
@@ -1042,12 +1042,12 @@
           <strong>
             <span data-lang="en">Set the action: Forward to Llavai</span>
             <span data-lang="es">Define la acción: Reenviar a Llavai</span>
-            <span data-lang="ua">Встанови дію: «Переслати на Llavai»</span>
+            <span data-lang="uk">Встанови дію: «Переслати на Llavai»</span>
           </strong>
           <p>
             <span data-lang="en">Under <span class="path">Add an action</span>, choose <span class="path">Forward to</span> and paste:</span>
             <span data-lang="es">En <span class="path">Añadir una acción</span>, elige <span class="path">Reenviar a</span> y pega:</span>
-            <span data-lang="ua">У розділі <span class="path">Додати дію</span> вибери <span class="path">Переслати на</span> і встав:</span>
+            <span data-lang="uk">У розділі <span class="path">Додати дію</span> вибери <span class="path">Переслати на</span> і встав:</span>
           </p>
           <p><span class="field-value">724eb5e5735d49167e54@cloudmailin.net</span></p>
         </div>
@@ -1058,12 +1058,12 @@
           <strong>
             <span data-lang="en">Save the rule</span>
             <span data-lang="es">Guarda la regla</span>
-            <span data-lang="ua">Збережи правило</span>
+            <span data-lang="uk">Збережи правило</span>
           </strong>
           <p>
             <span data-lang="en">Click <span class="path">Save</span>. That's it — Outlook doesn't need a verification step. From now on, every Idealista alert reaches Llavai instantly and Julia gets to work.</span>
             <span data-lang="es">Pulsa <span class="path">Guardar</span>. Ya está — Outlook no necesita verificación. A partir de ahora, cada alerta de Idealista llega a Llavai al instante y Julia se pone a trabajar.</span>
-            <span data-lang="ua">Натисни <span class="path">Зберегти</span>. Готово — Outlook не потребує підтвердження. Відтепер кожне сповіщення Idealista одразу потрапляє до Llavai, і Julia береться до роботи.</span>
+            <span data-lang="uk">Натисни <span class="path">Зберегти</span>. Готово — Outlook не потребує підтвердження. Відтепер кожне сповіщення Idealista одразу потрапляє до Llavai, і Julia береться до роботи.</span>
           </p>
         </div>
       </li>
@@ -1073,12 +1073,12 @@
       <strong>
         <span data-lang="en">Using a work or school Microsoft 365 account?</span>
         <span data-lang="es">¿Usas una cuenta de Microsoft 365 del trabajo o de estudios?</span>
-        <span data-lang="ua">Користуєшся робочим або навчальним обліковим записом Microsoft 365?</span>
+        <span data-lang="uk">Користуєшся робочим або навчальним обліковим записом Microsoft 365?</span>
       </strong>
       <p>
         <span data-lang="en">Some company Outlook accounts block forwarding to external addresses. If you get an error when saving the rule, your IT admin has external forwarding disabled — email us at hello@llavai.com and we'll suggest a workaround.</span>
         <span data-lang="es">Algunas cuentas de Outlook del trabajo bloquean el reenvío externo. Si te da un error al guardar la regla, tu departamento de IT lo tiene desactivado — escríbenos a hello@llavai.com y te indicamos cómo seguir.</span>
-        <span data-lang="ua">Деякі корпоративні облікові записи Outlook блокують пересилання на зовнішні адреси. Якщо при збереженні правила з'являється помилка — це твій IT-адміністратор вимкнув зовнішнє пересилання. Напиши нам на hello@llavai.com, і ми підкажемо, як обійти це обмеження.</span>
+        <span data-lang="uk">Деякі корпоративні облікові записи Outlook блокують пересилання на зовнішні адреси. Якщо при збереженні правила з'являється помилка — це твій IT-адміністратор вимкнув зовнішнє пересилання. Напиши нам на hello@llavai.com, і ми підкажемо, як обійти це обмеження.</span>
       </p>
     </div>
   </div>
@@ -1088,17 +1088,17 @@
     <h2>
       <span data-lang="en">Other email <em>providers?</em></span>
       <span data-lang="es">¿Otros proveedores de <em>correo?</em></span>
-      <span data-lang="ua">Інші <em>поштові сервіси?</em></span>
+      <span data-lang="uk">Інші <em>поштові сервіси?</em></span>
     </h2>
     <p>
       <span data-lang="en">If you use iCloud, Yahoo, ProtonMail, or another provider, forwarding is still possible — the menus just look different. Email <a href="mailto:hello@llavai.com" style="color: var(--coral);">hello@llavai.com</a> with your provider name and we'll walk you through it personally.</span>
       <span data-lang="es">Si usas iCloud, Yahoo, ProtonMail u otro proveedor, el reenvío sigue siendo posible — los menús simplemente son distintos. Escribe a <a href="mailto:hello@llavai.com" style="color: var(--coral);">hello@llavai.com</a> con el nombre de tu proveedor y te guiamos personalmente.</span>
-      <span data-lang="ua">Якщо ти користуєшся iCloud, Yahoo, ProtonMail чи іншим сервісом, пересилання все одно можливе — просто меню виглядають по-іншому. Напиши на <a href="mailto:hello@llavai.com" style="color: var(--coral);">hello@llavai.com</a> і вкажи свій поштовий сервіс, а ми проведемо тебе по налаштуванню особисто.</span>
+      <span data-lang="uk">Якщо ти користуєшся iCloud, Yahoo, ProtonMail чи іншим сервісом, пересилання все одно можливе — просто меню виглядають по-іншому. Напиши на <a href="mailto:hello@llavai.com" style="color: var(--coral);">hello@llavai.com</a> і вкажи свій поштовий сервіс, а ми проведемо тебе по налаштуванню особисто.</span>
     </p>
     <p>
       <span data-lang="en">Even simpler: create a free Gmail or Outlook account just for your apartment hunt, set your Idealista alerts to go there, and follow the guide above. Many of our users do this — it keeps personal email completely separate.</span>
       <span data-lang="es">Aún más fácil: crea una cuenta gratuita de Gmail u Outlook solo para tu búsqueda de piso, configura tus alertas de Idealista para que vayan ahí y sigue la guía de arriba. Muchos de nuestros usuarios lo hacen — así el correo personal queda totalmente separado.</span>
-      <span data-lang="ua">Ще простіше: створи безкоштовний обліковий запис Gmail або Outlook спеціально для пошуку квартири, налаштуй сповіщення Idealista на цю адресу і слідуй інструкції вище. Багато наших користувачів так роблять — особиста пошта залишається повністю окремо.</span>
+      <span data-lang="uk">Ще простіше: створи безкоштовний обліковий запис Gmail або Outlook спеціально для пошуку квартири, налаштуй сповіщення Idealista на цю адресу і слідуй інструкції вище. Багато наших користувачів так роблять — особиста пошта залишається повністю окремо.</span>
     </p>
   </section>
 
@@ -1107,19 +1107,19 @@
     <h2>
       <span data-lang="en">If something goes <em>wrong.</em></span>
       <span data-lang="es">Si algo va <em>mal.</em></span>
-      <span data-lang="ua">Якщо щось <em>пішло не так.</em></span>
+      <span data-lang="uk">Якщо щось <em>пішло не так.</em></span>
     </h2>
 
     <details class="faq-item">
       <summary>
         <span data-lang="en">The verification code hasn't arrived yet</span>
         <span data-lang="es">No me ha llegado el código de verificación</span>
-        <span data-lang="ua">Код підтвердження ще не прийшов</span>
+        <span data-lang="uk">Код підтвердження ще не прийшов</span>
       </summary>
       <p>
         <span data-lang="en">Gmail sends the code to us, not to you, and we forward it automatically. It usually arrives within minutes but can occasionally take longer. If 24 hours have passed, email us at hello@llavai.com and we'll send it immediately.</span>
         <span data-lang="es">Gmail nos envía el código a nosotros, no a ti, y nosotros te lo reenviamos automáticamente. Normalmente llega en minutos, pero a veces puede tardar un poco más. Si han pasado 24 horas, escríbenos a hello@llavai.com y te lo enviamos al momento.</span>
-        <span data-lang="ua">Gmail надсилає код нам, а не тобі, і ми пересилаємо його тобі автоматично. Зазвичай він приходить протягом кількох хвилин, але іноді може зайняти трохи більше часу. Якщо минуло 24 години, напиши на hello@llavai.com, і ми надішлемо його одразу.</span>
+        <span data-lang="uk">Gmail надсилає код нам, а не тобі, і ми пересилаємо його тобі автоматично. Зазвичай він приходить протягом кількох хвилин, але іноді може зайняти трохи більше часу. Якщо минуло 24 години, напиши на hello@llavai.com, і ми надішлемо його одразу.</span>
       </p>
     </details>
 
@@ -1127,12 +1127,12 @@
       <summary>
         <span data-lang="en">I can't find "Filters" or "Forwarding" in my Gmail</span>
         <span data-lang="es">No encuentro "Filtros" ni "Reenvío" en mi Gmail</span>
-        <span data-lang="ua">Не можу знайти «Фільтри» чи «Пересилання» у Gmail</span>
+        <span data-lang="uk">Не можу знайти «Фільтри» чи «Пересилання» у Gmail</span>
       </summary>
       <p>
         <span data-lang="en">On mobile, those settings aren't visible. You have to use a desktop browser — laptop, computer, or even tablet in desktop mode. The Gmail mobile app doesn't expose forwarding settings.</span>
         <span data-lang="es">En el móvil, esos ajustes no están visibles. Tienes que usar un navegador de escritorio — portátil, ordenador, o incluso tablet en modo escritorio. La app móvil de Gmail no muestra los ajustes de reenvío.</span>
-        <span data-lang="ua">На мобільному ці налаштування недоступні. Потрібен веб-браузер на комп'ютері — ноутбук, ПК або навіть планшет у режимі десктопа. Мобільний застосунок Gmail не показує налаштування пересилання.</span>
+        <span data-lang="uk">На мобільному ці налаштування недоступні. Потрібен веб-браузер на комп'ютері — ноутбук, ПК або навіть планшет у режимі десктопа. Мобільний застосунок Gmail не показує налаштування пересилання.</span>
       </p>
     </details>
 
@@ -1140,17 +1140,17 @@
       <summary>
         <span data-lang="en">How do I stop the forwarding later?</span>
         <span data-lang="es">¿Cómo desactivo el reenvío después?</span>
-        <span data-lang="ua">Як вимкнути пересилання пізніше?</span>
+        <span data-lang="uk">Як вимкнути пересилання пізніше?</span>
       </summary>
       <p>
         <span data-lang="en"><strong>Gmail:</strong> Settings <span class="path-arrow">→</span> Filters and Blocked Addresses <span class="path-arrow">→</span> find the Idealista filter <span class="path-arrow">→</span> Delete. The forwarding stops instantly.</span>
         <span data-lang="es"><strong>Gmail:</strong> Ajustes <span class="path-arrow">→</span> Filtros y direcciones bloqueadas <span class="path-arrow">→</span> busca el filtro de Idealista <span class="path-arrow">→</span> Eliminar. El reenvío se detiene al instante.</span>
-        <span data-lang="ua"><strong>Gmail:</strong> Налаштування <span class="path-arrow">→</span> Фільтри та заблоковані адреси <span class="path-arrow">→</span> знайди фільтр Idealista <span class="path-arrow">→</span> Видалити. Пересилання припиниться миттєво.</span>
+        <span data-lang="uk"><strong>Gmail:</strong> Налаштування <span class="path-arrow">→</span> Фільтри та заблоковані адреси <span class="path-arrow">→</span> знайди фільтр Idealista <span class="path-arrow">→</span> Видалити. Пересилання припиниться миттєво.</span>
       </p>
       <p>
         <span data-lang="en"><strong>Outlook:</strong> Settings <span class="path-arrow">→</span> Mail <span class="path-arrow">→</span> Rules <span class="path-arrow">→</span> find the Idealista rule <span class="path-arrow">→</span> toggle off or delete.</span>
         <span data-lang="es"><strong>Outlook:</strong> Ajustes <span class="path-arrow">→</span> Correo <span class="path-arrow">→</span> Reglas <span class="path-arrow">→</span> busca la regla de Idealista <span class="path-arrow">→</span> desactívala o elimínala.</span>
-        <span data-lang="ua"><strong>Outlook:</strong> Параметри <span class="path-arrow">→</span> Пошта <span class="path-arrow">→</span> Правила <span class="path-arrow">→</span> знайди правило Idealista <span class="path-arrow">→</span> вимкни або видали.</span>
+        <span data-lang="uk"><strong>Outlook:</strong> Параметри <span class="path-arrow">→</span> Пошта <span class="path-arrow">→</span> Правила <span class="path-arrow">→</span> знайди правило Idealista <span class="path-arrow">→</span> вимкни або видали.</span>
       </p>
     </details>
 
@@ -1158,12 +1158,12 @@
       <summary>
         <span data-lang="en">Will Llavai see emails other than Idealista?</span>
         <span data-lang="es">¿Verá Llavai correos que no sean de Idealista?</span>
-        <span data-lang="ua">Чи бачитиме Llavai листи, які не від Idealista?</span>
+        <span data-lang="uk">Чи бачитиме Llavai листи, які не від Idealista?</span>
       </summary>
       <p>
         <span data-lang="en">No, as long as you follow the filter-based setup above. The filter only triggers on emails from the Idealista sender address. We never see anything else — and we couldn't, even if we wanted to.</span>
         <span data-lang="es">No, siempre que sigas la configuración con filtro de arriba. El filtro solo se activa con correos del remitente de Idealista. Nunca vemos nada más — y no podríamos, aunque quisiéramos.</span>
-        <span data-lang="ua">Ні, якщо ти налаштував усе через фільтр, як описано вище. Фільтр спрацьовує лише на листи з адреси Idealista. Ми не бачимо нічого іншого — і не змогли б, навіть якби хотіли.</span>
+        <span data-lang="uk">Ні, якщо ти налаштував усе через фільтр, як описано вище. Фільтр спрацьовує лише на листи з адреси Idealista. Ми не бачимо нічого іншого — і не змогли б, навіть якби хотіли.</span>
       </p>
     </details>
 
@@ -1171,12 +1171,12 @@
       <summary>
         <span data-lang="en">I have multiple Idealista alerts — does this still work?</span>
         <span data-lang="es">Tengo varias alertas de Idealista — ¿esto sigue funcionando?</span>
-        <span data-lang="ua">У мене декілька сповіщень Idealista — це все одно працюватиме?</span>
+        <span data-lang="uk">У мене декілька сповіщень Idealista — це все одно працюватиме?</span>
       </summary>
       <p>
         <span data-lang="en">Yes. Idealista sends every alert from the same address, so a single filter forwards all of them. You can have as many active alerts as you like — Julia will call about each new listing as it arrives.</span>
         <span data-lang="es">Sí. Idealista envía todas las alertas desde la misma dirección, así que un solo filtro las reenvía todas. Puedes tener tantas alertas activas como quieras — Julia llamará por cada piso nuevo en cuanto llegue.</span>
-        <span data-lang="ua">Так. Idealista надсилає всі сповіщення з однієї адреси, тож один фільтр пересилає їх усі. Можеш мати скільки завгодно активних сповіщень — Julia дзвонитиме по кожному новому оголошенню, щойно воно з'явиться.</span>
+        <span data-lang="uk">Так. Idealista надсилає всі сповіщення з однієї адреси, тож один фільтр пересилає їх усі. Можеш мати скільки завгодно активних сповіщень — Julia дзвонитиме по кожному новому оголошенню, щойно воно з'явиться.</span>
       </p>
     </details>
 
@@ -1184,12 +1184,12 @@
       <summary>
         <span data-lang="en">How do I know it's working?</span>
         <span data-lang="es">¿Cómo sé si está funcionando?</span>
-        <span data-lang="ua">Як зрозуміти, що це працює?</span>
+        <span data-lang="uk">Як зрозуміти, що це працює?</span>
       </summary>
       <p>
         <span data-lang="en">Once a new Idealista alert arrives in your inbox and gets forwarded, you'll get a confirmation from Julia by email within minutes — usually with a viewing already booked. If you've had alerts arrive but heard nothing from us within a few hours, send us a screenshot of the alert and we'll diagnose immediately.</span>
         <span data-lang="es">En cuanto llegue una nueva alerta de Idealista a tu bandeja y se reenvíe, recibirás una confirmación de Julia por correo en pocos minutos — normalmente con una visita ya agendada. Si te han llegado alertas pero no has tenido respuesta nuestra en unas horas, mándanos una captura de la alerta y lo revisamos al momento.</span>
-        <span data-lang="ua">Як тільки нове сповіщення Idealista надходить до твоєї скриньки і пересилається, ти отримуєш підтвердження від Julia на пошту протягом кількох хвилин — зазвичай із уже запланованим показом. Якщо сповіщення приходять, а від нас нічого немає протягом кількох годин, надішли скриншот сповіщення, і ми одразу розберемось.</span>
+        <span data-lang="uk">Як тільки нове сповіщення Idealista надходить до твоєї скриньки і пересилається, ти отримуєш підтвердження від Julia на пошту протягом кількох хвилин — зазвичай із уже запланованим показом. Якщо сповіщення приходять, а від нас нічого немає протягом кількох годин, надішли скриншот сповіщення, і ми одразу розберемось.</span>
       </p>
     </details>
   </section>
@@ -1199,17 +1199,17 @@
     <h3>
       <span data-lang="en">Stuck? <em>Just email Harry.</em></span>
       <span data-lang="es">¿Atascado? <em>Escribe a Harry.</em></span>
-      <span data-lang="ua">Застряг? <em>Напиши Harry.</em></span>
+      <span data-lang="uk">Застряг? <em>Напиши Harry.</em></span>
     </h3>
     <p>
       <span data-lang="en">This setup catches almost everyone out at least once. There's no dumb question. If anything looks different from these instructions, send a screenshot — we'll either walk you through it or do it for you on a quick screen share.</span>
       <span data-lang="es">Esta configuración da problemas a casi todo el mundo alguna vez. Ninguna pregunta es tonta. Si algo no coincide con estas instrucciones, manda una captura — te ayudamos paso a paso o lo hacemos juntos en una breve videollamada.</span>
-      <span data-lang="ua">На цьому налаштуванні майже всі хоч раз спотикаються. Дурних питань не буває. Якщо щось виглядає не так, як в інструкції, надішли скриншот — або проведемо тебе кроками, або зробимо разом під час короткого дзвінка з демонстрацією екрана.</span>
+      <span data-lang="uk">На цьому налаштуванні майже всі хоч раз спотикаються. Дурних питань не буває. Якщо щось виглядає не так, як в інструкції, надішли скриншот — або проведемо тебе кроками, або зробимо разом під час короткого дзвінка з демонстрацією екрана.</span>
     </p>
     <a href="mailto:hello@llavai.com?subject=Email%20forwarding%20setup%20help">
       <span data-lang="en">Email hello@llavai.com</span>
       <span data-lang="es">Escribe a hello@llavai.com</span>
-      <span data-lang="ua">Напиши на hello@llavai.com</span>
+      <span data-lang="uk">Напиши на hello@llavai.com</span>
     </a>
   </div>
 
@@ -1218,7 +1218,7 @@
 <footer>
   <div class="container">
     <div class="footer-row">
-      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="ua">Зроблено в Барселоні</span></span>
+      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Зроблено в Барселоні</span></span>
       <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
     </div>
   </div>
@@ -1226,11 +1226,11 @@
 
 <script>
   // ─── LANGUAGE (EN / ES / UK) ───────────────────────────────────────
-  const LANGS = ['en', 'es', 'ua'];
+  const LANGS = ['en', 'es', 'uk'];
 
   function setLang(lang) {
     if (!LANGS.includes(lang)) lang = 'en';
-    document.body.classList.remove('es', 'ua');
+    document.body.classList.remove('es', 'uk');
     if (lang !== 'en') document.body.classList.add(lang);
     document.documentElement.lang = lang;
     LANGS.forEach(l => {
@@ -1284,7 +1284,7 @@
       wrap.innerHTML =
         '<span data-lang="en">✓ Copied</span>' +
         '<span data-lang="es">✓ Copiado</span>' +
-        '<span data-lang="ua">✓ Скопійовано</span>';
+        '<span data-lang="uk">✓ Скопійовано</span>';
       setTimeout(() => {
         btn.classList.remove('copied');
         wrap.innerHTML = original;

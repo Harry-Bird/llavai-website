@@ -139,14 +139,13 @@
 }
 </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..900,30..100,0..1&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/fonts.css">
 <style>
   :root {
     --cream: #F4EFE5; --cream-deep: #ECE5D5;
     --ink: #1B388F; --ink-deep: #142869;
     --coral: #E55B45; --coral-deep: #C8462F;
+    --coral-text: #AB3B25;
     --pencil: #6E6253; --paper-shadow: rgba(27,56,143,0.08);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -188,12 +187,23 @@
   }
   .btn-primary:hover { background:var(--ink-deep); transform:translateY(-1px); box-shadow:0 5px 0 var(--ink-deep); }
   .btn-primary:active { transform:translateY(2px); box-shadow:0 2px 0 var(--ink-deep); }
-  .section-eyebrow { font-family:'Newsreader',serif; font-style:italic; font-size:15px; color:var(--coral); letter-spacing:.04em; margin-bottom:16px; display:flex; align-items:center; gap:16px; }
+  .section-eyebrow { font-family:'Newsreader',serif; font-style:italic; font-size:15px; color:var(--coral-text); letter-spacing:.04em; margin-bottom:16px; display:flex; align-items:center; gap:16px; }
   .section-eyebrow::before { content:""; width:32px; height:1px; background:var(--coral); }
   footer { padding:40px 0 60px; border-top:1px solid rgba(27,56,143,.12); }
   .footer-row { display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; font-size:14px; color:var(--pencil); }
   .footer-row a { color:var(--ink); text-decoration:none; }
-  .footer-row a:hover { color:var(--coral); }
+  .footer-row a:hover { color:var(--coral-text); }
+
+  /* ── focus + skip link + reduced motion (a11y) ── */
+  :focus-visible { outline:2px solid var(--ink); outline-offset:3px; border-radius:2px; }
+  .skip-link { position:absolute; left:-9999px; top:0; z-index:200; background:var(--ink); color:var(--cream); padding:12px 20px; border-radius:2px; font-family:'Newsreader',serif; font-size:15px; text-decoration:none; }
+  .skip-link:focus { left:16px; top:16px; }
+  #main:focus { outline:none; }
+  @media(max-width:600px){ .nav-cta { display:none; } }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior:auto; }
+    *,*::before,*::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
+  }
 
   /* ── i18n: three languages ── */
   [data-lang="es"],[data-lang="uk"] { display:none; }
@@ -243,7 +253,7 @@
     font-family: 'Newsreader', serif;
     font-style: italic;
     font-size: 12px;
-    color: var(--coral);
+    color: var(--coral-text);
     letter-spacing: .06em;
     text-transform: uppercase;
     margin-bottom: 10px;
@@ -294,7 +304,7 @@
     text-underline-offset: 3px;
     font-weight: 500;
   }
-  .inline-link:hover { color: var(--coral); }
+  .inline-link:hover { color: var(--coral-text); }
 
   /* ── FAQ ── */
   .faq-section {
@@ -372,26 +382,28 @@
 </style>
 </head>
 <body>
-<div class="grain"></div>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
 
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
   <div class="nav-right">
-    <a href="/profile.html" class="btn-primary">
+    <a href="/get-started" class="btn-primary nav-cta">
       <span data-lang="en">Get started</span>
       <span data-lang="es">Empezar</span>
       <span data-lang="uk">Почати</span>
     </a>
-    <div class="lang-toggle">
-      <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
-      <span class="lang-sep">/</span>
-      <button id="btn-es" onclick="setLang('es')">ES</button>
-      <span class="lang-sep">/</span>
-      <button id="btn-uk" onclick="setLang('uk')">UA</button>
+    <div class="lang-toggle" role="group" aria-label="Select language">
+      <button id="btn-en" class="active" aria-pressed="true" onclick="setLang('en')">EN</button>
+      <span class="lang-sep" aria-hidden="true">/</span>
+      <button id="btn-es" aria-pressed="false" onclick="setLang('es')">ES</button>
+      <span class="lang-sep" aria-hidden="true">/</span>
+      <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
     </div>
   </div>
 </nav>
 
+<main id="main" tabindex="-1">
 <!-- HERO -->
 <section class="blog-hero">
   <div class="container">
@@ -600,7 +612,7 @@
         <li><strong>Write a short cover letter in Spanish</strong> — two or three sentences explaining who you are, your income, and why you want the flat. Agents notice this; most foreign applicants don't bother.</li>
         <li><strong>Call the agency immediately</strong> when a listing goes live — don't WhatsApp, call. Agents answer their phones first. A call within ten minutes of listing is worth far more than a message sent an hour later.</li>
         <li><strong>Speak Spanish or bring someone who does.</strong> Most estate agents in Barcelona speak little English. A confident, professional call in Spanish changes how seriously your application is taken.</li>
-        <li><strong>If you can't be by the phone all day:</strong> <a href="/profile.html" class="inline-link">build your profile on Llavai</a>. Our AI agent Julia calls Barcelona agencies in native Spanish within seconds of a match going live, presents your profile, and books the viewing — so you're always first in the queue.</li>
+        <li><strong>If you can't be by the phone all day:</strong> <a href="/get-started" class="inline-link">build your profile on Llavai</a>. Our AI agent Julia calls Barcelona agencies in native Spanish within seconds of a match going live, presents your profile, and books the viewing — so you're always first in the queue.</li>
       </ol>
     </div>
     <div data-lang="es">
@@ -611,7 +623,7 @@
         <li><strong>Escribe una carta de presentación breve en castellano</strong> — dos o tres frases explicando quién eres, tus ingresos y por qué quieres ese piso. Los agentes lo notan; la mayoría de los candidatos extranjeros no lo hacen.</li>
         <li><strong>Llama a la inmobiliaria en cuanto salga el anuncio</strong> — no mandes un WhatsApp, llama. Los agentes cogen el teléfono primero. Una llamada en los primeros diez minutos vale mucho más que un mensaje enviado una hora después.</li>
         <li><strong>Habla castellano o lleva a alguien que lo hable.</strong> La mayoría de los agentes en Barcelona hablan poco inglés. Una llamada segura y profesional en castellano cambia cómo se toma en serio tu candidatura.</li>
-        <li><strong>Si no puedes estar pendiente del teléfono todo el día:</strong> <a href="/profile.html" class="inline-link">crea tu perfil en Llavai</a>. Nuestra agente de IA Julia llama a las inmobiliarias de Barcelona en castellano barcelonés nativo segundos después de que salga un piso que encaja con tu perfil, presenta tu candidatura y reserva la visita.</li>
+        <li><strong>Si no puedes estar pendiente del teléfono todo el día:</strong> <a href="/get-started" class="inline-link">crea tu perfil en Llavai</a>. Nuestra agente de IA Julia llama a las inmobiliarias de Barcelona en castellano barcelonés nativo segundos después de que salga un piso que encaja con tu perfil, presenta tu candidatura y reserva la visita.</li>
       </ol>
     </div>
     <div data-lang="uk">
@@ -622,7 +634,7 @@
         <li><strong>Напишіть коротку супровідну записку іспанською</strong> — два-три речення про те, хто ви, який у вас дохід і чому ви хочете саме цю квартиру. Агенти це помічають; більшість іноземних претендентів цього не роблять.</li>
         <li><strong>Телефонуйте в агентство одразу після появи оголошення</strong> — не пишіть у WhatsApp, телефонуйте. Агенти спочатку беруть трубку. Дзвінок протягом перших десяти хвилин набагато цінніший, ніж повідомлення, надіслане годину по тому.</li>
         <li><strong>Говоріть іспанською або приходьте з тим, хто говорить.</strong> Більшість агентів у Барселоні погано знають англійську. Впевнений, професійний дзвінок іспанською змінює те, наскільки серйозно сприймають вашу заявку.</li>
-        <li><strong>Якщо ви не можете бути доступні по телефону весь день:</strong> <a href="/profile.html" class="inline-link">створіть профіль у Llavai</a>. Наш AI-агент Julia телефонує барселонським агентствам місцевою іспанською за кілька секунд після появи підходящого оголошення, представляє ваш профіль і бронює перегляд — тож ви завжди першими в черзі.</li>
+        <li><strong>Якщо ви не можете бути доступні по телефону весь день:</strong> <a href="/get-started" class="inline-link">створіть профіль у Llavai</a>. Наш AI-агент Julia телефонує барселонським агентствам місцевою іспанською за кілька секунд після появи підходящого оголошення, представляє ваш профіль і бронює перегляд — тож ви завжди першими в черзі.</li>
       </ol>
     </div>
 
@@ -789,7 +801,7 @@
       <p class="article-cta-sub">Створіть профіль орендаря за дві хвилини. Julia починає дзвонити барселонським агентствам місцевою іспанською того ж дня — щоб наступне підходяще оголошення вже мало ваше ім'я.</p>
     </div>
     <div class="cta-actions">
-      <a href="/profile.html" class="btn-primary">
+      <a href="/get-started" class="btn-primary">
         <span data-lang="en">Build my tenant profile →</span>
         <span data-lang="es">Crear mi perfil de inquilino →</span>
         <span data-lang="uk">Створити профіль орендаря →</span>
@@ -797,6 +809,7 @@
     </div>
   </div>
 </section>
+</main>
 
 <footer>
   <div class="container">
@@ -812,7 +825,7 @@
     document.body.classList.remove('es','uk');
     if (lang !== 'en') document.body.classList.add(lang);
     document.documentElement.lang = lang;
-    ['en','es','uk'].forEach(function(l){ document.getElementById('btn-'+l).classList.toggle('active', l===lang); });
+    ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
     try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
   }
   try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}

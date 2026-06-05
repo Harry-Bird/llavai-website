@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+
+<title>Sign in — Llavai</title>
+<meta name="description" content="Sign in to your Llavai account to track your Barcelona viewings." />
+<link rel="canonical" href="https://llavai.com/login" />
+
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#F4EFE5" />
+
+<link rel="stylesheet" href="/fonts.css">
+<style>
+  :root{
+    --cream:#F4EFE5;--cream-deep:#ECE5D5;--ink:#1B388F;--ink-deep:#142869;
+    --coral:#E55B45;--coral-deep:#C8462F;--coral-text:#AB3B25;
+    --pencil:#6E6253;--paper-shadow:rgba(27,56,143,0.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--cream);color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55;font-weight:400;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;
+    background-image:
+      radial-gradient(ellipse 800px 600px at 15% 10%,rgba(229,91,69,.04) 0%,transparent 50%),
+      radial-gradient(ellipse 600px 800px at 90% 60%,rgba(27,56,143,.05) 0%,transparent 50%);
+  }
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;z-index:100;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
+  nav{padding:28px 32px;max-width:1100px;margin:0 auto;width:100%;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:10}
+  .nav-logo{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+  .nav-logo .ai{color:var(--coral)}
+  .lang-toggle{display:flex;gap:4px;font-size:13px;font-family:'Newsreader',serif;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil);align-items:center}
+  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--pencil);padding:4px 8px;font-family:inherit;font-size:inherit;letter-spacing:inherit;text-transform:inherit;transition:color .2s}
+  .lang-toggle button:hover{color:var(--ink)}
+  .lang-toggle button.active{color:var(--ink);font-weight:600;border-bottom:1.5px solid var(--coral)}
+  .lang-sep{opacity:.4}
+  main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 32px 90px}
+  .card{max-width:440px;width:100%;animation:fadeUp .5s ease-out forwards}
+  .section-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral-text);letter-spacing:.04em;margin-bottom:14px;display:flex;align-items:center;gap:16px}
+  .section-eyebrow::before{content:"";width:32px;height:1px;background:var(--coral)}
+  h1{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(30px,4.4vw,44px);line-height:1.04;letter-spacing:-.025em;color:var(--ink);margin-bottom:14px;font-variation-settings:"SOFT" 60}
+  h1 em{font-style:italic;color:var(--coral);font-variation-settings:"SOFT" 100,"WONK" 1}
+  .lede{font-size:17px;line-height:1.6;color:var(--ink-deep);margin-bottom:32px}
+  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
+  .field label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)}
+  .field input{padding:14px 16px;font-family:'Newsreader',serif;font-size:16px;border:1.5px solid rgba(27,56,143,.2);background:var(--cream);color:var(--ink);border-radius:2px;outline:none;transition:border-color .2s;width:100%}
+  .field input::placeholder{color:var(--pencil);font-style:italic}
+  .field input:focus{border-color:var(--coral)}
+  .field input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .btn-primary{background:var(--ink);color:var(--cream);border:none;font-family:'Newsreader',serif;font-size:16px;font-weight:500;letter-spacing:.01em;padding:16px 32px;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .25s;box-shadow:0 4px 0 var(--ink-deep);text-decoration:none;text-align:center;width:100%}
+  .btn-primary:hover{background:var(--ink-deep);transform:translateY(-1px);box-shadow:0 5px 0 var(--ink-deep)}
+  .btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink-deep)}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 2px 0 var(--ink-deep)}
+  .form-note{font-size:14px;color:var(--pencil);font-style:italic;line-height:1.5;margin-top:16px;text-align:center}
+  .form-note a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
+  .form-error{display:none;background:rgba(229,91,69,.08);border:1px solid rgba(229,91,69,.3);padding:12px 16px;font-size:14px;color:var(--coral-deep);margin-bottom:20px;font-style:italic;border-radius:2px}
+  .form-error.visible{display:block}
+  .notice{display:none;background:rgba(27,56,143,.06);border:1px dashed rgba(27,56,143,.25);padding:12px 16px;font-size:14px;color:var(--ink-deep);margin-bottom:20px;font-style:italic;border-radius:2px}
+  .notice.visible{display:block}
+  .spinner{display:none;width:20px;height:20px;border:2px solid rgba(244,239,229,.3);border-top-color:var(--cream);border-radius:50%;animation:spin .7s linear infinite}
+  .spinner.visible{display:inline-block}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+  .sent{display:none;text-align:center}
+  .sent.visible{display:block;animation:fadeUp .4s ease-out forwards}
+  .sent-tick{width:60px;height:60px;background:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
+  .back-link{display:inline-block;margin-top:8px;font-size:15px;color:var(--pencil);font-style:italic;text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
+  .back-link:hover{color:var(--coral-text)}
+  footer{padding:30px 32px 40px;border-top:1px solid rgba(27,56,143,.12)}
+  .footer-row{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--pencil)}
+  .footer-row a{color:var(--ink);text-decoration:none}
+  .footer-row a:hover{color:var(--coral-text)}
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:var(--cream);padding:12px 20px;border-radius:2px;font-family:'Newsreader',serif;font-size:15px;text-decoration:none}
+  .skip-link:focus{left:16px;top:16px}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+  #main:focus{outline:none}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+    .card,.sent.visible{opacity:1 !important}
+    .spinner{animation:spin .7s linear infinite !important}
+  }
+  [data-lang="es"],[data-lang="uk"]{display:none}
+  body.es [data-lang="en"],body.es [data-lang="uk"]{display:none}
+  body.es [data-lang="es"]{display:block}
+  body.es [data-lang="es"].inline{display:inline}
+  body.es h1 [data-lang="es"]{display:inline}
+  body.uk [data-lang="en"],body.uk [data-lang="es"]{display:none}
+  body.uk [data-lang="uk"]{display:block}
+  body.uk [data-lang="uk"].inline{display:inline}
+  body.uk h1 [data-lang="uk"]{display:inline}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
+
+<nav>
+  <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
+  <div class="lang-toggle" role="group" aria-label="Select language">
+    <button id="btn-en" class="active" aria-pressed="true" onclick="setLang('en')">EN</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button id="btn-es" aria-pressed="false" onclick="setLang('es')">ES</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+
+  <!-- SIGN-IN CARD -->
+  <div class="card" id="signinCard">
+    <p class="section-eyebrow">
+      <span data-lang="en">Your account</span><span data-lang="es">Tu cuenta</span><span data-lang="uk">Ваш акаунт</span>
+    </p>
+    <h1>
+      <span data-lang="en">Sign in to <em>Llavai.</em></span>
+      <span data-lang="es">Entra en <em>Llavai.</em></span>
+      <span data-lang="uk">Увійдіть у <em>Llavai.</em></span>
+    </h1>
+    <p class="lede">
+      <span data-lang="en">No passwords. Enter your email and we'll send you a secure one-time sign-in link.</span>
+      <span data-lang="es">Sin contraseñas. Introduce tu email y te enviaremos un enlace de acceso seguro de un solo uso.</span>
+      <span data-lang="uk">Без паролів. Введіть свій email — і ми надішлемо безпечне одноразове посилання для входу.</span>
+    </p>
+
+    <div class="notice" id="configNotice">
+      <span data-lang="en">Sign-in isn't switched on yet — finish the Supabase setup (see SETUP.md).</span>
+      <span data-lang="es">El acceso aún no está activado — completa la configuración de Supabase (ver SETUP.md).</span>
+      <span data-lang="uk">Вхід ще не увімкнено — завершіть налаштування Supabase (див. SETUP.md).</span>
+    </div>
+    <div class="form-error" id="formError" role="alert" aria-live="assertive"></div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" autocomplete="email" placeholder="you@email.com" />
+    </div>
+    <button class="btn-primary" id="btnSend" onclick="sendLink()">
+      <span id="sendText">
+        <span data-lang="en">Email me a sign-in link →</span><span data-lang="es">Envíame un enlace de acceso →</span><span data-lang="uk">Надішліть мені посилання для входу →</span>
+      </span>
+      <span class="spinner" id="spinner"></span>
+    </button>
+    <p class="form-note">
+      <span data-lang="en">New here? <a href="/get-started">Get started</a> in 30 seconds.</span>
+      <span data-lang="es">¿Nuevo? <a href="/get-started">Empieza</a> en 30 segundos.</span>
+      <span data-lang="uk">Вперше тут? <a href="/get-started">Почніть</a> за 30 секунд.</span>
+    </p>
+  </div>
+
+  <!-- LINK SENT -->
+  <div class="sent" id="sentCard">
+    <div class="sent-tick" aria-hidden="true">
+      <svg width="26" height="26" viewBox="0 0 28 28" fill="none"><path d="M3 8l11 8 11-8M3 8v13h22V8M3 8l11 8 11-8" stroke="#F4EFE5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1>
+      <span data-lang="en">Check your <em>email.</em></span>
+      <span data-lang="es">Revisa tu <em>email.</em></span>
+      <span data-lang="uk">Перевірте <em>пошту.</em></span>
+    </h1>
+    <p class="lede">
+      <span data-lang="en">We've sent a one-time sign-in link to <strong id="sentEmail"></strong>. Open it on this device. It expires shortly — check spam if it's not there.</span>
+      <span data-lang="es">Hemos enviado un enlace de acceso de un solo uso a <strong id="sentEmailEs"></strong>. Ábrelo en este dispositivo. Caduca pronto — revisa el spam si no aparece.</span>
+      <span data-lang="uk">Ми надіслали одноразове посилання для входу на <strong id="sentEmailUk"></strong>. Відкрийте його на цьому пристрої. Воно скоро спливає — перевірте спам, якщо його немає.</span>
+    </p>
+    <a href="/" class="back-link">
+      <span data-lang="en">← Back to Llavai</span><span data-lang="es">← Volver a Llavai</span><span data-lang="uk">← Назад до Llavai</span>
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  <div class="footer-row">
+    <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span></span>
+    <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+  </div>
+</footer>
+
+<script src="/supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+function setLang(lang){
+  document.body.classList.remove('es','uk');
+  if (lang !== 'en') document.body.classList.add(lang);
+  document.documentElement.lang = lang;
+  ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
+  try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
+}
+try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
+
+function lang(){ return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
+function val(id){ return (document.getElementById(id).value||'').trim(); }
+
+const MSG = {
+  email:   {en:'Please enter a valid email address.', es:'Por favor, introduce un email válido.', uk:'Будь ласка, введіть дійсну електронну адресу.'},
+  failed:  {en:'Couldn\'t send the link. Please try again, or <a href="mailto:hello@llavai.com">email us</a>.', es:'No se pudo enviar el enlace. Inténtalo de nuevo o <a href="mailto:hello@llavai.com">escríbenos</a>.', uk:'Не вдалося надіслати посилання. Спробуйте ще раз або <a href="mailto:hello@llavai.com">напишіть нам</a>.'}
+};
+function showError(html){ const el=document.getElementById('formError'); el.innerHTML=html; el.classList.add('visible'); }
+
+// Is the project configured yet?
+const CONFIGURED = !!(window.LLAVAI_SUPABASE_URL && window.LLAVAI_SUPABASE_ANON_KEY
+  && !/YOUR-PROJECT|YOUR-ANON/.test(window.LLAVAI_SUPABASE_URL + window.LLAVAI_SUPABASE_ANON_KEY));
+
+let sb = null;
+if (CONFIGURED && window.supabase) {
+  sb = window.supabase.createClient(window.LLAVAI_SUPABASE_URL, window.LLAVAI_SUPABASE_ANON_KEY);
+  // Already signed in? Go straight to the dashboard.
+  sb.auth.getSession().then(function(res){ if (res && res.data && res.data.session) location.replace('/account'); });
+} else {
+  document.getElementById('configNotice').classList.add('visible');
+  document.getElementById('btnSend').disabled = true;
+}
+
+async function sendLink(){
+  const l = lang();
+  document.getElementById('formError').classList.remove('visible');
+  const email = val('email');
+  if (!email || !email.includes('@')) { showError(MSG.email[l]); return; }
+  if (!sb) { return; }
+
+  const btn=document.getElementById('btnSend'), txt=document.getElementById('sendText'), sp=document.getElementById('spinner');
+  btn.disabled=true; txt.style.display='none'; sp.classList.add('visible');
+
+  const { error } = await sb.auth.signInWithOtp({
+    email: email,
+    options: { emailRedirectTo: location.origin + '/account' }
+  });
+
+  if (error) {
+    showError(MSG.failed[l]);
+    btn.disabled=false; txt.style.display=''; sp.classList.remove('visible');
+    return;
+  }
+  ['sentEmail','sentEmailEs','sentEmailUk'].forEach(function(id){ document.getElementById(id).textContent = email; });
+  document.getElementById('signinCard').style.display='none';
+  document.getElementById('sentCard').classList.add('visible');
+}
+</script>
+</body>
+</html>

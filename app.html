@@ -173,6 +173,8 @@ const DEMO = [{
 
 const CONFIGURED = !!(window.LLAVAI_SUPABASE_URL && window.LLAVAI_SUPABASE_ANON_KEY
   && !/YOUR-PROJECT|YOUR-ANON/.test(window.LLAVAI_SUPABASE_URL + window.LLAVAI_SUPABASE_ANON_KEY));
+const CHECKOUT = (window.LLAVAI_CHECKOUT_URL && !/YOUR-/.test(window.LLAVAI_CHECKOUT_URL)) ? window.LLAVAI_CHECKOUT_URL : null;
+function qp(n){ return new URLSearchParams(location.search).get(n); }
 let sb=null, USER=null;
 
 function show(id){ document.getElementById(id).hidden=false; }
@@ -196,11 +198,17 @@ async function init(){
 async function afterAuth(){
   document.getElementById('signOutBtn').hidden=false;
   document.getElementById('accountLink').hidden=false;
-  // subscription gate
-  let active=false;
-  try { const { data } = await sb.rpc('has_active_subscription'); active = !!data; } catch(e) { active=false; }
-  if (!active){ hide('gate'); show('paywall'); return; }
-  // load feed
+  if (await isSubscribed()) return loadFeed();
+  if (qp('checkout')==='success') return activating();
+  hide('gate'); show('paywall');
+}
+async function isSubscribed(){ try{ const {data}=await sb.rpc('has_active_subscription'); return !!data; }catch(e){ return false; } }
+async function activating(){
+  hide('paywall'); const g=document.getElementById('gate'); g.textContent='Payment received — activating your account…'; show('gate');
+  for (let i=0;i<6;i++){ await new Promise(function(r){setTimeout(r,2000);}); if(await isSubscribed()){ history.replaceState({}, '', '/app'); return loadFeed(); } }
+  hide('gate'); show('paywall');  // webhook still catching up — paywall has a retry hint
+}
+async function loadFeed(){
   const { data, error } = await sb.from('listings').select('*')
     .gt('appeal_score', 70).neq('status','dismissed').order('created_at',{ascending:false});
   hide('gate');
@@ -222,10 +230,19 @@ async function dismiss(id){
 }
 async function signOut(){ if(sb){ await sb.auth.signOut(); } location.replace('/login'); }
 
-document.getElementById('subscribeBtn').addEventListener('click', function(e){
-  e.preventDefault();
-  alert('Checkout is coming soon — Stripe wiring is the next step. For now, email hello@llavai.com to get on the list.');
-});
+document.getElementById('subscribeBtn').addEventListener('click', function(e){ e.preventDefault(); subscribe(); });
+async function subscribe(){
+  if (!USER){ location.href='/login?next=/app'; return; }
+  if (!CHECKOUT){ alert('Checkout isn\'t live yet — email hello@llavai.com to get on the list.'); return; }
+  const btn=document.getElementById('subscribeBtn'); const label=btn.textContent; btn.textContent='Redirecting…';
+  try{
+    const res=await fetch(CHECKOUT,{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({ user_id:USER.id, email:USER.email, return_to:location.origin+'/app' })});
+    const data=await res.json().catch(function(){return {};});
+    if(res.ok && data.url){ location.href=data.url; return; }
+    throw new Error(data.error||('HTTP '+res.status));
+  }catch(err){ btn.textContent=label; alert('Could not start checkout. Please try again, or email hello@llavai.com.'); }
+}
 
 init();
 </script>

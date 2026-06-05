@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex" />
+<title>Your account — Llavai</title>
+<link rel="canonical" href="https://llavai.com/account" />
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#F4EFE5" />
+<link rel="stylesheet" href="/fonts.css">
+<style>
+  :root{
+    --cream:#F4EFE5;--cream-deep:#ECE5D5;--ink:#1B388F;--ink-deep:#142869;
+    --coral:#E55B45;--coral-deep:#C8462F;--coral-text:#AB3B25;
+    --pencil:#6E6253;--paper-shadow:rgba(27,56,143,0.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--cream);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;
+    background-image:radial-gradient(ellipse 800px 600px at 15% 10%,rgba(229,91,69,.04) 0%,transparent 50%),radial-gradient(ellipse 600px 800px at 90% 60%,rgba(27,56,143,.05) 0%,transparent 50%)}
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;z-index:100;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
+  .container{max-width:880px;margin:0 auto;padding:0 32px;width:100%}
+  nav{padding:24px 32px;max-width:880px;margin:0 auto;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;position:relative;z-index:10}
+  .nav-logo{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+  .nav-logo .ai{color:var(--coral)}
+  .nav-right{display:flex;align-items:center;gap:16px}
+  .lang-toggle{display:flex;gap:4px;font-size:13px;font-family:'Newsreader',serif;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil);align-items:center}
+  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--pencil);padding:4px 8px;font:inherit;font-size:13px;letter-spacing:.05em;text-transform:uppercase;transition:color .2s}
+  .lang-toggle button:hover{color:var(--ink)}
+  .lang-toggle button.active{color:var(--ink);font-weight:600;border-bottom:1.5px solid var(--coral)}
+  .lang-sep{opacity:.4}
+  .btn-text{background:none;border:none;cursor:pointer;font-family:'Newsreader',serif;font-size:14px;font-style:italic;color:var(--pencil);text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px;transition:color .2s}
+  .btn-text:hover{color:var(--coral-text)}
+  main{flex:1;padding:24px 0 90px}
+  .gate{min-height:50vh;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--pencil);font-style:italic}
+  .notice{display:none;max-width:520px;margin:24px auto;background:rgba(27,56,143,.06);border:1px dashed rgba(27,56,143,.25);padding:14px 18px;font-size:15px;color:var(--ink-deep);font-style:italic;border-radius:2px;text-align:center}
+  .notice.visible{display:block}
+  .acct-head{margin-bottom:28px}
+  .section-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral-text);letter-spacing:.04em;margin-bottom:10px;display:flex;align-items:center;gap:16px}
+  .section-eyebrow::before{content:"";width:32px;height:1px;background:var(--coral)}
+  h1{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(28px,4vw,40px);line-height:1.05;letter-spacing:-.025em;color:var(--ink);font-variation-settings:"SOFT" 60}
+  h1 em{font-style:italic;color:var(--coral)}
+  .tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid rgba(27,56,143,.14);margin-bottom:28px}
+  .tab{background:none;border:none;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;color:var(--pencil);padding:12px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--ink);border-bottom-color:var(--coral);font-weight:600}
+  .panel{display:none;animation:fadeUp .35s ease-out forwards}
+  .panel.active{display:block}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .panel h2{font-family:'Fraunces',serif;font-weight:500;font-size:22px;color:var(--ink);margin-bottom:6px}
+  .panel .sub{font-size:15px;color:var(--pencil);font-style:italic;margin-bottom:22px}
+  .empty{padding:32px;text-align:center;color:var(--pencil);font-style:italic;border:1px dashed rgba(27,56,143,.18);border-radius:2px}
+  /* pipeline */
+  .viewing{border:1px solid rgba(27,56,143,.12);border-radius:2px;padding:18px 20px;margin-bottom:14px;background:var(--cream);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .viewing h3{font-family:'Fraunces',serif;font-size:18px;font-weight:500;color:var(--ink);margin-bottom:4px}
+  .viewing .meta{font-size:14px;color:var(--pencil)}
+  .viewing a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
+  .badge{align-self:flex-start;font-family:'Newsreader',serif;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:2px;white-space:nowrap}
+  .badge.b-matched{background:rgba(110,98,83,.12);color:var(--pencil)}
+  .badge.b-calling{background:rgba(229,91,69,.12);color:var(--coral-text)}
+  .badge.b-booked,.badge.b-confirmed{background:rgba(27,56,143,.12);color:var(--ink)}
+  .badge.b-attended{background:rgba(27,56,143,.9);color:var(--cream)}
+  .badge.b-declined,.badge.b-no_answer{background:rgba(110,98,83,.12);color:var(--pencil);text-decoration:line-through}
+  /* forms */
+  .field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
+  .field label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)}
+  .field input,.field select,.field textarea{padding:13px 15px;font-family:'Newsreader',serif;font-size:16px;border:1.5px solid rgba(27,56,143,.2);background:var(--cream);color:var(--ink);border-radius:2px;outline:none;width:100%;transition:border-color .2s}
+  .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--coral)}
+  .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .field textarea{resize:vertical;min-height:80px}
+  .row-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  @media(max-width:560px){.row-2{grid-template-columns:1fr}}
+  .btn-primary{background:var(--ink);color:var(--cream);border:none;font-family:'Newsreader',serif;font-size:15px;font-weight:500;padding:13px 24px;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:all .25s;box-shadow:0 4px 0 var(--ink-deep)}
+  .btn-primary:hover{background:var(--ink-deep);transform:translateY(-1px);box-shadow:0 5px 0 var(--ink-deep)}
+  .btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink-deep)}
+  .btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 2px 0 var(--ink-deep)}
+  .saved{display:inline-block;margin-left:12px;color:var(--ink);font-style:italic;font-size:14px;opacity:0;transition:opacity .2s}
+  .saved.show{opacity:1}
+  /* documents */
+  .doc-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid rgba(27,56,143,.12);border-radius:2px;margin-bottom:10px;flex-wrap:wrap}
+  .doc-row .d-name{font-size:15px;color:var(--ink)}
+  .doc-row .d-meta{font-size:13px;color:var(--pencil);font-style:italic}
+  .doc-actions{display:flex;gap:14px}
+  .upload-box{border:1px dashed rgba(27,56,143,.25);border-radius:2px;padding:18px;margin-top:18px;display:flex;gap:12px;align-items:end;flex-wrap:wrap}
+  .upload-box .field{margin-bottom:0}
+  /* messages */
+  .thread{display:flex;flex-direction:column;gap:10px;margin-bottom:18px;max-height:46vh;overflow-y:auto;padding:4px}
+  .bubble{max-width:78%;padding:11px 15px;border-radius:10px;font-size:15px;line-height:1.5}
+  .bubble.user{align-self:flex-end;background:var(--ink);color:var(--cream);border-bottom-right-radius:2px}
+  .bubble.team{align-self:flex-start;background:var(--cream-deep);color:var(--ink-deep);border-bottom-left-radius:2px}
+  .bubble .t{display:block;font-size:11px;opacity:.7;margin-top:4px}
+  .composer{display:flex;gap:10px;align-items:flex-end}
+  .composer textarea{flex:1}
+  .form-error{display:none;background:rgba(229,91,69,.08);border:1px solid rgba(229,91,69,.3);padding:10px 14px;font-size:14px;color:var(--coral-deep);margin-bottom:14px;font-style:italic;border-radius:2px}
+  .form-error.visible{display:block}
+  footer{padding:24px 32px 36px;border-top:1px solid rgba(27,56,143,.12)}
+  .footer-row{max-width:880px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--pencil)}
+  .footer-row a{color:var(--ink);text-decoration:none}
+  .footer-row a:hover{color:var(--coral-text)}
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:var(--cream);padding:12px 20px;border-radius:2px;font-family:'Newsreader',serif;font-size:15px;text-decoration:none}
+  .skip-link:focus{left:16px;top:16px}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+  #main:focus{outline:none}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}}
+  [data-lang="es"],[data-lang="uk"]{display:none}
+  body.es [data-lang="en"],body.es [data-lang="uk"]{display:none}
+  body.es [data-lang="es"]{display:inline}
+  body.uk [data-lang="en"],body.uk [data-lang="es"]{display:none}
+  body.uk [data-lang="uk"]{display:inline}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
+
+<nav>
+  <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
+  <div class="nav-right">
+    <button class="btn-text" id="signOutBtn" onclick="signOut()" hidden><span data-lang="en">Sign out</span><span data-lang="es">Salir</span><span data-lang="uk">Вийти</span></button>
+    <div class="lang-toggle" role="group" aria-label="Select language">
+      <button id="btn-en" class="active" aria-pressed="true" onclick="setLang('en')">EN</button>
+      <span class="lang-sep" aria-hidden="true">/</span>
+      <button id="btn-es" aria-pressed="false" onclick="setLang('es')">ES</button>
+      <span class="lang-sep" aria-hidden="true">/</span>
+      <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
+    </div>
+  </div>
+</nav>
+
+<main id="main" tabindex="-1">
+  <div class="container">
+
+    <div class="notice" id="configNotice">
+      <span data-lang="en">Accounts aren't switched on yet — finish the Supabase setup (see SETUP.md).</span>
+      <span data-lang="es">Las cuentas aún no están activadas — completa la configuración de Supabase (SETUP.md).</span>
+      <span data-lang="uk">Акаунти ще не увімкнено — завершіть налаштування Supabase (SETUP.md).</span>
+    </div>
+
+    <div class="gate" id="gate">
+      <span data-lang="en">Loading your account…</span><span data-lang="es">Cargando tu cuenta…</span><span data-lang="uk">Завантаження акаунта…</span>
+    </div>
+
+    <div id="dash" hidden>
+      <div class="acct-head">
+        <p class="section-eyebrow"><span data-lang="en">Your account</span><span data-lang="es">Tu cuenta</span><span data-lang="uk">Ваш акаунт</span></p>
+        <h1><span data-lang="en">Hi</span><span data-lang="es">Hola</span><span data-lang="uk">Вітаємо</span>, <em id="greetName"></em></h1>
+      </div>
+
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-tab="pipeline" role="tab"><span data-lang="en">Viewings</span><span data-lang="es">Visitas</span><span data-lang="uk">Перегляди</span></button>
+        <button class="tab" data-tab="profile" role="tab"><span data-lang="en">Profile</span><span data-lang="es">Perfil</span><span data-lang="uk">Профіль</span></button>
+        <button class="tab" data-tab="documents" role="tab"><span data-lang="en">Documents</span><span data-lang="es">Documentos</span><span data-lang="uk">Документи</span></button>
+        <button class="tab" data-tab="messages" role="tab"><span data-lang="en">Messages</span><span data-lang="es">Mensajes</span><span data-lang="uk">Повідомлення</span></button>
+      </div>
+
+      <!-- PIPELINE -->
+      <section class="panel active" id="panel-pipeline" role="tabpanel">
+        <h2><span data-lang="en">Your viewing pipeline</span><span data-lang="es">Tu flujo de visitas</span><span data-lang="uk">Ваш потік переглядів</span></h2>
+        <p class="sub"><span data-lang="en">Where Julia is with each agency — booked, pending or done.</span><span data-lang="es">Cómo va Julia con cada agencia — reservada, pendiente o hecha.</span><span data-lang="uk">Як просувається Julia з кожним агентством — заброньовано, очікує чи завершено.</span></p>
+        <div id="pipelineList"></div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="panel" id="panel-profile" role="tabpanel">
+        <h2><span data-lang="en">Your tenant profile</span><span data-lang="es">Tu perfil de inquilino</span><span data-lang="uk">Ваш профіль орендаря</span></h2>
+        <p class="sub"><span data-lang="en">The details Julia uses to present you to agents. Keep them current.</span><span data-lang="es">Los datos que Julia usa para presentarte a los agentes. Mantenlos al día.</span><span data-lang="uk">Дані, які Julia використовує, щоб представити вас агентам. Тримайте їх актуальними.</span></p>
+        <div class="form-error" id="profileError" role="alert"></div>
+        <div class="row-2">
+          <div class="field"><label for="p_first"><span data-lang="en">First name</span><span data-lang="es">Nombre</span><span data-lang="uk">Ім'я</span></label><input id="p_first" type="text" autocomplete="given-name" /></div>
+          <div class="field"><label for="p_last"><span data-lang="en">Last name</span><span data-lang="es">Apellido</span><span data-lang="uk">Прізвище</span></label><input id="p_last" type="text" autocomplete="family-name" /></div>
+        </div>
+        <div class="row-2">
+          <div class="field"><label for="p_phone"><span data-lang="en">Phone</span><span data-lang="es">Teléfono</span><span data-lang="uk">Телефон</span></label><input id="p_phone" type="tel" autocomplete="tel" /></div>
+          <div class="field"><label for="p_profession"><span data-lang="en">Profession</span><span data-lang="es">Profesión</span><span data-lang="uk">Професія</span></label><input id="p_profession" type="text" /></div>
+        </div>
+        <div class="field"><label for="p_avail"><span data-lang="en">Viewing availability</span><span data-lang="es">Disponibilidad para visitas</span><span data-lang="uk">Доступність для переглядів</span></label><textarea id="p_avail"></textarea></div>
+        <div class="field"><label for="p_notes"><span data-lang="en">Anything else for Julia</span><span data-lang="es">Algo más para Julia</span><span data-lang="uk">Щось іще для Julia</span></label><textarea id="p_notes"></textarea></div>
+        <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()"><span data-lang="en">Save changes</span><span data-lang="es">Guardar</span><span data-lang="uk">Зберегти</span></button>
+        <span class="saved" id="profileSaved"><span data-lang="en">Saved ✓</span><span data-lang="es">Guardado ✓</span><span data-lang="uk">Збережено ✓</span></span>
+      </section>
+
+      <!-- DOCUMENTS -->
+      <section class="panel" id="panel-documents" role="tabpanel">
+        <h2><span data-lang="en">Your documents</span><span data-lang="es">Tus documentos</span><span data-lang="uk">Ваші документи</span></h2>
+        <p class="sub"><span data-lang="en">Private and encrypted. Only you and the Llavai team can access them.</span><span data-lang="es">Privados y cifrados. Solo tú y el equipo de Llavai pueden acceder.</span><span data-lang="uk">Приватні та зашифровані. Доступ лише у вас і команди Llavai.</span></p>
+        <div class="form-error" id="docError" role="alert"></div>
+        <div id="docList"></div>
+        <div class="upload-box">
+          <div class="field" style="min-width:160px">
+            <label for="docType"><span data-lang="en">Type</span><span data-lang="es">Tipo</span><span data-lang="uk">Тип</span></label>
+            <select id="docType">
+              <option value="nie">NIE / TIE</option>
+              <option value="passport">Passport</option>
+              <option value="payslip">Payslip / Nómina</option>
+              <option value="bank_statement">Bank statement</option>
+              <option value="reference">Reference</option>
+              <option value="guarantor">Guarantor</option>
+              <option value="contract">Contract</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="field" style="flex:1;min-width:200px">
+            <label for="docFile"><span data-lang="en">File (PDF or image)</span><span data-lang="es">Archivo (PDF o imagen)</span><span data-lang="uk">Файл (PDF або зображення)</span></label>
+            <input id="docFile" type="file" accept=".pdf,image/*" />
+          </div>
+          <button class="btn-primary" id="uploadBtn" onclick="uploadDoc()"><span data-lang="en">Upload</span><span data-lang="es">Subir</span><span data-lang="uk">Завантажити</span></button>
+        </div>
+      </section>
+
+      <!-- MESSAGES -->
+      <section class="panel" id="panel-messages" role="tabpanel">
+        <h2><span data-lang="en">Messages</span><span data-lang="es">Mensajes</span><span data-lang="uk">Повідомлення</span></h2>
+        <p class="sub"><span data-lang="en">Talk to the Llavai team about your search.</span><span data-lang="es">Habla con el equipo de Llavai sobre tu búsqueda.</span><span data-lang="uk">Спілкуйтеся з командою Llavai щодо вашого пошуку.</span></p>
+        <div class="thread" id="thread"></div>
+        <div class="composer">
+          <textarea id="msgInput" rows="1" placeholder="…"></textarea>
+          <button class="btn-primary" id="sendMsgBtn" onclick="sendMessage()"><span data-lang="en">Send</span><span data-lang="es">Enviar</span><span data-lang="uk">Надіслати</span></button>
+        </div>
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<footer>
+  <div class="footer-row">
+    <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span></span>
+    <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+  </div>
+</footer>
+
+<script src="/supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+function setLang(lang){
+  document.body.classList.remove('es','uk');
+  if (lang !== 'en') document.body.classList.add(lang);
+  document.documentElement.lang = lang;
+  ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
+  try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
+}
+try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
+function lang(){ return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
+function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function fmtDate(s){ if(!s) return ''; try { return new Date(s).toLocaleString(lang()==='uk'?'uk-UA':lang()==='es'?'es-ES':'en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch(e){ return s; } }
+
+// tab switching
+document.querySelectorAll('.tab').forEach(function(t){
+  t.addEventListener('click', function(){
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+    t.classList.add('active');
+    document.getElementById('panel-'+t.dataset.tab).classList.add('active');
+  });
+});
+
+const CONFIGURED = !!(window.LLAVAI_SUPABASE_URL && window.LLAVAI_SUPABASE_ANON_KEY
+  && !/YOUR-PROJECT|YOUR-ANON/.test(window.LLAVAI_SUPABASE_URL + window.LLAVAI_SUPABASE_ANON_KEY));
+let sb=null, USER=null;
+
+async function init(){
+  if (!CONFIGURED || !window.supabase){
+    document.getElementById('gate').hidden = true;
+    document.getElementById('configNotice').classList.add('visible');
+    return;
+  }
+  sb = window.supabase.createClient(window.LLAVAI_SUPABASE_URL, window.LLAVAI_SUPABASE_ANON_KEY);
+  let started=false;
+  function start(session){ if(started) return; started=true; USER=session.user; showDash(); }
+  // A magic-link landing puts the token in the URL; the session can arrive a
+  // moment after load, so listen for it instead of redirecting on the first null.
+  sb.auth.onAuthStateChange(function(event, session){
+    if (event==='SIGNED_OUT'){ location.replace('/login'); return; }
+    if (session) start(session);
+  });
+  const { data:{ session } } = await sb.auth.getSession();
+  if (session) start(session);
+  else setTimeout(function(){ if(!started) location.replace('/login'); }, 2500);
+}
+function showDash(){
+  document.getElementById('gate').hidden = true;
+  document.getElementById('dash').hidden = false;
+  document.getElementById('signOutBtn').hidden = false;
+  loadProfile();   // also sets the greeting
+  loadPipeline();
+  loadDocuments();
+  loadMessages();
+}
+
+async function signOut(){ if(sb){ await sb.auth.signOut(); } location.replace('/login'); }
+
+/* ---- pipeline ---- */
+const STATUS = {
+  matched:{en:'Matched',es:'Encontrado',uk:'Знайдено'}, calling:{en:'Julia calling',es:'Julia llamando',uk:'Julia телефонує'},
+  booked:{en:'Booked',es:'Reservada',uk:'Заброньовано'}, confirmed:{en:'Confirmed',es:'Confirmada',uk:'Підтверджено'},
+  attended:{en:'Attended',es:'Visitada',uk:'Відвідано'}, declined:{en:'Declined',es:'Rechazada',uk:'Відхилено'}, no_answer:{en:'No answer',es:'Sin respuesta',uk:'Немає відповіді'}
+};
+async function loadPipeline(){
+  const wrap=document.getElementById('pipelineList');
+  const { data, error } = await sb.from('viewings').select('*').order('created_at',{ascending:false});
+  if (error){ wrap.innerHTML='<div class="empty">'+esc(error.message)+'</div>'; return; }
+  if (!data || !data.length){
+    wrap.innerHTML='<div class="empty"><span data-lang="en">No viewings yet. As soon as Julia starts calling agencies for you, they\'ll appear here.</span><span data-lang="es">Aún no hay visitas. En cuanto Julia empiece a llamar a las agencias, aparecerán aquí.</span><span data-lang="uk">Поки що немає переглядів. Щойно Julia почне телефонувати агентствам, вони з\'являться тут.</span></div>'; return;
+  }
+  const l=lang();
+  wrap.innerHTML = data.map(function(v){
+    const st=STATUS[v.status]||{en:v.status,es:v.status,uk:v.status};
+    const title = v.listing_title || (l==='es'?'Piso':l==='uk'?'Квартира':'Listing');
+    const bits=[]; if(v.neighbourhood) bits.push(esc(v.neighbourhood)); if(v.price) bits.push('€'+esc(v.price)); if(v.agency_name) bits.push(esc(v.agency_name));
+    const when = v.viewing_at ? '<div class="meta">'+(l==='es'?'Visita: ':l==='uk'?'Перегляд: ':'Viewing: ')+esc(fmtDate(v.viewing_at))+'</div>' : '';
+    const link = v.listing_url ? ' · <a href="'+esc(v.listing_url)+'" target="_blank" rel="noopener">'+(l==='es'?'ver':l==='uk'?'дивитися':'view')+'</a>' : '';
+    return '<div class="viewing"><div><h3>'+esc(title)+'</h3><div class="meta">'+bits.join(' · ')+link+'</div>'+when+'</div><span class="badge b-'+esc(v.status)+'">'+esc(st[l])+'</span></div>';
+  }).join('');
+}
+
+/* ---- profile ---- */
+const PFIELDS=['first_name','last_name','phone','profession','viewing_availability','notes'];
+const PMAP={first_name:'p_first',last_name:'p_last',phone:'p_phone',profession:'p_profession',viewing_availability:'p_avail',notes:'p_notes'};
+async function loadProfile(){
+  const { data, error } = await sb.from('profiles').select('*').eq('id',USER.id).single();
+  const p = data || {};
+  document.getElementById('greetName').textContent = p.first_name || (USER.email||'').split('@')[0];
+  PFIELDS.forEach(function(f){ const el=document.getElementById(PMAP[f]); if(el) el.value = p[f]==null?'':p[f]; });
+}
+async function saveProfile(){
+  const btn=document.getElementById('saveProfileBtn'), err=document.getElementById('profileError'); err.classList.remove('visible');
+  const patch={}; PFIELDS.forEach(function(f){ patch[f]=document.getElementById(PMAP[f]).value.trim()||null; });
+  btn.disabled=true;
+  const { error } = await sb.from('profiles').update(patch).eq('id',USER.id);
+  btn.disabled=false;
+  if (error){ err.textContent=error.message; err.classList.add('visible'); return; }
+  const s=document.getElementById('profileSaved'); s.classList.add('show'); setTimeout(()=>s.classList.remove('show'),2000);
+  document.getElementById('greetName').textContent = patch.first_name || (USER.email||'').split('@')[0];
+}
+
+/* ---- documents ---- */
+async function loadDocuments(){
+  const wrap=document.getElementById('docList');
+  const { data, error } = await sb.from('documents').select('*').order('uploaded_at',{ascending:false});
+  if (error){ wrap.innerHTML='<div class="empty">'+esc(error.message)+'</div>'; return; }
+  if (!data || !data.length){ wrap.innerHTML='<div class="empty"><span data-lang="en">No documents uploaded yet.</span><span data-lang="es">Aún no has subido documentos.</span><span data-lang="uk">Документів ще не завантажено.</span></div>'; return; }
+  const l=lang();
+  wrap.innerHTML = data.map(function(d){
+    return '<div class="doc-row"><div><div class="d-name">'+esc(d.file_name||d.storage_path)+'</div><div class="d-meta">'+esc(d.doc_type)+' · '+esc(fmtDate(d.uploaded_at))+'</div></div>'+
+      '<div class="doc-actions"><button class="btn-text" onclick="downloadDoc(\''+esc(d.storage_path)+'\')">'+(l==='es'?'Ver':l==='uk'?'Відкрити':'Open')+'</button>'+
+      '<button class="btn-text" onclick="deleteDoc(\''+esc(d.id)+'\',\''+esc(d.storage_path)+'\')">'+(l==='es'?'Eliminar':l==='uk'?'Видалити':'Delete')+'</button></div></div>';
+  }).join('');
+}
+async function uploadDoc(){
+  const err=document.getElementById('docError'); err.classList.remove('visible');
+  const fileEl=document.getElementById('docFile'); const file=fileEl.files && fileEl.files[0];
+  if (!file){ err.textContent={en:'Choose a file first.',es:'Elige un archivo primero.',uk:'Спочатку оберіть файл.'}[lang()]; err.classList.add('visible'); return; }
+  const btn=document.getElementById('uploadBtn'); btn.disabled=true;
+  const safe = file.name.replace(/[^\w.\-]+/g,'_');
+  const path = USER.id+'/'+(crypto.randomUUID?crypto.randomUUID():Date.now())+'-'+safe;
+  const up = await sb.storage.from('documents').upload(path, file, { upsert:false, contentType:file.type||undefined });
+  if (up.error){ btn.disabled=false; err.textContent=up.error.message; err.classList.add('visible'); return; }
+  const ins = await sb.from('documents').insert({ user_id:USER.id, doc_type:document.getElementById('docType').value, storage_path:path, file_name:file.name, mime_type:file.type, size_bytes:file.size });
+  btn.disabled=false; fileEl.value='';
+  if (ins.error){ err.textContent=ins.error.message; err.classList.add('visible'); return; }
+  loadDocuments();
+}
+async function downloadDoc(path){
+  const { data, error } = await sb.storage.from('documents').createSignedUrl(path, 60);
+  if (error){ alert(error.message); return; }
+  window.open(data.signedUrl, '_blank', 'noopener');
+}
+async function deleteDoc(id, path){
+  if (!confirm({en:'Delete this document?',es:'¿Eliminar este documento?',uk:'Видалити цей документ?'}[lang()])) return;
+  await sb.storage.from('documents').remove([path]);
+  await sb.from('documents').delete().eq('id', id);
+  loadDocuments();
+}
+
+/* ---- messages ---- */
+async function loadMessages(){
+  const thread=document.getElementById('thread');
+  const { data, error } = await sb.from('messages').select('*').order('created_at',{ascending:true});
+  if (error){ thread.innerHTML='<div class="empty">'+esc(error.message)+'</div>'; return; }
+  if (!data || !data.length){ thread.innerHTML='<div class="empty"><span data-lang="en">No messages yet — say hello 👋</span><span data-lang="es">Aún no hay mensajes — saluda 👋</span><span data-lang="uk">Повідомлень ще немає — привітайтеся 👋</span></div>'; return; }
+  thread.innerHTML = data.map(function(m){
+    return '<div class="bubble '+(m.sender==='user'?'user':'team')+'">'+esc(m.body)+'<span class="t">'+esc(fmtDate(m.created_at))+'</span></div>';
+  }).join('');
+  thread.scrollTop = thread.scrollHeight;
+}
+async function sendMessage(){
+  const input=document.getElementById('msgInput'); const body=input.value.trim(); if(!body) return;
+  const btn=document.getElementById('sendMsgBtn'); btn.disabled=true;
+  const { error } = await sb.from('messages').insert({ user_id:USER.id, sender:'user', body:body });
+  btn.disabled=false;
+  if (error){ alert(error.message); return; }
+  input.value=''; loadMessages();
+}
+
+init();
+</script>
+</body>
+</html>

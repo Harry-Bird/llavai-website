@@ -7,4 +7,4 @@ window.LLAVAI_SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3Mi
 
 // n8n webhook that creates a Stripe Checkout Session (see supabase/STRIPE.md).
 // Browser-safe — it holds NO secret; the Stripe secret key lives in n8n only.
-window.LLAVAI_CHECKOUT_URL = 'YOUR-CHECKOUT-WEBHOOK-URL';
+window.LLAVAI_CHECKOUT_URL = 'https://llavai.app.n8n.cloud/webhook/stripe-checkout';

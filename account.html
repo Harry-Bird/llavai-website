@@ -106,6 +106,36 @@
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
   #main:focus{outline:none}
   @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}}
+  /* feed (Essential, self-serve) */
+  .feed-gate{min-height:30vh;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--pencil);font-style:italic}
+  .feed{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  @media(max-width:720px){.feed{grid-template-columns:1fr}}
+  .listing{border:1px solid rgba(27,56,143,.12);border-radius:4px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
+  .listing:hover{box-shadow:0 12px 36px var(--paper-shadow);transform:translateY(-2px)}
+  .photo{position:relative;height:190px;background-size:cover;background-position:center;background-color:var(--cream-deep);background-image:linear-gradient(135deg,rgba(27,56,143,.18),rgba(229,91,69,.18))}
+  .score{position:absolute;top:12px;left:12px;background:var(--ink);color:var(--cream);font-family:'Fraunces',serif;font-size:15px;font-weight:600;padding:6px 11px;border-radius:2px;display:flex;align-items:center;gap:6px}
+  .score small{font-family:'Newsreader',serif;font-weight:400;font-size:11px;opacity:.85;text-transform:uppercase;letter-spacing:.04em}
+  .fresh{position:absolute;top:12px;right:12px;background:rgba(244,239,229,.92);color:var(--ink-deep);font-size:12px;font-style:italic;padding:4px 9px;border-radius:2px}
+  .listing-body{padding:18px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
+  .price{font-family:'Fraunces',serif;font-size:24px;font-weight:500;color:var(--ink)}
+  .price .ppm{font-family:'Newsreader',serif;font-size:14px;font-weight:400;color:var(--pencil)}
+  .facts{font-size:15px;color:var(--ink-deep)}
+  .chips{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-size:12px;font-family:'Newsreader',serif;color:var(--ink-deep);background:rgba(27,56,143,.07);border-radius:2px;padding:3px 9px}
+  .agency{font-size:13px;color:var(--pencil);font-style:italic}
+  .actions{display:flex;gap:10px;align-items:center;margin-top:auto;padding-top:8px;flex-wrap:wrap}
+  .btn-call{background:var(--ink);color:var(--cream);border:none;font-family:'Newsreader',serif;font-size:15px;font-weight:500;padding:12px 20px;border-radius:2px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px;box-shadow:0 4px 0 var(--ink-deep);transition:all .2s;flex:1;justify-content:center;min-width:130px}
+  .btn-call:hover{background:var(--ink-deep);transform:translateY(-1px);box-shadow:0 5px 0 var(--ink-deep)}
+  .btn-call:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink-deep)}
+  .btn-ghost{font-family:'Newsreader',serif;font-size:14px;color:var(--ink);text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
+  .btn-ghost:hover{color:var(--coral-text)}
+  .dismiss{background:none;border:none;color:var(--pencil);font-size:18px;cursor:pointer;line-height:1;padding:4px}
+  .dismiss:hover{color:var(--coral-text)}
+  .paywall{max-width:520px;margin:8px auto 0;text-align:center;border:1px solid rgba(27,56,143,.14);border-radius:4px;padding:36px 32px;background:var(--cream)}
+  .paywall h2{font-family:'Fraunces',serif;font-weight:400;font-size:26px;color:var(--ink);margin-bottom:12px}
+  .paywall p{font-size:16px;color:var(--ink-deep);margin-bottom:8px;line-height:1.6}
+  .paywall .price-tag{font-family:'Fraunces',serif;font-size:34px;color:var(--ink);margin:18px 0}
+  .paywall .price-tag small{font-family:'Newsreader',serif;font-size:15px;color:var(--pencil)}
   [data-lang="es"],[data-lang="uk"]{display:none}
   body.es [data-lang="en"],body.es [data-lang="uk"]{display:none}
   body.es [data-lang="es"]{display:inline}
@@ -151,14 +181,31 @@
       </div>
 
       <div class="tabs" role="tablist">
-        <button class="tab active" data-tab="pipeline" role="tab"><span data-lang="en">Viewings</span><span data-lang="es">Visitas</span><span data-lang="uk">Перегляди</span></button>
+        <button class="tab active" data-tab="feed" role="tab"><span data-lang="en">Feed</span><span data-lang="es">Feed</span><span data-lang="uk">Стрічка</span></button>
+        <button class="tab" data-tab="pipeline" role="tab"><span data-lang="en">Viewings</span><span data-lang="es">Visitas</span><span data-lang="uk">Перегляди</span></button>
         <button class="tab" data-tab="profile" role="tab"><span data-lang="en">Profile</span><span data-lang="es">Perfil</span><span data-lang="uk">Профіль</span></button>
         <button class="tab" data-tab="documents" role="tab"><span data-lang="en">Documents</span><span data-lang="es">Documentos</span><span data-lang="uk">Документи</span></button>
         <button class="tab" data-tab="messages" role="tab"><span data-lang="en">Messages</span><span data-lang="es">Mensajes</span><span data-lang="uk">Повідомлення</span></button>
       </div>
 
+      <!-- FEED (Essential · self-serve) -->
+      <section class="panel active" id="panel-feed" role="tabpanel">
+        <h2><span data-lang="en">Today's best listings</span><span data-lang="es">Los mejores pisos de hoy</span><span data-lang="uk">Найкращі оголошення сьогодні</span></h2>
+        <p class="sub"><span data-lang="en">Only the standouts (appeal score over 70), with the agency number ready to call.</span><span data-lang="es">Solo los destacados (puntuación de atractivo superior a 70), con el número de la agencia listo para llamar.</span><span data-lang="uk">Лише найкращі (оцінка привабливості понад 70), з номером агентства, готовим до дзвінка.</span></p>
+        <div class="feed-gate" id="feedGate"><span data-lang="en">Loading your feed…</span><span data-lang="es">Cargando tu feed…</span><span data-lang="uk">Завантаження стрічки…</span></div>
+        <div class="paywall" id="paywall" hidden>
+          <h2><span data-lang="en">Unlock your listings feed</span><span data-lang="es">Desbloquea tu feed de pisos</span><span data-lang="uk">Розблокуйте свою стрічку</span></h2>
+          <p><span data-lang="en">Llavai watches Idealista for you and surfaces only the listings worth your time — scored, de-cluttered, and ready to call.</span><span data-lang="es">Llavai vigila Idealista por ti y muestra solo los pisos que merecen tu tiempo — puntuados, despejados y listos para llamar.</span><span data-lang="uk">Llavai стежить за Idealista замість вас і показує лише варті уваги оголошення — оцінені, очищені й готові до дзвінка.</span></p>
+          <div class="price-tag">€19<small><span data-lang="en">/month</span><span data-lang="es">/mes</span><span data-lang="uk">/міс</span></small></div>
+          <p style="font-size:14px;color:var(--pencil)"><span data-lang="en">Cancel anytime. No setup fees.</span><span data-lang="es">Cancela cuando quieras. Sin cuotas de alta.</span><span data-lang="uk">Скасуйте будь-коли. Без плати за підключення.</span></p>
+          <a href="#" class="btn-primary" id="subscribeBtn"><span data-lang="en">Subscribe</span><span data-lang="es">Suscribirse</span><span data-lang="uk">Підписатися</span></a>
+        </div>
+        <div class="feed" id="feed" hidden></div>
+        <div class="empty" id="feedEmpty" hidden><span data-lang="en">No standout listings right now. As soon as a match scores above 70, it'll appear here.</span><span data-lang="es">No hay pisos destacados ahora mismo. En cuanto uno supere los 70 puntos, aparecerá aquí.</span><span data-lang="uk">Зараз немає виданих оголошень. Щойно якесь набере понад 70 балів, воно з'явиться тут.</span></div>
+      </section>
+
       <!-- PIPELINE -->
-      <section class="panel active" id="panel-pipeline" role="tabpanel">
+      <section class="panel" id="panel-pipeline" role="tabpanel">
         <h2><span data-lang="en">Your viewing pipeline</span><span data-lang="es">Tu flujo de visitas</span><span data-lang="uk">Ваш потік переглядів</span></h2>
         <p class="sub"><span data-lang="en">Where Julia is with each agency — booked, pending or done.</span><span data-lang="es">Cómo va Julia con cada agencia — reservada, pendiente o hecha.</span><span data-lang="uk">Як просувається Julia з кожним агентством — заброньовано, очікує чи завершено.</span></p>
         <div id="pipelineList"></div>
@@ -252,14 +299,19 @@ function nextDest(){ var n=qp('next'); if(isSafePath(n)) return n; try{ n=localS
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function fmtDate(s){ if(!s) return ''; try { return new Date(s).toLocaleString(lang()==='uk'?'uk-UA':lang()==='es'?'es-ES':'en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch(e){ return s; } }
 
-// tab switching
+// tab switching (Feed · Viewings · Profile · Documents · Messages)
+let feedStarted=false;
+function selectTab(name){
+  var tab=document.querySelector('.tab[data-tab="'+name+'"]'), panel=document.getElementById('panel-'+name);
+  if(!tab||!panel) return;
+  document.querySelectorAll('.tab').forEach(function(x){ x.classList.remove('active'); });
+  document.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('active'); });
+  tab.classList.add('active'); panel.classList.add('active');
+  try{ history.replaceState(null,'','#'+name); }catch(e){}
+  if(name==='feed') initFeed();
+}
 document.querySelectorAll('.tab').forEach(function(t){
-  t.addEventListener('click', function(){
-    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
-    document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
-    t.classList.add('active');
-    document.getElementById('panel-'+t.dataset.tab).classList.add('active');
-  });
+  t.addEventListener('click', function(){ selectTab(t.dataset.tab); });
 });
 
 const CONFIGURED = !!(window.LLAVAI_SUPABASE_URL && window.LLAVAI_SUPABASE_ANON_KEY
@@ -299,9 +351,78 @@ function showDash(){
   loadPipeline();
   loadDocuments();
   loadMessages();
+  // Initial tab: a Stripe return forces the Feed; otherwise honor the URL hash, else Feed.
+  var hash=(location.hash||'').replace('#',''), valid=['feed','pipeline','profile','documents','messages'];
+  selectTab(qp('checkout') ? 'feed' : (valid.indexOf(hash)>=0 ? hash : 'feed'));
 }
 
 async function signOut(){ if(sb){ await sb.auth.signOut(); } location.replace('/login'); }
+
+/* ---- feed (Essential · self-serve, subscription-gated) ---- */
+const CHECKOUT = (window.LLAVAI_CHECKOUT_URL && !/YOUR-/.test(window.LLAVAI_CHECKOUT_URL)) ? window.LLAVAI_CHECKOUT_URL : null;
+function fshow(id){ document.getElementById(id).hidden=false; }
+function fhide(id){ document.getElementById(id).hidden=true; }
+function money(n,cur){ if(n==null||n==='')return ''; return (cur||'€')+Number(n).toLocaleString('es-ES'); }
+function ago(ts){ if(!ts)return''; var h=(Date.now()-new Date(ts).getTime())/3.6e6; if(h<1)return Math.max(1,Math.round(h*60))+'m'; if(h<24)return Math.round(h)+'h'; return Math.round(h/24)+'d'; }
+function prettyFeat(f){ return ({airConditioning:'A/C',terrace:'Terrace',exterior:'Exterior',swimmingPool:'Pool',lift:'Lift',garden:'Garden',parking:'Parking'})[f] || f; }
+function card(l){
+  var photo = (l.photos && l.photos[0]) ? 'background-image:url('+esc(l.photos[0])+')' : '';
+  var ppm = l.price_per_m2 ? '· €'+Math.round(l.price_per_m2)+'/m²' : '';
+  var facts = [l.rooms?l.rooms+' bed':'', l.bathrooms?l.bathrooms+' bath':'', l.area_m2?l.area_m2+' m²':''].filter(Boolean).join(' · ');
+  var chips = (l.features||[]).slice(0,5).map(function(f){ return '<span class="chip">'+esc(prettyFeat(f))+'</span>'; }).join('');
+  var phone = (l.advertised_phone||'').replace(/\s/g,'');
+  var callLabel = lang()==='es'?'Llamar':lang()==='uk'?'Дзвонити':'Call agency';
+  var callBtn = phone
+    ? '<a class="btn-call" href="tel:'+esc(phone)+'" onclick="markCalled(\''+esc(l.id)+'\')">📞 '+callLabel+'</a>'
+    : '<span class="btn-call" style="opacity:.5;cursor:not-allowed">'+(lang()==='es'?'Sin número':lang()==='uk'?'Немає номера':'No number')+'</span>';
+  return '<article class="listing" id="l-'+esc(l.id)+'">'
+    + '<div class="photo" style="'+photo+'"><span class="score">'+esc(l.appeal_score)+' <small>'+(lang()==='es'?'atractivo':lang()==='uk'?'оцінка':'appeal')+'</small></span>'
+    + (l.first_activation?'<span class="fresh">'+esc(ago(l.first_activation))+'</span>':'')+'</div>'
+    + '<div class="listing-body">'
+    + '<div class="price">'+esc(money(l.price,l.currency))+' <span class="ppm">'+esc(ppm)+'</span></div>'
+    + (facts?'<div class="facts">'+esc(facts)+'</div>':'')
+    + (chips?'<div class="chips">'+chips+'</div>':'')
+    + (l.agency_name?'<div class="agency">'+esc(l.agency_name)+(l.user_type?' · '+esc(l.user_type):'')+'</div>':'')
+    + '<div class="actions">'+callBtn
+    + (l.property_url?'<a class="btn-ghost" href="'+esc(l.property_url)+'" target="_blank" rel="noopener">'+(lang()==='es'?'Ver':lang()==='uk'?'Дивитися':'View')+'</a>':'')
+    + '<button class="dismiss" title="Dismiss" onclick="dismiss(\''+esc(l.id)+'\')">×</button>'
+    + '</div></div></article>';
+}
+async function isSubscribed(){ try{ var r=await sb.rpc('has_active_subscription'); return !!r.data; }catch(e){ return false; } }
+async function initFeed(){
+  if (feedStarted) return; feedStarted=true;
+  if (qp('checkout')==='success') return activating();
+  if (await isSubscribed()) return loadFeed();
+  fhide('feedGate'); fshow('paywall');
+}
+async function loadFeed(){
+  fhide('paywall'); fshow('feedGate');
+  var res = await sb.from('listings').select('*').gt('appeal_score',70).neq('status','dismissed').order('created_at',{ascending:false});
+  fhide('feedGate');
+  if (res.error){ document.getElementById('feedEmpty').textContent=res.error.message; fshow('feedEmpty'); return; }
+  if (!res.data || !res.data.length){ fshow('feedEmpty'); return; }
+  document.getElementById('feed').innerHTML = res.data.map(card).join(''); fshow('feed');
+}
+async function activating(){
+  fhide('paywall'); fhide('feed'); fhide('feedEmpty');
+  var g=document.getElementById('feedGate'); g.textContent=(lang()==='es'?'Pago recibido — activando tu cuenta…':lang()==='uk'?'Оплату отримано — активуємо акаунт…':'Payment received — activating your account…'); fshow('feedGate');
+  for (var i=0;i<6;i++){ await new Promise(function(r){setTimeout(r,2000);}); if(await isSubscribed()){ try{ history.replaceState(null,'','/account#feed'); }catch(e){} return loadFeed(); } }
+  fhide('feedGate'); fshow('paywall');
+}
+async function markCalled(id){ if(!sb||!id)return; try{ await sb.from('listings').update({status:'called'}).eq('id',id);}catch(e){} }
+async function dismiss(id){ var el=document.getElementById('l-'+id); if(el) el.style.display='none'; if(!sb)return; try{ await sb.from('listings').update({status:'dismissed'}).eq('id',id);}catch(e){} }
+async function subscribe(){
+  if (!USER){ location.href='/login?next=/account'; return; }
+  if (!CHECKOUT){ alert("Checkout isn't live yet — email hello@llavai.com."); return; }
+  var btn=document.getElementById('subscribeBtn'), label=btn.textContent; btn.textContent='…';
+  try{
+    var res=await fetch(CHECKOUT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ user_id:USER.id, email:USER.email, return_to:location.origin+'/account' })});
+    var data=await res.json().catch(function(){return {};});
+    if(res.ok && data.url){ location.href=data.url; return; }
+    throw new Error(data.error||('HTTP '+res.status));
+  }catch(err){ btn.textContent=label; alert('Could not start checkout. Please try again, or email hello@llavai.com.'); }
+}
+document.getElementById('subscribeBtn').addEventListener('click', function(e){ e.preventDefault(); subscribe(); });
 
 /* ---- pipeline ---- */
 const STATUS = {

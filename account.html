@@ -308,6 +308,7 @@ function selectTab(name){
   document.querySelectorAll('.panel').forEach(function(x){ x.classList.remove('active'); });
   tab.classList.add('active'); panel.classList.add('active');
   try{ history.replaceState(null,'','#'+name); }catch(e){}
+  try{ localStorage.setItem('llavai-tab', name); }catch(e){}
   if(name==='feed') initFeed();
 }
 document.querySelectorAll('.tab').forEach(function(t){
@@ -351,9 +352,11 @@ function showDash(){
   loadPipeline();
   loadDocuments();
   loadMessages();
-  // Initial tab: a Stripe return forces the Feed; otherwise honor the URL hash, else Feed.
+  // Initial tab: a Stripe return forces the Feed; else the URL hash; else the last tab
+  // you used; else Feed. (So returning concierge users land back on Viewings, not a paywall.)
   var hash=(location.hash||'').replace('#',''), valid=['feed','pipeline','profile','documents','messages'];
-  selectTab(qp('checkout') ? 'feed' : (valid.indexOf(hash)>=0 ? hash : 'feed'));
+  var saved=null; try{ saved=localStorage.getItem('llavai-tab'); }catch(e){}
+  selectTab(qp('checkout') ? 'feed' : (valid.indexOf(hash)>=0 ? hash : (valid.indexOf(saved)>=0 ? saved : 'feed')));
 }
 
 async function signOut(){ if(sb){ await sb.auth.signOut(); } location.replace('/login'); }

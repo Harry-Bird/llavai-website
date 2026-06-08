@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <!-- EDIT: Page title (max ~60 chars) — shows in browser tab + Google search results -->
-<title>Llavai — Apartment viewings booked for you in Barcelona</title>
+<title>Llavai — See Barcelona's best flats first, call in one tap</title>
 
 <!-- EDIT: Page description (max ~155 chars) — shows in Google search results -->
-<meta name="description" content="An AI assistant that calls Barcelona estate agents in Spanish on your behalf and books apartment viewings. Built by someone who lived it." />
+<meta name="description" content="Llavai shows you Barcelona's best new rentals first — scored, clearly laid out, one-tap calling. Or let Julia call the agents in Spanish for you." />
 
 <!-- EDIT: Canonical URL of this page -->
 <link rel="canonical" href="https://llavai.com/" />
@@ -25,20 +25,20 @@
 <meta property="og:type" content="website" />
 <meta property="og:site_name" content="Llavai" />
 <meta property="og:url" content="https://llavai.com/" />
-<meta property="og:title" content="Llavai — Apartment viewings, booked for you" />
-<meta property="og:description" content="Your AI assistant calls Barcelona estate agents in Spanish and books viewings. You just show up." />
+<meta property="og:title" content="Llavai — Barcelona rentals, two ways to win" />
+<meta property="og:description" content="See the best new flats first with one-tap calling — or let Julia call agents in native Spanish and book the viewings for you." />
 <meta property="og:image" content="https://llavai.com/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Llavai — Barcelona apartments don't wait. Neither does Llavai." />
+<meta property="og:image:alt" content="Llavai — see Barcelona's best flats first, or let Julia call." />
 <meta property="og:locale" content="en_GB" />
 <meta property="og:locale:alternate" content="es_ES" />
 <meta property="og:locale:alternate" content="uk_UA" />
 
 <!-- ============ TWITTER / X CARD ============ -->
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Llavai — Apartment viewings, booked for you" />
-<meta name="twitter:description" content="Your AI assistant calls Barcelona estate agents in Spanish and books viewings. You just show up." />
+<meta name="twitter:title" content="Llavai — Barcelona rentals, two ways to win" />
+<meta name="twitter:description" content="See the best new flats first with one-tap calling — or let Julia call agents in native Spanish and book the viewings for you." />
 <meta name="twitter:image" content="https://llavai.com/og-image.jpg" />
 
 <!-- ============ STRUCTURED DATA (Organization + WebSite + Service) for SEO/AEO ============ -->
@@ -54,7 +54,7 @@
       "logo": "https://llavai.com/logo.webp",
       "image": "https://llavai.com/og-image.jpg",
       "email": "hello@llavai.com",
-      "description": "AI rental concierge for Barcelona. Llavai's voice agent calls estate agents in native Spanish the moment a listing goes live and books apartment viewings for you.",
+      "description": "Llavai helps international renters win Barcelona apartments. A self-serve feed surfaces the best new listings first — scored for appeal, clearly laid out, with one-tap calling. Or an AI voice agent calls the agents in native Spanish and books the viewings for you.",
       "areaServed": { "@type": "City", "name": "Barcelona" }
     },
     {
@@ -67,7 +67,22 @@
     },
     {
       "@type": "Service",
-      "name": "AI rental concierge for Barcelona",
+      "name": "Llavai Essential — self-serve rental search",
+      "serviceType": "Rental listing search and alerts",
+      "provider": { "@id": "https://llavai.com/#org" },
+      "areaServed": { "@type": "City", "name": "Barcelona" },
+      "description": "A self-serve feed that monitors Barcelona rental portals, scores every new listing for appeal, and presents the ones worth your time with the facts that matter and one-tap calling.",
+      "offers": {
+        "@type": "Offer",
+        "price": "19",
+        "priceCurrency": "EUR",
+        "description": "Monthly subscription"
+      },
+      "audience": { "@type": "Audience", "audienceType": "International renters and expats moving to Barcelona" }
+    },
+    {
+      "@type": "Service",
+      "name": "Llavai Pro — AI calling concierge",
       "serviceType": "Apartment viewing booking",
       "provider": { "@id": "https://llavai.com/#org" },
       "areaServed": { "@type": "City", "name": "Barcelona" },
@@ -202,6 +217,47 @@
     .reveal { opacity:1 !important; animation:none !important; }
   }
 
+  /* ── tiers + appeal score + sample listing (two-service homepage) ── */
+  .nav-link { font-family:'Newsreader',serif; font-size:15px; color:var(--pencil); text-decoration:none; }
+  .nav-link:hover { color:var(--ink); }
+  .tiers { padding:90px 0; border-top:1px solid rgba(27,56,143,.12); }
+  .tiers-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:30px; align-items:stretch; }
+  @media(max-width:820px){ .tiers-grid { grid-template-columns:1fr; gap:20px; } }
+  .tier { border:1px solid rgba(27,56,143,.14); border-radius:4px; padding:32px 30px; background:var(--cream); display:flex; flex-direction:column; }
+  .tier.featured { border-color:var(--coral); box-shadow:0 12px 40px var(--paper-shadow); }
+  .tier-tag { font-family:'Newsreader',serif; font-style:italic; font-size:13px; letter-spacing:.04em; text-transform:uppercase; color:var(--coral-text); margin-bottom:10px; }
+  .tier-name { font-family:'Fraunces',serif; font-size:26px; font-weight:500; color:var(--ink); margin-bottom:6px; }
+  .tier-price { font-family:'Fraunces',serif; font-size:32px; font-weight:500; color:var(--ink); margin-bottom:4px; }
+  .tier-price small { font-family:'Newsreader',serif; font-size:15px; color:var(--pencil); font-weight:400; }
+  .tier-tagline { font-style:italic; color:var(--ink-deep); margin-bottom:20px; font-size:16px; }
+  .tier-features { list-style:none; margin:0 0 26px; padding:0; display:flex; flex-direction:column; gap:11px; flex:1; }
+  .tier-features li { position:relative; padding-left:26px; font-size:15.5px; color:var(--ink-deep); line-height:1.5; }
+  .tier-features li::before { content:""; position:absolute; left:0; top:8px; width:9px; height:9px; border:1.5px solid var(--coral); border-radius:50%; }
+  .tier .btn-primary { width:100%; text-align:center; }
+  .tier-ghost { display:block; width:100%; text-align:center; border:1.5px solid var(--ink); color:var(--ink); background:none; font-family:'Newsreader',serif; font-size:16px; font-weight:500; padding:14px 28px; border-radius:2px; text-decoration:none; transition:all .2s; }
+  .tier-ghost:hover { background:var(--ink); color:var(--cream); }
+  .score { padding:90px 0; border-top:1px solid rgba(27,56,143,.12); background:var(--cream-deep); }
+  .score-grid { display:grid; grid-template-columns:1fr 1fr; gap:60px; align-items:center; margin-top:30px; }
+  @media(max-width:880px){ .score-grid { grid-template-columns:1fr; gap:44px; } }
+  .score-list { display:flex; flex-direction:column; gap:18px; }
+  .score-row { display:flex; gap:16px; align-items:baseline; }
+  .score-pts { font-family:'Fraunces',serif; font-size:22px; font-weight:600; color:var(--coral); min-width:50px; white-space:nowrap; }
+  .score-row h3 { font-family:'Fraunces',serif; font-size:18px; font-weight:500; color:var(--ink); margin-bottom:2px; }
+  .score-row p { font-size:15px; color:var(--ink-deep); line-height:1.5; }
+  .score-foot { margin-top:26px; font-style:italic; color:var(--pencil); font-size:15px; }
+  .sample { border:1px solid rgba(27,56,143,.14); border-radius:6px; overflow:hidden; background:var(--cream); box-shadow:0 14px 44px var(--paper-shadow); max-width:380px; }
+  .sample-photo { height:190px; background:linear-gradient(135deg,rgba(27,56,143,.22),rgba(229,91,69,.22)); position:relative; }
+  .sample-badge { position:absolute; top:12px; left:12px; background:var(--ink); color:var(--cream); font-family:'Fraunces',serif; font-weight:600; font-size:15px; padding:6px 11px; border-radius:2px; }
+  .sample-badge small { font-family:'Newsreader',serif; font-weight:400; font-size:11px; opacity:.85; text-transform:uppercase; letter-spacing:.04em; }
+  .sample-fresh { position:absolute; top:12px; right:12px; background:rgba(244,239,229,.92); color:var(--ink-deep); font-size:12px; font-style:italic; padding:4px 9px; border-radius:2px; }
+  .sample-body { padding:18px 20px; display:flex; flex-direction:column; gap:10px; }
+  .sample-price { font-family:'Fraunces',serif; font-size:24px; font-weight:500; color:var(--ink); }
+  .sample-price span { font-family:'Newsreader',serif; font-size:14px; color:var(--pencil); }
+  .sample-facts { font-size:15px; color:var(--ink-deep); }
+  .sample-chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .sample-chip { font-size:12px; color:var(--ink-deep); background:rgba(27,56,143,.07); border-radius:2px; padding:3px 9px; }
+  .sample-call { display:inline-flex; align-items:center; justify-content:center; gap:8px; background:var(--ink); color:var(--cream); font-family:'Newsreader',serif; font-size:15px; font-weight:500; padding:12px 20px; border-radius:2px; text-decoration:none; box-shadow:0 4px 0 var(--ink-deep); margin-top:4px; }
+
   /* ── i18n: three languages ── */
   [data-lang="es"],[data-lang="uk"] { display:none; }
   body.es [data-lang="en"],[data-lang="uk"] { display:none; }
@@ -221,6 +277,7 @@
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
   <div class="nav-right">
+    <a href="/login" class="nav-link"><span data-lang="en">Sign in</span><span data-lang="es">Entrar</span><span data-lang="uk">Увійти</span></a>
     <a href="/get-started" class="btn-primary nav-cta">
       <span data-lang="en">Get started</span>
       <span data-lang="es">Empezar</span>
@@ -244,19 +301,19 @@
     <div class="hero-grid">
       <div>
         <p class="eyebrow reveal reveal-1">
-          <span data-lang="en">Apartment hunting in Barcelona</span>
-          <span data-lang="es">Buscando piso en Barcelona</span>
-          <span data-lang="uk">Пошук квартири в Барселоні</span>
+          <span data-lang="en">Barcelona rentals — two ways to win</span>
+          <span data-lang="es">Alquiler en Barcelona — dos formas de ganar</span>
+          <span data-lang="uk">Оренда в Барселоні — два способи перемогти</span>
         </p>
         <h1 class="reveal reveal-2">
-          <span data-lang="en">Barcelona apartments don't wait. <span class="accent">Neither does Llavai.</span></span>
-          <span data-lang="es">Los pisos en Barcelona no esperan. <span class="accent">Llavai tampoco.</span></span>
-          <span data-lang="uk">Барселонські квартири не чекають. <span class="accent">Llavai теж.</span></span>
+          <span data-lang="en">See the best flats first. <span class="accent">Call them in one tap.</span></span>
+          <span data-lang="es">Ve los mejores pisos primero. <span class="accent">Llama con un toque.</span></span>
+          <span data-lang="uk">Бачте найкращі квартири першими. <span class="accent">Дзвоніть одним дотиком.</span></span>
         </h1>
         <p class="lede reveal reveal-3">
-          <span data-lang="en">Llavai is your AI voice agent for the Barcelona rental market. It calls agencies immediately, speaks native Spanish, presents your profile professionally, and books viewings around your calendar — so you're never too late again.</span>
-          <span data-lang="es">Llavai es tu agente de voz con IA para el mercado del alquiler en Barcelona. Llama a las inmobiliarias al momento, habla castellano nativo, presenta tu perfil con profesionalidad y agenda visitas según tu calendario — para que no llegues tarde nunca más.</span>
-          <span data-lang="uk">Llavai — ваш AI-голосовий агент на ринку оренди Барселони. Телефонує до агентств миттєво, говорить іспанською як місцевий житель, професійно представляє ваш профіль та бронює перегляди відповідно до вашого розкладу — щоб ви більше ніколи не запізнювались.</span>
+          <span data-lang="en">Llavai watches the Barcelona market for you, scores every new listing, and shows you the ones worth your time — laid out clearly, with the agency's number one tap away. Want it fully hands-off? Julia calls the agents in native Spanish for you.</span>
+          <span data-lang="es">Llavai vigila el mercado de Barcelona por ti, puntúa cada piso nuevo y te muestra los que merecen la pena — bien presentados y con el número de la inmobiliaria a un toque. ¿Lo quieres sin mover un dedo? Julia llama a las inmobiliarias en castellano nativo por ti.</span>
+          <span data-lang="uk">Llavai стежить за ринком Барселони замість вас, оцінює кожне нове оголошення й показує ті, що варті вашого часу — чітко викладені, з номером агентства за один дотик. Хочете повністю без турбот? Julia телефонує агентам рідною іспанською замість вас.</span>
         </p>
         <div class="cta-row reveal reveal-4">
           <a href="/get-started" class="btn-primary">
@@ -265,9 +322,9 @@
             <span data-lang="uk">Почати</span>
           </a>
           <span class="meta-note">
-            <span data-lang="en">Takes 30 seconds</span>
-            <span data-lang="es">Solo 30 segundos</span>
-            <span data-lang="uk">Лише 30 секунд</span>
+            <span data-lang="en">Two plans · from €19/mo</span>
+            <span data-lang="es">Dos planes · desde 19 €/mes</span>
+            <span data-lang="uk">Два плани · від 19 €/міс</span>
           </span>
         </div>
       </div>
@@ -278,18 +335,209 @@
   </div>
 </section>
 
-<!-- WORKFLOW -->
-<section class="workflow">
+<!-- TIERS -->
+<section class="tiers" id="tiers">
   <div class="container">
     <p class="section-eyebrow">
-      <span data-lang="en">How it works</span>
-      <span data-lang="es">Cómo funciona</span>
-      <span data-lang="uk">Як це працює</span>
+      <span data-lang="en">Two ways to use Llavai</span>
+      <span data-lang="es">Dos formas de usar Llavai</span>
+      <span data-lang="uk">Два способи користуватись Llavai</span>
     </p>
     <h2>
-      <span data-lang="en">Three steps. <em>One booked viewing.</em></span>
-      <span data-lang="es">Tres pasos. <em>Una visita agendada.</em></span>
-      <span data-lang="uk">Три кроки. <em>Один забронований перегляд.</em></span>
+      <span data-lang="en">Pick your pace. <em>Both win you the flat.</em></span>
+      <span data-lang="es">Elige tu ritmo. <em>Ambos te consiguen el piso.</em></span>
+      <span data-lang="uk">Оберіть свій темп. <em>Обидва приведуть до квартири.</em></span>
+    </h2>
+    <div class="tiers-grid">
+      <!-- Essential (self-serve, featured) -->
+      <div class="tier featured">
+        <p class="tier-tag">
+          <span data-lang="en">Self-serve · most popular</span>
+          <span data-lang="es">Por tu cuenta · el más elegido</span>
+          <span data-lang="uk">Самостійно · найпопулярніший</span>
+        </p>
+        <h3 class="tier-name">Essential</h3>
+        <p class="tier-price">€19 <small><span data-lang="en">/ month</span><span data-lang="es" class="inline">/ mes</span><span data-lang="uk" class="inline">/ міс</span></small></p>
+        <p class="tier-tagline">
+          <span data-lang="en">You call — but you see the best flats first.</span>
+          <span data-lang="es">Llamas tú — pero ves los mejores pisos primero.</span>
+          <span data-lang="uk">Дзвоните ви — але бачите найкращі квартири першими.</span>
+        </p>
+        <ul class="tier-features">
+          <li>
+            <span data-lang="en">Every new Barcelona listing, monitored for you</span>
+            <span data-lang="es">Cada nuevo piso de Barcelona, monitorizado por ti</span>
+            <span data-lang="uk">Кожне нове оголошення Барселони — під наглядом</span>
+          </li>
+          <li>
+            <span data-lang="en">Each one scored for appeal, so you skip the duds</span>
+            <span data-lang="es">Cada uno puntuado por su atractivo, para saltarte los malos</span>
+            <span data-lang="uk">Кожне оцінене за привабливістю — пропускаєте невдалі</span>
+          </li>
+          <li>
+            <span data-lang="en">The facts that matter, laid out clearly — not buried like Idealista</span>
+            <span data-lang="es">Los datos que importan, claros — no enterrados como en Idealista</span>
+            <span data-lang="uk">Важливі факти — чітко, а не сховані, як на Idealista</span>
+          </li>
+          <li>
+            <span data-lang="en">One-tap calling: the agency's number, right in the feed</span>
+            <span data-lang="es">Llamada con un toque: el número de la inmobiliaria, en el feed</span>
+            <span data-lang="uk">Дзвінок одним дотиком: номер агентства прямо у стрічці</span>
+          </li>
+        </ul>
+        <a href="/get-started" class="btn-primary">
+          <span data-lang="en">Get started →</span>
+          <span data-lang="es">Empezar →</span>
+          <span data-lang="uk">Почати →</span>
+        </a>
+      </div>
+      <!-- Pro (concierge, by application) -->
+      <div class="tier">
+        <p class="tier-tag">
+          <span data-lang="en">Done for you · by application</span>
+          <span data-lang="es">Lo hacemos por ti · por solicitud</span>
+          <span data-lang="uk">Робимо за вас · за заявкою</span>
+        </p>
+        <h3 class="tier-name">Pro</h3>
+        <p class="tier-price" style="font-size:24px;">
+          <span data-lang="en">By application</span>
+          <span data-lang="es">Por solicitud</span>
+          <span data-lang="uk">За заявкою</span>
+        </p>
+        <p class="tier-tagline">
+          <span data-lang="en">Julia calls the agents in Spanish — you just show up.</span>
+          <span data-lang="es">Julia llama en castellano — tú solo te presentas.</span>
+          <span data-lang="uk">Julia дзвонить іспанською — ви лише приходите.</span>
+        </p>
+        <ul class="tier-features">
+          <li>
+            <span data-lang="en">Everything in Essential, plus:</span>
+            <span data-lang="es">Todo lo de Essential, y además:</span>
+            <span data-lang="uk">Усе з Essential, а також:</span>
+          </li>
+          <li>
+            <span data-lang="en">Julia calls agencies within ~60s of a new listing</span>
+            <span data-lang="es">Julia llama a las inmobiliarias en ~60s desde que sale el piso</span>
+            <span data-lang="uk">Julia телефонує агентствам за ~60с після появи оголошення</span>
+          </li>
+          <li>
+            <span data-lang="en">Native Spanish; presents your tenant profile properly</span>
+            <span data-lang="es">Castellano nativo; presenta tu perfil de inquilino como toca</span>
+            <span data-lang="uk">Рідна іспанська; належно представляє ваш профіль орендаря</span>
+          </li>
+          <li>
+            <span data-lang="en">Viewings booked around your calendar</span>
+            <span data-lang="es">Visitas agendadas según tu calendario</span>
+            <span data-lang="uk">Перегляди заброньовані за вашим календарем</span>
+          </li>
+        </ul>
+        <a href="/get-started" class="tier-ghost">
+          <span data-lang="en">Apply for Pro</span>
+          <span data-lang="es">Solicitar Pro</span>
+          <span data-lang="uk">Подати заявку на Pro</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- APPEAL SCORE -->
+<section class="score" id="score">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">The appeal score, explained</span>
+      <span data-lang="es">La puntuación de atractivo, explicada</span>
+      <span data-lang="uk">Оцінка привабливості, пояснення</span>
+    </p>
+    <h2>
+      <span data-lang="en">Why this flat — <em>and not that one.</em></span>
+      <span data-lang="es">Por qué este piso — <em>y no aquel.</em></span>
+      <span data-lang="uk">Чому саме ця квартира — <em>а не інша.</em></span>
+    </h2>
+    <div class="score-grid">
+      <div>
+        <div class="score-list">
+          <div class="score-row">
+            <div class="score-pts">/25</div>
+            <div>
+              <h3><span data-lang="en">Who's behind it</span><span data-lang="es">Quién lo publica</span><span data-lang="uk">Хто за ним стоїть</span></h3>
+              <p><span data-lang="en">A real agency with a phone number you can call right now beats a faceless listing.</span><span data-lang="es">Una inmobiliaria real con un teléfono al que llamar ya gana a un anuncio sin cara.</span><span data-lang="uk">Справжнє агентство з номером, на який можна подзвонити зараз, краще за безлике оголошення.</span></p>
+            </div>
+          </div>
+          <div class="score-row">
+            <div class="score-pts">/20</div>
+            <div>
+              <h3><span data-lang="en">How it's presented</span><span data-lang="es">Cómo se presenta</span><span data-lang="uk">Як воно подане</span></h3>
+              <p><span data-lang="en">Plenty of photos, a video, a floor plan — or a listing that's hiding something?</span><span data-lang="es">¿Muchas fotos, vídeo, plano — o un anuncio que esconde algo?</span><span data-lang="uk">Багато фото, відео, план — чи оголошення щось приховує?</span></p>
+            </div>
+          </div>
+          <div class="score-row">
+            <div class="score-pts">/20</div>
+            <div>
+              <h3><span data-lang="en">Value for money</span><span data-lang="es">Relación calidad-precio</span><span data-lang="uk">Співвідношення ціни</span></h3>
+              <p><span data-lang="en">Price per m² against the neighbourhood. Is it actually a good deal, or just nice photos?</span><span data-lang="es">Precio por m² frente al barrio. ¿Es de verdad un chollo, o solo buenas fotos?</span><span data-lang="uk">Ціна за m² відносно району. Це справді вигідно, чи лише гарні фото?</span></p>
+            </div>
+          </div>
+          <div class="score-row">
+            <div class="score-pts">/20</div>
+            <div>
+              <h3><span data-lang="en">The features you'd filter for</span><span data-lang="es">Lo que filtrarías</span><span data-lang="uk">Зручності, які ви шукаєте</span></h3>
+              <p><span data-lang="en">Air con, terrace, exterior light, a second bathroom, a pool — the things that make a home.</span><span data-lang="es">Aire acondicionado, terraza, exterior, segundo baño, piscina — lo que hace un hogar.</span><span data-lang="uk">Кондиціонер, тераса, зовнішнє світло, друга ванна, басейн — те, що робить дім.</span></p>
+            </div>
+          </div>
+          <div class="score-row">
+            <div class="score-pts">/15</div>
+            <div>
+              <h3><span data-lang="en">How fresh it is</span><span data-lang="es">Lo reciente que es</span><span data-lang="uk">Наскільки свіже</span></h3>
+              <p><span data-lang="en">How long ago it went live. Minutes-old beats hours-old, every single time.</span><span data-lang="es">Cuánto hace que se publicó. Recién salido gana a las horas, siempre.</span><span data-lang="uk">Скільки часу минуло з публікації. Свіже за хвилини завжди б'є годинне.</span></p>
+            </div>
+          </div>
+        </div>
+        <p class="score-foot">
+          <span data-lang="en">Anything scoring above 70 makes the cut. On Pro, Julia calls those automatically.</span>
+          <span data-lang="es">Todo lo que supera 70 entra. Con Pro, Julia llama a esos automáticamente.</span>
+          <span data-lang="uk">Усе, що понад 70, проходить відбір. У Pro Julia телефонує таким автоматично.</span>
+        </p>
+      </div>
+      <div>
+        <div class="sample" role="img" aria-label="Example scored listing">
+          <div class="sample-photo">
+            <div class="sample-badge">92<small>/100</small></div>
+            <div class="sample-fresh"><span data-lang="en">7 min ago</span><span data-lang="es" class="inline">hace 7 min</span><span data-lang="uk" class="inline">7 хв тому</span></div>
+          </div>
+          <div class="sample-body">
+            <div class="sample-price">€1,250 <span><span data-lang="en">/mo · €15/m²</span><span data-lang="es" class="inline">/mes · 15 €/m²</span><span data-lang="uk" class="inline">/міс · 15 €/m²</span></span></div>
+            <div class="sample-facts"><span data-lang="en">2 bed · 1 bath · 82 m² · Eixample</span><span data-lang="es" class="inline">2 hab · 1 baño · 82 m² · Eixample</span><span data-lang="uk" class="inline">2 кімн · 1 ванна · 82 m² · Eixample</span></div>
+            <div class="sample-chips">
+              <span class="sample-chip"><span data-lang="en">Air con</span><span data-lang="es" class="inline">Aire ac.</span><span data-lang="uk" class="inline">Кондиц.</span></span>
+              <span class="sample-chip"><span data-lang="en">Exterior</span><span data-lang="es" class="inline">Exterior</span><span data-lang="uk" class="inline">Зовнішня</span></span>
+              <span class="sample-chip"><span data-lang="en">Terrace</span><span data-lang="es" class="inline">Terraza</span><span data-lang="uk" class="inline">Тераса</span></span>
+              <span class="sample-chip"><span data-lang="en">12 photos</span><span data-lang="es" class="inline">12 fotos</span><span data-lang="uk" class="inline">12 фото</span></span>
+            </div>
+            <a class="sample-call" href="/get-started">
+              <span data-lang="en">📞 Call agency</span>
+              <span data-lang="es" class="inline">📞 Llamar a la inmobiliaria</span>
+              <span data-lang="uk" class="inline">📞 Подзвонити в агентство</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW (PRO) -->
+<section class="workflow" id="pro">
+  <div class="container">
+    <p class="section-eyebrow">
+      <span data-lang="en">Pro · done for you</span>
+      <span data-lang="es">Pro · lo hacemos por ti</span>
+      <span data-lang="uk">Pro · робимо за вас</span>
+    </p>
+    <h2>
+      <span data-lang="en">Three steps. <em>Julia does the calling.</em></span>
+      <span data-lang="es">Tres pasos. <em>Julia hace las llamadas.</em></span>
+      <span data-lang="uk">Три кроки. <em>Julia телефонує за вас.</em></span>
     </h2>
     <div class="steps">
       <div class="step">
@@ -596,9 +844,9 @@
       <span data-lang="uk">Готові перестати втрачати квартири? <em>Починаємо.</em></span>
     </h2>
     <p class="cta-sub">
-      <span data-lang="en">Start with just your name and email. Julia starts calling the same day we confirm your account.</span>
-      <span data-lang="es">Empieza solo con tu nombre y tu email. Julia empieza a llamar el mismo día que confirmemos tu cuenta.</span>
-      <span data-lang="uk">Почніть лише з імені та email. Julia починає телефонувати того ж дня, коли ми підтвердимо ваш акаунт.</span>
+      <span data-lang="en">Start with Essential and see the best flats first — or apply for Pro and let Julia do the calling. Either way, you stop losing flats to faster applicants.</span>
+      <span data-lang="es">Empieza con Essential y ve los mejores pisos primero — o solicita Pro y deja que Julia llame por ti. En ambos casos, dejas de perder pisos frente a candidatos más rápidos.</span>
+      <span data-lang="uk">Почніть з Essential і бачте найкращі квартири першими — або подайте заявку на Pro і дозвольте Julia дзвонити за вас. У будь-якому разі ви перестаєте втрачати квартири через швидших конкурентів.</span>
     </p>
     <div class="cta-actions">
       <a href="/get-started" class="btn-primary">

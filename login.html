@@ -199,6 +199,10 @@ try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setL
 
 function lang(){ return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
 function val(id){ return (document.getElementById(id).value||'').trim(); }
+function qp(n){ return new URLSearchParams(location.search).get(n); }
+function isSafePath(n){ return !!(n && n.charAt(0)==='/' && n.charAt(1)!=='/' && n.indexOf(String.fromCharCode(92))===-1); }
+// Where to send the user after sign-in: honor ?next (same-origin path), else /account.
+var NEXT = (function(){ var n=qp('next'); return isSafePath(n)?n:null; })();
 
 const MSG = {
   email:   {en:'Please enter a valid email address.', es:'Por favor, introduce un email válido.', uk:'Будь ласка, введіть дійсну електронну адресу.'},
@@ -213,8 +217,8 @@ const CONFIGURED = !!(window.LLAVAI_SUPABASE_URL && window.LLAVAI_SUPABASE_ANON_
 let sb = null;
 if (CONFIGURED && window.supabase) {
   sb = window.supabase.createClient(window.LLAVAI_SUPABASE_URL, window.LLAVAI_SUPABASE_ANON_KEY);
-  // Already signed in? Go straight to the dashboard.
-  sb.auth.getSession().then(function(res){ if (res && res.data && res.data.session) location.replace('/account'); });
+  // Already signed in? Go where they were headed (?next), else the dashboard.
+  sb.auth.getSession().then(function(res){ if (res && res.data && res.data.session) location.replace(NEXT || '/account'); });
 } else {
   document.getElementById('configNotice').classList.add('visible');
   document.getElementById('btnSend').disabled = true;
@@ -229,6 +233,10 @@ async function sendLink(){
 
   const btn=document.getElementById('btnSend'), txt=document.getElementById('sendText'), sp=document.getElementById('spinner');
   btn.disabled=true; txt.style.display='none'; sp.classList.add('visible');
+
+  // Stash the post-login destination; the magic link lands on /account (allow-listed in
+  // Supabase) and forwards from there. Opened on this device, so localStorage persists.
+  try { if (NEXT) localStorage.setItem('llavai-next', NEXT); else localStorage.removeItem('llavai-next'); } catch(e) {}
 
   const { error } = await sb.auth.signInWithOtp({
     email: email,

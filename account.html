@@ -245,6 +245,10 @@ function setLang(lang){
 }
 try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
 function lang(){ return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
+function qp(n){ return new URLSearchParams(location.search).get(n); }
+function isSafePath(n){ return !!(n && n.charAt(0)==='/' && n.charAt(1)!=='/' && n.indexOf(String.fromCharCode(92))===-1); }
+// Post-login destination: ?next, or the value login.html stashed before the magic link.
+function nextDest(){ var n=qp('next'); if(isSafePath(n)) return n; try{ n=localStorage.getItem('llavai-next'); }catch(e){ n=null; } return isSafePath(n)?n:null; }
 function esc(s){ return String(s==null?'':s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
 function fmtDate(s){ if(!s) return ''; try { return new Date(s).toLocaleString(lang()==='uk'?'uk-UA':lang()==='es'?'es-ES':'en-GB',{day:'numeric',month:'short',year:'numeric',hour:'2-digit',minute:'2-digit'}); } catch(e){ return s; } }
 
@@ -270,7 +274,13 @@ async function init(){
   }
   sb = window.supabase.createClient(window.LLAVAI_SUPABASE_URL, window.LLAVAI_SUPABASE_ANON_KEY);
   let started=false;
-  function start(session){ if(started) return; started=true; USER=session.user; showDash(); }
+  function start(session){
+    if(started) return; started=true; USER=session.user;
+    var nx = nextDest();
+    try{ localStorage.removeItem('llavai-next'); }catch(e){}
+    if (nx && nx !== '/account' && nx !== location.pathname){ location.replace(nx); return; }
+    showDash();
+  }
   // A magic-link landing puts the token in the URL; the session can arrive a
   // moment after load, so listen for it instead of redirecting on the first null.
   sb.auth.onAuthStateChange(function(event, session){

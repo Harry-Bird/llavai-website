@@ -80,6 +80,7 @@
   .field{display:flex;flex-direction:column;gap:7px}
   .field label,.field-label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)}
   .field label .req,.field-label .req{color:var(--coral-text);margin-left:2px}
+  .field label .opt,.field-label .opt{color:var(--pencil);opacity:.7;font-style:italic;text-transform:none;letter-spacing:0;margin-left:4px}
   .field input,.field select,.field textarea{padding:14px 16px;font-family:'Newsreader',serif;font-size:16px;border:1.5px solid rgba(27,56,143,.2);background:var(--cream);color:var(--ink);border-radius:2px;outline:none;transition:border-color .2s;-webkit-appearance:none;appearance:none;width:100%}
   .field input::placeholder,.field textarea::placeholder{color:var(--pencil);font-style:italic}
   .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--coral)}
@@ -436,15 +437,51 @@
     <div class="step-header">
       <p class="section-eyebrow"><span data-lang="en">Step 3 of 4</span><span data-lang="es">Paso 3 de 4</span><span data-lang="uk">Крок 3 з 4</span></p>
       <!-- EDIT: Step 3 heading + subtitle -->
-      <h1><span data-lang="en">How we should <em>reach you</em></span><span data-lang="es">Cómo <em>te contactamos</em></span><span data-lang="uk">Як з вами <em>зв'язатися</em></span></h1>
+      <h1><span data-lang="en">What you're <em>looking for</em></span><span data-lang="es">Qué <em>buscas</em></span><span data-lang="uk">Що ви <em>шукаєте</em></span></h1>
       <p class="sub">
-        <span data-lang="en">Tell us when you're free to view, and how you'd like us to keep you updated.</span>
-        <span data-lang="es">Dinos cuándo puedes ir a visitas y cómo prefieres que te mantengamos al día.</span>
-        <span data-lang="uk">Розкажіть, коли ви вільні для переглядів і як вам зручніше отримувати від нас новини.</span>
+        <span data-lang="en">Your budget and the areas you want — plus when you can view and how we should reach you.</span>
+        <span data-lang="es">Tu presupuesto y las zonas que quieres — y cuándo puedes visitar y cómo contactarte.</span>
+        <span data-lang="uk">Ваш бюджет і бажані райони — а також коли ви можете дивитися й як з вами зв'язатися.</span>
       </p>
     </div>
     <div class="form-error" id="err3" role="alert" aria-live="assertive"></div>
     <div class="field-group">
+      <div class="field-row-2">
+        <div class="field">
+          <label for="maxBudget"><span data-lang="en">Max monthly rent (€) <span class="req">*</span></span><span data-lang="es">Alquiler máximo mensual (€) <span class="req">*</span></span><span data-lang="uk">Макс. місячна оренда (€) <span class="req">*</span></span></label>
+          <input type="number" id="maxBudget" inputmode="numeric" min="0" step="50" placeholder="1500" aria-required="true" />
+        </div>
+        <div class="field">
+          <label for="bedrooms"><span data-lang="en">Bedrooms <span class="req">*</span></span><span data-lang="es">Habitaciones <span class="req">*</span></span><span data-lang="uk">Кімнати <span class="req">*</span></span></label>
+          <div class="select-wrap">
+            <select id="bedrooms" aria-required="true">
+              <option value="" disabled selected></option>
+              <option value="studio">Studio / Estudio / Студія</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4+">4+</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <span class="field-label" id="areasLabel"><span data-lang="en">Preferred areas <span class="opt">(optional)</span></span><span data-lang="es">Zonas preferidas <span class="opt">(opcional)</span></span><span data-lang="uk">Бажані райони <span class="opt">(необов'язково)</span></span></span>
+        <div class="toggle-group" role="group" aria-labelledby="areasLabel">
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_ciutatvella" value="Ciutat Vella" /><label for="area_ciutatvella">Ciutat Vella</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_eixample" value="Eixample" /><label for="area_eixample">Eixample</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_gracia" value="Gràcia" /><label for="area_gracia">Gràcia</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_santmarti" value="Sant Martí" /><label for="area_santmarti">Sant Martí</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_santsmontjuic" value="Sants-Montjuïc" /><label for="area_santsmontjuic">Sants-Montjuïc</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_sarria" value="Sarrià-Sant Gervasi" /><label for="area_sarria">Sarrià-Sant Gervasi</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_lescorts" value="Les Corts" /><label for="area_lescorts">Les Corts</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_hortaguinardo" value="Horta-Guinardó" /><label for="area_hortaguinardo">Horta-Guinardó</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_santandreu" value="Sant Andreu" /><label for="area_santandreu">Sant Andreu</label></div>
+          <div class="toggle-chip"><input type="checkbox" name="areas" id="area_noubarris" value="Nou Barris" /><label for="area_noubarris">Nou Barris</label></div>
+        </div>
+        <span class="field-hint"><span data-lang="en">Pick any that work — leave blank if you're open to anywhere.</span><span data-lang="es">Marca las que quieras — déjalo en blanco si te vale cualquier zona.</span><span data-lang="uk">Оберіть будь-які — залиште порожнім, якщо вам підходить будь-який район.</span></span>
+      </div>
+      <div class="field-divider"></div>
       <div class="field">
         <label for="viewingAvailability"><span data-lang="en">Viewing availability <span class="req">*</span></span><span data-lang="es">Disponibilidad para visitas <span class="req">*</span></span><span data-lang="uk">Доступність для переглядів <span class="req">*</span></span></label>
         <textarea id="viewingAvailability" aria-required="true"></textarea>
@@ -527,7 +564,7 @@
 <footer>
   <div class="container">
     <div class="footer-row">
-      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span></span>
+      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span> · <a href="/privacy"><span data-lang="en">Privacy</span><span data-lang="es">Privacidad</span><span data-lang="uk">Конфіденційність</span></a></span>
       <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
     </div>
   </div>
@@ -575,6 +612,7 @@ document.querySelectorAll('input[name="contactMethod"]').forEach(function(r){ r.
 function lang() { return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
 function val(id) { return (document.getElementById(id).value||'').trim(); }
 function radio(name) { const c=document.querySelector('input[name="'+name+'"]:checked'); return c?c.value:''; }
+function checkboxes(name) { return Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(function(c){return c.value;}); }
 function showErr(id, msg) { const el=document.getElementById(id); el.innerHTML=msg; el.classList.add('visible'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
 function clearErr(id) { document.getElementById(id).classList.remove('visible'); }
 
@@ -591,6 +629,8 @@ const MSGS = {
   income:       {en:'Please select your income range.',es:'Por favor, selecciona tu rango de ingresos.',uk:'Будь ласка, оберіть діапазон доходу.'},
   nominas:      {en:'Please select your payslip situation.',es:'Por favor, indica tu situación con las nóminas.',uk:'Будь ласка, вкажіть ситуацію з розрахунковими листками.'},
   guarantor:    {en:'Please indicate whether you have a guarantor.',es:'Por favor, indica si tienes avalista.',uk:'Будь ласка, вкажіть, чи є у вас поручитель.'},
+  budget:       {en:'Please enter your maximum monthly rent.',es:'Por favor, indica tu alquiler máximo mensual.',uk:'Будь ласка, вкажіть вашу максимальну місячну оренду.'},
+  bedrooms:     {en:'Please select how many bedrooms you need.',es:'Por favor, selecciona cuántas habitaciones necesitas.',uk:'Будь ласка, оберіть, скільки кімнат вам потрібно.'},
   availability: {en:'Please tell us when you are available for viewings.',es:'Por favor, indica cuándo estás disponible para visitas.',uk:'Будь ласка, вкажіть, коли ви доступні для переглядів.'},
   contact:      {en:'Please select how you want to be contacted.',es:'Por favor, selecciona tu método de contacto.',uk:'Будь ласка, оберіть спосіб зв\'язку.'},
   telegram:     {en:'Please enter your Telegram username.',es:'Por favor, introduce tu usuario de Telegram.',uk:'Будь ласка, введіть ваш нікнейм у Telegram.'},
@@ -616,6 +656,8 @@ function validateStep2() {
   return true;
 }
 function validateStep3() {
+  if (!val('maxBudget'))           { showErr('err3',m('budget'));    return false; }
+  if (!val('bedrooms'))            { showErr('err3',m('bedrooms'));  return false; }
   if (!val('viewingAvailability')) { showErr('err3',m('availability')); return false; }
   if (!radio('contactMethod'))     { showErr('err3',m('contact'));      return false; }
   if (radio('contactMethod')==='Telegram' && !val('telegramUsername')){ showErr('err3',m('telegram')); return false; }
@@ -650,6 +692,9 @@ const LABELS = {
   personal:    {en:'Personal',       es:'Personal',         uk:'Особисте'},
   financial:   {en:'Financial',      es:'Económico',        uk:'Фінансове'},
   prefs:       {en:'Preferences',    es:'Preferencias',     uk:'Уподобання'},
+  budget:      {en:'Max rent',       es:'Alquiler máx.',    uk:'Макс. оренда'},
+  beds:        {en:'Bedrooms',       es:'Habitaciones',     uk:'Кімнати'},
+  areas:       {en:'Areas',          es:'Zonas',            uk:'Райони'},
   edit:        {en:'Edit',           es:'Editar',           uk:'Редагувати'},
   name:        {en:'Name',           es:'Nombre',           uk:'Ім\'я'},
   phone:       {en:'Phone',          es:'Teléfono',         uk:'Телефон'},
@@ -706,6 +751,9 @@ function buildReview() {
 
   html+='<div class="review-block">';
   html+='<div class="review-section-head" onclick="goToStep(3)"><span>'+L('prefs')+'</span><span class="edit-link">'+L('edit')+'</span></div>';
+  html+=row(L('budget'), val('maxBudget')?'€'+val('maxBudget')+'/mo':'');
+  html+=row(L('beds'), val('bedrooms')==='studio'?'Studio':val('bedrooms'));
+  html+=row(L('areas'), checkboxes('areas').join(', '));
   html+=row(L('avail'), val('viewingAvailability'));
   html+=row(L('con'), radio('contactMethod')+(val('telegramUsername')?' ('+val('telegramUsername')+')':''));
   if (val('idealistaUrl')) html+=row('Idealista URL', val('idealistaUrl'));
@@ -737,6 +785,7 @@ async function submitProfile() {
     individual_income:val('individualIncome'), household_income:val('householdIncome')||'',
     has_nominas:radio('hasNominas'), has_guarantor:radio('hasGuarantor'),
     guarantor_details:val('guarantorDetails')||'',
+    max_budget:val('maxBudget'), bedrooms:val('bedrooms'), preferred_areas:checkboxes('areas').join(', '),
     viewing_availability:val('viewingAvailability'), contact_method:radio('contactMethod'),
     telegram_username:val('telegramUsername')||'', idealista_url:val('idealistaUrl')||'',
     questions_for_agents:val('agentQuestions')||'', additional_notes:val('additionalNotes')||'',

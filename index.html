@@ -256,7 +256,8 @@
   .sample-facts { font-size:15px; color:var(--ink-deep); }
   .sample-chips { display:flex; flex-wrap:wrap; gap:6px; }
   .sample-chip { font-size:12px; color:var(--ink-deep); background:rgba(27,56,143,.07); border-radius:2px; padding:3px 9px; }
-  .sample-call { display:inline-flex; align-items:center; justify-content:center; gap:8px; background:var(--ink); color:var(--cream); font-family:'Newsreader',serif; font-size:15px; font-weight:500; padding:12px 20px; border-radius:2px; text-decoration:none; box-shadow:0 4px 0 var(--ink-deep); margin-top:4px; }
+  .sample-call { display:inline-flex; align-items:center; justify-content:center; gap:8px; background:var(--ink); color:var(--cream); font-family:'Newsreader',serif; font-size:15px; font-weight:500; padding:12px 20px; border-radius:2px; text-decoration:none; box-shadow:0 4px 0 var(--ink-deep); margin-top:4px; cursor:default; }
+  .hero-visual .sample { margin:0 auto; text-align:left; }
 
   /* ── i18n: three languages ── */
   [data-lang="es"],[data-lang="uk"] { display:none; }
@@ -329,7 +330,27 @@
         </div>
       </div>
       <div class="hero-visual reveal reveal-3">
-       <img src="logo-hero.webp" alt="Llavai — Barcelona rental concierge" width="380" height="380" fetchpriority="high" decoding="async" />
+        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 94 out of 100, two-bed in Gràcia at €1,350 a month, posted 4 minutes ago">
+          <div class="sample-photo">
+            <div class="sample-badge">94<small>/100</small></div>
+            <div class="sample-fresh"><span data-lang="en">4 min ago</span><span data-lang="es" class="inline">hace 4 min</span><span data-lang="uk" class="inline">4 хв тому</span></div>
+          </div>
+          <div class="sample-body">
+            <div class="sample-price">€1,350 <span><span data-lang="en">/mo · €16/m²</span><span data-lang="es" class="inline">/mes · 16 €/m²</span><span data-lang="uk" class="inline">/міс · 16 €/m²</span></span></div>
+            <div class="sample-facts"><span data-lang="en">2 bed · 1 bath · 84 m² · Gràcia</span><span data-lang="es" class="inline">2 hab · 1 baño · 84 m² · Gràcia</span><span data-lang="uk" class="inline">2 кімн · 1 ванна · 84 m² · Gràcia</span></div>
+            <div class="sample-chips">
+              <span class="sample-chip"><span data-lang="en">Air con</span><span data-lang="es" class="inline">Aire ac.</span><span data-lang="uk" class="inline">Кондиц.</span></span>
+              <span class="sample-chip"><span data-lang="en">Exterior</span><span data-lang="es" class="inline">Exterior</span><span data-lang="uk" class="inline">Зовнішня</span></span>
+              <span class="sample-chip"><span data-lang="en">Terrace</span><span data-lang="es" class="inline">Terraza</span><span data-lang="uk" class="inline">Тераса</span></span>
+              <span class="sample-chip"><span data-lang="en">14 photos</span><span data-lang="es" class="inline">14 fotos</span><span data-lang="uk" class="inline">14 фото</span></span>
+            </div>
+            <span class="sample-call">
+              <span data-lang="en">📞 Call agency</span>
+              <span data-lang="es" class="inline">📞 Llamar a la inmobiliaria</span>
+              <span data-lang="uk" class="inline">📞 Подзвонити в агентство</span>
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -352,9 +373,9 @@
       <!-- Essential (self-serve, featured) -->
       <div class="tier featured">
         <p class="tier-tag">
-          <span data-lang="en">Self-serve · most popular</span>
-          <span data-lang="es">Por tu cuenta · el más elegido</span>
-          <span data-lang="uk">Самостійно · найпопулярніший</span>
+          <span data-lang="en">Self-serve · start today</span>
+          <span data-lang="es">Por tu cuenta · empieza hoy</span>
+          <span data-lang="uk">Самостійно · почніть сьогодні</span>
         </p>
         <h3 class="tier-name">Essential</h3>
         <p class="tier-price">€19 <small><span data-lang="en">/ month</span><span data-lang="es" class="inline">/ mes</span><span data-lang="uk" class="inline">/ міс</span></small></p>
@@ -514,11 +535,11 @@
               <span class="sample-chip"><span data-lang="en">Terrace</span><span data-lang="es" class="inline">Terraza</span><span data-lang="uk" class="inline">Тераса</span></span>
               <span class="sample-chip"><span data-lang="en">12 photos</span><span data-lang="es" class="inline">12 fotos</span><span data-lang="uk" class="inline">12 фото</span></span>
             </div>
-            <a class="sample-call" href="/get-started">
+            <span class="sample-call">
               <span data-lang="en">📞 Call agency</span>
               <span data-lang="es" class="inline">📞 Llamar a la inmobiliaria</span>
               <span data-lang="uk" class="inline">📞 Подзвонити в агентство</span>
-            </a>
+            </span>
           </div>
         </div>
       </div>
@@ -867,7 +888,7 @@
 <footer>
   <div class="container">
     <div class="footer-row">
-      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span></span>
+      <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span> · <a href="/privacy"><span data-lang="en">Privacy</span><span data-lang="es">Privacidad</span><span data-lang="uk">Конфіденційність</span></a></span>
       <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
     </div>
   </div>

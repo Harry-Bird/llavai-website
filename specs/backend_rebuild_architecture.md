@@ -137,7 +137,8 @@ Keep a one-time CSV export for safety, then remove all Google Sheets nodes.
 - **Phase 2 — W1 (Pro Concierge)**: build NEW + inactive; test against a real forwarded
   alert; then **repoint CloudMailin** from `Start Call v2.5` → W1 and **deactivate** the old
   workflow (CloudMailin endpoint switch is instantly reversible).
-- **Phase 3 — W5 Pro application/approval**; frontend `current_tier()` wiring on `/account`.
+- **Phase 1 — Billing**: ✅ DONE — W4 checkout + 3-day trial + plan stamping; W3 sync maps plan by price ID. Essential `price_1Tg4mRF7TyaJ4FzileL3yPfd`, Pro `price_1TgUXvF7TyaJ4FziJhqXMovY` (€185/mo).
+- **Phase 3 — Frontend**: ✅ DONE (live) — `current_tier()` gating + Free teaser (`teaser_listings`), feed-preferences settings UI (scoring_prefs + seasonal/platform toggles), and the in-house **Llavai Calendar** (viewings self-manage + availability). Remaining: **W5 Pro apply→approve** flow.
 - **Phase 4 — Decommission** Google Sheets nodes + old workflow; add W6 retention.
 
 Old `Start Call v2.5` stays live until W1 is proven, so calls never stop during the cutover.

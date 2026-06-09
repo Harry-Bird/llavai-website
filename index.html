@@ -229,8 +229,8 @@
     *,*::before,*::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
     html.has-js .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
     .score-row.in .score-bar > i { transition:none !important; }
-    .sample-photo .demo-shot { animation:none !important; opacity:0 !important; }
-    .sample-photo .demo-shot:first-child { opacity:1 !important; }
+    .feed > .sample { animation:none !important; opacity:0 !important; transform:none !important; }
+    .feed > .sample:first-child { opacity:1 !important; z-index:3 !important; }
   }
 
   /* ── tiers + appeal score + sample listing (two-service homepage) ── */
@@ -330,20 +330,31 @@
   }
   .sample-badge, .sample-fresh { z-index:2; }
 
-  /* ── real demo photos: gentle cross-fading carousel ── */
-  .sample-photo .demo-shot {
-    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    opacity:0; z-index:0; animation:demoShot 18s infinite var(--ease-out);
+  /* ── real demo photo fills each card ── */
+  .sample-photo > .demo-shot {
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
   }
-  .sample-photo .demo-shot:nth-child(1) { animation-delay:0s; }
-  .sample-photo .demo-shot:nth-child(2) { animation-delay:6s; }
-  .sample-photo .demo-shot:nth-child(3) { animation-delay:12s; }
-  @keyframes demoShot {
-    0%   { opacity:0; }
-    4%   { opacity:1; }
-    28%  { opacity:1; }
-    35%  { opacity:0; }
-    100% { opacity:0; }
+
+  /* ── rotating feed: whole listing cards deal off the stack ── */
+  .feed { display:grid; }
+  .feed > .sample { grid-area:1 / 1; align-self:start; justify-self:center; }
+  html.has-js .feed > .sample {
+    opacity:0; animation:cardDeal 21s var(--ease-out) infinite both;
+    will-change:transform, opacity;
+  }
+  html.has-js .feed > .sample:first-child { opacity:1; }
+  html.has-js .feed > .sample:nth-child(1) { animation-delay:0s; }
+  html.has-js .feed > .sample:nth-child(2) { animation-delay:7s; }
+  html.has-js .feed > .sample:nth-child(3) { animation-delay:14s; }
+  html.has-js .feed.feed--offset > .sample:nth-child(1) { animation-delay:-3.5s; }
+  html.has-js .feed.feed--offset > .sample:nth-child(2) { animation-delay:3.5s; }
+  html.has-js .feed.feed--offset > .sample:nth-child(3) { animation-delay:10.5s; }
+  @keyframes cardDeal {
+    0%   { opacity:0; transform:translateY(24px) scale(.95) rotate(1.4deg); z-index:1; }
+    3%   { opacity:1; transform:translateY(0) scale(1) rotate(0); z-index:3; }
+    30%  { opacity:1; transform:translateY(0) scale(1) rotate(0); z-index:3; }
+    34%  { opacity:0; transform:translateY(-22px) scale(.99) rotate(-1deg); z-index:2; }
+    100% { opacity:0; transform:translateY(24px) scale(.95) rotate(1.4deg); z-index:1; }
   }
 
   /* ── live freshness pulse (on-brand coral) ── */
@@ -460,12 +471,10 @@
         </div>
       </div>
       <div class="hero-visual reveal reveal-3">
-        <div class="sample-stack reveal">
+        <div class="sample-stack feed reveal">
         <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 94 out of 100, two-bed in Gràcia at €1,350 a month, posted 4 minutes ago">
           <div class="sample-photo">
             <img class="demo-shot" src="images/demo/listing-1.jpg" alt="" width="800" height="533" decoding="async">
-            <img class="demo-shot" src="images/demo/listing-2.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
-            <img class="demo-shot" src="images/demo/listing-3.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
             <div class="sample-badge">94<small>/100</small></div>
             <div class="sample-fresh"><span data-lang="en">4 min ago</span><span data-lang="es" class="inline">hace 4 min</span><span data-lang="uk" class="inline">4 хв тому</span></div>
           </div>
@@ -477,6 +486,52 @@
               <span class="sample-chip"><span data-lang="en">Exterior</span><span data-lang="es" class="inline">Exterior</span><span data-lang="uk" class="inline">Зовнішня</span></span>
               <span class="sample-chip"><span data-lang="en">Terrace</span><span data-lang="es" class="inline">Terraza</span><span data-lang="uk" class="inline">Тераса</span></span>
               <span class="sample-chip"><span data-lang="en">14 photos</span><span data-lang="es" class="inline">14 fotos</span><span data-lang="uk" class="inline">14 фото</span></span>
+            </div>
+            <span class="sample-call">
+              <svg class="sample-call-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span data-lang="en">Call agency</span>
+              <span data-lang="es" class="inline">Llamar a la inmobiliaria</span>
+              <span data-lang="uk" class="inline">Подзвонити в агентство</span>
+            </span>
+          </div>
+        </div>
+        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 88 out of 100, two-bed in Poblenou at €1,180 a month, posted 9 minutes ago">
+          <div class="sample-photo">
+            <img class="demo-shot" src="images/demo/listing-2.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
+            <div class="sample-badge">88<small>/100</small></div>
+            <div class="sample-fresh"><span data-lang="en">9 min ago</span><span data-lang="es" class="inline">hace 9 min</span><span data-lang="uk" class="inline">9 хв тому</span></div>
+          </div>
+          <div class="sample-body">
+            <div class="sample-price">€1,180 <span><span data-lang="en">/mo · €14/m²</span><span data-lang="es" class="inline">/mes · 14 €/m²</span><span data-lang="uk" class="inline">/міс · 14 €/m²</span></span></div>
+            <div class="sample-facts"><span data-lang="en">2 bed · 1 bath · 78 m² · Poblenou</span><span data-lang="es" class="inline">2 hab · 1 baño · 78 m² · Poblenou</span><span data-lang="uk" class="inline">2 кімн · 1 ванна · 78 m² · Poblenou</span></div>
+            <div class="sample-chips">
+              <span class="sample-chip"><span data-lang="en">Heating</span><span data-lang="es" class="inline">Calefacción</span><span data-lang="uk" class="inline">Опалення</span></span>
+              <span class="sample-chip"><span data-lang="en">Lift</span><span data-lang="es" class="inline">Ascensor</span><span data-lang="uk" class="inline">Ліфт</span></span>
+              <span class="sample-chip"><span data-lang="en">Balcony</span><span data-lang="es" class="inline">Balcón</span><span data-lang="uk" class="inline">Балкон</span></span>
+              <span class="sample-chip"><span data-lang="en">11 photos</span><span data-lang="es" class="inline">11 fotos</span><span data-lang="uk" class="inline">11 фото</span></span>
+            </div>
+            <span class="sample-call">
+              <svg class="sample-call-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span data-lang="en">Call agency</span>
+              <span data-lang="es" class="inline">Llamar a la inmobiliaria</span>
+              <span data-lang="uk" class="inline">Подзвонити в агентство</span>
+            </span>
+          </div>
+        </div>
+        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 92 out of 100, three-bed in Eixample at €1,420 a month, posted 6 minutes ago">
+          <div class="sample-photo">
+            <img class="demo-shot" src="images/demo/listing-3.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
+            <div class="sample-badge">92<small>/100</small></div>
+            <div class="sample-fresh"><span data-lang="en">6 min ago</span><span data-lang="es" class="inline">hace 6 min</span><span data-lang="uk" class="inline">6 хв тому</span></div>
+          </div>
+          <div class="sample-body">
+            <div class="sample-price">€1,420 <span><span data-lang="en">/mo · €17/m²</span><span data-lang="es" class="inline">/mes · 17 €/m²</span><span data-lang="uk" class="inline">/міс · 17 €/m²</span></span></div>
+            <div class="sample-facts"><span data-lang="en">3 bed · 2 bath · 92 m² · Eixample</span><span data-lang="es" class="inline">3 hab · 2 baños · 92 m² · Eixample</span><span data-lang="uk" class="inline">3 кімн · 2 ванни · 92 m² · Eixample</span></div>
+            <div class="sample-chips">
+              <span class="sample-chip"><span data-lang="en">Air con</span><span data-lang="es" class="inline">Aire ac.</span><span data-lang="uk" class="inline">Кондиц.</span></span>
+              <span class="sample-chip"><span data-lang="en">Furnished</span><span data-lang="es" class="inline">Amueblado</span><span data-lang="uk" class="inline">З меблями</span></span>
+              <span class="sample-chip"><span data-lang="en">Exterior</span><span data-lang="es" class="inline">Exterior</span><span data-lang="uk" class="inline">Зовнішня</span></span>
+              <span class="sample-chip"><span data-lang="en">18 photos</span><span data-lang="es" class="inline">18 fotos</span><span data-lang="uk" class="inline">18 фото</span></span>
             </div>
             <span class="sample-call">
               <svg class="sample-call-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -662,23 +717,67 @@
           <span data-lang="uk">Усе, що понад 70, проходить відбір. У Pro Julia телефонує таким автоматично.</span>
         </p>
       </div>
-      <div>
-        <div class="sample" role="img" aria-label="Example scored listing">
+      <div class="feed feed--offset">
+        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 94 out of 100, two-bed in Gràcia at €1,350 a month, posted 4 minutes ago">
           <div class="sample-photo">
-            <img class="demo-shot" src="images/demo/listing-3.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
             <img class="demo-shot" src="images/demo/listing-1.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
-            <img class="demo-shot" src="images/demo/listing-2.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
-            <div class="sample-badge">92<small>/100</small></div>
-            <div class="sample-fresh"><span data-lang="en">7 min ago</span><span data-lang="es" class="inline">hace 7 min</span><span data-lang="uk" class="inline">7 хв тому</span></div>
+            <div class="sample-badge">94<small>/100</small></div>
+            <div class="sample-fresh"><span data-lang="en">4 min ago</span><span data-lang="es" class="inline">hace 4 min</span><span data-lang="uk" class="inline">4 хв тому</span></div>
           </div>
           <div class="sample-body">
-            <div class="sample-price">€1,250 <span><span data-lang="en">/mo · €15/m²</span><span data-lang="es" class="inline">/mes · 15 €/m²</span><span data-lang="uk" class="inline">/міс · 15 €/m²</span></span></div>
-            <div class="sample-facts"><span data-lang="en">2 bed · 1 bath · 82 m² · Eixample</span><span data-lang="es" class="inline">2 hab · 1 baño · 82 m² · Eixample</span><span data-lang="uk" class="inline">2 кімн · 1 ванна · 82 m² · Eixample</span></div>
+            <div class="sample-price">€1,350 <span><span data-lang="en">/mo · €16/m²</span><span data-lang="es" class="inline">/mes · 16 €/m²</span><span data-lang="uk" class="inline">/міс · 16 €/m²</span></span></div>
+            <div class="sample-facts"><span data-lang="en">2 bed · 1 bath · 84 m² · Gràcia</span><span data-lang="es" class="inline">2 hab · 1 baño · 84 m² · Gràcia</span><span data-lang="uk" class="inline">2 кімн · 1 ванна · 84 m² · Gràcia</span></div>
             <div class="sample-chips">
               <span class="sample-chip"><span data-lang="en">Air con</span><span data-lang="es" class="inline">Aire ac.</span><span data-lang="uk" class="inline">Кондиц.</span></span>
               <span class="sample-chip"><span data-lang="en">Exterior</span><span data-lang="es" class="inline">Exterior</span><span data-lang="uk" class="inline">Зовнішня</span></span>
               <span class="sample-chip"><span data-lang="en">Terrace</span><span data-lang="es" class="inline">Terraza</span><span data-lang="uk" class="inline">Тераса</span></span>
-              <span class="sample-chip"><span data-lang="en">12 photos</span><span data-lang="es" class="inline">12 fotos</span><span data-lang="uk" class="inline">12 фото</span></span>
+              <span class="sample-chip"><span data-lang="en">14 photos</span><span data-lang="es" class="inline">14 fotos</span><span data-lang="uk" class="inline">14 фото</span></span>
+            </div>
+            <span class="sample-call">
+              <svg class="sample-call-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span data-lang="en">Call agency</span>
+              <span data-lang="es" class="inline">Llamar a la inmobiliaria</span>
+              <span data-lang="uk" class="inline">Подзвонити в агентство</span>
+            </span>
+          </div>
+        </div>
+        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 88 out of 100, two-bed in Poblenou at €1,180 a month, posted 9 minutes ago">
+          <div class="sample-photo">
+            <img class="demo-shot" src="images/demo/listing-2.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
+            <div class="sample-badge">88<small>/100</small></div>
+            <div class="sample-fresh"><span data-lang="en">9 min ago</span><span data-lang="es" class="inline">hace 9 min</span><span data-lang="uk" class="inline">9 хв тому</span></div>
+          </div>
+          <div class="sample-body">
+            <div class="sample-price">€1,180 <span><span data-lang="en">/mo · €14/m²</span><span data-lang="es" class="inline">/mes · 14 €/m²</span><span data-lang="uk" class="inline">/міс · 14 €/m²</span></span></div>
+            <div class="sample-facts"><span data-lang="en">2 bed · 1 bath · 78 m² · Poblenou</span><span data-lang="es" class="inline">2 hab · 1 baño · 78 m² · Poblenou</span><span data-lang="uk" class="inline">2 кімн · 1 ванна · 78 m² · Poblenou</span></div>
+            <div class="sample-chips">
+              <span class="sample-chip"><span data-lang="en">Heating</span><span data-lang="es" class="inline">Calefacción</span><span data-lang="uk" class="inline">Опалення</span></span>
+              <span class="sample-chip"><span data-lang="en">Lift</span><span data-lang="es" class="inline">Ascensor</span><span data-lang="uk" class="inline">Ліфт</span></span>
+              <span class="sample-chip"><span data-lang="en">Balcony</span><span data-lang="es" class="inline">Balcón</span><span data-lang="uk" class="inline">Балкон</span></span>
+              <span class="sample-chip"><span data-lang="en">11 photos</span><span data-lang="es" class="inline">11 fotos</span><span data-lang="uk" class="inline">11 фото</span></span>
+            </div>
+            <span class="sample-call">
+              <svg class="sample-call-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+              <span data-lang="en">Call agency</span>
+              <span data-lang="es" class="inline">Llamar a la inmobiliaria</span>
+              <span data-lang="uk" class="inline">Подзвонити в агентство</span>
+            </span>
+          </div>
+        </div>
+        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 92 out of 100, three-bed in Eixample at €1,420 a month, posted 6 minutes ago">
+          <div class="sample-photo">
+            <img class="demo-shot" src="images/demo/listing-3.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
+            <div class="sample-badge">92<small>/100</small></div>
+            <div class="sample-fresh"><span data-lang="en">6 min ago</span><span data-lang="es" class="inline">hace 6 min</span><span data-lang="uk" class="inline">6 хв тому</span></div>
+          </div>
+          <div class="sample-body">
+            <div class="sample-price">€1,420 <span><span data-lang="en">/mo · €17/m²</span><span data-lang="es" class="inline">/mes · 17 €/m²</span><span data-lang="uk" class="inline">/міс · 17 €/m²</span></span></div>
+            <div class="sample-facts"><span data-lang="en">3 bed · 2 bath · 92 m² · Eixample</span><span data-lang="es" class="inline">3 hab · 2 baños · 92 m² · Eixample</span><span data-lang="uk" class="inline">3 кімн · 2 ванни · 92 m² · Eixample</span></div>
+            <div class="sample-chips">
+              <span class="sample-chip"><span data-lang="en">Air con</span><span data-lang="es" class="inline">Aire ac.</span><span data-lang="uk" class="inline">Кондиц.</span></span>
+              <span class="sample-chip"><span data-lang="en">Furnished</span><span data-lang="es" class="inline">Amueblado</span><span data-lang="uk" class="inline">З меблями</span></span>
+              <span class="sample-chip"><span data-lang="en">Exterior</span><span data-lang="es" class="inline">Exterior</span><span data-lang="uk" class="inline">Зовнішня</span></span>
+              <span class="sample-chip"><span data-lang="en">18 photos</span><span data-lang="es" class="inline">18 fotos</span><span data-lang="uk" class="inline">18 фото</span></span>
             </div>
             <span class="sample-call">
               <svg class="sample-call-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>

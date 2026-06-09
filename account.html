@@ -79,6 +79,12 @@
   .btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink-deep)}
   .btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 2px 0 var(--ink-deep)}
   .saved{display:inline-block;margin-left:12px;color:var(--ink);font-style:italic;font-size:14px;opacity:0;transition:opacity .2s}
+  .prefs-block{margin-top:26px;padding-top:22px;border-top:1px solid rgba(27,56,143,.12)}
+  .prefs-h{font-family:'Fraunces',serif;font-weight:500;font-size:19px;color:var(--ink);margin-bottom:4px}
+  .prefs-block select{width:100%;padding:10px 12px;font-family:'Newsreader',serif;font-size:15px;border:1.5px solid rgba(27,56,143,.2);background:var(--cream);color:var(--ink);border-radius:2px}
+  .prefs-checks{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+  .prefs-checks label{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--ink-deep);cursor:pointer}
+  .prefs-checks input{width:18px;height:18px;accent-color:var(--coral)}
   .saved.show{opacity:1}
   /* documents */
   .doc-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid rgba(27,56,143,.12);border-radius:2px;margin-bottom:10px;flex-wrap:wrap}
@@ -243,6 +249,27 @@
         </div>
         <div class="field"><label for="p_avail"><span data-lang="en">Viewing availability</span><span data-lang="es">Disponibilidad para visitas</span><span data-lang="uk">Доступність для переглядів</span></label><textarea id="p_avail"></textarea></div>
         <div class="field"><label for="p_notes"><span data-lang="en">Anything else for Julia</span><span data-lang="es">Algo más para Julia</span><span data-lang="uk">Щось іще для Julia</span></label><textarea id="p_notes"></textarea></div>
+
+        <div class="prefs-block">
+          <h3 class="prefs-h"><span data-lang="en">Feed preferences</span><span data-lang="es">Preferencias del feed</span><span data-lang="uk">Налаштування стрічки</span></h3>
+          <p class="sub"><span data-lang="en">Tune how we score and filter your listings. Changes apply on the next refresh.</span><span data-lang="es">Ajusta cómo puntuamos y filtramos tus pisos. Los cambios se aplican en la próxima actualización.</span><span data-lang="uk">Налаштуйте, як ми оцінюємо та фільтруємо ваші оголошення. Зміни застосуються при наступному оновленні.</span></p>
+          <div class="row-2">
+            <div class="field"><label for="pf_value"><span data-lang="en">Price / value for money</span><span data-lang="es">Precio / relación calidad-precio</span><span data-lang="uk">Ціна / співвідношення ціни та якості</span></label><select id="pf_value"></select></div>
+            <div class="field"><label for="pf_freshness"><span data-lang="en">Freshness (newest first)</span><span data-lang="es">Novedad (más recientes)</span><span data-lang="uk">Свіжість (найновіші)</span></label><select id="pf_freshness"></select></div>
+          </div>
+          <div class="row-2">
+            <div class="field"><label for="pf_features"><span data-lang="en">Features (terrace, A/C, pool)</span><span data-lang="es">Extras (terraza, A/C, piscina)</span><span data-lang="uk">Зручності (тераса, кондиціонер, басейн)</span></label><select id="pf_features"></select></div>
+            <div class="field"><label for="pf_presentation"><span data-lang="en">Photos / presentation</span><span data-lang="es">Fotos / presentación</span><span data-lang="uk">Фото / презентація</span></label><select id="pf_presentation"></select></div>
+          </div>
+          <div class="prefs-checks">
+            <label><input type="checkbox" id="pf_lift" /><span data-lang="en">Must have a lift</span><span data-lang="es">Debe tener ascensor</span><span data-lang="uk">Має бути ліфт</span></label>
+            <label><input type="checkbox" id="pf_exterior" /><span data-lang="en">Must be exterior / bright</span><span data-lang="es">Debe ser exterior / luminoso</span><span data-lang="uk">Має бути зовнішня / світла</span></label>
+            <label><input type="checkbox" id="pf_seasonal" /><span data-lang="en">Include seasonal / temporary rentals</span><span data-lang="es">Incluir alquileres de temporada</span><span data-lang="uk">Включати сезонну / тимчасову оренду</span></label>
+            <label><input type="checkbox" id="pf_platform" /><span data-lang="en">Include platform listings (Spotahome, etc.)</span><span data-lang="es">Incluir anuncios de plataformas (Spotahome, etc.)</span><span data-lang="uk">Включати оголошення платформ (Spotahome тощо)</span></label>
+          </div>
+          <div class="field"><label for="pf_context"><span data-lang="en">Anything else to tune your matches?</span><span data-lang="es">¿Algo más para afinar tus resultados?</span><span data-lang="uk">Щось іще, щоб налаштувати результати?</span></label><textarea id="pf_context" placeholder="e.g. quiet street, near a metro, ground floor is fine"></textarea></div>
+        </div>
+
         <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()"><span data-lang="en">Save changes</span><span data-lang="es">Guardar</span><span data-lang="uk">Зберегти</span></button>
         <span class="saved" id="profileSaved"><span data-lang="en">Saved ✓</span><span data-lang="es">Guardado ✓</span><span data-lang="uk">Збережено ✓</span></span>
       </section>
@@ -305,6 +332,7 @@ function setLang(lang){
   if (lang !== 'en') document.body.classList.add(lang);
   document.documentElement.lang = lang;
   ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
+  try { if(typeof applyPrefLang==='function') applyPrefLang(); } catch(e) {}
   try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
 }
 try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
@@ -529,15 +557,48 @@ async function loadPipeline(){
 /* ---- profile ---- */
 const PFIELDS=['first_name','last_name','phone','profession','viewing_availability','notes'];
 const PMAP={first_name:'p_first',last_name:'p_last',phone:'p_phone',profession:'p_profession',viewing_availability:'p_avail',notes:'p_notes'};
+/* ---- feed preferences (per-user scoring + filters) ---- */
+const WEIGHT_IDS=['pf_value','pf_freshness','pf_features','pf_presentation'];
+const WEIGHT_KEY={pf_value:'value',pf_freshness:'freshness',pf_features:'features',pf_presentation:'presentation'};
+const PREF_OPTS={en:['Less important','Normal','More important'],es:['Menos importante','Normal','Más importante'],uk:['Менш важливо','Звичайно','Більш важливо']};
+function applyPrefLang(){
+  var labels=PREF_OPTS[lang()]||PREF_OPTS.en;
+  WEIGHT_IDS.forEach(function(id){
+    var sel=document.getElementById(id); if(!sel) return;
+    var cur=sel.value||'1';
+    sel.innerHTML='<option value="0.5">'+labels[0]+'</option><option value="1">'+labels[1]+'</option><option value="2">'+labels[2]+'</option>';
+    sel.value=cur;
+  });
+}
+function setSel(id,v){ var el=document.getElementById(id); if(el) el.value=(v==null?'1':String(v)); }
+function setChk(id,v){ var el=document.getElementById(id); if(el) el.checked=!!v; }
 async function loadProfile(){
   const { data, error } = await sb.from('profiles').select('*').eq('id',USER.id).single();
   const p = data || {};
   document.getElementById('greetName').textContent = p.first_name || (USER.email||'').split('@')[0];
   PFIELDS.forEach(function(f){ const el=document.getElementById(PMAP[f]); if(el) el.value = p[f]==null?'':p[f]; });
+  // feed prefs
+  applyPrefLang();
+  var sp = (p.scoring_prefs && typeof p.scoring_prefs==='object') ? p.scoring_prefs : {};
+  var w = sp.weights||{}, req = sp.require||{};
+  setSel('pf_value',w.value); setSel('pf_freshness',w.freshness); setSel('pf_features',w.features); setSel('pf_presentation',w.presentation);
+  setChk('pf_lift',req.lift); setChk('pf_exterior',req.exterior);
+  setChk('pf_seasonal',p.include_seasonal); setChk('pf_platform',p.include_platform_reposts);
+  var ctx=document.getElementById('pf_context'); if(ctx) ctx.value = sp.context||'';
+}
+function readPrefs(){
+  function v(id){ var el=document.getElementById(id); return el?parseFloat(el.value):1; }
+  function c(id){ var el=document.getElementById(id); return !!(el&&el.checked); }
+  var weights={ value:v('pf_value'), freshness:v('pf_freshness'), features:v('pf_features'), presentation:v('pf_presentation') };
+  var require={}; if(c('pf_lift')) require.lift=true; if(c('pf_exterior')) require.exterior=true;
+  var ctx=(document.getElementById('pf_context')||{}).value||'';
+  var scoring_prefs={ weights:weights }; if(Object.keys(require).length) scoring_prefs.require=require; if(ctx.trim()) scoring_prefs.context=ctx.trim();
+  return { scoring_prefs:scoring_prefs, include_seasonal:c('pf_seasonal'), include_platform_reposts:c('pf_platform') };
 }
 async function saveProfile(){
   const btn=document.getElementById('saveProfileBtn'), err=document.getElementById('profileError'); err.classList.remove('visible');
   const patch={}; PFIELDS.forEach(function(f){ patch[f]=document.getElementById(PMAP[f]).value.trim()||null; });
+  Object.assign(patch, readPrefs());
   btn.disabled=true;
   const { error } = await sb.from('profiles').update(patch).eq('id',USER.id);
   btn.disabled=false;

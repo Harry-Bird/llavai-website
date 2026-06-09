@@ -224,11 +224,12 @@ if (CONFIGURED && window.supabase) {
   document.getElementById('btnSend').disabled = true;
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 async function sendLink(){
   const l = lang();
   document.getElementById('formError').classList.remove('visible');
   const email = val('email');
-  if (!email || !email.includes('@')) { showError(MSG.email[l]); return; }
+  if (!email || !EMAIL_RE.test(email)) { showError(MSG.email[l]); return; }
   if (!sb) { return; }
 
   const btn=document.getElementById('btnSend'), txt=document.getElementById('sendText'), sp=document.getElementById('spinner');

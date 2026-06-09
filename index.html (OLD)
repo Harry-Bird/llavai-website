@@ -915,7 +915,7 @@
   try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
 </script>
 <div class="mobile-cta-bar">
-  <a href="/profile" class="btn-primary" style="flex:1;text-align:center;font-size:15px;padding:14px 24px">
+  <a href="/get-started" class="btn-primary" style="flex:1;text-align:center;font-size:15px;padding:14px 24px">
     <span data-lang="en">Get started — it's free</span>
     <span data-lang="es">Empezar — es gratis</span>
     <span data-lang="uk">Почати — це безкоштовно</span>

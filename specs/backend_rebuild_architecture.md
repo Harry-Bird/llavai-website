@@ -131,7 +131,8 @@ Keep a one-time CSV export for safety, then remove all Google Sheets nodes.
 ## 7. Build sequence (incremental, reversible)
 
 - **Phase 0 — Schema** (additive migrations): profiles columns, viewings columns,
-  `property_cache`, `call_attempts`, `is_pro()`/`current_tier()`. Zero risk.
+  `property_cache`, `call_attempts`, `is_pro()`/`current_tier()`. Zero risk. ✅ **DONE**
+  (migration `backend_rebuild_phase0_schema`, applied + verified 2026-06-09).
 - **Phase 1 — Billing**: fix W3 plan mapping; add Pro price + Essential trial to W4.
 - **Phase 2 — W1 (Pro Concierge)**: build NEW + inactive; test against a real forwarded
   alert; then **repoint CloudMailin** from `Start Call v2.5` → W1 and **deactivate** the old
@@ -141,13 +142,48 @@ Keep a one-time CSV export for safety, then remove all Google Sheets nodes.
 
 Old `Start Call v2.5` stays live until W1 is proven, so calls never stop during the cutover.
 
-## 8. Open item to confirm
+## 8. Decisions locked (from review of real scrapes)
 
-**Free vs Trial definition.** Proposed: **Trial = Stripe Essential subscription with a
-`trial_period_days` window** (status `trialing` already unlocks the feed via
-`has_active_subscription()`); **Free = account with no subscription** (feed locked, can still
-build profile + apply for Pro). Adjust the trial length / whether Free sees a teaser vs full
-lock on review.
+- **Tiers:** Free = **teaser** (global redacted pool of recent ≥60 listings — no phone/
+  url/exact price, RLS view readable by authenticated, costs nothing extra). Trial =
+  **card-required** Stripe Essential, **3-day** `trial_period_days` (status `trialing`).
+  Essential = active. Pro = apply → approve → Stripe Pro plan. **No trial on Pro upgrades.**
+- **No LLM (cost).** At €19/mo we do not call a paid LLM per listing. Enrichment is free:
+  (a) read Idealista's already-structured `translatedTexts`/`comments[]` for facts and the
+  renter-language description; (b) deterministic **regex/keyword** rules over `propertyComment`
+  for the templated legal fine print (Gran Tenedor, rent-control applicability + reference
+  rent range, IBI/community/utilities inclusion, deposit months, fees). Store full `raw jsonb`
+  so an LLM pass can be added later if revenue allows. Scoring is a free Code node.
+- **Two-stage ingestion filter, not score-based exclusion:** Stage 1 = TAG
+  (`is_seasonal` via `labels[].name`/description — NOT `tags`; `is_platform_repost` via
+  `link.url`/`commercialName`; deactivated) → Stage 2 = appeal **≥60** → Stage 3 = free
+  enrichment. **Seasonal / platform reposts are a per-user preference** (`profiles.include_seasonal`,
+  `include_platform_reposts`), filtered at feed-read + call-gate, not discarded.
+- **Per-user appeal score:** `profiles.scoring_prefs jsonb` (component weights + must-haves/
+  boosts + a free-text `context` stored for future LLM use, not applied now). The scoring
+  Code node personalises each user's `appeal_score`. Base score cached in `property_cache`.
+- **Llavai Calendar (in-house):** `viewings` = events (now with `source` self|julia,
+  `address`, `duration_mins`, `confirmed_at`, `listing_id`); new `availability` table =
+  weekly free windows; `profiles.timezone` + `booking_buffer_mins`. Essential self-tracks;
+  Pro lets Julia book into free slots. No Google Calendar dependency.
+- **Scrape field gotchas (baked into the build):** seasonal = `labels[]` not `tags`;
+  `priceReferenceIndex` structured field is useless (numbers only in description text);
+  `translatedTexts` language follows scrape locale → use `comments[]`; `firstActivationDate`
+  often absent → use `modificationDate`; energy state can be `unknown`/`inProcess`;
+  `usableArea` not always present.
+
+## 8b. Phase 0 delivered (migration `backend_rebuild_phase0_schema`)
+- `profiles` +: intended_plan, pro_status, alert_email_verified, include_seasonal,
+  include_platform_reposts, scoring_prefs, timezone, booking_buffer_mins.
+- `listings` +: neighbourhood/district/lat/long/address_hidden, usable_area_m2, floor,
+  is_exterior, condition, is_studio, has_lift, furnishing, pets_allowed, energy_rating/state,
+  agency_total_ads, is_private_landlord, agency_logo, external_reference, is_seasonal,
+  is_platform_repost, platform, allows_remote_visit, has_360, allows_counter_offer,
+  description, listing_modified_at, price_drop, fine_print, raw (+ feed-flags index).
+- `viewings` +: listing_id, property_id, source, address, duration_mins, confirmed_at.
+- New tables: `availability` (RLS own), `property_cache` (service-role only),
+  `call_attempts` (RLS select-own; unique user_id+property_id). `subscriptions.call_allowance`.
+- RPCs: `is_pro()`, `current_tier()` (verified: anon → false/'free').
 
 ## 9. Out of scope / unchanged
 - Apify actor, Retell agent, CloudMailin, Stripe vendors stay.

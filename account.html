@@ -191,7 +191,7 @@
       <!-- FEED (Essential · self-serve) -->
       <section class="panel active" id="panel-feed" role="tabpanel">
         <h2><span data-lang="en">Today's best listings</span><span data-lang="es">Los mejores pisos de hoy</span><span data-lang="uk">Найкращі оголошення сьогодні</span></h2>
-        <p class="sub"><span data-lang="en">Only the standouts (appeal score over 70), with the agency number ready to call.</span><span data-lang="es">Solo los destacados (puntuación de atractivo superior a 70), con el número de la agencia listo para llamar.</span><span data-lang="uk">Лише найкращі (оцінка привабливості понад 70), з номером агентства, готовим до дзвінка.</span></p>
+        <p class="sub"><span data-lang="en">Only the standouts (appeal score over 60), with the agency number ready to call.</span><span data-lang="es">Solo los destacados (puntuación de atractivo superior a 60), con el número de la agencia listo para llamar.</span><span data-lang="uk">Лише найкращі (оцінка привабливості понад 60), з номером агентства, готовим до дзвінка.</span></p>
         <div class="feed-gate" id="feedGate"><span data-lang="en">Loading your feed…</span><span data-lang="es">Cargando tu feed…</span><span data-lang="uk">Завантаження стрічки…</span></div>
         <div class="paywall" id="paywall" hidden>
           <h2><span data-lang="en">Unlock your listings feed</span><span data-lang="es">Desbloquea tu feed de pisos</span><span data-lang="uk">Розблокуйте свою стрічку</span></h2>
@@ -201,7 +201,7 @@
           <a href="#" class="btn-primary" id="subscribeBtn"><span data-lang="en">Subscribe</span><span data-lang="es">Suscribirse</span><span data-lang="uk">Підписатися</span></a>
         </div>
         <div class="feed" id="feed" hidden></div>
-        <div class="empty" id="feedEmpty" hidden><span data-lang="en">No standout listings right now. As soon as a match scores above 70, it'll appear here.</span><span data-lang="es">No hay pisos destacados ahora mismo. En cuanto uno supere los 70 puntos, aparecerá aquí.</span><span data-lang="uk">Зараз немає виданих оголошень. Щойно якесь набере понад 70 балів, воно з'явиться тут.</span></div>
+        <div class="empty" id="feedEmpty" hidden><span data-lang="en">No standout listings right now. As soon as a match scores above 60, it'll appear here.</span><span data-lang="es">No hay pisos destacados ahora mismo. En cuanto uno supere los 60 puntos, aparecerá aquí.</span><span data-lang="uk">Зараз немає виданих оголошень. Щойно якесь набере понад 60 балів, воно з'явиться тут.</span></div>
       </section>
 
       <!-- PIPELINE -->
@@ -430,7 +430,7 @@ async function initFeed(){
 }
 async function loadFeed(){
   fhide('paywall'); fshow('feedGate');
-  var res = await sb.from('listings').select('*').gt('appeal_score',70).neq('status','dismissed').order('created_at',{ascending:false});
+  var res = await sb.from('listings').select('*').gte('appeal_score',60).neq('status','dismissed').order('created_at',{ascending:false});
   fhide('feedGate');
   if (res.error){ document.getElementById('feedEmpty').textContent=res.error.message; fshow('feedEmpty'); return; }
   if (!res.data || !res.data.length){ fshow('feedEmpty'); return; }

@@ -7,7 +7,8 @@ Status: PROPOSED (design-first). Awaiting approval before build. Last updated 20
 The original `Start Call v2.5` workflow encodes assumptions that no longer hold:
 - It calls Julia for **every** forwarded alert — but calling is now a **Pro-only** feature.
 - It reads/writes **Google Sheets** as the system of record — we've moved to **Supabase**.
-- It gates calls at score **≥60** — the product now promises calls on **>70** (matches the feed).
+- The frontend feed + homepage copy were built around **>70**, but the correct gate is
+  **≥60** (the old workflow was right). All surfaces now align on **≥60**.
 - It predates the **Free / Trial / Essential / Pro** tier model.
 
 We keep the proven *external* components — **Apify** (scrape), **Retell/Julia** (calls),
@@ -16,12 +17,12 @@ the **orchestration, data model, and tier-gating**, plus full removal of Google 
 
 ## 2. Product model (the 4 states)
 
-| Tier | How you get it | Feed (listings >70) | Julia calls |
+| Tier | How you get it | Feed (listings ≥60) | Julia calls |
 |---|---|---|---|
 | **Free** | Account only, no subscription | Locked (paywall/teaser) | No |
 | **Trial** | Stripe Essential price w/ `trial_period_days` → status `trialing` | Unlocked | No |
 | **Essential** | Stripe Essential price, status `active` | Unlocked | No |
-| **Pro** | **Apply → you approve → Stripe Pro price**, plan `pro`, status `active`/`trialing` | Unlocked | **Yes (>70, ~60s)** |
+| **Pro** | **Apply → you approve → Stripe Pro price**, plan `pro`, status `active`/`trialing` | Unlocked | **Yes (≥60, ~minutes)** |
 
 Tier is **derived from `subscriptions(plan, status)`** — no separate flag to keep in sync.
 
@@ -77,7 +78,7 @@ Each workflow is single-responsibility (the opposite of the 43-node monolith).
      b. **Tier gate**: skip unless the client is **Pro** (`plan='pro'`, active/trialing).
      c. **Dedup**: skip if `call_attempts(user_id, property_id)` already exists.
      d. **Scrape**: use `property_cache` if fresh, else Apify → cache the result.
-     e. **Score** (the shared appeal formula) → **gate >70**.
+     e. **Score** (the shared appeal formula) → **gate ≥60**.
      f. **Write** a `listings` row (so it also appears in their feed) + a `viewings` row
         (status `calling`), and a `call_attempts` row.
      g. **Fire Retell** with PII-minimised payload built from the **Supabase profile**.
@@ -107,12 +108,12 @@ Each workflow is single-responsibility (the opposite of the 43-node monolith).
 
 ```
             ┌─ W2 cron (all subscribers) ─┐
-listings ◄──┤                              ├─ scrape + score + upsert (>70)
+listings ◄──┤                              ├─ scrape + score + upsert (≥60)
             └─ W1 Pro forwarded alerts ────┘
                           │
         ┌─────────────────┼─────────────────────┐
    Free │ Trial/Essential │ Pro                   │
-  locked│ read feed (RLS) │ read feed + Julia calls (W1, >70, gated by is_pro)
+  locked│ read feed (RLS) │ read feed + Julia calls (W1, ≥60, gated by is_pro)
 ```
 
 One ingestion surface (`listings`), behaviour fanned out purely by tier.

@@ -483,13 +483,25 @@
       </div>
       <div class="field-divider"></div>
       <div class="field">
-        <label for="viewingAvailability"><span data-lang="en">Viewing availability <span class="req">*</span></span><span data-lang="es">Disponibilidad para visitas <span class="req">*</span></span><span data-lang="uk">Доступність для переглядів <span class="req">*</span></span></label>
-        <textarea id="viewingAvailability" aria-required="true"></textarea>
-        <span class="field-hint">
-          <span data-lang="en">e.g. Weekday mornings (9–13h), Saturday afternoons — flexible from June 1st. Helps you judge which viewings to chase.</span>
-          <span data-lang="es">p. ej. Mañanas entre semana (9–13h), tardes del sábado — flexible desde el 1 de junio. Te ayuda a decidir qué visitas perseguir.</span>
-          <span data-lang="uk">напр., будні вранці (9–13:00), суботи вдень — гнучко з 1 червня. Допомагає вирішити, які перегляди варто переслідувати.</span>
-        </span>
+        <span class="field-label" id="viewDaysLabel"><span data-lang="en">Available days <span class="req">*</span></span><span data-lang="es">Días disponibles <span class="req">*</span></span><span data-lang="uk">Доступні дні <span class="req">*</span></span></span>
+        <div class="toggle-group" role="group" aria-labelledby="viewDaysLabel">
+          <div class="toggle-chip"><input type="checkbox" name="viewDays" id="vd_mon" value="Mon" /><label for="vd_mon"><span data-lang="en">Mon</span><span data-lang="es">Lun</span><span data-lang="uk">Пн</span></label></div>
+          <div class="toggle-chip"><input type="checkbox" name="viewDays" id="vd_tue" value="Tue" /><label for="vd_tue"><span data-lang="en">Tue</span><span data-lang="es">Mar</span><span data-lang="uk">Вт</span></label></div>
+          <div class="toggle-chip"><input type="checkbox" name="viewDays" id="vd_wed" value="Wed" /><label for="vd_wed"><span data-lang="en">Wed</span><span data-lang="es">Mié</span><span data-lang="uk">Ср</span></label></div>
+          <div class="toggle-chip"><input type="checkbox" name="viewDays" id="vd_thu" value="Thu" /><label for="vd_thu"><span data-lang="en">Thu</span><span data-lang="es">Jue</span><span data-lang="uk">Чт</span></label></div>
+          <div class="toggle-chip"><input type="checkbox" name="viewDays" id="vd_fri" value="Fri" /><label for="vd_fri"><span data-lang="en">Fri</span><span data-lang="es">Vie</span><span data-lang="uk">Пт</span></label></div>
+          <div class="toggle-chip"><input type="checkbox" name="viewDays" id="vd_sat" value="Sat" /><label for="vd_sat"><span data-lang="en">Sat</span><span data-lang="es">Sáb</span><span data-lang="uk">Сб</span></label></div>
+          <div class="toggle-chip"><input type="checkbox" name="viewDays" id="vd_sun" value="Sun" /><label for="vd_sun"><span data-lang="en">Sun</span><span data-lang="es">Dom</span><span data-lang="uk">Нд</span></label></div>
+        </div>
+      </div>
+      <div class="field">
+        <span class="field-label" id="viewTimeLabel"><span data-lang="en">Preferred time of day <span class="req">*</span></span><span data-lang="es">Horario preferido <span class="req">*</span></span><span data-lang="uk">Бажаний час доби <span class="req">*</span></span></span>
+        <div class="card-group" role="radiogroup" aria-labelledby="viewTimeLabel">
+          <div class="card-option"><input type="radio" name="viewTime" id="vt_morning" value="Morning (9–13h)" /><label for="vt_morning"><span class="card-icon">🌅</span><span data-lang="en">Morning</span><span data-lang="es">Mañana</span><span data-lang="uk">Ранок</span><small style="opacity:.6;font-size:11px">9–13h</small></label></div>
+          <div class="card-option"><input type="radio" name="viewTime" id="vt_afternoon" value="Afternoon (13–18h)" /><label for="vt_afternoon"><span class="card-icon">☀️</span><span data-lang="en">Afternoon</span><span data-lang="es">Tarde</span><span data-lang="uk">День</span><small style="opacity:.6;font-size:11px">13–18h</small></label></div>
+          <div class="card-option"><input type="radio" name="viewTime" id="vt_evening" value="Evening (18–21h)" /><label for="vt_evening"><span class="card-icon">🌆</span><span data-lang="en">Evening</span><span data-lang="es">Tarde-noche</span><span data-lang="uk">Вечір</span><small style="opacity:.6;font-size:11px">18–21h</small></label></div>
+          <div class="card-option"><input type="radio" name="viewTime" id="vt_flexible" value="Flexible" /><label for="vt_flexible"><span class="card-icon">🤸</span><span data-lang="en">Flexible</span><span data-lang="es">Flexible</span><span data-lang="uk">Гнучко</span></label></div>
+        </div>
       </div>
       <div class="field">
         <span class="field-label" id="contactLabel"><span data-lang="en">Preferred contact method <span class="req">*</span></span><span data-lang="es">Método de contacto preferido <span class="req">*</span></span><span data-lang="uk">Бажаний спосіб зв'язку <span class="req">*</span></span></span>
@@ -631,7 +643,8 @@ const MSGS = {
   guarantor:    {en:'Please indicate whether you have a guarantor.',es:'Por favor, indica si tienes avalista.',uk:'Будь ласка, вкажіть, чи є у вас поручитель.'},
   budget:       {en:'Please enter your maximum monthly rent.',es:'Por favor, indica tu alquiler máximo mensual.',uk:'Будь ласка, вкажіть вашу максимальну місячну оренду.'},
   bedrooms:     {en:'Please select how many bedrooms you need.',es:'Por favor, selecciona cuántas habitaciones necesitas.',uk:'Будь ласка, оберіть, скільки кімнат вам потрібно.'},
-  availability: {en:'Please tell us when you are available for viewings.',es:'Por favor, indica cuándo estás disponible para visitas.',uk:'Будь ласка, вкажіть, коли ви доступні для переглядів.'},
+  availability: {en:'Please select at least one available day for viewings.',es:'Por favor, selecciona al menos un día disponible para visitas.',uk:'Будь ласка, оберіть хоча б один доступний день для переглядів.'},
+  viewTime:     {en:'Please select a preferred time of day for viewings.',es:'Por favor, selecciona el horario preferido para las visitas.',uk:'Будь ласка, оберіть бажаний час доби для переглядів.'},
   contact:      {en:'Please select how you want to be contacted.',es:'Por favor, selecciona tu método de contacto.',uk:'Будь ласка, оберіть спосіб зв\'язку.'},
   telegram:     {en:'Please enter your Telegram username.',es:'Por favor, introduce tu usuario de Telegram.',uk:'Будь ласка, введіть ваш нікнейм у Telegram.'},
 };
@@ -658,7 +671,8 @@ function validateStep2() {
 function validateStep3() {
   if (!val('maxBudget'))           { showErr('err3',m('budget'));    return false; }
   if (!val('bedrooms'))            { showErr('err3',m('bedrooms'));  return false; }
-  if (!val('viewingAvailability')) { showErr('err3',m('availability')); return false; }
+  if (checkboxes('viewDays').length === 0) { showErr('err3',m('availability')); return false; }
+  if (!radio('viewTime'))              { showErr('err3',m('viewTime'));      return false; }
   if (!radio('contactMethod'))     { showErr('err3',m('contact'));      return false; }
   if (radio('contactMethod')==='Telegram' && !val('telegramUsername')){ showErr('err3',m('telegram')); return false; }
   return true;
@@ -754,7 +768,9 @@ function buildReview() {
   html+=row(L('budget'), val('maxBudget')?'€'+val('maxBudget')+'/mo':'');
   html+=row(L('beds'), val('bedrooms')==='studio'?'Studio':val('bedrooms'));
   html+=row(L('areas'), checkboxes('areas').join(', '));
-  html+=row(L('avail'), val('viewingAvailability'));
+  const vdays=checkboxes('viewDays').join(', ');
+  const vtime=radio('viewTime');
+  html+=row(L('avail'), vdays+(vtime?' — '+vtime:''));
   html+=row(L('con'), radio('contactMethod')+(val('telegramUsername')?' ('+val('telegramUsername')+')':''));
   if (val('idealistaUrl')) html+=row('Idealista URL', val('idealistaUrl'));
   if (val('agentQuestions')) html+=row(L('qs'), val('agentQuestions'));
@@ -786,7 +802,7 @@ async function submitProfile() {
     has_nominas:radio('hasNominas'), has_guarantor:radio('hasGuarantor'),
     guarantor_details:val('guarantorDetails')||'',
     max_budget:val('maxBudget'), bedrooms:val('bedrooms'), preferred_areas:checkboxes('areas').join(', '),
-    viewing_availability:val('viewingAvailability'), contact_method:radio('contactMethod'),
+    viewing_availability:checkboxes('viewDays').join(', ')+(radio('viewTime')?' — '+radio('viewTime'):''), contact_method:radio('contactMethod'),
     telegram_username:val('telegramUsername')||'', idealista_url:val('idealistaUrl')||'',
     questions_for_agents:val('agentQuestions')||'', additional_notes:val('additionalNotes')||'',
     client_status:'pending'

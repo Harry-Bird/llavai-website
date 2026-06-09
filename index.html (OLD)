@@ -208,7 +208,12 @@
   .skip-link:focus { left:16px; top:16px; }
   :focus-visible { outline:2px solid var(--ink); outline-offset:3px; border-radius:2px; }
   #main:focus { outline:none; }
-  @media(max-width:600px){ .nav-cta { display:none; } }
+  .mobile-cta-bar { display:none; }
+  @media(max-width:600px){
+    .nav-cta { display:none; }
+    .mobile-cta-bar { display:flex; position:fixed; bottom:0; left:0; right:0; padding:12px 20px 20px; background:var(--cream); border-top:1px solid rgba(27,56,143,.15); z-index:200; box-shadow:0 -4px 20px rgba(27,56,143,.08); }
+    body { padding-bottom:76px; }
+  }
 
   /* ── respect reduced-motion preferences ── */
   @media (prefers-reduced-motion: reduce) {
@@ -904,5 +909,12 @@
   }
   try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
 </script>
+<div class="mobile-cta-bar">
+  <a href="/profile" class="btn-primary" style="flex:1;text-align:center;font-size:15px;padding:14px 24px">
+    <span data-lang="en">Get started — it's free</span>
+    <span data-lang="es">Empezar — es gratis</span>
+    <span data-lang="uk">Почати — це безкоштовно</span>
+  </a>
+</div>
 </body>
 </html>

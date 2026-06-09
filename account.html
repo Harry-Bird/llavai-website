@@ -85,6 +85,13 @@
   .prefs-checks{display:flex;flex-direction:column;gap:10px;margin:16px 0}
   .prefs-checks label{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--ink-deep);cursor:pointer}
   .prefs-checks input{width:18px;height:18px;accent-color:var(--coral)}
+  .cal-add{margin-top:24px;padding-top:20px;border-top:1px solid rgba(27,56,143,.12)}
+  .avail-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px}
+  .avail-row .d{width:120px;color:var(--ink-deep)}
+  .avail-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--coral)}
+  .avail-row input[type=time]{padding:6px 8px;border:1.5px solid rgba(27,56,143,.2);border-radius:2px;background:var(--cream);color:var(--ink);font-family:'Newsreader',serif}
+  .viewing .del{background:none;border:none;color:var(--pencil);cursor:pointer;font-size:18px;line-height:1;padding:0 4px}
+  .viewing .del:hover{color:var(--coral-text)}
   .saved.show{opacity:1}
   /* documents */
   .doc-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:14px 16px;border:1px solid rgba(27,56,143,.12);border-radius:2px;margin-bottom:10px;flex-wrap:wrap}
@@ -229,9 +236,27 @@
 
       <!-- PIPELINE -->
       <section class="panel" id="panel-pipeline" role="tabpanel">
-        <h2><span data-lang="en">Your viewing pipeline</span><span data-lang="es">Tu flujo de visitas</span><span data-lang="uk">Ваш потік переглядів</span></h2>
-        <p class="sub"><span data-lang="en">Where Julia is with each agency — booked, pending or done.</span><span data-lang="es">Cómo va Julia con cada agencia — reservada, pendiente o hecha.</span><span data-lang="uk">Як просувається Julia з кожним агентством — заброньовано, очікує чи завершено.</span></p>
+        <h2><span data-lang="en">Llavai Calendar</span><span data-lang="es">Calendario Llavai</span><span data-lang="uk">Календар Llavai</span></h2>
+        <p class="sub"><span data-lang="en">Viewings Julia booked for you, plus any you add yourself.</span><span data-lang="es">Visitas que Julia reservó por ti, más las que añadas tú.</span><span data-lang="uk">Перегляди, які забронювала Julia, та ті, що додасте ви.</span></p>
+        <div class="form-error" id="viewErr" role="alert"></div>
         <div id="pipelineList"></div>
+
+        <div class="cal-add">
+          <h3 class="prefs-h"><span data-lang="en">Add a viewing</span><span data-lang="es">Añadir una visita</span><span data-lang="uk">Додати перегляд</span></h3>
+          <div class="row-2">
+            <div class="field"><label for="nv_title"><span data-lang="en">Listing / address</span><span data-lang="es">Piso / dirección</span><span data-lang="uk">Оголошення / адреса</span></label><input id="nv_title" type="text" /></div>
+            <div class="field"><label for="nv_when"><span data-lang="en">Date &amp; time</span><span data-lang="es">Fecha y hora</span><span data-lang="uk">Дата та час</span></label><input id="nv_when" type="datetime-local" /></div>
+          </div>
+          <button class="btn-ghost" id="addViewBtn" onclick="addViewing()"><span data-lang="en">Add to calendar</span><span data-lang="es">Añadir al calendario</span><span data-lang="uk">Додати в календар</span></button>
+        </div>
+
+        <div class="prefs-block" id="availBlock">
+          <h3 class="prefs-h"><span data-lang="en">When can you view?</span><span data-lang="es">¿Cuándo puedes visitar?</span><span data-lang="uk">Коли ви можете оглядати?</span></h3>
+          <p class="sub"><span data-lang="en">Your weekly free windows — so Julia (Pro) can book viewings into slots that suit you.</span><span data-lang="es">Tus franjas libres semanales — para que Julia (Pro) reserve visitas cuando te convenga.</span><span data-lang="uk">Ваші щотижневі вільні вікна — щоб Julia (Pro) бронювала перегляди у зручний час.</span></p>
+          <div id="availRows"></div>
+          <button class="btn-ghost" id="saveAvailBtn" onclick="saveAvailability()"><span data-lang="en">Save availability</span><span data-lang="es">Guardar disponibilidad</span><span data-lang="uk">Зберегти доступність</span></button>
+          <span class="saved" id="availSaved"><span data-lang="en">Saved ✓</span><span data-lang="es">Guardado ✓</span><span data-lang="uk">Збережено ✓</span></span>
+        </div>
       </section>
 
       <!-- PROFILE -->
@@ -396,6 +421,7 @@ async function showDash(){
   await flushPendingProfile();  // the lead→account join: write any pre-sign-in data into the row
   loadProfile();   // also sets the greeting
   loadPipeline();
+  loadAvailability();
   loadDocuments();
   loadMessages();
   // Initial tab: a Stripe return forces the Feed; else the URL hash; else the last tab
@@ -550,8 +576,55 @@ async function loadPipeline(){
     const bits=[]; if(v.neighbourhood) bits.push(esc(v.neighbourhood)); if(v.price) bits.push('€'+esc(v.price)); if(v.agency_name) bits.push(esc(v.agency_name));
     const when = v.viewing_at ? '<div class="meta">'+(l==='es'?'Visita: ':l==='uk'?'Перегляд: ':'Viewing: ')+esc(fmtDate(v.viewing_at))+'</div>' : '';
     const link = v.listing_url ? ' · <a href="'+esc(v.listing_url)+'" target="_blank" rel="noopener">'+(l==='es'?'ver':l==='uk'?'дивитися':'view')+'</a>' : '';
-    return '<div class="viewing"><div><h3>'+esc(title)+'</h3><div class="meta">'+bits.join(' · ')+link+'</div>'+when+'</div><span class="badge b-'+esc(v.status)+'">'+esc(st[l])+'</span></div>';
+    const del = (v.source==='self') ? '<button class="del" title="Remove" onclick="deleteViewing(\''+esc(v.id)+'\')">×</button>' : '';
+    return '<div class="viewing"><div><h3>'+esc(title)+'</h3><div class="meta">'+bits.join(' · ')+link+'</div>'+when+'</div><div style="display:flex;align-items:center;gap:8px"><span class="badge b-'+esc(v.status)+'">'+esc(st[l])+'</span>'+del+'</div></div>';
   }).join('');
+}
+async function addViewing(){
+  const title=(document.getElementById('nv_title').value||'').trim();
+  const when=(document.getElementById('nv_when').value||'').trim();
+  const err=document.getElementById('viewErr'); err.classList.remove('visible');
+  if(!title){ err.textContent=lang()==='es'?'Añade un piso o dirección.':lang()==='uk'?'Додайте оголошення або адресу.':'Add a listing or address.'; err.classList.add('visible'); return; }
+  const btn=document.getElementById('addViewBtn'); btn.disabled=true;
+  const row={ user_id:USER.id, listing_title:title, address:title, source:'self', status:'booked', viewing_at: when ? new Date(when).toISOString() : null };
+  const { error } = await sb.from('viewings').insert(row);
+  btn.disabled=false;
+  if(error){ err.textContent=error.message; err.classList.add('visible'); return; }
+  document.getElementById('nv_title').value=''; document.getElementById('nv_when').value='';
+  loadPipeline();
+}
+async function deleteViewing(id){
+  if(!id) return;
+  const { error } = await sb.from('viewings').delete().eq('id',id);
+  if(!error) loadPipeline();
+}
+/* ---- availability (Llavai Calendar / Pro booking) ---- */
+const DAYS={en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],es:['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],uk:['Неділя','Понеділок','Вівторок','Середа','Четвер','П’ятниця','Субота']};
+const DAY_ORDER=[1,2,3,4,5,6,0]; // Mon..Sun
+async function loadAvailability(){
+  const wrap=document.getElementById('availRows'); if(!wrap) return;
+  let rows={}; try{ const r=await sb.from('availability').select('*'); (r.data||[]).forEach(function(a){ rows[a.weekday]=a; }); }catch(e){}
+  const names=DAYS[lang()]||DAYS.en;
+  wrap.innerHTML = DAY_ORDER.map(function(d){
+    const a=rows[d]; const on=!!a; const from=a?String(a.start_time).slice(0,5):'10:00'; const to=a?String(a.end_time).slice(0,5):'19:00';
+    return '<div class="avail-row" data-day="'+d+'"><label class="d"><input type="checkbox" class="av-on"'+(on?' checked':'')+' /> '+esc(names[d])+'</label>'
+      + '<input type="time" class="av-from" value="'+from+'" /> – <input type="time" class="av-to" value="'+to+'" /></div>';
+  }).join('');
+}
+async function saveAvailability(){
+  const btn=document.getElementById('saveAvailBtn'); btn.disabled=true;
+  const rows=[];
+  document.querySelectorAll('#availRows .avail-row').forEach(function(r){
+    if(r.querySelector('.av-on').checked){
+      rows.push({ user_id:USER.id, weekday:parseInt(r.getAttribute('data-day'),10), start_time:r.querySelector('.av-from').value||'10:00', end_time:r.querySelector('.av-to').value||'19:00' });
+    }
+  });
+  try{
+    await sb.from('availability').delete().eq('user_id',USER.id);
+    if(rows.length) await sb.from('availability').insert(rows);
+    const s=document.getElementById('availSaved'); s.classList.add('show'); setTimeout(()=>s.classList.remove('show'),2000);
+  }catch(e){}
+  btn.disabled=false;
 }
 
 /* ---- profile ---- */

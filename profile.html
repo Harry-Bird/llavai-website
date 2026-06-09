@@ -69,7 +69,7 @@
   .step-label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.04em;text-transform:uppercase;color:var(--pencil);white-space:nowrap;transition:color .3s}
   .progress-step.active .step-label{color:var(--ink);font-weight:600}
   .progress-step.done .step-label{color:var(--ink)}
-  @media(max-width:600px){.step-label{display:none}.progress-step::after{margin:0 4px}}
+  @media(max-width:600px){.step-label{display:none}.progress-step.active .step-label{display:inline}.progress-step::after{margin:0 4px}}
   .step-header{margin-bottom:40px;animation:fadeUp .5s ease-out forwards}
   .section-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral-text);letter-spacing:.04em;margin-bottom:14px;display:flex;align-items:center;gap:16px}
   .section-eyebrow::before{content:"";width:32px;height:1px;background:var(--coral)}
@@ -237,7 +237,7 @@
   <div id="step1" class="step-panel">
     <div class="step-header">
       <p class="section-eyebrow">
-        <span data-lang="en">Step 1 of 3</span><span data-lang="es">Paso 1 de 3</span><span data-lang="uk">Крок 1 з 3</span>
+        <span data-lang="en">Step 1 of 4</span><span data-lang="es">Paso 1 de 4</span><span data-lang="uk">Крок 1 з 4</span>
       </p>
       <h1><span data-lang="en">Who are <em>you?</em></span><span data-lang="es">¿Quién <em>eres?</em></span><span data-lang="uk">Хто <em>ви?</em></span></h1>
       <!-- EDIT: Step 1 subtitle -->
@@ -337,7 +337,7 @@
   <!-- STEP 2: FINANCIAL -->
   <div id="step2" class="step-panel" style="display:none">
     <div class="step-header">
-      <p class="section-eyebrow"><span data-lang="en">Step 2 of 3</span><span data-lang="es">Paso 2 de 3</span><span data-lang="uk">Крок 2 з 3</span></p>
+      <p class="section-eyebrow"><span data-lang="en">Step 2 of 4</span><span data-lang="es">Paso 2 de 4</span><span data-lang="uk">Крок 2 з 4</span></p>
       <h1><span data-lang="en">Your <em>financial</em> profile</span><span data-lang="es">Tu perfil <em>económico</em></span><span data-lang="uk">Ваш <em>фінансовий</em> профіль</span></h1>
       <!-- EDIT: Step 2 subtitle -->
       <p class="sub">
@@ -434,7 +434,7 @@
   <!-- STEP 3: PREFERENCES -->
   <div id="step3" class="step-panel" style="display:none">
     <div class="step-header">
-      <p class="section-eyebrow"><span data-lang="en">Step 3 of 3</span><span data-lang="es">Paso 3 de 3</span><span data-lang="uk">Крок 3 з 3</span></p>
+      <p class="section-eyebrow"><span data-lang="en">Step 3 of 4</span><span data-lang="es">Paso 3 de 4</span><span data-lang="uk">Крок 3 з 4</span></p>
       <!-- EDIT: Step 3 heading + subtitle -->
       <h1><span data-lang="en">How we should <em>reach you</em></span><span data-lang="es">Cómo <em>te contactamos</em></span><span data-lang="uk">Як з вами <em>зв'язатися</em></span></h1>
       <p class="sub">
@@ -535,6 +535,7 @@
 
 <script>
 const WEBHOOK_URL = 'https://llavai.app.n8n.cloud/webhook/8a866b1e-241f-429b-9a48-8237c1078b2d';
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 let currentStep = 1;
 
 function setLang(lang) {
@@ -599,7 +600,7 @@ function m(key){ return MSGS[key][lang()]; }
 function validateStep1() {
   if (!val('firstName'))    { showErr('err1',m('firstName'));   return false; }
   if (!val('lastName'))     { showErr('err1',m('lastName'));    return false; }
-  const e=val('email'); if(!e||!e.includes('@')){ showErr('err1',m('email')); return false; }
+  const e=val('email'); if(!e||!EMAIL_RE.test(e)){ showErr('err1',m('email')); return false; }
   if (!val('phone'))        { showErr('err1',m('phone'));       return false; }
   if (!val('nationality'))  { showErr('err1',m('nationality')); return false; }
   if (!val('residencyStatus')){ showErr('err1',m('residency')); return false; }

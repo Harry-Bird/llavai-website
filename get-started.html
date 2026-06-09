@@ -211,9 +211,9 @@
       <span data-lang="uk"><em>Ви у списку.</em></span>
     </h1>
     <p>
-      <span data-lang="en">We've got your details — we'll be in touch shortly. Want Julia calling sooner? Build your full tenant profile so she can present you properly the moment a flat appears.</span>
-      <span data-lang="es">Tenemos tus datos — nos pondremos en contacto pronto. ¿Quieres que Julia llame antes? Crea tu perfil completo de inquilino para que pueda presentarte bien en cuanto salga un piso.</span>
-      <span data-lang="uk">Ми отримали ваші дані — ми скоро зв'яжемося. Хочете, щоб Julia телефонувала раніше? Створіть повний профіль орендаря, щоб вона належно представляла вас, щойно з'явиться квартира.</span>
+      <span data-lang="en">We've emailed you a secure sign-in link for your dashboard — check your inbox. Want Julia calling sooner? Build your full tenant profile so she can present you properly the moment a flat appears.</span>
+      <span data-lang="es">Te hemos enviado por email un enlace seguro de acceso a tu panel — revisa tu bandeja de entrada. ¿Quieres que Julia llame antes? Crea tu perfil completo de inquilino para que pueda presentarte bien en cuanto salga un piso.</span>
+      <span data-lang="uk">Ми надіслали вам на email безпечне посилання для входу в кабінет — перевірте пошту. Хочете, щоб Julia телефонувала раніше? Створіть повний профіль орендаря, щоб вона належно представляла вас, щойно з'явиться квартира.</span>
     </p>
     <a href="/profile" class="btn-primary">
       <span data-lang="en">Build my full profile → (2 min)</span>
@@ -238,9 +238,21 @@
   </div>
 </footer>
 
+<script src="/supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// n8n alert webhook — receives ONLY a non-financial "new lead" ping so the team /
+// Julia are notified instantly. The system of record is Supabase (see specs/).
 const WEBHOOK_URL = 'https://llavai.app.n8n.cloud/webhook/8a866b1e-241f-429b-9a48-8237c1078b2d';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Supabase client (anon key is public by design; security is RLS server-side).
+const CONFIGURED = !!(window.LLAVAI_SUPABASE_URL && window.LLAVAI_SUPABASE_ANON_KEY
+  && !/YOUR-PROJECT|YOUR-ANON/.test(window.LLAVAI_SUPABASE_URL + window.LLAVAI_SUPABASE_ANON_KEY));
+let sb = null;
+if (CONFIGURED && window.supabase) {
+  sb = window.supabase.createClient(window.LLAVAI_SUPABASE_URL, window.LLAVAI_SUPABASE_ANON_KEY);
+}
 const PLAN = new URLSearchParams(location.search).get('plan') === 'pro' ? 'pro' : 'essential';
 if (PLAN === 'pro') { const pn = document.getElementById('planNote'); if (pn) pn.hidden = false; }
 
@@ -285,7 +297,9 @@ async function submitLead(){
   const spinner = document.getElementById('spinner');
   btn.disabled = true; txt.style.display = 'none'; spinner.classList.add('visible');
 
-  const payload = {
+  // Non-financial alert only — lets the team/Julia react instantly. No PII beyond
+  // the contact basics the visitor would expect us to act on.
+  const alertPayload = {
     source: 'interest_capture',
     submitted_at: new Date().toISOString(),
     form_language: l,
@@ -297,18 +311,41 @@ async function submitLead(){
     client_status: 'lead'
   };
 
-  // Hand off the basics so the full profile form can pre-fill them.
+  // Hand off the basics so the full profile form can pre-fill them, and so an
+  // authenticated /account load can flush them into the profiles row.
   try { localStorage.setItem('llavai-lead', JSON.stringify({firstName:firstName, email:email, phone:phone||''})); } catch(e) {}
 
-  try {
-    const res = await fetch(WEBHOOK_URL, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
-    if (!res.ok) throw new Error('Webhook responded ' + res.status);
+  // Fire both in parallel: (1) Supabase magic-link signup = system of record +
+  // account creation, (2) n8n team alert. Neither is allowed to lose the lead:
+  // the alert + localStorage survive even if the OTP email can't be sent.
+  const tasks = [];
+  if (sb) {
+    tasks.push(sb.auth.signInWithOtp({
+      email: email,
+      options: {
+        // Only non-sensitive metadata — copied into the profiles row by the
+        // on_auth_user_created trigger. Never financial data.
+        data: { first_name: firstName, phone: phone || '', intended_plan: PLAN },
+        emailRedirectTo: location.origin + '/account'
+      }
+    }).then(function(r){ return { ok: !r.error }; }).catch(function(){ return { ok:false }; }));
+  }
+  tasks.push(
+    fetch(WEBHOOK_URL, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(alertPayload)})
+      .then(function(res){ return { ok: res.ok }; }).catch(function(){ return { ok:false }; })
+  );
+
+  const results = await Promise.all(tasks);
+  const anyOk = results.some(function(r){ return r.ok; });
+
+  if (anyOk) {
     document.getElementById('captureCard').style.display = 'none';
     const success = document.getElementById('successScreen');
     success.classList.add('visible');
     window.scrollTo({top:0, behavior:'smooth'});
     success.focus();
-  } catch(e) {
+  } else {
+    // Everything failed — don't pretend we captured them.
     showError(MSGS.network[l]);
     btn.disabled = false; txt.style.display = ''; spinner.classList.remove('visible');
   }

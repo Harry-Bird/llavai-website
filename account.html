@@ -344,10 +344,11 @@ async function init(){
   if (session) start(session);
   else setTimeout(function(){ if(!started) location.replace('/login'); }, 2500);
 }
-function showDash(){
+async function showDash(){
   document.getElementById('gate').hidden = true;
   document.getElementById('dash').hidden = false;
   document.getElementById('signOutBtn').hidden = false;
+  await flushPendingProfile();  // the lead→account join: write any pre-sign-in data into the row
   loadProfile();   // also sets the greeting
   loadPipeline();
   loadDocuments();
@@ -357,6 +358,35 @@ function showDash(){
   var hash=(location.hash||'').replace('#',''), valid=['feed','pipeline','profile','documents','messages'];
   var saved=null; try{ saved=localStorage.getItem('llavai-tab'); }catch(e){}
   selectTab(qp('checkout') ? 'feed' : (valid.indexOf(hash)>=0 ? hash : (valid.indexOf(saved)>=0 ? saved : 'feed')));
+}
+
+// The lead→account "join": if the visitor filled /get-started or /profile BEFORE
+// signing in, the data was stashed in localStorage. Now that they're authenticated,
+// write it straight into their profiles row (same identity — no email matching).
+async function flushPendingProfile(){
+  if(!sb||!USER) return;
+  var patch=null;
+  try{ patch=JSON.parse(localStorage.getItem('llavai-profile-pending')||'null'); }catch(e){}
+  if(!patch){
+    var lead=null; try{ lead=JSON.parse(localStorage.getItem('llavai-lead')||'null'); }catch(e){}
+    if(lead) patch={ first_name:lead.firstName, phone:lead.phone };
+  }
+  if(!patch) return;
+  // Drop empties, the email field (owned by auth), and empty arrays so we never
+  // clobber data the user may have edited later inside /account.
+  var clean={};
+  Object.keys(patch).forEach(function(k){
+    if(k==='email'||k==='id') return;
+    var v=patch[k];
+    if(v===null||v===undefined||v==='') return;
+    if(Array.isArray(v)&&v.length===0) return;
+    clean[k]=v;
+  });
+  try{
+    if(Object.keys(clean).length){ await sb.from('profiles').update(clean).eq('id',USER.id); }
+    localStorage.removeItem('llavai-profile-pending');
+    localStorage.removeItem('llavai-lead');
+  }catch(e){ /* keep the stash and retry on the next load */ }
 }
 
 async function signOut(){ if(sb){ await sb.auth.signOut(); } location.replace('/login'); }

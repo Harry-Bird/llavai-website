@@ -44,6 +44,10 @@ create table if not exists public.profiles (
   preferred_contact   text,
   telegram_username   text,
   idealista_url       text,
+  max_budget          numeric,                 -- max monthly rent (€)
+  bedrooms            text,                    -- 'studio' | '1' | '2' | ...
+  preferred_areas     text[] default '{}',     -- chosen Barcelona neighbourhoods
+  questions_for_agents text,                   -- anything to ask the agency on the call
   notes               text,
   created_at          timestamptz not null default now(),
   updated_at          timestamptz not null default now()
@@ -57,11 +61,20 @@ create policy "profiles_update_own" on public.profiles for update using (auth.ui
 create trigger profiles_set_updated_at before update on public.profiles
   for each row execute function public.set_updated_at();
 
--- Auto-create a profile row whenever a new auth user is created (magic-link signup)
+-- Auto-create a profile row whenever a new auth user is created (magic-link signup).
+-- Copies the non-sensitive fields the lead/profile form passed in signInWithOtp's
+-- `options.data` (raw_user_meta_data). Financial PII is NEVER put in metadata —
+-- it is written straight to this table from the authenticated browser under RLS.
 create or replace function public.handle_new_user()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
-  insert into public.profiles (id, email) values (new.id, new.email)
+  insert into public.profiles (id, email, first_name, phone)
+  values (
+    new.id,
+    new.email,
+    nullif(new.raw_user_meta_data->>'first_name',''),
+    nullif(new.raw_user_meta_data->>'phone','')
+  )
   on conflict (id) do nothing;
   return new;
 end; $$;

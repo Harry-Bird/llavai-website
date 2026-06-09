@@ -582,10 +582,22 @@
   </div>
 </footer>
 
+<script src="/supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// n8n alert webhook — receives ONLY a non-financial "profile completed" ping.
+// The full profile (incl. financials) is written to Supabase under RLS, never here.
 const WEBHOOK_URL = 'https://llavai.app.n8n.cloud/webhook/8a866b1e-241f-429b-9a48-8237c1078b2d';
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 let currentStep = 1;
+
+// Supabase client (anon key is public by design; security is RLS server-side).
+const CONFIGURED = !!(window.LLAVAI_SUPABASE_URL && window.LLAVAI_SUPABASE_ANON_KEY
+  && !/YOUR-PROJECT|YOUR-ANON/.test(window.LLAVAI_SUPABASE_URL + window.LLAVAI_SUPABASE_ANON_KEY));
+let sb = null;
+if (CONFIGURED && window.supabase) {
+  sb = window.supabase.createClient(window.LLAVAI_SUPABASE_URL, window.LLAVAI_SUPABASE_ANON_KEY);
+}
 
 function setLang(lang) {
   document.body.classList.remove('es','uk');
@@ -790,34 +802,51 @@ async function submitProfile() {
 
   const movingAs=radio('movingAs');
   const natVal=val('nationality')==='other'?val('nationalityOther'):val('nationality');
+  const email=val('email');
 
-  const payload={
-    source:'client_profile_form', submitted_at:new Date().toISOString(), form_language:l,
-    client_first_name:val('firstName'), client_full_name:val('firstName')+' '+val('lastName'),
-    client_email:val('email'), client_phone:val('phone'),
-    nationality:natVal, residency_status:val('residencyStatus'),
-    moving_in_as:movingAs, num_occupants:movingAs==='Single'?'1':val('numPeople'),
-    profession:val('profession'), employment_type:val('employmentType'),
-    individual_income:val('individualIncome'), household_income:val('householdIncome')||'',
-    has_nominas:radio('hasNominas'), has_guarantor:radio('hasGuarantor'),
-    guarantor_details:val('guarantorDetails')||'',
-    max_budget:val('maxBudget'), bedrooms:val('bedrooms'), preferred_areas:checkboxes('areas').join(', '),
-    viewing_availability:checkboxes('viewDays').join(', ')+(radio('viewTime')?' — '+radio('viewTime'):''), contact_method:radio('contactMethod'),
-    telegram_username:val('telegramUsername')||'', idealista_url:val('idealistaUrl')||'',
-    questions_for_agents:val('agentQuestions')||'', additional_notes:val('additionalNotes')||'',
-    client_status:'pending'
+  // Mapped to EXACT public.profiles columns — Supabase is the system of record.
+  const profileRow={
+    first_name:val('firstName')||null,
+    last_name:val('lastName')||null,
+    phone:val('phone')||null,
+    nationality:natVal||null,
+    residency_status:val('residencyStatus')||null,
+    moving_in_as:movingAs||null,
+    num_occupants:movingAs==='Single'?1:(parseInt(val('numPeople'),10)||null),
+    profession:val('profession')||null,
+    employment_type:val('employmentType')||null,
+    individual_income:val('individualIncome')||null,
+    household_income:val('householdIncome')||null,
+    has_nominas:radio('hasNominas')||null,
+    has_guarantor:radio('hasGuarantor')||null,
+    guarantor_details:val('guarantorDetails')||null,
+    max_budget:val('maxBudget')?Number(val('maxBudget')):null,
+    bedrooms:val('bedrooms')||null,
+    preferred_areas:checkboxes('areas'),
+    viewing_availability:checkboxes('viewDays').join(', ')+(radio('viewTime')?' — '+radio('viewTime'):''),
+    preferred_contact:radio('contactMethod')||null,
+    telegram_username:val('telegramUsername')||null,
+    idealista_url:val('idealistaUrl')||null,
+    questions_for_agents:val('agentQuestions')||null,
+    notes:val('additionalNotes')||null
   };
 
-  try {
-    const res = await fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
-    if (!res.ok) throw new Error('Webhook responded ' + res.status);
+  // Non-financial alert only — never the financial fields above.
+  const alertPayload={
+    source:'client_profile_form', submitted_at:new Date().toISOString(), form_language:l,
+    client_first_name:val('firstName'), client_full_name:val('firstName')+' '+val('lastName'),
+    client_email:email, client_phone:val('phone'), client_status:'pending'
+  };
+
+  function succeed(){
     document.getElementById('progressWrap').style.display='none';
     document.getElementById('step4').style.display='none';
     const success=document.getElementById('successScreen');
     success.classList.add('visible');
     window.scrollTo({top:0,behavior:'smooth'});
     success.focus();
-  } catch(err) {
+  }
+  function fail(){
     const msg={
       en:'Something went wrong. <a href="mailto:hello@llavai.com?subject=Profile error">Email us directly</a> and we\'ll sort it out.',
       es:'Algo salió mal. <a href="mailto:hello@llavai.com?subject=Error perfil">Escríbenos</a> y lo resolvemos.',
@@ -825,6 +854,39 @@ async function submitProfile() {
     };
     errEl.innerHTML=msg[l]; errEl.classList.add('visible');
     btn.disabled=false; btnText.style.display=''; spinner.classList.remove('visible');
+  }
+
+  // Team alert is always best-effort and never blocks the profile write.
+  const alertReq=fetch(WEBHOOK_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(alertPayload)})
+    .then(function(r){return {ok:r.ok};}).catch(function(){return {ok:false};});
+
+  try {
+    if (sb) {
+      const { data:{ session } } = await sb.auth.getSession();
+      if (session && session.user) {
+        // Signed in → write the profile straight to the row under RLS.
+        const r=await sb.from('profiles').update(profileRow).eq('id',session.user.id);
+        await alertReq;
+        if (r.error) throw new Error(r.error.message);
+        succeed(); return;
+      }
+      // Not signed in → stash the full profile, send a magic link; /account flushes it.
+      try { localStorage.setItem('llavai-profile-pending', JSON.stringify(profileRow)); } catch(e) {}
+      try { localStorage.setItem('llavai-lead', JSON.stringify({firstName:val('firstName'), email:email, phone:val('phone')})); } catch(e) {}
+      const otp=await sb.auth.signInWithOtp({
+        email:email,
+        options:{ data:{ first_name:val('firstName'), phone:val('phone') }, emailRedirectTo:location.origin+'/account' }
+      }).then(function(r){return {ok:!r.error};}).catch(function(){return {ok:false};});
+      const alertRes=await alertReq;
+      if (otp.ok || alertRes.ok) { succeed(); } else { fail(); }
+      return;
+    }
+    // Supabase not configured → keep the funnel alive via the alert + localStorage.
+    try { localStorage.setItem('llavai-profile-pending', JSON.stringify(profileRow)); } catch(e) {}
+    const alertRes=await alertReq;
+    if (alertRes.ok) { succeed(); } else { fail(); }
+  } catch(err) {
+    fail();
   }
 }
 </script>

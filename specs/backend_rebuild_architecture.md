@@ -134,22 +134,30 @@ Keep a one-time CSV export for safety, then remove all Google Sheets nodes.
   `property_cache`, `call_attempts`, `is_pro()`/`current_tier()`. Zero risk. ✅ **DONE**
   (migration `backend_rebuild_phase0_schema`, applied + verified 2026-06-09).
 - **Phase 1 — Billing**: ✅ DONE — W4 checkout + 3-day trial + plan stamping; W3 sync maps plan by price ID. Essential `price_1Tg4mRF7TyaJ4FzileL3yPfd`, Pro `price_1TgUXvF7TyaJ4FziJhqXMovY` (€185/mo).
-- **Phase 2 — W1 (Pro Concierge)**: ✅ BUILT, inactive — workflow `rlv02UB1RHNnQl4i`
-  ("Pro Concierge — Alert to Julia Call (W1)", webhook path `pro-concierge-inbox`).
+- **Phase 2 — W1 (Concierge)**: ✅ LIVE — workflow `rlv02UB1RHNnQl4i`
+  ("Concierge — Alert to Feed + Julia Call (W1)", webhook path `pro-concierge-inbox`).
   Classify: Gmail-verification relay (code now goes to the **client**, fixing the old
   hardcoded-to-Harry test leftover; marks `alert_email_verified`) vs alert (`+caf_=` sender
-  decode, digest skip). Alert path: `get_call_client` RPC (profile + is_pro + availability,
-  service-role only, anon=401) → Pro gate (non-Pro → `call_attempts` skipped:not_pro;
+  decode, digest skip). Alert path: `get_call_client` RPC (profile + **tier** + is_pro +
+  availability, service-role only, anon=401; tier added by migration
+  `get_call_client_add_tier`, mirrors `current_tier()`) → **tier gate** (owner review
+  2026-06-09: Essential/Trial forwarded alerts must ALSO scrape — that's how their
+  real-time feed fills; free tier → `call_attempts` skipped:free_tier, no Apify cost;
   unknown sender → team email) → atomic dedup claim (insert ignore-duplicates +
   return=representation; duplicate ⇒ 0 rows ⇒ chain stops) → Apify sync scrape → per-user
-  score ≥60 + seasonal/platform/require gates → writes listing + property_cache +
-  call_attempts → Retell call (from +34931228994, agent `agent_774…`, 3× income rule,
+  score → cache + **listing upserted into the client's feed for every paying tier,
+  regardless of score** (read-time filtering owns visibility) → `Should Call?` requires
+  **is_pro AND score ≥60 AND seasonal/platform/require gates AND phone** (non-Pro ⇒
+  skipped:not_pro) → Retell call (from +34931228994, agent `agent_774…`, 3× income rule,
   Llavai-Calendar availability in the payload) → **calendar viewing inserted only after
-  Retell accepts** (order fixed per owner review — a failed call must never leave a
-  phantom "Julia is calling" row; chain: listing → Retell → mark calling → viewing).
-  **Remaining:** select credentials in n8n UI (Supabase ×10, Apify ×1, Header Auth ×1,
-  SMTP ×2), test on a real forwarded alert, repoint CloudMailin → deactivate
-  `Start Call v2.5` (endpoint switch is instantly reversible).
+  Retell accepts** (a failed call must never leave a phantom "Julia is calling" row;
+  chain: listing → Retell → mark calling → viewing). Credentials are **pre-bound by ID in
+  the SDK code** (Supabase/Apify/Retell-header/SMTP) so MCP full-replace updates no longer
+  strip them. n8n Cloud gotcha: `update_workflow` saves a **draft**; production webhooks
+  run the **published** version — always `publish_workflow` after updating, then verify
+  the execution used the new node names. End-to-end verified 2026-06-09 with an Essential
+  test account: scrape ran, listing landed in feed, attempt skipped:not_pro, no call.
+  **Remaining:** deactivate `Start Call v2.5` once CloudMailin points only at W1.
 - **Phase 3 — Frontend**: ✅ DONE (live) — `current_tier()` gating + Free teaser (`teaser_listings`), feed-preferences settings UI (scoring_prefs + seasonal/platform toggles), and the in-house **Llavai Calendar** (viewings self-manage + availability). Remaining: **W5 Pro apply→approve** flow.
 - **Phase 4 — Decommission** Google Sheets nodes + old workflow; add W6 retention.
 

@@ -93,6 +93,9 @@
 }
 </script>
 
+<!-- premium pass: enable JS-gated reveal/motion before first paint (no-JS fallback shows everything) -->
+<script>document.documentElement.classList.add('has-js');</script>
+
 <link rel="stylesheet" href="/fonts.css">
 <style>
   :root {
@@ -199,9 +202,11 @@
   .footer-row { display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; font-size:14px; color:var(--pencil); }
   .footer-row a { color:var(--ink); text-decoration:none; }
   .footer-row a:hover { color:var(--coral-text); }
-  @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
-  .reveal { opacity:0; animation:fadeUp .8s ease-out forwards; }
-  .reveal-1{animation-delay:.1s} .reveal-2{animation-delay:.25s} .reveal-3{animation-delay:.4s} .reveal-4{animation-delay:.55s}
+  /* scroll-driven reveal: content arrives as you reach it (JS adds .in via IntersectionObserver) */
+  .reveal { transition:opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+  html.has-js .reveal { opacity:0; transform:translateY(22px); }
+  html.has-js .reveal.in { opacity:1; transform:none; }
+  .reveal-1{transition-delay:.05s} .reveal-2{transition-delay:.18s} .reveal-3{transition-delay:.31s} .reveal-4{transition-delay:.44s}
 
   /* ── focus + skip link (a11y) ── */
   .skip-link { position:absolute; left:-9999px; top:0; z-index:200; background:var(--ink); color:var(--cream); padding:12px 20px; border-radius:2px; font-family:'Newsreader',serif; font-size:15px; text-decoration:none; }
@@ -219,7 +224,8 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior:auto; }
     *,*::before,*::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
-    .reveal { opacity:1 !important; animation:none !important; }
+    html.has-js .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
+    .score-row.in .score-bar > i { transition:none !important; }
   }
 
   /* ── tiers + appeal score + sample listing (two-service homepage) ── */
@@ -277,12 +283,109 @@
   body.uk [data-lang="uk"] { display:block; }
   body.uk [data-lang="uk"].inline { display:inline; }
   body.uk h1 [data-lang="uk"],body.uk .accent[data-lang="uk"] { display:inline; }
+
+  /* ════════════ PREMIUM PASS — depth · motion · detailing (brand-preserving) ════════════ */
+  :root {
+    --ease-out: cubic-bezier(.21,.6,.35,1);
+    --shadow-sm: 0 1px 2px rgba(27,56,143,.05), 0 3px 8px rgba(27,56,143,.06);
+    --shadow-md: 0 2px 4px rgba(27,56,143,.05), 0 10px 24px rgba(27,56,143,.08), 0 20px 40px rgba(27,56,143,.05);
+    --shadow-lg: 0 4px 10px rgba(27,56,143,.07), 0 18px 40px rgba(27,56,143,.11), 0 36px 70px rgba(27,56,143,.10);
+  }
+  /* let the variable display serif size its forms optically */
+  h1, h2, .cta-headline, .nav-logo, .tier-name, .tier-price, .step h3, .signature, .pull-quote { font-optical-sizing:auto; }
+
+  /* ── condensing sticky header ── */
+  .site-header { position:sticky; top:0; z-index:40; border-bottom:1px solid transparent;
+    transition:background .35s var(--ease-out), box-shadow .35s var(--ease-out), border-color .35s var(--ease-out); }
+  .site-header nav { transition:padding .35s var(--ease-out); }
+  .site-header.scrolled { background:rgba(244,239,229,.82);
+    -webkit-backdrop-filter:blur(14px) saturate(1.4); backdrop-filter:blur(14px) saturate(1.4);
+    border-bottom-color:rgba(27,56,143,.10); box-shadow:0 1px 0 rgba(27,56,143,.04), 0 12px 30px rgba(27,56,143,.06); }
+  .site-header.scrolled nav { padding-top:15px; padding-bottom:15px; }
+
+  /* ── layered depth on cards ── */
+  .sample { box-shadow:var(--shadow-lg); }
+  .guide-card { box-shadow:var(--shadow-sm); }
+  .guide-card:hover { box-shadow:var(--shadow-md); }
+  .tier { box-shadow:var(--shadow-sm); }
+  .tier:hover { box-shadow:var(--shadow-md); }
+  .tier.featured { box-shadow:var(--shadow-md); position:relative; }
+  .tier.featured:hover { box-shadow:var(--shadow-lg); }
+
+  /* ── richer duotone "photo" on sample cards ── */
+  .sample-photo {
+    background:
+      radial-gradient(120% 85% at 18% 0%, rgba(229,91,69,.32) 0%, transparent 56%),
+      radial-gradient(130% 95% at 100% 100%, rgba(20,40,105,.55) 0%, transparent 62%),
+      linear-gradient(135deg, #2f4ea6 0%, #1B388F 46%, #142869 100%);
+  }
+  .sample-photo::after {
+    content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
+    background:
+      linear-gradient(180deg, transparent 38%, rgba(20,40,105,.40) 100%),
+      repeating-linear-gradient(118deg, rgba(244,239,229,.06) 0 2px, transparent 2px 10px);
+    mix-blend-mode:screen; opacity:.55;
+  }
+  .sample-badge, .sample-fresh { z-index:2; }
+
+  /* ── live freshness pulse (on-brand coral) ── */
+  .sample-fresh { display:inline-flex; align-items:center; gap:7px; }
+  .sample-fresh::before {
+    content:""; width:6px; height:6px; border-radius:50%; background:var(--coral); flex:0 0 auto;
+    box-shadow:0 0 0 0 rgba(229,91,69,.55); animation:livePulse 2.4s var(--ease-out) infinite;
+  }
+  @keyframes livePulse {
+    0% { box-shadow:0 0 0 0 rgba(229,91,69,.5); }
+    70% { box-shadow:0 0 0 7px rgba(229,91,69,0); }
+    100% { box-shadow:0 0 0 0 rgba(229,91,69,0); }
+  }
+
+  /* ── living hero: stacked feed behind the lead card ── */
+  .sample-stack { position:relative; width:380px; max-width:100%; margin:0 auto; }
+  .sample-stack .sample { position:relative; z-index:3; }
+  .sample-stack::before, .sample-stack::after {
+    content:""; position:absolute; inset:0; border-radius:6px;
+    background:var(--cream); border:1px solid rgba(27,56,143,.12);
+  }
+  .sample-stack::before { z-index:2; transform:translate(14px,14px) rotate(1.6deg); box-shadow:var(--shadow-md); }
+  .sample-stack::after  { z-index:1; transform:translate(27px,28px) rotate(3deg);  box-shadow:var(--shadow-sm); opacity:.55; }
+  html.has-js .sample-stack::before { opacity:0; transform:translate(0,0) rotate(0); transition:transform .9s var(--ease-out) .25s, opacity .9s var(--ease-out) .25s; }
+  html.has-js .sample-stack::after  { opacity:0; transform:translate(0,0) rotate(0); transition:transform .9s var(--ease-out) .35s, opacity .9s var(--ease-out) .35s; }
+  html.has-js .sample-stack.in::before { opacity:1; transform:translate(14px,14px) rotate(1.6deg); }
+  html.has-js .sample-stack.in::after  { opacity:.55; transform:translate(27px,28px) rotate(3deg); }
+  .stack-caption { font-family:'JetBrains Mono',ui-monospace,monospace; font-size:10.5px; letter-spacing:.2em;
+    text-transform:uppercase; color:var(--pencil); text-align:center; margin-top:34px; }
+  .stack-caption::before { content:""; display:inline-block; width:5px; height:5px; border-radius:50%;
+    background:var(--coral); margin-right:8px; vertical-align:middle; animation:livePulse 2.4s var(--ease-out) infinite; }
+
+  /* ── editorial pull-quote in the founder story ── */
+  p.pull-quote {
+    font-family:'Fraunces',serif; font-style:italic; font-weight:400;
+    font-size:clamp(23px,2.7vw,31px); line-height:1.24; color:var(--ink);
+    border-left:2px solid var(--coral); padding-left:26px; margin:30px 0;
+    font-variation-settings:"SOFT" 90,"WONK" 1;
+  }
+
+  /* ── animated appeal-score weighting bars (injected by JS) ── */
+  .score-bar { position:relative; height:3px; border-radius:3px; background:rgba(27,56,143,.12); margin-top:11px; overflow:hidden; max-width:340px; }
+  .score-bar > i { position:absolute; left:0; top:0; bottom:0; width:0; background:var(--coral); border-radius:3px;
+    transition:width 1.1s var(--ease-out); }
+  .score-row.in .score-bar > i { width:var(--w,0%); }
+
+  /* ── featured tier ribbon ── */
+  .tier-ribbon { position:absolute; top:-13px; left:28px; background:var(--coral); color:var(--cream);
+    font-family:'Newsreader',serif; font-style:italic; font-size:12.5px; letter-spacing:.02em;
+    padding:5px 14px; border-radius:2px; box-shadow:0 3px 0 var(--coral-deep); }
+
+  /* the score badge animates its number on reveal (JS); keep small caption steady */
+  .sample-badge { transition:transform .25s var(--ease-out); }
 </style>
 </head>
 <body>
 <div class="grain" aria-hidden="true"></div>
 <a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
 
+<header class="site-header">
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
   <div class="nav-right">
@@ -301,6 +404,7 @@
     </div>
   </div>
 </nav>
+</header>
 
 <main id="main" tabindex="-1">
 
@@ -338,6 +442,7 @@
         </div>
       </div>
       <div class="hero-visual reveal reveal-3">
+        <div class="sample-stack reveal">
         <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 94 out of 100, two-bed in Gràcia at €1,350 a month, posted 4 minutes ago">
           <div class="sample-photo">
             <div class="sample-badge">94<small>/100</small></div>
@@ -360,6 +465,12 @@
             </span>
           </div>
         </div>
+        </div>
+        <p class="stack-caption">
+          <span data-lang="en">A live look at your feed</span>
+          <span data-lang="es" class="inline">Una vista en directo de tu feed</span>
+          <span data-lang="uk" class="inline">Жива стрічка у реальному часі</span>
+        </p>
       </div>
     </div>
   </div>
@@ -381,6 +492,7 @@
     <div class="tiers-grid">
       <!-- Essential (self-serve, featured) -->
       <div class="tier featured">
+        <span class="tier-ribbon"><span data-lang="en">Start here</span><span data-lang="es" class="inline">Empieza aquí</span><span data-lang="uk" class="inline">Почніть тут</span></span>
         <p class="tier-tag">
           <span data-lang="en">Self-serve · start today</span>
           <span data-lang="es">Por tu cuenta · empieza hoy</span>
@@ -657,7 +769,7 @@
           <p>Here's what nobody tells you about finding a flat in Barcelona:</p>
           <p>The search doesn't happen on Idealista. It happens in the thirty seconds after the alert hits your phone.</p>
           <p>Miss that window and it's gone. And if Spanish isn't your first language — you're already behind before you've dialled.</p>
-          <p>That's not searching for an apartment. That's competing in a sport nobody trained you for.</p>
+          <p class="pull-quote">That's not searching for an apartment. That's competing in a sport nobody trained you for.</p>
           <p>I built Llavai because I was tired of losing apartments I could actually afford to people who were simply faster, or luckier, or more fluent. You shouldn't need to be all three.</p>
           <p class="signature">— Harry, founder</p>
         </div>
@@ -665,7 +777,7 @@
           <p>Esto es lo que nadie te cuenta de buscar piso en Barcelona:</p>
           <p>La búsqueda no pasa en Idealista. Pasa en los treinta segundos después de que la alerta llega a tu móvil.</p>
           <p>Pierde esa ventana y se acabó. Y si el castellano no es tu primer idioma — ya vas con desventaja antes incluso de marcar.</p>
-          <p>Eso no es buscar piso. Es competir en un deporte para el que nadie te ha entrenado.</p>
+          <p class="pull-quote">Eso no es buscar piso. Es competir en un deporte para el que nadie te ha entrenado.</p>
           <p>Hice Llavai porque estaba harto de perder pisos que sí podía pagar con gente que simplemente era más rápida, más afortunada o hablaba mejor el idioma. No deberías tener que ser las tres cosas.</p>
           <p class="signature">— Harry, fundador</p>
         </div>
@@ -673,7 +785,7 @@
           <p>Ось що ніхто вам не скаже про пошук квартири в Барселоні:</p>
           <p>Пошук відбувається не на Idealista. Він відбувається протягом тридцяти секунд після того, як сповіщення надходить на ваш телефон.</p>
           <p>Пропустіть це вікно — і квартира пішла. А якщо іспанська не є вашою рідною мовою, ви вже відстаєте ще до того, як набрали номер.</p>
-          <p>Це не пошук квартири. Це змагання у виді спорту, до якого вас ніхто не готував.</p>
+          <p class="pull-quote">Це не пошук квартири. Це змагання у виді спорту, до якого вас ніхто не готував.</p>
           <p>Я створив Llavai, бо втомився втрачати квартири, які міг собі дозволити, на користь тих, хто просто швидший, щасливіший або краще говорить іспанською. Вам не потрібно бути усіма трьома.</p>
           <p class="signature">— Harry, засновник</p>
         </div>
@@ -914,6 +1026,89 @@
   }
   try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
 </script>
+
+<!-- premium pass: condensing header, scroll reveal, animated appeal score -->
+<script>
+(function () {
+  var doc = document;
+
+  // ── condensing header on scroll ──
+  var header = doc.querySelector('.site-header');
+  if (header) {
+    var onScroll = function () { header.classList.toggle('scrolled', window.scrollY > 12); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // ── auto-tag below-the-fold elements for scroll reveal (keeps markup clean) ──
+  doc.querySelectorAll(
+    '.section-eyebrow, .tiers h2, .score h2, .workflow h2, .story h2, .value h2, .guides h2, .cta-headline, .cta-sub, .score-foot, .value-footnote, .story-prose'
+  ).forEach(function (el) { el.classList.add('reveal'); });
+
+  [ '.tiers-grid .tier', '.steps .step', '.value-grid .value-card', '.guides-grid .guide-card', '.score-list .score-row' ]
+    .forEach(function (sel) {
+      doc.querySelectorAll(sel).forEach(function (el, i) {
+        el.classList.add('reveal');
+        el.style.transitionDelay = Math.min(i, 6) * 0.08 + 's';
+      });
+    });
+
+  // ── inject appeal-score weighting bars (width = points / 25) ──
+  doc.querySelectorAll('.score-row').forEach(function (row) {
+    var pts = row.querySelector('.score-pts');
+    var body = (pts && pts.nextElementSibling) || row.children[1];
+    if (!pts || !body) return;
+    var n = parseInt((pts.textContent || '').replace(/\D/g, ''), 10);
+    if (!n) return;
+    var bar = doc.createElement('div');
+    bar.className = 'score-bar';
+    bar.innerHTML = '<i></i>';
+    bar.style.setProperty('--w', Math.round(n / 25 * 100) + '%');
+    body.appendChild(bar);
+  });
+
+  function countUp(node, target) {
+    var start = null, dur = 1100;
+    function step(ts) {
+      if (start === null) start = ts;
+      var p = Math.min((ts - start) / dur, 1);
+      node.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target);
+      if (p < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var revealEls = doc.querySelectorAll('.reveal, .sample-stack');
+
+  if (!('IntersectionObserver' in window) || reduce) {
+    revealEls.forEach(function (el) { el.classList.add('in'); });
+    doc.querySelectorAll('.score-row').forEach(function (el) { el.classList.add('in'); });
+    return;
+  }
+
+  var io = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('in');
+      obs.unobserve(e.target);
+    });
+  }, { threshold: 0.18, rootMargin: '0px 0px -8% 0px' });
+  revealEls.forEach(function (el) { io.observe(el); });
+
+  var bio = new IntersectionObserver(function (entries, obs) {
+    entries.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var node = e.target.firstChild; // leading text node holds the number
+      var target = parseInt((node && node.textContent) || e.target.textContent, 10);
+      if (node && target) { node.textContent = '0'; countUp(node, target); }
+      obs.unobserve(e.target);
+    });
+  }, { threshold: 0.5 });
+  doc.querySelectorAll('.sample-badge').forEach(function (b) { bio.observe(b); });
+})();
+</script>
+
 <div class="mobile-cta-bar">
   <a href="/get-started" class="btn-primary" style="flex:1;text-align:center;font-size:15px;padding:14px 24px">
     <span data-lang="en">Get started — it's free</span>

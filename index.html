@@ -229,6 +229,8 @@
     *,*::before,*::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
     html.has-js .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
     .score-row.in .score-bar > i { transition:none !important; }
+    .sample-photo .demo-shot { animation:none !important; opacity:0 !important; }
+    .sample-photo .demo-shot:first-child { opacity:1 !important; }
   }
 
   /* ── tiers + appeal score + sample listing (two-service homepage) ── */
@@ -324,12 +326,25 @@
   }
   .sample-photo::after {
     content:""; position:absolute; inset:0; z-index:1; pointer-events:none;
-    background:
-      linear-gradient(180deg, transparent 38%, rgba(20,40,105,.40) 100%),
-      repeating-linear-gradient(118deg, rgba(244,239,229,.06) 0 2px, transparent 2px 10px);
-    mix-blend-mode:screen; opacity:.55;
+    background:linear-gradient(180deg, rgba(20,40,105,.30) 0%, transparent 26%, transparent 72%, rgba(20,40,105,.22) 100%);
   }
   .sample-badge, .sample-fresh { z-index:2; }
+
+  /* ── real demo photos: gentle cross-fading carousel ── */
+  .sample-photo .demo-shot {
+    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
+    opacity:0; z-index:0; animation:demoShot 18s infinite var(--ease-out);
+  }
+  .sample-photo .demo-shot:nth-child(1) { animation-delay:0s; }
+  .sample-photo .demo-shot:nth-child(2) { animation-delay:6s; }
+  .sample-photo .demo-shot:nth-child(3) { animation-delay:12s; }
+  @keyframes demoShot {
+    0%   { opacity:0; }
+    4%   { opacity:1; }
+    28%  { opacity:1; }
+    35%  { opacity:0; }
+    100% { opacity:0; }
+  }
 
   /* ── live freshness pulse (on-brand coral) ── */
   .sample-fresh { display:inline-flex; align-items:center; gap:7px; }
@@ -448,6 +463,9 @@
         <div class="sample-stack reveal">
         <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 94 out of 100, two-bed in Gràcia at €1,350 a month, posted 4 minutes ago">
           <div class="sample-photo">
+            <img class="demo-shot" src="images/demo/listing-1.jpg" alt="" width="800" height="533" decoding="async">
+            <img class="demo-shot" src="images/demo/listing-2.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
+            <img class="demo-shot" src="images/demo/listing-3.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
             <div class="sample-badge">94<small>/100</small></div>
             <div class="sample-fresh"><span data-lang="en">4 min ago</span><span data-lang="es" class="inline">hace 4 min</span><span data-lang="uk" class="inline">4 хв тому</span></div>
           </div>
@@ -647,6 +665,9 @@
       <div>
         <div class="sample" role="img" aria-label="Example scored listing">
           <div class="sample-photo">
+            <img class="demo-shot" src="images/demo/listing-3.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
+            <img class="demo-shot" src="images/demo/listing-1.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
+            <img class="demo-shot" src="images/demo/listing-2.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
             <div class="sample-badge">92<small>/100</small></div>
             <div class="sample-fresh"><span data-lang="en">7 min ago</span><span data-lang="es" class="inline">hace 7 min</span><span data-lang="uk" class="inline">7 хв тому</span></div>
           </div>

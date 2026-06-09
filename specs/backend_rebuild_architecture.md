@@ -133,11 +133,21 @@ Keep a one-time CSV export for safety, then remove all Google Sheets nodes.
 - **Phase 0 — Schema** (additive migrations): profiles columns, viewings columns,
   `property_cache`, `call_attempts`, `is_pro()`/`current_tier()`. Zero risk. ✅ **DONE**
   (migration `backend_rebuild_phase0_schema`, applied + verified 2026-06-09).
-- **Phase 1 — Billing**: fix W3 plan mapping; add Pro price + Essential trial to W4.
-- **Phase 2 — W1 (Pro Concierge)**: build NEW + inactive; test against a real forwarded
-  alert; then **repoint CloudMailin** from `Start Call v2.5` → W1 and **deactivate** the old
-  workflow (CloudMailin endpoint switch is instantly reversible).
 - **Phase 1 — Billing**: ✅ DONE — W4 checkout + 3-day trial + plan stamping; W3 sync maps plan by price ID. Essential `price_1Tg4mRF7TyaJ4FzileL3yPfd`, Pro `price_1TgUXvF7TyaJ4FziJhqXMovY` (€185/mo).
+- **Phase 2 — W1 (Pro Concierge)**: ✅ BUILT, inactive — workflow `rlv02UB1RHNnQl4i`
+  ("Pro Concierge — Alert to Julia Call (W1)", webhook path `pro-concierge-inbox`).
+  Classify: Gmail-verification relay (code now goes to the **client**, fixing the old
+  hardcoded-to-Harry test leftover; marks `alert_email_verified`) vs alert (`+caf_=` sender
+  decode, digest skip). Alert path: `get_call_client` RPC (profile + is_pro + availability,
+  service-role only, anon=401) → Pro gate (non-Pro → `call_attempts` skipped:not_pro;
+  unknown sender → team email) → atomic dedup claim (insert ignore-duplicates +
+  return=representation; duplicate ⇒ 0 rows ⇒ chain stops) → Apify sync scrape → per-user
+  score ≥60 + seasonal/platform/require gates → writes listing + property_cache +
+  viewing(calling/julia) + call_attempts → Retell call (from +34931228994, agent
+  `agent_774…`, 3× income rule, Llavai-Calendar availability in the payload).
+  **Remaining:** select credentials in n8n UI (Supabase ×10, Apify ×1, Header Auth ×1),
+  test on a real forwarded alert, repoint CloudMailin → deactivate `Start Call v2.5`
+  (endpoint switch is instantly reversible).
 - **Phase 3 — Frontend**: ✅ DONE (live) — `current_tier()` gating + Free teaser (`teaser_listings`), feed-preferences settings UI (scoring_prefs + seasonal/platform toggles), and the in-house **Llavai Calendar** (viewings self-manage + availability). Remaining: **W5 Pro apply→approve** flow.
 - **Phase 4 — Decommission** Google Sheets nodes + old workflow; add W6 retention.
 

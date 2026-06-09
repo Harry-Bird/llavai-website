@@ -347,6 +347,9 @@
     will-change:transform, opacity;
     transform-origin:50% 60%;
   }
+  /* pause the shuffle so people can read a card (and to honour pause-on-interaction) */
+  html.has-js .feed:hover > .sample,
+  html.has-js .feed:focus-within > .sample { animation-play-state:paused; }
   /* negative delays seed all three into their stack positions from frame 1 */
   html.has-js .feed > .sample:nth-child(1) { animation-delay:0s; }
   html.has-js .feed > .sample:nth-child(2) { animation-delay:-7s; }
@@ -510,7 +513,7 @@
             </span>
           </div>
         </div>
-        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 88 out of 100, two-bed in Poblenou at €1,180 a month, posted 9 minutes ago">
+        <div class="sample" role="img" aria-hidden="true" aria-label="Example of a scored Barcelona listing in Llavai — 88 out of 100, two-bed in Poblenou at €1,180 a month, posted 9 minutes ago">
           <div class="sample-photo">
             <img class="demo-shot" src="images/demo/listing-2.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
             <div class="sample-badge">88<small>/100</small></div>
@@ -533,7 +536,7 @@
             </span>
           </div>
         </div>
-        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 92 out of 100, three-bed in Eixample at €1,420 a month, posted 6 minutes ago">
+        <div class="sample" role="img" aria-hidden="true" aria-label="Example of a scored Barcelona listing in Llavai — 92 out of 100, three-bed in Eixample at €1,420 a month, posted 6 minutes ago">
           <div class="sample-photo">
             <img class="demo-shot" src="images/demo/listing-3.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
             <div class="sample-badge">92<small>/100</small></div>
@@ -756,7 +759,7 @@
             </span>
           </div>
         </div>
-        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 88 out of 100, two-bed in Poblenou at €1,180 a month, posted 9 minutes ago">
+        <div class="sample" role="img" aria-hidden="true" aria-label="Example of a scored Barcelona listing in Llavai — 88 out of 100, two-bed in Poblenou at €1,180 a month, posted 9 minutes ago">
           <div class="sample-photo">
             <img class="demo-shot" src="images/demo/listing-2.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
             <div class="sample-badge">88<small>/100</small></div>
@@ -779,7 +782,7 @@
             </span>
           </div>
         </div>
-        <div class="sample" role="img" aria-label="Example of a scored Barcelona listing in Llavai — 92 out of 100, three-bed in Eixample at €1,420 a month, posted 6 minutes ago">
+        <div class="sample" role="img" aria-hidden="true" aria-label="Example of a scored Barcelona listing in Llavai — 92 out of 100, three-bed in Eixample at €1,420 a month, posted 6 minutes ago">
           <div class="sample-photo">
             <img class="demo-shot" src="images/demo/listing-3.jpg" alt="" width="800" height="533" loading="lazy" decoding="async">
             <div class="sample-badge">92<small>/100</small></div>

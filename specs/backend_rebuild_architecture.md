@@ -143,11 +143,13 @@ Keep a one-time CSV export for safety, then remove all Google Sheets nodes.
   unknown sender → team email) → atomic dedup claim (insert ignore-duplicates +
   return=representation; duplicate ⇒ 0 rows ⇒ chain stops) → Apify sync scrape → per-user
   score ≥60 + seasonal/platform/require gates → writes listing + property_cache +
-  viewing(calling/julia) + call_attempts → Retell call (from +34931228994, agent
-  `agent_774…`, 3× income rule, Llavai-Calendar availability in the payload).
-  **Remaining:** select credentials in n8n UI (Supabase ×10, Apify ×1, Header Auth ×1),
-  test on a real forwarded alert, repoint CloudMailin → deactivate `Start Call v2.5`
-  (endpoint switch is instantly reversible).
+  call_attempts → Retell call (from +34931228994, agent `agent_774…`, 3× income rule,
+  Llavai-Calendar availability in the payload) → **calendar viewing inserted only after
+  Retell accepts** (order fixed per owner review — a failed call must never leave a
+  phantom "Julia is calling" row; chain: listing → Retell → mark calling → viewing).
+  **Remaining:** select credentials in n8n UI (Supabase ×10, Apify ×1, Header Auth ×1,
+  SMTP ×2), test on a real forwarded alert, repoint CloudMailin → deactivate
+  `Start Call v2.5` (endpoint switch is instantly reversible).
 - **Phase 3 — Frontend**: ✅ DONE (live) — `current_tier()` gating + Free teaser (`teaser_listings`), feed-preferences settings UI (scoring_prefs + seasonal/platform toggles), and the in-house **Llavai Calendar** (viewings self-manage + availability). Remaining: **W5 Pro apply→approve** flow.
 - **Phase 4 — Decommission** Google Sheets nodes + old workflow; add W6 retention.
 

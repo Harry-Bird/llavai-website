@@ -136,6 +136,19 @@
   .paywall p{font-size:16px;color:var(--ink-deep);margin-bottom:8px;line-height:1.6}
   .paywall .price-tag{font-family:'Fraunces',serif;font-size:34px;color:var(--ink);margin:18px 0}
   .paywall .price-tag small{font-family:'Newsreader',serif;font-size:15px;color:var(--pencil)}
+  /* Free-tier teaser (redacted pool) */
+  .teaser-head{max-width:760px;margin:0 auto 16px;text-align:center;font-family:'Newsreader',serif;font-style:italic;color:var(--coral-text)}
+  .teaser-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:8px}
+  @media(max-width:720px){.teaser-grid{grid-template-columns:1fr 1fr}}
+  .tcard{position:relative;border:1px solid rgba(27,56,143,.12);border-radius:4px;overflow:hidden;background:var(--cream);text-align:left}
+  .tcard .tphoto{height:96px;background:#dfd7c7 center/cover no-repeat;position:relative}
+  .tcard .tscore{position:absolute;top:6px;left:6px;background:var(--ink);color:var(--cream);font-size:12px;font-weight:600;border-radius:3px;padding:2px 6px}
+  .tcard .tbody{padding:8px 10px}
+  .tcard .tband{font-family:'Fraunces',serif;font-size:15px;color:var(--ink)}
+  .tcard .tarea{font-size:12px;color:var(--ink-deep)}
+  .tcard .tfacts{font-size:11px;color:var(--pencil);margin-top:2px}
+  .tcard .tlock{font-size:11px;color:var(--coral-text);margin-top:6px}
+  .paywall-cta{max-width:520px;margin:20px auto 0}
   [data-lang="es"],[data-lang="uk"]{display:none}
   body.es [data-lang="en"],body.es [data-lang="uk"]{display:none}
   body.es [data-lang="es"]{display:inline}
@@ -194,11 +207,15 @@
         <p class="sub"><span data-lang="en">Only the standouts (appeal score over 60), with the agency number ready to call.</span><span data-lang="es">Solo los destacados (puntuación de atractivo superior a 60), con el número de la agencia listo para llamar.</span><span data-lang="uk">Лише найкращі (оцінка привабливості понад 60), з номером агентства, готовим до дзвінка.</span></p>
         <div class="feed-gate" id="feedGate"><span data-lang="en">Loading your feed…</span><span data-lang="es">Cargando tu feed…</span><span data-lang="uk">Завантаження стрічки…</span></div>
         <div class="paywall" id="paywall" hidden>
-          <h2><span data-lang="en">Unlock your listings feed</span><span data-lang="es">Desbloquea tu feed de pisos</span><span data-lang="uk">Розблокуйте свою стрічку</span></h2>
-          <p><span data-lang="en">Llavai watches Idealista for you and surfaces only the listings worth your time — scored, de-cluttered, and ready to call.</span><span data-lang="es">Llavai vigila Idealista por ti y muestra solo los pisos que merecen tu tiempo — puntuados, despejados y listos para llamar.</span><span data-lang="uk">Llavai стежить за Idealista замість вас і показує лише варті уваги оголошення — оцінені, очищені й готові до дзвінка.</span></p>
-          <div class="price-tag">€19<small><span data-lang="en">/month</span><span data-lang="es">/mes</span><span data-lang="uk">/міс</span></small></div>
-          <p style="font-size:14px;color:var(--pencil)"><span data-lang="en">Cancel anytime. No setup fees.</span><span data-lang="es">Cancela cuando quieras. Sin cuotas de alta.</span><span data-lang="uk">Скасуйте будь-коли. Без плати за підключення.</span></p>
-          <a href="#" class="btn-primary" id="subscribeBtn"><span data-lang="en">Subscribe</span><span data-lang="es">Suscribirse</span><span data-lang="uk">Підписатися</span></a>
+          <p class="teaser-head" id="teaserHead" hidden><span data-lang="en">A peek at this week's standouts — subscribe to see the price, agency and number.</span><span data-lang="es">Un vistazo a los destacados de esta semana — suscríbete para ver el precio, la agencia y el número.</span><span data-lang="uk">Погляд на найкращі цього тижня — підпишіться, щоб побачити ціну, агентство та номер.</span></p>
+          <div class="teaser-grid" id="teaserGrid" aria-hidden="true"></div>
+          <div class="paywall-cta">
+            <h2><span data-lang="en">Unlock your listings feed</span><span data-lang="es">Desbloquea tu feed de pisos</span><span data-lang="uk">Розблокуйте свою стрічку</span></h2>
+            <p><span data-lang="en">Llavai watches Idealista for you and surfaces only the listings worth your time — scored, de-cluttered, and ready to call.</span><span data-lang="es">Llavai vigila Idealista por ti y muestra solo los pisos que merecen tu tiempo — puntuados, despejados y listos para llamar.</span><span data-lang="uk">Llavai стежить за Idealista замість вас і показує лише варті уваги оголошення — оцінені, очищені й готові до дзвінка.</span></p>
+            <div class="price-tag">€19<small><span data-lang="en">/month</span><span data-lang="es">/mes</span><span data-lang="uk">/міс</span></small></div>
+            <p style="font-size:14px;color:var(--pencil)"><span data-lang="en">Start with a 3-day free trial. Cancel anytime.</span><span data-lang="es">Empieza con una prueba gratis de 3 días. Cancela cuando quieras.</span><span data-lang="uk">Почніть із 3-денної безкоштовної пробної версії. Скасуйте будь-коли.</span></p>
+            <a href="#" class="btn-primary" id="subscribeBtn"><span data-lang="en">Start free trial</span><span data-lang="es">Empezar prueba gratis</span><span data-lang="uk">Почати пробний період</span></a>
+          </div>
         </div>
         <div class="feed" id="feed" hidden></div>
         <div class="empty" id="feedEmpty" hidden><span data-lang="en">No standout listings right now. As soon as a match scores above 60, it'll appear here.</span><span data-lang="es">No hay pisos destacados ahora mismo. En cuanto uno supere los 60 puntos, aparecerá aquí.</span><span data-lang="uk">Зараз немає виданих оголошень. Щойно якесь набере понад 60 балів, воно з'явиться тут.</span></div>
@@ -422,11 +439,39 @@ function card(l){
     + '</div></div></article>';
 }
 async function isSubscribed(){ try{ var r=await sb.rpc('has_active_subscription'); return !!r.data; }catch(e){ return false; } }
+async function currentTier(){ try{ var r=await sb.rpc('current_tier'); return r.data || 'free'; }catch(e){ return 'free'; } }
 async function initFeed(){
   if (feedStarted) return; feedStarted=true;
   if (qp('checkout')==='success') return activating();
-  if (await isSubscribed()) return loadFeed();
-  fhide('feedGate'); fshow('paywall');
+  var tier = await currentTier();
+  if (tier && tier !== 'free') return loadFeed();   // trial | essential | pro → real feed
+  return loadTeaser();                                // free → redacted teaser + paywall
+}
+function band(min,max){ if(min==null) return ''; return '€'+Number(min).toLocaleString('es-ES')+'–'+Number(max).toLocaleString('es-ES'); }
+function teaserCard(l){
+  var photo = l.photo ? 'background-image:url('+esc(l.photo)+')' : '';
+  var where = [l.neighbourhood, l.district].filter(Boolean)[0] || 'Barcelona';
+  var facts = [l.rooms?l.rooms+' bed':'', l.bathrooms?l.bathrooms+' bath':'', l.area_m2?l.area_m2+' m²':''].filter(Boolean).join(' · ');
+  var lock = lang()==='es'?'🔒 Suscríbete para llamar':lang()==='uk'?'🔒 Підпишіться, щоб подзвонити':'🔒 Subscribe to call';
+  return '<article class="tcard">'
+    + '<div class="tphoto" style="'+photo+'"><span class="tscore">'+esc(l.appeal_score)+'</span></div>'
+    + '<div class="tbody">'
+    + '<div class="tband">'+esc(band(l.price_min,l.price_max))+'<small> /mo</small></div>'
+    + '<div class="tarea">'+esc(where)+'</div>'
+    + (facts?'<div class="tfacts">'+esc(facts)+(l.has_lift?' · lift':'')+'</div>':'')
+    + '<div class="tlock">'+lock+'</div>'
+    + '</div></article>';
+}
+async function loadTeaser(){
+  fhide('feed'); fhide('feedEmpty');
+  var res = await sb.from('teaser_listings').select('*').limit(9);
+  fhide('feedGate');
+  var grid=document.getElementById('teaserGrid'), head=document.getElementById('teaserHead');
+  if (res && res.data && res.data.length){
+    grid.innerHTML = res.data.map(teaserCard).join('');
+    if(head) head.hidden=false;
+  } else { grid.innerHTML=''; if(head) head.hidden=true; }
+  fshow('paywall');
 }
 async function loadFeed(){
   fhide('paywall'); fshow('feedGate');

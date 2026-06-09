@@ -2,6 +2,9 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/signup", "destination": "/get-started", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/(.*\\.(?:ico|png|jpg|jpeg|webp|svg|gif|woff2|woff|ttf|otf|eot))",

@@ -17,7 +17,7 @@ create extension if not exists pgcrypto;
 -- updated_at helper
 -- ---------------------------------------------------------------------------
 create or replace function public.set_updated_at()
-returns trigger language plpgsql as $$
+returns trigger language plpgsql set search_path = '' as $$
 begin new.updated_at = now(); return new; end; $$;
 
 -- ===========================================================================
@@ -69,6 +69,10 @@ end; $$;
 drop trigger if exists on_auth_user_created on auth.users;
 create trigger on_auth_user_created after insert on auth.users
   for each row execute function public.handle_new_user();
+
+-- handle_new_user runs only from the trigger above; it must never be callable
+-- directly or via PostgREST RPC (Supabase security linter 0028/0029).
+revoke execute on function public.handle_new_user() from public, anon, authenticated;
 
 -- ===========================================================================
 -- viewings  (the pipeline — written by Julia / the team server-side; read-only to users)

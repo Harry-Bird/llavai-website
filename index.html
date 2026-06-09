@@ -146,6 +146,9 @@
   .btn-primary:active { transform:translateY(2px); box-shadow:0 2px 0 var(--ink-deep); }
   .hero { padding:60px 0 100px; }
   .hero-grid { display:grid; grid-template-columns:1.2fr 1fr; gap:80px; align-items:center; }
+  /* grid items default to min-width:auto, so the fixed-width sample card (380px)
+     would force the whole column wider than the phone — let them shrink instead */
+  .hero-grid > * { min-width: 0; }
   @media(max-width:880px){ .hero-grid { grid-template-columns:1fr; gap:50px; } }
   .eyebrow { font-family:'Newsreader',serif; font-style:italic; font-size:16px; color:var(--coral-text); margin-bottom:20px; }
   h1 { font-family:'Fraunces',serif; font-weight:350; font-size:clamp(40px,5.6vw,68px); line-height:1.02; letter-spacing:-.025em; color:var(--ink); margin-bottom:28px; font-variation-settings:"SOFT" 60,"WONK" 0; }

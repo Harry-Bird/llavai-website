@@ -229,8 +229,10 @@
     *,*::before,*::after { animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; }
     html.has-js .reveal { opacity:1 !important; transform:none !important; transition:none !important; }
     .score-row.in .score-bar > i { transition:none !important; }
-    .feed > .sample { animation:none !important; opacity:0 !important; transform:none !important; }
-    .feed > .sample:first-child { opacity:1 !important; z-index:3 !important; }
+    .feed > .sample { animation:none !important; opacity:1 !important; }
+    .feed > .sample:nth-child(1) { transform:none !important; z-index:3 !important; }
+    .feed > .sample:nth-child(2) { transform:translate(13px,16px) scale(.955) rotate(1.7deg) !important; z-index:2 !important; }
+    .feed > .sample:nth-child(3) { transform:translate(26px,32px) scale(.91) rotate(3.2deg) !important; z-index:1 !important; }
   }
 
   /* ── tiers + appeal score + sample listing (two-service homepage) ── */
@@ -335,26 +337,39 @@
     position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0;
   }
 
-  /* ── rotating feed: whole listing cards deal off the stack ── */
+  /* ── rotating feed: a live deck of listings that shuffles ── */
   .feed { display:grid; }
   .feed > .sample { grid-area:1 / 1; align-self:start; justify-self:center; }
+  /* the three real cards form the visible stack — no ghost paper behind */
+  .sample-stack.feed::before, .sample-stack.feed::after { display:none; }
   html.has-js .feed > .sample {
-    opacity:0; animation:cardDeal 21s var(--ease-out) infinite both;
+    animation:cardShuffle 21s var(--ease-out) infinite;
     will-change:transform, opacity;
+    transform-origin:50% 60%;
   }
-  html.has-js .feed > .sample:first-child { opacity:1; }
+  /* negative delays seed all three into their stack positions from frame 1 */
   html.has-js .feed > .sample:nth-child(1) { animation-delay:0s; }
-  html.has-js .feed > .sample:nth-child(2) { animation-delay:7s; }
-  html.has-js .feed > .sample:nth-child(3) { animation-delay:14s; }
+  html.has-js .feed > .sample:nth-child(2) { animation-delay:-7s; }
+  html.has-js .feed > .sample:nth-child(3) { animation-delay:-14s; }
   html.has-js .feed.feed--offset > .sample:nth-child(1) { animation-delay:-3.5s; }
-  html.has-js .feed.feed--offset > .sample:nth-child(2) { animation-delay:3.5s; }
-  html.has-js .feed.feed--offset > .sample:nth-child(3) { animation-delay:10.5s; }
-  @keyframes cardDeal {
-    0%   { opacity:0; transform:translateY(24px) scale(.95) rotate(1.4deg); z-index:1; }
-    3%   { opacity:1; transform:translateY(0) scale(1) rotate(0); z-index:3; }
-    30%  { opacity:1; transform:translateY(0) scale(1) rotate(0); z-index:3; }
-    34%  { opacity:0; transform:translateY(-22px) scale(.99) rotate(-1deg); z-index:2; }
-    100% { opacity:0; transform:translateY(24px) scale(.95) rotate(1.4deg); z-index:1; }
+  html.has-js .feed.feed--offset > .sample:nth-child(2) { animation-delay:-10.5s; }
+  html.has-js .feed.feed--offset > .sample:nth-child(3) { animation-delay:-17.5s; }
+  @keyframes cardShuffle {
+    /* FRONT — held while the card on top is read */
+    0%   { transform:translate(0,0) scale(1) rotate(0); z-index:3; opacity:1; }
+    30%  { transform:translate(0,0) scale(1) rotate(0); z-index:3; opacity:1; }
+    /* lift off the top of the deck and fade out (the next card is already at front beneath) */
+    34%  { transform:translate(-8px,-54px) scale(1.015) rotate(-2.5deg); z-index:4; opacity:0; }
+    /* reposition while hidden to the back of the deck */
+    35%  { transform:translate(26px,32px) scale(.91) rotate(3.2deg); z-index:1; opacity:0; }
+    /* settle in at the BACK, fading back into the deck */
+    39%  { transform:translate(26px,32px) scale(.91) rotate(3.2deg); z-index:1; opacity:1; }
+    63%  { transform:translate(26px,32px) scale(.91) rotate(3.2deg); z-index:1; opacity:1; }
+    /* shift forward to MIDDLE as the deck advances */
+    67%  { transform:translate(13px,16px) scale(.955) rotate(1.7deg); z-index:2; opacity:1; }
+    92%  { transform:translate(13px,16px) scale(.955) rotate(1.7deg); z-index:2; opacity:1; }
+    /* slide up into FRONT again, arriving just as the card above lifts away */
+    100% { transform:translate(0,0) scale(1) rotate(0); z-index:3; opacity:1; }
   }
 
   /* ── live freshness pulse (on-brand coral) ── */

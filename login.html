@@ -38,7 +38,7 @@
   .nav-logo{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
   .nav-logo .ai{color:var(--coral)}
   .lang-toggle{display:flex;gap:4px;font-size:13px;font-family:'Newsreader',serif;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil);align-items:center}
-  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--pencil);padding:4px 8px;font-family:inherit;font-size:inherit;letter-spacing:inherit;text-transform:inherit;transition:color .2s}
+  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--pencil);padding:10px 10px;font-family:inherit;font-size:inherit;letter-spacing:inherit;text-transform:inherit;transition:color .2s}
   .lang-toggle button:hover{color:var(--ink)}
   .lang-toggle button.active{color:var(--ink);font-weight:600;border-bottom:1.5px solid var(--coral)}
   .lang-sep{opacity:.4}
@@ -74,6 +74,9 @@
   .sent-tick{width:60px;height:60px;background:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
   .back-link{display:inline-block;margin-top:8px;font-size:15px;color:var(--pencil);font-style:italic;text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
   .back-link:hover{color:var(--coral-text)}
+  .sent-actions{margin-bottom:8px;font-size:15px;color:var(--pencil)}
+  .btn-text{background:none;border:none;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;font-style:italic;color:var(--pencil);text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px;padding:10px 6px;transition:color .2s}
+  .btn-text:hover{color:var(--coral-text)}
   footer{padding:30px 32px 40px;border-top:1px solid rgba(27,56,143,.12)}
   .footer-row{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--pencil)}
   .footer-row a{color:var(--ink);text-decoration:none}
@@ -139,16 +142,18 @@
     </div>
     <div class="form-error" id="formError" role="alert" aria-live="assertive"></div>
 
-    <div class="field">
-      <label for="email">Email</label>
-      <input type="email" id="email" autocomplete="email" placeholder="you@email.com" />
-    </div>
-    <button class="btn-primary" id="btnSend" onclick="sendLink()">
-      <span id="sendText">
-        <span data-lang="en">Email me a sign-in link →</span><span data-lang="es">Envíame un enlace de acceso →</span><span data-lang="uk">Надішліть мені посилання для входу →</span>
-      </span>
-      <span class="spinner" id="spinner"></span>
-    </button>
+    <form id="signinForm" novalidate onsubmit="event.preventDefault();sendLink()">
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" autocomplete="email" placeholder="you@email.com" />
+      </div>
+      <button type="submit" class="btn-primary" id="btnSend">
+        <span id="sendText">
+          <span data-lang="en">Email me a sign-in link →</span><span data-lang="es">Envíame un enlace de acceso →</span><span data-lang="uk">Надішліть мені посилання для входу →</span>
+        </span>
+        <span class="spinner" id="spinner"></span>
+      </button>
+    </form>
     <p class="form-note">
       <span data-lang="en">New here? <a href="/get-started">Get started</a> in 30 seconds.</span>
       <span data-lang="es">¿Nuevo? <a href="/get-started">Empieza</a> en 30 segundos.</span>
@@ -157,7 +162,7 @@
   </div>
 
   <!-- LINK SENT -->
-  <div class="sent" id="sentCard">
+  <div class="sent" id="sentCard" tabindex="-1">
     <div class="sent-tick" aria-hidden="true">
       <svg width="26" height="26" viewBox="0 0 28 28" fill="none"><path d="M3 8l11 8 11-8M3 8v13h22V8M3 8l11 8 11-8" stroke="#F4EFE5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
@@ -170,6 +175,15 @@
       <span data-lang="en">We've sent a one-time sign-in link to <strong id="sentEmail"></strong>. Open it on this device. It expires shortly — check spam if it's not there.</span>
       <span data-lang="es">Hemos enviado un enlace de acceso de un solo uso a <strong id="sentEmailEs"></strong>. Ábrelo en este dispositivo. Caduca pronto — revisa el spam si no aparece.</span>
       <span data-lang="uk">Ми надіслали одноразове посилання для входу на <strong id="sentEmailUk"></strong>. Відкрийте його на цьому пристрої. Воно скоро спливає — перевірте спам, якщо його немає.</span>
+    </p>
+    <p class="sent-actions">
+      <button type="button" class="btn-text" id="resendBtn" onclick="resendLink()">
+        <span data-lang="en">Resend the link</span><span data-lang="es" class="inline">Reenviar el enlace</span><span data-lang="uk" class="inline">Надіслати ще раз</span>
+      </button>
+      <span class="lang-sep" aria-hidden="true">·</span>
+      <button type="button" class="btn-text" onclick="editEmail()">
+        <span data-lang="en">Use a different email</span><span data-lang="es" class="inline">Usar otro email</span><span data-lang="uk" class="inline">Інший email</span>
+      </button>
     </p>
     <a href="/" class="back-link">
       <span data-lang="en">← Back to Llavai</span><span data-lang="es">← Volver a Llavai</span><span data-lang="uk">← Назад до Llavai</span>
@@ -250,8 +264,31 @@ async function sendLink(){
     return;
   }
   ['sentEmail','sentEmailEs','sentEmailUk'].forEach(function(id){ document.getElementById(id).textContent = email; });
+  LAST_EMAIL = email;
+  // Reset the send button so "use a different email" returns to a working form.
+  btn.disabled=false; txt.style.display=''; sp.classList.remove('visible');
   document.getElementById('signinCard').style.display='none';
-  document.getElementById('sentCard').classList.add('visible');
+  var sent=document.getElementById('sentCard');
+  sent.classList.add('visible');
+  sent.focus();   // move focus off the now-hidden form for keyboard/SR users
+}
+
+let LAST_EMAIL='';
+async function resendLink(){
+  if (!sb || !LAST_EMAIL) return;
+  var b=document.getElementById('resendBtn'); b.disabled=true;
+  const { error } = await sb.auth.signInWithOtp({ email: LAST_EMAIL, options:{ emailRedirectTo: location.origin + '/account' } });
+  b.disabled=false;
+  if (!error){
+    var orig=b.innerHTML;
+    b.textContent={en:'Sent ✓',es:'Enviado ✓',uk:'Надіслано ✓'}[lang()];
+    setTimeout(function(){ b.innerHTML=orig; }, 3000);
+  }
+}
+function editEmail(){
+  document.getElementById('sentCard').classList.remove('visible');
+  document.getElementById('signinCard').style.display='';
+  var e=document.getElementById('email'); e.focus(); e.select();
 }
 </script>
 </body>

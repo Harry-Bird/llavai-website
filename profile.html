@@ -52,7 +52,7 @@
   .nav-logo{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
   .nav-logo .ai{color:var(--coral)}
   .lang-toggle{display:flex;gap:4px;font-size:13px;font-family:'Newsreader',serif;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil);align-items:center}
-  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--pencil);padding:4px 8px;font-family:inherit;font-size:inherit;letter-spacing:inherit;text-transform:inherit;transition:color .2s}
+  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--pencil);padding:10px 10px;font-family:inherit;font-size:inherit;letter-spacing:inherit;text-transform:inherit;transition:color .2s}
   .lang-toggle button:hover{color:var(--ink)}
   .lang-toggle button.active{color:var(--ink);font-weight:600;border-bottom:1.5px solid var(--coral)}
   .lang-sep{opacity:.4}
@@ -93,21 +93,28 @@
   @media(max-width:580px){.field-row-2{grid-template-columns:1fr}}
   .field-divider{height:1px;background:rgba(27,56,143,.1);margin:8px 0}
   .card-group{display:flex;flex-wrap:wrap;gap:10px}
-  .card-option{flex:1;min-width:120px}
-  .card-option input{display:none}
+  .card-option{flex:1;min-width:120px;position:relative}
+  /* Keep the native input focusable/clickable for keyboard + screen readers —
+     visually hidden (NOT display:none, which removes it from the tab order). */
+  .card-option input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
   .card-option label{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:16px 12px;border:1.5px solid rgba(27,56,143,.2);background:var(--cream);cursor:pointer;border-radius:2px;transition:all .2s;text-align:center;font-size:14px;color:var(--ink-deep);line-height:1.3;text-transform:none;letter-spacing:0;font-style:normal}
-  .card-option label .card-icon{font-size:20px;line-height:1}
+  .card-option label .card-icon{line-height:1;display:flex;color:var(--coral-text)}.card-option label .card-icon svg{width:20px;height:20px}
   .card-option input:checked+label{border-color:var(--coral);background:rgba(229,91,69,.05);color:var(--ink);box-shadow:0 4px 12px rgba(229,91,69,.1)}
   .card-option label:hover{border-color:var(--coral)}
+  .card-option input:focus-visible+label{outline:2px solid var(--ink);outline-offset:3px}
   .toggle-group{display:flex;gap:10px;flex-wrap:wrap}
-  .toggle-chip input{display:none}
+  .toggle-chip{position:relative}
+  .toggle-chip input{position:absolute;width:1px;height:1px;margin:-1px;padding:0;border:0;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
   .toggle-chip label{padding:10px 20px;border:1.5px solid rgba(27,56,143,.2);background:var(--cream);cursor:pointer;border-radius:2px;font-size:15px;color:var(--ink-deep);transition:all .2s;font-style:normal;text-transform:none;letter-spacing:0}
   .toggle-chip input:checked+label{border-color:var(--coral);background:rgba(229,91,69,.05);color:var(--ink)}
   .toggle-chip label:hover{border-color:var(--coral)}
+  .toggle-chip label{display:inline-block}
+  .toggle-chip input:focus-visible+label{outline:2px solid var(--ink);outline-offset:3px}
   .conditional-field{display:none;flex-direction:column;gap:7px}
   .conditional-field.visible{display:flex;animation:fadeUp .3s ease-out forwards}
   .review-block{background:var(--cream-deep);padding:20px 24px;margin-bottom:16px;border-left:2px solid rgba(27,56,143,.15)}
-  .review-section-head{font-family:'Fraunces',serif;font-style:italic;font-size:16px;color:var(--ink);padding-bottom:10px;margin-bottom:4px;border-bottom:1px solid rgba(27,56,143,.15);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+  /* a <button> so it's keyboard-operable — reset UA button chrome */
+  .review-section-head{width:100%;background:none;border:0;text-align:left;font-family:'Fraunces',serif;font-style:italic;font-size:16px;color:var(--ink);padding:0 0 10px;margin-bottom:4px;border-bottom:1px solid rgba(27,56,143,.15);display:flex;justify-content:space-between;align-items:center;cursor:pointer}
   .review-section-head .edit-link{font-family:'Newsreader',serif;font-style:italic;font-size:13px;color:var(--coral-text);text-decoration:underline;text-underline-offset:3px}
   .review-row{display:flex;justify-content:space-between;align-items:baseline;gap:24px;padding:8px 0;border-bottom:1px solid rgba(27,56,143,.07);font-size:15px}
   .review-row:last-child{border-bottom:none}
@@ -123,6 +130,8 @@
   .btn-back:hover{border-color:var(--ink);color:var(--ink)}
   .form-error{display:none;background:rgba(229,91,69,.08);border:1px solid rgba(229,91,69,.3);padding:12px 16px;font-size:14px;color:var(--coral-deep);margin-bottom:20px;font-style:italic;border-radius:2px}
   .form-error.visible{display:block}
+  .field input.invalid,.field select.invalid,.field textarea.invalid{border-color:var(--coral-deep)}
+  .toggle-group.invalid label,.card-group.invalid label{border-color:var(--coral-deep)}
   .spinner{display:none;width:20px;height:20px;border:2px solid rgba(244,239,229,.3);border-top-color:var(--cream);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto}
   .spinner.visible{display:inline-block}
   @keyframes spin{to{transform:rotate(360deg)}}
@@ -316,10 +325,10 @@
       <div class="field">
         <span class="field-label" id="movingAsLabel"><span data-lang="en">Moving in as <span class="req">*</span></span><span data-lang="es">Te mudas como <span class="req">*</span></span><span data-lang="uk">Переїжджаєте як <span class="req">*</span></span></span>
         <div class="card-group" role="radiogroup" aria-labelledby="movingAsLabel">
-          <div class="card-option"><input type="radio" name="movingAs" id="ma_single" value="Single" /><label for="ma_single"><span class="card-icon">🧍</span><span data-lang="en">Single</span><span data-lang="es">Solo/a</span><span data-lang="uk">Один/Одна</span></label></div>
-          <div class="card-option"><input type="radio" name="movingAs" id="ma_couple" value="Couple" /><label for="ma_couple"><span class="card-icon">👫</span><span data-lang="en">Couple</span><span data-lang="es">Pareja</span><span data-lang="uk">Пара</span></label></div>
-          <div class="card-option"><input type="radio" name="movingAs" id="ma_family" value="Family" /><label for="ma_family"><span class="card-icon">👨‍👩‍👧</span><span data-lang="en">Family</span><span data-lang="es">Familia</span><span data-lang="uk">Сім'я</span></label></div>
-          <div class="card-option"><input type="radio" name="movingAs" id="ma_friends" value="Flatmates" /><label for="ma_friends"><span class="card-icon">👥</span><span data-lang="en">Flatmates</span><span data-lang="es">Compañeros</span><span data-lang="uk">Сусіди</span></label></div>
+          <div class="card-option"><input type="radio" name="movingAs" id="ma_single" value="Single" /><label for="ma_single"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span><span data-lang="en">Single</span><span data-lang="es">Solo/a</span><span data-lang="uk">Один/Одна</span></label></div>
+          <div class="card-option"><input type="radio" name="movingAs" id="ma_couple" value="Couple" /><label for="ma_couple"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg></span><span data-lang="en">Couple</span><span data-lang="es">Pareja</span><span data-lang="uk">Пара</span></label></div>
+          <div class="card-option"><input type="radio" name="movingAs" id="ma_family" value="Family" /><label for="ma_family"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10a2 2 0 0 1 .71-1.53l6-5.12a2 2 0 0 1 2.58 0l6 5.12A2 2 0 0 1 19 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21v-6a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v6"/></svg></span><span data-lang="en">Family</span><span data-lang="es">Familia</span><span data-lang="uk">Сім'я</span></label></div>
+          <div class="card-option"><input type="radio" name="movingAs" id="ma_friends" value="Flatmates" /><label for="ma_friends"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></span><span data-lang="en">Flatmates</span><span data-lang="es">Compañeros</span><span data-lang="uk">Сусіди</span></label></div>
         </div>
       </div>
       <div class="conditional-field" id="numPeopleWrap">
@@ -497,19 +506,19 @@
       <div class="field">
         <span class="field-label" id="viewTimeLabel"><span data-lang="en">Preferred time of day <span class="req">*</span></span><span data-lang="es">Horario preferido <span class="req">*</span></span><span data-lang="uk">Бажаний час доби <span class="req">*</span></span></span>
         <div class="card-group" role="radiogroup" aria-labelledby="viewTimeLabel">
-          <div class="card-option"><input type="radio" name="viewTime" id="vt_morning" value="Morning (9–13h)" /><label for="vt_morning"><span class="card-icon">🌅</span><span data-lang="en">Morning</span><span data-lang="es">Mañana</span><span data-lang="uk">Ранок</span><small style="opacity:.6;font-size:11px">9–13h</small></label></div>
-          <div class="card-option"><input type="radio" name="viewTime" id="vt_afternoon" value="Afternoon (13–18h)" /><label for="vt_afternoon"><span class="card-icon">☀️</span><span data-lang="en">Afternoon</span><span data-lang="es">Tarde</span><span data-lang="uk">День</span><small style="opacity:.6;font-size:11px">13–18h</small></label></div>
-          <div class="card-option"><input type="radio" name="viewTime" id="vt_evening" value="Evening (18–21h)" /><label for="vt_evening"><span class="card-icon">🌆</span><span data-lang="en">Evening</span><span data-lang="es">Tarde-noche</span><span data-lang="uk">Вечір</span><small style="opacity:.6;font-size:11px">18–21h</small></label></div>
-          <div class="card-option"><input type="radio" name="viewTime" id="vt_flexible" value="Flexible" /><label for="vt_flexible"><span class="card-icon">🤸</span><span data-lang="en">Flexible</span><span data-lang="es">Flexible</span><span data-lang="uk">Гнучко</span></label></div>
+          <div class="card-option"><input type="radio" name="viewTime" id="vt_morning" value="Morning (9–13h)" /><label for="vt_morning"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 10V2"/><path d="m4.93 10.93 1.41 1.41"/><path d="M2 18h2"/><path d="M20 18h2"/><path d="m19.07 10.93-1.41 1.41"/><path d="M22 22H2"/><path d="m8 6 4-4 4 4"/><path d="M16 18a4 4 0 0 0-8 0"/></svg></span><span data-lang="en">Morning</span><span data-lang="es">Mañana</span><span data-lang="uk">Ранок</span><small style="opacity:.6;font-size:11px">9–13h</small></label></div>
+          <div class="card-option"><input type="radio" name="viewTime" id="vt_afternoon" value="Afternoon (13–18h)" /><label for="vt_afternoon"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg></span><span data-lang="en">Afternoon</span><span data-lang="es">Tarde</span><span data-lang="uk">День</span><small style="opacity:.6;font-size:11px">13–18h</small></label></div>
+          <div class="card-option"><input type="radio" name="viewTime" id="vt_evening" value="Evening (18–21h)" /><label for="vt_evening"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></span><span data-lang="en">Evening</span><span data-lang="es">Tarde-noche</span><span data-lang="uk">Вечір</span><small style="opacity:.6;font-size:11px">18–21h</small></label></div>
+          <div class="card-option"><input type="radio" name="viewTime" id="vt_flexible" value="Flexible" /><label for="vt_flexible"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.94 15.5A2 2 0 0 0 8.5 14.06l-6.13-1.58a.5.5 0 0 1 0-.96L8.5 9.94A2 2 0 0 0 9.94 8.5l1.58-6.13a.5.5 0 0 1 .96 0l1.58 6.13a2 2 0 0 0 1.44 1.44l6.13 1.58a.5.5 0 0 1 0 .96l-6.13 1.58a2 2 0 0 0-1.44 1.44l-1.58 6.13a.5.5 0 0 1-.96 0z"/></svg></span><span data-lang="en">Flexible</span><span data-lang="es">Flexible</span><span data-lang="uk">Гнучко</span></label></div>
         </div>
       </div>
       <div class="field">
         <span class="field-label" id="contactLabel"><span data-lang="en">Preferred contact method <span class="req">*</span></span><span data-lang="es">Método de contacto preferido <span class="req">*</span></span><span data-lang="uk">Бажаний спосіб зв'язку <span class="req">*</span></span></span>
         <div class="card-group" role="radiogroup" aria-labelledby="contactLabel">
-          <div class="card-option"><input type="radio" name="contactMethod" id="cm_whatsapp" value="WhatsApp" /><label for="cm_whatsapp"><span class="card-icon">💬</span>WhatsApp</label></div>
-          <div class="card-option"><input type="radio" name="contactMethod" id="cm_telegram" value="Telegram" /><label for="cm_telegram"><span class="card-icon">✈️</span>Telegram</label></div>
-          <div class="card-option"><input type="radio" name="contactMethod" id="cm_email" value="Email" /><label for="cm_email"><span class="card-icon">📧</span>Email</label></div>
-          <div class="card-option"><input type="radio" name="contactMethod" id="cm_any" value="Any" /><label for="cm_any"><span class="card-icon">🤷</span><span data-lang="en">Any</span><span data-lang="es">Cualquiera</span><span data-lang="uk">Будь-який</span></label></div>
+          <div class="card-option"><input type="radio" name="contactMethod" id="cm_whatsapp" value="WhatsApp" /><label for="cm_whatsapp"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg></span>WhatsApp</label></div>
+          <div class="card-option"><input type="radio" name="contactMethod" id="cm_telegram" value="Telegram" /><label for="cm_telegram"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg></span>Telegram</label></div>
+          <div class="card-option"><input type="radio" name="contactMethod" id="cm_email" value="Email" /><label for="cm_email"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-10 5L2 7"/></svg></span>Email</label></div>
+          <div class="card-option"><input type="radio" name="contactMethod" id="cm_any" value="Any" /><label for="cm_any"><span class="card-icon" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 6v12"/><path d="M17.2 9 6.8 15"/><path d="m6.8 9 10.4 6"/></svg></span><span data-lang="en">Any</span><span data-lang="es">Cualquiera</span><span data-lang="uk">Будь-який</span></label></div>
         </div>
       </div>
       <div class="conditional-field" id="telegramWrap">
@@ -633,12 +642,58 @@ document.querySelectorAll('input[name="movingAs"]').forEach(function(r){ r.addEv
 document.querySelectorAll('input[name="hasGuarantor"]').forEach(function(r){ r.addEventListener('change', function(){ document.getElementById('guarantorDetailsWrap').classList.toggle('visible', this.value==='Yes'); }); });
 document.querySelectorAll('input[name="contactMethod"]').forEach(function(r){ r.addEventListener('change', function(){ document.getElementById('telegramWrap').classList.toggle('visible', this.value==='Telegram'); }); });
 
+// ── Draft autosave ────────────────────────────────────────────────────────
+// Four steps × ~20 fields is too much to lose to an accidental refresh or a
+// mobile swipe-back. Persist every change locally; clear on successful submit.
+const DRAFT_KEY='llavai-profile-draft';
+const DRAFT_IDS=['firstName','lastName','email','phone','nationality','nationalityOther','residencyStatus','numPeople','profession','employmentType','individualIncome','householdIncome','guarantorDetails','maxBudget','bedrooms','telegramUsername','idealistaUrl','agentQuestions','additionalNotes'];
+const DRAFT_RADIOS=['movingAs','hasNominas','hasGuarantor','viewTime','contactMethod'];
+const DRAFT_CHECKS=['areas','viewDays'];
+function saveDraft(){
+  try{
+    var d={v:{},r:{},c:{},step:currentStep};
+    DRAFT_IDS.forEach(function(id){ var el=document.getElementById(id); if(el&&el.value) d.v[id]=el.value; });
+    DRAFT_RADIOS.forEach(function(n){ var x=radio(n); if(x) d.r[n]=x; });
+    DRAFT_CHECKS.forEach(function(n){ var x=checkboxes(n); if(x.length) d.c[n]=x; });
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(d));
+  }catch(e){}
+}
+function restoreDraft(){
+  var d=null; try{ d=JSON.parse(localStorage.getItem(DRAFT_KEY)||'null'); }catch(e){}
+  if(!d) return;
+  Object.keys(d.v||{}).forEach(function(id){ var el=document.getElementById(id); if(el&&!el.value) el.value=d.v[id]; });
+  Object.keys(d.r||{}).forEach(function(n){ document.querySelectorAll('input[name="'+n+'"]').forEach(function(i){ if(i.value===d.r[n]){ i.checked=true; i.dispatchEvent(new Event('change')); } }); });
+  Object.keys(d.c||{}).forEach(function(n){ document.querySelectorAll('input[name="'+n+'"]').forEach(function(i){ if((d.c[n]||[]).indexOf(i.value)>=0) i.checked=true; }); });
+  // The nationality conditional has its own change listener; fire it once restored.
+  document.getElementById('nationality').dispatchEvent(new Event('change'));
+  if (d.step>1 && d.step<=4){ if(d.step===4) buildReview(); goToStep(d.step); }
+}
+document.querySelectorAll('input,select,textarea').forEach(function(el){
+  el.addEventListener('input', saveDraft);
+  el.addEventListener('change', saveDraft);
+});
+restoreDraft();
+
 function lang() { return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
 function val(id) { return (document.getElementById(id).value||'').trim(); }
 function radio(name) { const c=document.querySelector('input[name="'+name+'"]:checked'); return c?c.value:''; }
 function checkboxes(name) { return Array.from(document.querySelectorAll('input[name="'+name+'"]:checked')).map(function(c){return c.value;}); }
-function showErr(id, msg) { const el=document.getElementById(id); el.innerHTML=msg; el.classList.add('visible'); el.scrollIntoView({behavior:'smooth',block:'center'}); }
-function clearErr(id) { document.getElementById(id).classList.remove('visible'); }
+function clearInvalid(){ document.querySelectorAll('.invalid').forEach(function(el){ el.classList.remove('invalid'); el.removeAttribute('aria-invalid'); }); }
+function showErr(id, msg, focusId) {
+  const el=document.getElementById(id); el.innerHTML=msg; el.classList.add('visible');
+  // Mark + focus + scroll to the offending field itself, not just the banner —
+  // on long steps the banner can sit far away from the problem.
+  const f=focusId && document.getElementById(focusId);
+  if (f){
+    f.classList.add('invalid'); f.setAttribute('aria-invalid','true');
+    const grp=f.closest && f.closest('.toggle-group,.card-group'); if(grp) grp.classList.add('invalid');
+    try{ f.focus({preventScroll:true}); }catch(e){ f.focus(); }
+    (grp||f).scrollIntoView({behavior:'smooth',block:'center'});
+  } else {
+    el.scrollIntoView({behavior:'smooth',block:'center'});
+  }
+}
+function clearErr(id) { document.getElementById(id).classList.remove('visible'); clearInvalid(); }
 
 const MSGS = {
   firstName:    {en:'Please enter your first name.',es:'Por favor, introduce tu nombre.',uk:'Будь ласка, введіть ваше ім\'я.'},
@@ -663,30 +718,30 @@ const MSGS = {
 function m(key){ return MSGS[key][lang()]; }
 
 function validateStep1() {
-  if (!val('firstName'))    { showErr('err1',m('firstName'));   return false; }
-  if (!val('lastName'))     { showErr('err1',m('lastName'));    return false; }
-  const e=val('email'); if(!e||!EMAIL_RE.test(e)){ showErr('err1',m('email')); return false; }
-  if (!val('phone'))        { showErr('err1',m('phone'));       return false; }
-  if (!val('nationality'))  { showErr('err1',m('nationality')); return false; }
-  if (!val('residencyStatus')){ showErr('err1',m('residency')); return false; }
-  if (!radio('movingAs'))   { showErr('err1',m('movingAs'));    return false; }
+  if (!val('firstName'))    { showErr('err1',m('firstName'),'firstName');   return false; }
+  if (!val('lastName'))     { showErr('err1',m('lastName'),'lastName');    return false; }
+  const e=val('email'); if(!e||!EMAIL_RE.test(e)){ showErr('err1',m('email'),'email'); return false; }
+  if (!val('phone'))        { showErr('err1',m('phone'),'phone');       return false; }
+  if (!val('nationality'))  { showErr('err1',m('nationality'),'nationality'); return false; }
+  if (!val('residencyStatus')){ showErr('err1',m('residency'),'residencyStatus'); return false; }
+  if (!radio('movingAs'))   { showErr('err1',m('movingAs'),'ma_single');    return false; }
   return true;
 }
 function validateStep2() {
-  if (!val('profession'))     { showErr('err2',m('profession')); return false; }
-  if (!val('employmentType')) { showErr('err2',m('employment')); return false; }
-  if (!val('individualIncome')){ showErr('err2',m('income'));    return false; }
-  if (!radio('hasNominas'))   { showErr('err2',m('nominas'));    return false; }
-  if (!radio('hasGuarantor')) { showErr('err2',m('guarantor'));  return false; }
+  if (!val('profession'))     { showErr('err2',m('profession'),'profession'); return false; }
+  if (!val('employmentType')) { showErr('err2',m('employment'),'employmentType'); return false; }
+  if (!val('individualIncome')){ showErr('err2',m('income'),'individualIncome');    return false; }
+  if (!radio('hasNominas'))   { showErr('err2',m('nominas'),'nom_yes');    return false; }
+  if (!radio('hasGuarantor')) { showErr('err2',m('guarantor'),'guar_yes');  return false; }
   return true;
 }
 function validateStep3() {
-  if (!val('maxBudget'))           { showErr('err3',m('budget'));    return false; }
-  if (!val('bedrooms'))            { showErr('err3',m('bedrooms'));  return false; }
-  if (checkboxes('viewDays').length === 0) { showErr('err3',m('availability')); return false; }
-  if (!radio('viewTime'))              { showErr('err3',m('viewTime'));      return false; }
-  if (!radio('contactMethod'))     { showErr('err3',m('contact'));      return false; }
-  if (radio('contactMethod')==='Telegram' && !val('telegramUsername')){ showErr('err3',m('telegram')); return false; }
+  if (!val('maxBudget'))           { showErr('err3',m('budget'),'maxBudget');    return false; }
+  if (!val('bedrooms'))            { showErr('err3',m('bedrooms'),'bedrooms');  return false; }
+  if (checkboxes('viewDays').length === 0) { showErr('err3',m('availability'),'vd_mon'); return false; }
+  if (!radio('viewTime'))              { showErr('err3',m('viewTime'),'vt_morning');      return false; }
+  if (!radio('contactMethod'))     { showErr('err3',m('contact'),'cm_whatsapp');      return false; }
+  if (radio('contactMethod')==='Telegram' && !val('telegramUsername')){ showErr('err3',m('telegram'),'telegramUsername'); return false; }
   return true;
 }
 
@@ -756,7 +811,7 @@ function buildReview() {
   const inc=document.getElementById('individualIncome');
 
   let html='<div class="review-block">';
-  html+='<div class="review-section-head" onclick="goToStep(1)"><span>'+L('personal')+'</span><span class="edit-link">'+L('edit')+'</span></div>';
+  html+='<button type="button" class="review-section-head" onclick="goToStep(1)"><span>'+L('personal')+'</span><span class="edit-link">'+L('edit')+'</span></button>';
   html+=row(L('name'), val('firstName')+' '+val('lastName'));
   html+=row('Email', val('email'));
   html+=row(L('phone'), val('phone'));
@@ -766,7 +821,7 @@ function buildReview() {
   html+='</div>';
 
   html+='<div class="review-block">';
-  html+='<div class="review-section-head" onclick="goToStep(2)"><span>'+L('financial')+'</span><span class="edit-link">'+L('edit')+'</span></div>';
+  html+='<button type="button" class="review-section-head" onclick="goToStep(2)"><span>'+L('financial')+'</span><span class="edit-link">'+L('edit')+'</span></button>';
   html+=row(L('prof'), val('profession'));
   html+=row(L('emp'), emp.options[emp.selectedIndex]?.text||'');
   html+=row(L('inc'), inc.options[inc.selectedIndex]?.text||'');
@@ -776,7 +831,7 @@ function buildReview() {
   html+='</div>';
 
   html+='<div class="review-block">';
-  html+='<div class="review-section-head" onclick="goToStep(3)"><span>'+L('prefs')+'</span><span class="edit-link">'+L('edit')+'</span></div>';
+  html+='<button type="button" class="review-section-head" onclick="goToStep(3)"><span>'+L('prefs')+'</span><span class="edit-link">'+L('edit')+'</span></button>';
   html+=row(L('budget'), val('maxBudget')?'€'+val('maxBudget')+'/mo':'');
   html+=row(L('beds'), val('bedrooms')==='studio'?'Studio':val('bedrooms'));
   html+=row(L('areas'), checkboxes('areas').join(', '));
@@ -839,6 +894,7 @@ async function submitProfile() {
   };
 
   function succeed(){
+    try{ localStorage.removeItem(DRAFT_KEY); }catch(e){}  // submitted — drop the draft
     document.getElementById('progressWrap').style.display='none';
     document.getElementById('step4').style.display='none';
     const success=document.getElementById('successScreen');

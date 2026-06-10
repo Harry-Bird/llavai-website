@@ -106,6 +106,11 @@ The forms/dashboard use a deliberate editorial print language. These are feature
 - Verify signed-in pages headlessly with puppeteer-core + system Chrome against
   `python3 -m http.server` (see `/tmp/llavai-verify/` pattern: console/pageerror capture,
   Enter-submit, keyboard chips, tier simulation via `TIER='essential'; applyTierUI()`).
+- **Screenshotting account.html without auth**: the auth check redirects mid-session and
+  kills puppeteer's execution context. Block it with request interception
+  (`page.setRequestInterception(true)` + abort any URL matching `/supabase/i`), then
+  force-show the dashboard (`hidden=false` on `#dash`, hide `.gate`) and toggle
+  `.tab`/`.panel` active classes per tab. Visual check only — no live data renders.
 
 ## Backend (Supabase-first)
 - The logged-in pages (signup/login/app/account) talk to **Supabase** directly from the

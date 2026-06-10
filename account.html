@@ -149,7 +149,23 @@
   .av-hours{font-family:'Fraunces',serif;font-size:27px;font-weight:500;color:var(--ink);white-space:nowrap}
   .av-hours small{font-family:'Newsreader',serif;font-size:13px;color:var(--pencil);font-weight:400;letter-spacing:0}
   .av-note{font-size:14px;color:var(--ink-deep);font-style:italic}
-  @media(max-width:640px){.avail-row{grid-template-columns:1fr max-content}.av-track{grid-column:1/-1}}
+  .dn-short{display:none}
+  /* Narrow screens: flex-wrap lets the times drop under the day name instead of
+     blowing the row out sideways (mobile time inputs render ~200px wide). */
+  @media(max-width:640px){
+    .avail-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px}
+    .avail-row .d{flex:1 1 auto;min-width:0}
+    .av-times{margin-left:auto}
+    .av-track{flex:1 0 100%}
+  }
+  /* Very narrow (Z Fold cover, 320–480): compact inputs, short day names, tighter gutter */
+  @media(max-width:480px){
+    .container{padding:0 20px}
+    nav{padding-left:20px;padding-right:20px}
+    .avail-row input[type=time]{width:84px;padding:7px 6px}
+    .dn-full{display:none}
+    .dn-short{display:inline}
+  }
   .viewing .del{background:none;border:none;color:var(--pencil);cursor:pointer;font-size:18px;line-height:1;min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0}
   .viewing .del:hover{color:var(--coral-text)}
   .saved.show{opacity:1}
@@ -910,7 +926,11 @@ const DAY_ORDER=[1,2,3,4,5,6,0]; // Mon..Sun
 const AV_MIN=8, AV_MAX=22, AGENCY_FROM=10, AGENCY_TO=19, AGENCY_WEEK=(AGENCY_TO-AGENCY_FROM)*5;
 function avPct(h){ return (h-AV_MIN)/(AV_MAX-AV_MIN)*100; }
 function avHrs(v,fallback){ var p=String(v||fallback).split(':'); return (+p[0]||0)+((+p[1]||0)/60); }
-function avDayLabel(d){ return '<span data-lang="en">'+DAYS.en[d]+'</span><span data-lang="es">'+DAYS.es[d]+'</span><span data-lang="uk">'+DAYS.uk[d]+'</span>'; }
+const DAYS_SHORT={en:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'],es:['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'],uk:['Нд','Пн','Вт','Ср','Чт','Пт','Сб']};
+function avDayLabel(d){
+  function spans(set){ return '<span data-lang="en">'+set.en[d]+'</span><span data-lang="es">'+set.es[d]+'</span><span data-lang="uk">'+set.uk[d]+'</span>'; }
+  return '<span class="dn-full">'+spans(DAYS)+'</span><span class="dn-short">'+spans(DAYS_SHORT)+'</span>';
+}
 function renderAvailRows(rows){
   const wrap=document.getElementById('availRows'); if(!wrap) return;
   const names=DAYS[lang()]||DAYS.en;

@@ -13,6 +13,8 @@ faster applicants.
   `.vercelignore`; safe to delete — confirm with the owner first.)
 - profile.html is the multi-step tenant onboarding form. `/get-started` is the lead-capture
   entry that feeds into it.
+- `signup.html` was deleted (June 2026) — it was an orphaned parallel funnel. `/signup`
+  308-redirects to `/get-started` via the `redirects` block in `vercel.json`. Don't recreate it.
 - New SEO/AEO guides live at: blog/<slug>/index.html
 - Every page is trilingual: English / Spanish / Ukrainian, using the [data-lang] span system
   and the EN/ES/UA setLang() toggle from index.html. Always replicate that exactly.
@@ -57,6 +59,34 @@ faster applicants.
   `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`; `puppeteer-core` (pointed at
   system Chrome) works without downloading a browser. The earlier "it's the decoration" guess
   was wrong; one measurement found the real grid blowout immediately.
+
+## Signed-in UX conventions (June 2026 UX overhaul — keep these intact)
+- **Tier-aware account UI** (`account.html`): `current_tier()` RPC → global `TIER`
+  ('free'|'trial'|'essential'|'pro'), fetched once in `showDash()` and re-fetched after
+  Stripe activation. `applyTierUI()` renders the plan badge (`#planPill`) and toggles the
+  Pro cross-sell (`#pipelineUpsell`, `#docsUpsell`, `#upgradeLink`). **Pro wording is the
+  static-HTML default; applyTierUI swaps copy for non-Pro.** Rule: never promise Julia
+  (concierge calling) to non-Pro users — 'trial' is a trial of *Essential*, not Pro.
+  Upgrade enquiries go through `askAboutPro()` → Messages tab with a prefilled message
+  (zero extra backend; the team sees it in the messages table).
+- **Errors shown to users are friendly + trilingual** via `friendly(kind, rawError)` in
+  account.html (raw Supabase errors go to console only). Never surface `error.message`
+  or use `alert()`.
+- **Custom radio/checkbox chips** (profile.html `.card-option`/`.toggle-chip`): inputs are
+  visually hidden with the clip-path pattern, NOT `display:none` (that breaks keyboard
+  access — this was a shipped bug). Keep the `input:focus-visible+label` rings.
+- **Forms submit on Enter**: login/get-started inputs live inside `<form onsubmit>`.
+  Any new form must too.
+- **Icons are inline SVG** (Lucide-style, 24 viewBox, stroke currentColor) — no emoji icons.
+- **Destructive actions** confirm() and/or offer undo (listing dismiss has a 6s undo that
+  restores the previous `status` from `data-status`).
+- **Account tabs** implement full WAI-ARIA (aria-selected, roving tabindex, arrow keys) —
+  keep the pattern complete if adding tabs.
+- **localStorage keys in use**: `llavai-lang`, `llavai-tab`, `llavai-next`, `llavai-lead`,
+  `llavai-profile-pending`, `llavai-profile-draft` (profile form autosave; cleared on submit).
+- Verify signed-in pages headlessly with puppeteer-core + system Chrome against
+  `python3 -m http.server` (see `/tmp/llavai-verify/` pattern: console/pageerror capture,
+  Enter-submit, keyboard chips, tier simulation via `TIER='essential'; applyTierUI()`).
 
 ## Backend (Supabase-first)
 - The logged-in pages (signup/login/app/account) talk to **Supabase** directly from the

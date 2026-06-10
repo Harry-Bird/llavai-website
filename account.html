@@ -71,10 +71,11 @@
   .upsell-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .upsell-line{font-size:14px;color:var(--pencil);font-style:italic;margin:-14px 0 20px}
   .upsell-line .btn-text{font-size:14px}
-  .tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid rgba(27,56,143,.14);margin-bottom:28px}
-  .tab{background:none;border:none;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;color:var(--pencil);padding:12px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
-  .tab:hover{color:var(--ink)}
-  .tab.active{color:var(--ink);border-bottom-color:var(--coral);font-weight:600}
+  /* file-folder tabs — the dashboard is a stack of paper files */
+  .tabs{display:flex;gap:5px;flex-wrap:wrap;align-items:flex-end;border-bottom:1px solid rgba(27,56,143,.16);margin-bottom:28px}
+  .tab{background:none;border:1px solid transparent;border-bottom:none;border-radius:7px 7px 0 0;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;color:var(--pencil);padding:11px 15px 12px;margin-bottom:-1px;transition:color .2s,background .25s var(--ease-out),box-shadow .25s var(--ease-out)}
+  .tab:hover{color:var(--ink);background:rgba(251,248,241,.75)}
+  .tab.active{color:var(--ink);font-weight:600;background:var(--paper);border-color:rgba(27,56,143,.16);border-bottom:1px solid var(--paper);box-shadow:0 -8px 16px rgba(27,56,143,.07)}
   .panel{display:none}
   .panel.active{display:block;animation:sheetIn .45s var(--ease-out)}
   @keyframes sheetIn{from{opacity:0;transform:translateY(14px) rotate(.3deg)}to{opacity:1;transform:none}}
@@ -122,14 +123,33 @@
   .prefs-checks{display:flex;flex-direction:column;gap:10px;margin:16px 0}
   .prefs-checks label{display:flex;align-items:center;gap:10px;font-size:15px;color:var(--ink-deep);cursor:pointer}
   .prefs-checks input{width:18px;height:18px;accent-color:var(--coral)}
-  .cal-add{margin-top:24px;padding-top:20px;border-top:1px solid rgba(27,56,143,.12)}
-  .avail-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px}
-  .avail-row .d{width:120px;color:var(--ink);font-family:'Fraunces',serif;font-size:15px}
-  .avail-row:has(input[type=checkbox]:checked) .d{color:var(--coral-text);font-weight:600}
+  .cal-add{margin-top:24px}
+  /* ── availability: live weekly coverage instrument ── */
+  .av-presets{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:2px 0 20px}
+  .av-presets .pl{font-size:13px;font-style:italic;color:var(--pencil);margin-right:2px}
+  .preset{font-family:'Fraunces',serif;font-size:13px;font-weight:500;color:var(--ink);background:var(--field);border:1px solid rgba(27,56,143,.25);border-radius:3px;padding:7px 13px;cursor:pointer;box-shadow:0 2px 0 rgba(27,56,143,.18);transition:all .2s var(--ease-out)}
+  .preset:hover{border-color:var(--ink);transform:translateY(-1px);box-shadow:0 3px 0 rgba(27,56,143,.25)}
+  .preset:active{transform:translateY(1px);box-shadow:0 1px 0 rgba(27,56,143,.2)}
+  .avail-row{display:grid;grid-template-columns:128px max-content minmax(0,1fr);gap:12px;align-items:center;margin-bottom:10px;font-size:14px}
+  .avail-row .d{display:flex;align-items:center;gap:8px;color:var(--ink);font-family:'Fraunces',serif;font-size:15px;cursor:pointer}
+  .avail-row:has(.av-on:checked) .d{color:var(--coral-text);font-weight:600}
   .avail-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--coral)}
+  .av-times{display:flex;align-items:center;gap:6px;color:var(--pencil)}
   .avail-row input[type=time]{padding:7px 9px;border:1px solid rgba(27,56,143,.25);border-radius:3px;background:var(--field);color:var(--ink);font-family:'Newsreader',serif;box-shadow:inset 0 1px 2px rgba(27,56,143,.04);transition:border-color .2s var(--ease-out),box-shadow .2s var(--ease-out)}
   .avail-row input[type=time]:hover{border-color:rgba(27,56,143,.45)}
   .avail-row input[type=time]:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(229,91,69,.13)}
+  .av-track{position:relative;height:18px;border-radius:9px;background:var(--field);border:1px solid rgba(27,56,143,.14);box-shadow:inset 0 1px 3px rgba(27,56,143,.07);overflow:hidden}
+  .av-zone{position:absolute;top:0;bottom:0;background:repeating-linear-gradient(135deg,rgba(27,56,143,.06) 0 4px,transparent 4px 8px)}
+  .av-band{position:absolute;top:2px;bottom:2px;border-radius:7px;background:linear-gradient(180deg,#F07A66,var(--coral));box-shadow:0 1px 0 rgba(200,70,47,.5),inset 0 1px 0 rgba(255,255,255,.35);transition:left .3s var(--ease-out),width .3s var(--ease-out),opacity .2s}
+  .av-times,.av-track{transition:opacity .2s var(--ease-out)}
+  .avail-row:not(:has(.av-on:checked)) .av-band{opacity:0}
+  .avail-row:not(:has(.av-on:checked)) .av-times,.avail-row:not(:has(.av-on:checked)) .av-track{opacity:.45}
+  .av-caption{font-size:12.5px;color:var(--pencil);font-style:italic;margin:8px 0 0}
+  .av-summary{display:flex;align-items:baseline;gap:6px 14px;flex-wrap:wrap;border-top:1px dashed rgba(27,56,143,.2);margin-top:16px;padding-top:14px;margin-bottom:16px}
+  .av-hours{font-family:'Fraunces',serif;font-size:27px;font-weight:500;color:var(--ink);white-space:nowrap}
+  .av-hours small{font-family:'Newsreader',serif;font-size:13px;color:var(--pencil);font-weight:400;letter-spacing:0}
+  .av-note{font-size:14px;color:var(--ink-deep);font-style:italic}
+  @media(max-width:640px){.avail-row{grid-template-columns:1fr max-content}.av-track{grid-column:1/-1}}
   .viewing .del{background:none;border:none;color:var(--pencil);cursor:pointer;font-size:18px;line-height:1;min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0}
   .viewing .del:hover{color:var(--coral-text)}
   .saved.show{opacity:1}
@@ -215,6 +235,39 @@
   .tcard .tfacts{font-size:11px;color:var(--pencil);margin-top:2px}
   .tcard .tlock{font-size:11px;color:var(--coral-text);margin-top:6px}
   .paywall-cta{max-width:520px;margin:20px auto 0}
+  /* ── stacked-paper sheets: key form surfaces sit on an offset back-sheet ── */
+  .sheet{position:relative;background:var(--paper);border:1px solid rgba(27,56,143,.13);border-radius:6px;padding:26px 28px;box-shadow:var(--shadow-md);margin-bottom:26px}
+  .sheet::before{content:"";position:absolute;inset:0;background:var(--cream-deep);border:1px solid rgba(27,56,143,.08);border-radius:6px;transform:rotate(.5deg) translate(5px,5px);z-index:-1}
+  .sheet:nth-of-type(even)::before{transform:rotate(-.5deg) translate(-4px,5px)}
+  @media(max-width:560px){.sheet{padding:20px 16px}.sheet::before{transform:rotate(.4deg) translate(3px,4px)}.sheet:nth-of-type(even)::before{transform:rotate(-.4deg) translate(-3px,4px)}}
+  .prefs-block.sheet{border-top:0;padding-top:24px;margin-top:0}
+  /* ── tier-aware system status line ── */
+  .status-line{display:flex;align-items:center;gap:9px;margin-top:10px;font-size:14.5px;font-style:italic;color:var(--pencil)}
+  .status-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--coral);flex:none}
+  .status-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--coral);opacity:0;animation:ping 2.6s var(--ease-out) infinite}
+  @keyframes ping{0%{transform:scale(.4);opacity:.8}70%,100%{transform:scale(1.3);opacity:0}}
+  .status-line.s-off .status-dot{background:var(--pencil)}
+  .status-line.s-off .status-dot::after{animation:none}
+  /* ── scoring mix: live visualisation of the feed weights ── */
+  .mix{margin:4px 0 24px}
+  .mix-bar{display:flex;height:14px;border-radius:7px;overflow:hidden;border:1px solid rgba(27,56,143,.18);box-shadow:inset 0 1px 2px rgba(27,56,143,.08);background:var(--field)}
+  .mix-seg{min-width:0;transition:width .35s var(--ease-out)}
+  .m-value{background:var(--ink)}.m-freshness{background:var(--coral)}.m-features{background:#7C8CC2}.m-presentation{background:#C9BFA9}
+  .mix-legend{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:9px;font-size:12.5px;color:var(--pencil)}
+  .mix-legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+  .mix-legend b{color:var(--ink);font-weight:600;font-family:'Fraunces',serif}
+  /* ── feed depth: papers thrown on the desk, top pick stamped ── */
+  .feed .listing:nth-child(odd){transform:rotate(-.3deg)}
+  .feed .listing:nth-child(even){transform:rotate(.3deg)}
+  .feed .listing:hover{transform:translateY(-3px) rotate(0deg);box-shadow:var(--shadow-lg)}
+  .photo::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(27,56,143,.08),inset 0 -20px 26px -20px rgba(27,56,143,.22)}
+  .top-stamp{position:absolute;bottom:10px;right:10px;background:rgba(244,239,229,.93);border:2px solid var(--coral);color:var(--coral-text);font-family:'Fraunces',serif;font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 8px;border-radius:3px;transform:rotate(-5deg)}
+  /* ── skeleton cards while the feed loads ── */
+  .skel-card{height:340px;border:1px solid rgba(27,56,143,.1);border-radius:4px;background:var(--paper);overflow:hidden;position:relative;box-shadow:var(--shadow-sm)}
+  .skel-card::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 35%,rgba(255,255,255,.85) 50%,transparent 65%);background-size:200% 100%;animation:shimmer 1.3s linear infinite;z-index:1}
+  .skel-card .ph{height:190px;background:var(--cream-deep)}
+  .skel-card .ln{height:14px;background:var(--cream-deep);border-radius:3px;margin:16px 20px 0}
+  @keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
   [data-lang="es"],[data-lang="uk"]{display:none}
   body.es [data-lang="en"],body.es [data-lang="uk"]{display:none}
   body.es [data-lang="es"]{display:inline}
@@ -263,6 +316,7 @@
           <span class="plan-pill" id="planPill"></span>
           <button class="btn-text" id="upgradeLink" hidden onclick="askAboutPro()"><span data-lang="en">Upgrade to Pro</span><span data-lang="es">Mejorar a Pro</span><span data-lang="uk">Перейти на Pro</span></button>
         </p>
+        <p class="status-line" id="statusLine" hidden><span class="status-dot" aria-hidden="true"></span><span id="statusText"></span></p>
       </div>
 
       <div class="tabs" role="tablist">
@@ -276,7 +330,8 @@
       <!-- FEED (Essential · self-serve) -->
       <section class="panel active" id="panel-feed" role="tabpanel" aria-labelledby="tab-feed" tabindex="0">
         <h2><span data-lang="en">Today's best listings</span><span data-lang="es">Los mejores pisos de hoy</span><span data-lang="uk">Найкращі оголошення сьогодні</span></h2>
-        <p class="sub"><span data-lang="en">Only the standouts (appeal score over 60), with the agency number ready to call.</span><span data-lang="es">Solo los destacados (puntuación de atractivo superior a 60), con el número de la agencia listo para llamar.</span><span data-lang="uk">Лише найкращі (оцінка привабливості понад 60), з номером агентства, готовим до дзвінка.</span></p>
+        <!-- Pro wording is the default; applyTierUI() swaps it for non-Pro tiers -->
+        <p class="sub" id="feedSub"><span data-lang="en">Only the standouts (appeal score over 60). Julia calls the best ones for you — and every agency number is here if you'd rather dial yourself.</span><span data-lang="es">Solo los destacados (puntuación superior a 60). Julia llama a los mejores por ti — y tienes el número de cada agencia si prefieres llamar tú.</span><span data-lang="uk">Лише найкращі (оцінка понад 60). Julia телефонує щодо найкращих за вас — а номер агентства поруч, якщо хочете подзвонити самі.</span></p>
         <div class="feed-gate" id="feedGate"><span data-lang="en">Loading your feed…</span><span data-lang="es">Cargando tu feed…</span><span data-lang="uk">Завантаження стрічки…</span></div>
         <div class="paywall" id="paywall" hidden>
           <span class="pw-stamp" aria-hidden="true"><span data-lang="en">Members only</span><span data-lang="es">Solo miembros</span><span data-lang="uk">Лише для членів</span></span>
@@ -313,7 +368,7 @@
           </div>
         </aside>
 
-        <div class="cal-add">
+        <div class="cal-add sheet">
           <h3 class="prefs-h"><span data-lang="en">Add a viewing</span><span data-lang="es">Añadir una visita</span><span data-lang="uk">Додати перегляд</span></h3>
           <div class="row-2">
             <div class="field"><label for="nv_title"><span data-lang="en">Listing / address</span><span data-lang="es">Piso / dirección</span><span data-lang="uk">Оголошення / адреса</span></label><input id="nv_title" type="text" /></div>
@@ -322,10 +377,22 @@
           <button class="btn-ghost" id="addViewBtn" onclick="addViewing()"><span data-lang="en">Add to calendar</span><span data-lang="es">Añadir al calendario</span><span data-lang="uk">Додати в календар</span></button>
         </div>
 
-        <div class="prefs-block" id="availBlock">
+        <div class="prefs-block sheet" id="availBlock">
           <h3 class="prefs-h"><span data-lang="en">When can you view?</span><span data-lang="es">¿Cuándo puedes visitar?</span><span data-lang="uk">Коли ви можете оглядати?</span></h3>
-          <p class="sub"><span data-lang="en">Your weekly free windows — so Julia (Pro) can book viewings into slots that suit you.</span><span data-lang="es">Tus franjas libres semanales — para que Julia (Pro) reserve visitas cuando te convenga.</span><span data-lang="uk">Ваші щотижневі вільні вікна — щоб Julia (Pro) бронювала перегляди у зручний час.</span></p>
+          <!-- Pro wording is the default; applyTierUI() swaps it for non-Pro tiers -->
+          <p class="sub" id="availSub"><span data-lang="en">Your weekly free windows — Julia books viewings only inside them.</span><span data-lang="es">Tus franjas libres semanales — Julia reserva visitas solo dentro de ellas.</span><span data-lang="uk">Ваші щотижневі вільні вікна — Julia бронює перегляди лише в них.</span></p>
+          <div class="av-presets">
+            <span class="pl"><span data-lang="en">Quick fill:</span><span data-lang="es">Relleno rápido:</span><span data-lang="uk">Швидке заповнення:</span></span>
+            <button type="button" class="preset" onclick="avPreset('evenings')"><span data-lang="en">Evenings &amp; weekends</span><span data-lang="es">Tardes y fines de semana</span><span data-lang="uk">Вечори та вихідні</span></button>
+            <button type="button" class="preset" onclick="avPreset('office')"><span data-lang="en">Office hours</span><span data-lang="es">Horario de oficina</span><span data-lang="uk">Робочі години</span></button>
+            <button type="button" class="preset" onclick="avPreset('anytime')"><span data-lang="en">Anytime</span><span data-lang="es">Cualquier hora</span><span data-lang="uk">Будь-коли</span></button>
+          </div>
           <div id="availRows"></div>
+          <p class="av-caption"><span data-lang="en">Hatched zone = typical agency hours (Mon–Fri 10:00–19:00).</span><span data-lang="es">Zona rayada = horario típico de agencia (L–V 10:00–19:00).</span><span data-lang="uk">Заштрихована зона = типові години агентств (Пн–Пт 10:00–19:00).</span></p>
+          <div class="av-summary" id="availSummary" hidden>
+            <span class="av-hours"><span id="avHours">0 h</span><small> <span data-lang="en">of viewing windows / week</span><span data-lang="es">de franjas / semana</span><span data-lang="uk">вікон / тиждень</span></small></span>
+            <span class="av-note" id="avNote"></span>
+          </div>
           <div class="form-error" id="availErr" role="alert"></div>
           <button class="btn-ghost" id="saveAvailBtn" onclick="saveAvailability()"><span data-lang="en">Save availability</span><span data-lang="es">Guardar disponibilidad</span><span data-lang="uk">Зберегти доступність</span></button>
           <span class="saved" id="availSaved" role="status" aria-live="polite"><span data-lang="en">Saved ✓</span><span data-lang="es">Guardado ✓</span><span data-lang="uk">Збережено ✓</span></span>
@@ -337,6 +404,7 @@
         <h2><span data-lang="en">Your tenant profile</span><span data-lang="es">Tu perfil de inquilino</span><span data-lang="uk">Ваш профіль орендаря</span></h2>
         <p class="sub" id="profileSub"><span data-lang="en">The details Julia uses to present you to agents. Keep them current.</span><span data-lang="es">Los datos que Julia usa para presentarte a los agentes. Mantenlos al día.</span><span data-lang="uk">Дані, які Julia використовує, щоб представити вас агентам. Тримайте їх актуальними.</span></p>
         <div class="form-error" id="profileError" role="alert"></div>
+        <div class="sheet">
         <div class="row-2">
           <div class="field"><label for="p_first"><span data-lang="en">First name</span><span data-lang="es">Nombre</span><span data-lang="uk">Ім'я</span></label><input id="p_first" type="text" autocomplete="given-name" /></div>
           <div class="field"><label for="p_last"><span data-lang="en">Last name</span><span data-lang="es">Apellido</span><span data-lang="uk">Прізвище</span></label><input id="p_last" type="text" autocomplete="family-name" /></div>
@@ -347,8 +415,9 @@
         </div>
         <div class="field"><label for="p_avail"><span data-lang="en">Viewing availability</span><span data-lang="es">Disponibilidad para visitas</span><span data-lang="uk">Доступність для переглядів</span></label><textarea id="p_avail"></textarea></div>
         <div class="field"><label for="p_notes"><span data-lang="en">Anything else for Julia</span><span data-lang="es">Algo más para Julia</span><span data-lang="uk">Щось іще для Julia</span></label><textarea id="p_notes"></textarea></div>
+        </div>
 
-        <div class="prefs-block">
+        <div class="prefs-block sheet">
           <h3 class="prefs-h"><span data-lang="en">Feed preferences</span><span data-lang="es">Preferencias del feed</span><span data-lang="uk">Налаштування стрічки</span></h3>
           <p class="sub"><span data-lang="en">Tune how we score and filter your listings. Changes apply on the next refresh.</span><span data-lang="es">Ajusta cómo puntuamos y filtramos tus pisos. Los cambios se aplican en la próxima actualización.</span><span data-lang="uk">Налаштуйте, як ми оцінюємо та фільтруємо ваші оголошення. Зміни застосуються при наступному оновленні.</span></p>
           <div class="row-2">
@@ -358,6 +427,18 @@
           <div class="row-2">
             <div class="field"><label for="pf_features"><span data-lang="en">Features (terrace, A/C, pool)</span><span data-lang="es">Extras (terraza, A/C, piscina)</span><span data-lang="uk">Зручності (тераса, кондиціонер, басейн)</span></label><select id="pf_features"></select></div>
             <div class="field"><label for="pf_presentation"><span data-lang="en">Photos / presentation</span><span data-lang="es">Fotos / presentación</span><span data-lang="uk">Фото / презентація</span></label><select id="pf_presentation"></select></div>
+          </div>
+          <!-- live scoring mix — decorative mirror of the four weights above -->
+          <div class="mix" id="mixViz" aria-hidden="true">
+            <div class="mix-bar">
+              <span class="mix-seg m-value" id="mix_value"></span><span class="mix-seg m-freshness" id="mix_freshness"></span><span class="mix-seg m-features" id="mix_features"></span><span class="mix-seg m-presentation" id="mix_presentation"></span>
+            </div>
+            <div class="mix-legend">
+              <span><i class="m-value"></i><span data-lang="en">Value</span><span data-lang="es">Precio</span><span data-lang="uk">Ціна</span> <b id="mixp_value">25%</b></span>
+              <span><i class="m-freshness"></i><span data-lang="en">Freshness</span><span data-lang="es">Novedad</span><span data-lang="uk">Свіжість</span> <b id="mixp_freshness">25%</b></span>
+              <span><i class="m-features"></i><span data-lang="en">Features</span><span data-lang="es">Extras</span><span data-lang="uk">Зручності</span> <b id="mixp_features">25%</b></span>
+              <span><i class="m-presentation"></i><span data-lang="en">Photos</span><span data-lang="es">Fotos</span><span data-lang="uk">Фото</span> <b id="mixp_presentation">25%</b></span>
+            </div>
           </div>
           <div class="prefs-checks">
             <label><input type="checkbox" id="pf_lift" /><span data-lang="en">Must have a lift</span><span data-lang="es">Debe tener ascensor</span><span data-lang="uk">Має бути ліфт</span></label>
@@ -584,8 +665,9 @@ function fhide(id){ document.getElementById(id).hidden=true; }
 function money(n,cur){ if(n==null||n==='')return ''; return (cur||'€')+Number(n).toLocaleString('es-ES'); }
 function ago(ts){ if(!ts)return''; var h=(Date.now()-new Date(ts).getTime())/3.6e6; if(h<1)return Math.max(1,Math.round(h*60))+'m'; if(h<24)return Math.round(h)+'h'; return Math.round(h/24)+'d'; }
 function prettyFeat(f){ return ({airConditioning:'A/C',terrace:'Terrace',exterior:'Exterior',swimmingPool:'Pool',lift:'Lift',garden:'Garden',parking:'Parking'})[f] || f; }
-function card(l){
+function card(l,i){
   var photo = (l.photos && l.photos[0]) ? 'background-image:url('+esc(l.photos[0])+')' : '';
+  var stamp = i===0 ? '<span class="top-stamp">'+(lang()==='es'?'Top de hoy':lang()==='uk'?'Топ дня':'Top pick')+'</span>' : '';
   var ppm = l.price_per_m2 ? '· €'+Math.round(l.price_per_m2)+'/m²' : '';
   var facts = [l.rooms?l.rooms+' bed':'', l.bathrooms?l.bathrooms+' bath':'', l.area_m2?l.area_m2+' m²':''].filter(Boolean).join(' · ');
   var chips = (l.features||[]).slice(0,5).map(function(f){ return '<span class="chip">'+esc(prettyFeat(f))+'</span>'; }).join('');
@@ -597,7 +679,7 @@ function card(l){
     : '<span class="btn-call" style="opacity:.5;cursor:not-allowed">'+(lang()==='es'?'Sin número':lang()==='uk'?'Немає номера':'No number')+'</span>';
   return '<article class="listing" id="l-'+esc(l.id)+'" data-status="'+esc(l.status||'')+'">'
     + '<div class="photo" style="'+photo+'"><span class="score">'+esc(l.appeal_score)+' <small>'+(lang()==='es'?'atractivo':lang()==='uk'?'оцінка':'appeal')+'</small></span>'
-    + (l.first_activation?'<span class="fresh">'+esc(ago(l.first_activation))+'</span>':'')+'</div>'
+    + (l.first_activation?'<span class="fresh">'+esc(ago(l.first_activation))+'</span>':'')+stamp+'</div>'
     + '<div class="listing-body">'
     + '<div class="price">'+esc(money(l.price,l.currency))+' <span class="ppm">'+esc(ppm)+'</span></div>'
     + (facts?'<div class="facts">'+esc(facts)+'</div>':'')
@@ -633,11 +715,35 @@ function applyTierUI(){
   document.getElementById('upgradeLink').hidden = isPro || TIER==='free';
   document.getElementById('pipelineUpsell').hidden = isPro;
   document.getElementById('docsUpsell').hidden = isPro;
+  // Tier-aware system status under the greeting — what Llavai is doing right now.
+  var STATUS_LINE = {
+    pro:  {en:'Live — Julia is watching Idealista and calling agencies for you.',
+           es:'Activo — Julia vigila Idealista y llama a las agencias por ti.',
+           uk:'Активно — Julia стежить за Idealista та телефонує агентствам за вас.'},
+    paid: {en:'Live — watching Idealista for your next standout listing.',
+           es:'Activo — vigilando Idealista en busca de tu próximo piso destacado.',
+           uk:'Активно — стежимо за Idealista у пошуку вашого наступного варіанта.'},
+    free: {en:'Paused — unlock your feed to start watching Idealista.',
+           es:'En pausa — desbloquea tu feed para empezar a vigilar Idealista.',
+           uk:'Призупинено — розблокуйте стрічку, щоб почати стеження за Idealista.'}
+  };
+  var sl=document.getElementById('statusLine');
+  sl.classList.toggle('s-off', TIER==='free');
+  document.getElementById('statusText').innerHTML = tri(isPro ? STATUS_LINE.pro : TIER==='free' ? STATUS_LINE.free : STATUS_LINE.paid);
+  sl.hidden=false;
   if (!isPro){
+    document.getElementById('feedSub').innerHTML=tri({
+      en:'Only the standouts (appeal score over 60), with the agency number ready to call.',
+      es:'Solo los destacados (puntuación de atractivo superior a 60), con el número de la agencia listo para llamar.',
+      uk:'Лише найкращі (оцінка привабливості понад 60), з номером агентства, готовим до дзвінка.'});
     document.getElementById('pipelineSub').innerHTML=tri({
       en:'Keep your viewings in one place — add the ones you book from your feed.',
       es:'Todas tus visitas en un solo lugar — añade las que reserves desde tu feed.',
       uk:'Усі ваші перегляди в одному місці — додавайте ті, що бронюєте зі стрічки.'});
+    document.getElementById('availSub').innerHTML=tri({
+      en:'Your weekly free windows — saved with your profile. On Pro, Julia books viewings only inside them.',
+      es:'Tus franjas libres semanales — guardadas con tu perfil. Con Pro, Julia reserva visitas solo dentro de ellas.',
+      uk:'Ваші щотижневі вільні вікна — збережені у профілі. З Pro Julia бронює перегляди лише в них.'});
     document.getElementById('profileSub').innerHTML=tri({
       en:'Your details and feed preferences. On Pro, Julia uses this profile to present you to agents.',
       es:'Tus datos y preferencias del feed. Con Pro, Julia usa este perfil para presentarte a los agentes.',
@@ -688,12 +794,15 @@ async function loadTeaser(){
   fshow('paywall');
 }
 async function loadFeed(){
-  fhide('paywall'); fshow('feedGate');
+  fhide('paywall'); fhide('feedGate');
+  // Skeleton cards reserve the layout while listings load — no content jump.
+  var feedEl=document.getElementById('feed');
+  feedEl.innerHTML=new Array(4).fill('<div class="skel-card" aria-hidden="true"><div class="ph"></div><div class="ln" style="width:55%"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:40%"></div></div>').join('');
+  fshow('feed');
   var res = await sb.from('listings').select('*').gte('appeal_score',60).neq('status','dismissed').order('created_at',{ascending:false});
-  fhide('feedGate');
-  if (res.error){ document.getElementById('feedEmpty').textContent=friendly('load',res.error); fshow('feedEmpty'); return; }
-  if (!res.data || !res.data.length){ fshow('feedEmpty'); return; }
-  document.getElementById('feed').innerHTML = res.data.map(card).join(''); fshow('feed');
+  if (res.error){ fhide('feed'); document.getElementById('feedEmpty').textContent=friendly('load',res.error); fshow('feedEmpty'); return; }
+  if (!res.data || !res.data.length){ fhide('feed'); fshow('feedEmpty'); return; }
+  feedEl.innerHTML = res.data.map(card).join('');
 }
 async function activating(){
   fhide('paywall'); fhide('feed'); fhide('feedEmpty');
@@ -796,16 +905,87 @@ async function deleteViewing(id){
 /* ---- availability (Llavai Calendar / Pro booking) ---- */
 const DAYS={en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],es:['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'],uk:['Неділя','Понеділок','Вівторок','Середа','Четвер','П’ятниця','Субота']};
 const DAY_ORDER=[1,2,3,4,5,6,0]; // Mon..Sun
-async function loadAvailability(){
+// The visual track spans 08:00–22:00; the hatched reference zone is the window
+// agencies typically offer viewings in (Mon–Fri 10:00–19:00, 45h/week).
+const AV_MIN=8, AV_MAX=22, AGENCY_FROM=10, AGENCY_TO=19, AGENCY_WEEK=(AGENCY_TO-AGENCY_FROM)*5;
+function avPct(h){ return (h-AV_MIN)/(AV_MAX-AV_MIN)*100; }
+function avHrs(v,fallback){ var p=String(v||fallback).split(':'); return (+p[0]||0)+((+p[1]||0)/60); }
+function avDayLabel(d){ return '<span data-lang="en">'+DAYS.en[d]+'</span><span data-lang="es">'+DAYS.es[d]+'</span><span data-lang="uk">'+DAYS.uk[d]+'</span>'; }
+function renderAvailRows(rows){
   const wrap=document.getElementById('availRows'); if(!wrap) return;
-  let rows={}; try{ const r=await sb.from('availability').select('*'); (r.data||[]).forEach(function(a){ rows[a.weekday]=a; }); }catch(e){}
   const names=DAYS[lang()]||DAYS.en;
   const T={from:{en:'from',es:'desde',uk:'з'},to:{en:'until',es:'hasta',uk:'до'}}, l=lang();
   wrap.innerHTML = DAY_ORDER.map(function(d){
     const a=rows[d]; const on=!!a; const from=a?String(a.start_time).slice(0,5):'10:00'; const to=a?String(a.end_time).slice(0,5):'19:00';
-    return '<div class="avail-row" data-day="'+d+'"><label class="d"><input type="checkbox" class="av-on"'+(on?' checked':'')+' /> '+esc(names[d])+'</label>'
-      + '<input type="time" class="av-from" value="'+from+'" aria-label="'+esc(names[d]+' — '+T.from[l])+'" /> – <input type="time" class="av-to" value="'+to+'" aria-label="'+esc(names[d]+' — '+T.to[l])+'" /></div>';
+    const zone = (d>=1&&d<=5) ? '<span class="av-zone" style="left:'+avPct(AGENCY_FROM)+'%;width:'+(avPct(AGENCY_TO)-avPct(AGENCY_FROM))+'%"></span>' : '';
+    return '<div class="avail-row" data-day="'+d+'"><label class="d"><input type="checkbox" class="av-on"'+(on?' checked':'')+' /> '+avDayLabel(d)+'</label>'
+      + '<span class="av-times"><input type="time" class="av-from" value="'+from+'" aria-label="'+esc(names[d]+' — '+T.from[l])+'" /> – <input type="time" class="av-to" value="'+to+'" aria-label="'+esc(names[d]+' — '+T.to[l])+'" /></span>'
+      + '<span class="av-track" aria-hidden="true">'+zone+'<span class="av-band"></span></span></div>';
   }).join('');
+  wrap.querySelectorAll('.avail-row').forEach(updateAvailBand);
+  updateAvailSummary();
+}
+function updateAvailBand(row){
+  var band=row.querySelector('.av-band'); if(!band) return;
+  var f=avHrs(row.querySelector('.av-from').value,'10:00'), t=avHrs(row.querySelector('.av-to').value,'19:00');
+  f=Math.min(Math.max(f,AV_MIN),AV_MAX); t=Math.min(Math.max(t,f),AV_MAX);
+  band.style.left=avPct(f)+'%'; band.style.width=Math.max(0,avPct(t)-avPct(f))+'%';
+}
+function updateAvailSummary(){
+  var total=0, agency=0;
+  document.querySelectorAll('#availRows .avail-row').forEach(function(r){
+    if(!r.querySelector('.av-on').checked) return;
+    var f=avHrs(r.querySelector('.av-from').value,'10:00'), t=avHrs(r.querySelector('.av-to').value,'19:00');
+    if(t<=f) return;
+    total+=t-f;
+    var d=parseInt(r.getAttribute('data-day'),10);
+    if(d>=1&&d<=5) agency+=Math.max(0, Math.min(t,AGENCY_TO)-Math.max(f,AGENCY_FROM));
+  });
+  var cov=Math.round(agency/AGENCY_WEEK*100);
+  document.getElementById('avHours').textContent=(Math.round(total*2)/2)+' h';
+  // Neutral phrasing on purpose — coverage advice is true on every tier, no Julia promises.
+  var note = total===0
+    ? {en:'No windows yet — tick at least one day so viewings can be planned around you.',
+       es:'Aún no hay franjas — marca al menos un día para poder planificar visitas.',
+       uk:'Поки немає вікон — позначте хоча б один день, щоб планувати перегляди.'}
+    : cov>=60
+    ? {en:'Excellent coverage — fits '+cov+'% of typical agency hours.',
+       es:'Cobertura excelente — encaja con el '+cov+'% del horario típico de agencia.',
+       uk:'Чудове покриття — охоплює '+cov+'% типових годин агентств.'}
+    : cov>=25
+    ? {en:'Good coverage — fits '+cov+'% of typical agency hours.',
+       es:'Buena cobertura — encaja con el '+cov+'% del horario típico de agencia.',
+       uk:'Гарне покриття — охоплює '+cov+'% типових годин агентств.'}
+    : {en:'Mostly outside agency hours — evenings work, but weekday daytime slots book fastest.',
+       es:'Mayormente fuera del horario de agencia — las tardes funcionan, pero las horas diurnas entre semana se reservan antes.',
+       uk:'Здебільшого поза годинами агентств — вечори підходять, але денні слоти в будні розбирають найшвидше.'};
+  document.getElementById('avNote').innerHTML=tri(note);
+  document.getElementById('availSummary').hidden=false;
+}
+const AV_PRESETS={
+  evenings:{1:['18:00','21:00'],2:['18:00','21:00'],3:['18:00','21:00'],4:['18:00','21:00'],5:['18:00','21:00'],6:['10:00','19:00'],0:['10:00','19:00']},
+  office:  {1:['10:00','19:00'],2:['10:00','19:00'],3:['10:00','19:00'],4:['10:00','19:00'],5:['10:00','19:00']},
+  anytime: {0:['09:00','21:00'],1:['09:00','21:00'],2:['09:00','21:00'],3:['09:00','21:00'],4:['09:00','21:00'],5:['09:00','21:00'],6:['09:00','21:00']}
+};
+function avPreset(name){
+  var p=AV_PRESETS[name]; if(!p) return;
+  var rows={}; Object.keys(p).forEach(function(d){ rows[d]={weekday:+d,start_time:p[d][0],end_time:p[d][1]}; });
+  renderAvailRows(rows);   // fills the rows + tracks; nothing is written until Save
+}
+// Live track + summary updates as the user edits (delegated — rows re-render).
+(function(){
+  var wrap=document.getElementById('availRows'); if(!wrap) return;
+  function onEdit(e){
+    var row=e.target.closest('.avail-row'); if(!row) return;
+    updateAvailBand(row); updateAvailSummary();
+  }
+  wrap.addEventListener('input', onEdit);
+  wrap.addEventListener('change', onEdit);
+})();
+async function loadAvailability(){
+  if(!document.getElementById('availRows')) return;
+  let rows={}; try{ const r=await sb.from('availability').select('*'); (r.data||[]).forEach(function(a){ rows[a.weekday]=a; }); }catch(e){}
+  renderAvailRows(rows);
 }
 async function saveAvailability(){
   const btn=document.getElementById('saveAvailBtn'), err=document.getElementById('availErr');
@@ -846,6 +1026,17 @@ function applyPrefLang(){
 }
 function setSel(id,v){ var el=document.getElementById(id); if(el) el.value=(v==null?'1':String(v)); }
 function setChk(id,v){ var el=document.getElementById(id); if(el) el.checked=!!v; }
+// Live scoring-mix bar — mirrors the four weight selects as relative shares.
+function updateMix(){
+  var sum=0, vals={};
+  WEIGHT_IDS.forEach(function(id){ var el=document.getElementById(id); var v=el?parseFloat(el.value||'1'):1; if(isNaN(v)) v=1; vals[id]=v; sum+=v; });
+  WEIGHT_IDS.forEach(function(id){
+    var p = sum ? vals[id]/sum*100 : 25, k=WEIGHT_KEY[id];
+    var seg=document.getElementById('mix_'+k); if(seg) seg.style.width=p+'%';
+    var lab=document.getElementById('mixp_'+k); if(lab) lab.textContent=Math.round(p)+'%';
+  });
+}
+WEIGHT_IDS.forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('change', updateMix); });
 async function loadProfile(){
   const { data, error } = await sb.from('profiles').select('*').eq('id',USER.id).single();
   const p = data || {};
@@ -859,6 +1050,7 @@ async function loadProfile(){
   setChk('pf_lift',req.lift); setChk('pf_exterior',req.exterior);
   setChk('pf_seasonal',p.include_seasonal); setChk('pf_platform',p.include_platform_reposts);
   var ctx=document.getElementById('pf_context'); if(ctx) ctx.value = sp.context||'';
+  updateMix();
 }
 function readPrefs(){
   function v(id){ var el=document.getElementById(id); return el?parseFloat(el.value):1; }

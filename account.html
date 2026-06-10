@@ -63,8 +63,8 @@
   .plan-pill{font-family:'Newsreader',serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:4px 11px;border:1.5px solid rgba(27,56,143,.3);border-radius:2px;color:var(--ink)}
   .plan-pill.p-pro{background:var(--ink);border-color:var(--ink);color:var(--cream)}
   .plan-pill.p-trial{border-style:dashed}
-  .upsell{border:1px solid rgba(27,56,143,.14);border-left:2px solid var(--coral);border-radius:2px;background:var(--cream-deep);padding:22px 24px;margin:6px 0 10px}
-  .upsell-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:13px;color:var(--coral-text);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+  .upsell{border:1px solid rgba(27,56,143,.14);border-left:2px solid var(--coral);border-radius:2px;background:var(--paper);box-shadow:var(--shadow-md);padding:22px 24px;margin:6px 0 10px}
+  .upsell-eyebrow{display:inline-block;font-family:'Fraunces',serif;font-size:11px;font-weight:600;color:var(--coral-text);letter-spacing:.14em;text-transform:uppercase;border:2px solid var(--coral);border-radius:3px;padding:3px 8px;background:rgba(229,91,69,.04);margin-bottom:10px}
   .upsell h3{font-family:'Fraunces',serif;font-weight:500;font-size:19px;color:var(--ink);margin-bottom:8px}
   .upsell h3 em{font-style:italic;color:var(--coral)}
   .upsell p{font-size:15px;color:var(--ink-deep);line-height:1.55;margin-bottom:16px}
@@ -75,23 +75,27 @@
   .tab{background:none;border:none;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;color:var(--pencil);padding:12px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
   .tab:hover{color:var(--ink)}
   .tab.active{color:var(--ink);border-bottom-color:var(--coral);font-weight:600}
-  .panel{display:none;animation:fadeUp .35s var(--ease-out) forwards}
-  .panel.active{display:block}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .panel{display:none}
+  .panel.active{display:block;animation:sheetIn .45s var(--ease-out)}
+  @keyframes sheetIn{from{opacity:0;transform:translateY(14px) rotate(.3deg)}to{opacity:1;transform:none}}
   .panel h2{font-family:'Fraunces',serif;font-weight:500;font-size:22px;color:var(--ink);margin-bottom:6px}
   .panel .sub{font-size:15px;color:var(--pencil);font-style:italic;margin-bottom:22px}
-  .empty{padding:32px;text-align:center;color:var(--pencil);font-style:italic;border:1px dashed rgba(27,56,143,.18);border-radius:2px}
+  .empty{padding:32px;text-align:center;color:var(--pencil);font-style:italic;border:1px dashed rgba(27,56,143,.18);border-radius:6px;background:rgba(27,56,143,.02)}
   /* pipeline */
   .viewing{border:1px solid rgba(27,56,143,.13);border-radius:4px;padding:18px 20px;margin-bottom:14px;background:var(--paper);box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .viewing,.doc-row{transition:box-shadow .2s var(--ease-out),transform .2s var(--ease-out)}
+  .viewing:hover,.doc-row:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
   .viewing h3{font-family:'Fraunces',serif;font-size:18px;font-weight:500;color:var(--ink);margin-bottom:4px}
   .viewing .meta{font-size:14px;color:var(--pencil)}
   .viewing a{color:var(--ink);text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
-  .badge{align-self:flex-start;font-family:'Newsreader',serif;font-size:12px;letter-spacing:.04em;text-transform:uppercase;padding:4px 10px;border-radius:2px;white-space:nowrap}
-  .badge.b-matched{background:rgba(110,98,83,.12);color:var(--pencil)}
-  .badge.b-calling{background:rgba(229,91,69,.12);color:var(--coral-text)}
-  .badge.b-booked,.badge.b-confirmed{background:rgba(27,56,143,.12);color:var(--ink)}
-  .badge.b-attended{background:rgba(27,56,143,.9);color:var(--cream)}
-  .badge.b-declined,.badge.b-no_answer{background:rgba(110,98,83,.12);color:var(--pencil);text-decoration:line-through}
+  /* rubber-stamp status badges — colours still encode meaning */
+  .badge{align-self:flex-start;font-family:'Fraunces',serif;font-size:12px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;padding:4px 9px;border:2px solid currentColor;background:transparent!important;border-radius:3px;transform:rotate(2.5deg);white-space:nowrap}
+  .badge.b-matched{color:var(--pencil)}
+  .badge.b-calling{color:var(--coral-text);animation:stampPulse 2.2s var(--ease-out) infinite}
+  @keyframes stampPulse{0%,100%{transform:rotate(2.5deg) scale(1)}50%{transform:rotate(2.5deg) scale(1.05)}}
+  .badge.b-booked,.badge.b-confirmed{color:var(--ink)}
+  .badge.b-attended{border-color:var(--ink);background:var(--ink)!important;color:var(--cream)}
+  .badge.b-declined,.badge.b-no_answer{color:var(--pencil);text-decoration:line-through;opacity:.55}
   /* forms */
   .field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
   .field label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)}
@@ -107,6 +111,8 @@
   .btn-primary:hover{background:var(--ink-deep);transform:translateY(-1px);box-shadow:0 5px 0 var(--ink-deep)}
   .btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink-deep)}
   .btn-primary:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:0 2px 0 var(--ink-deep)}
+  .btn-primary .arr,.btn-call .arr{display:inline-block;transition:transform .25s var(--ease-out)}
+  .btn-primary:hover .arr,.btn-call:hover .arr{transform:translateX(4px)}
   .saved{display:inline-block;margin-left:12px;color:var(--ink);font-style:italic;font-size:14px;opacity:0;transition:opacity .2s}
   .prefs-block{margin-top:26px;padding-top:22px;border-top:1px solid rgba(27,56,143,.12)}
   .prefs-h{font-family:'Fraunces',serif;font-weight:500;font-size:19px;color:var(--ink);margin-bottom:4px}
@@ -118,7 +124,8 @@
   .prefs-checks input{width:18px;height:18px;accent-color:var(--coral)}
   .cal-add{margin-top:24px;padding-top:20px;border-top:1px solid rgba(27,56,143,.12)}
   .avail-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;font-size:14px}
-  .avail-row .d{width:120px;color:var(--ink-deep)}
+  .avail-row .d{width:120px;color:var(--ink);font-family:'Fraunces',serif;font-size:15px}
+  .avail-row:has(input[type=checkbox]:checked) .d{color:var(--coral-text);font-weight:600}
   .avail-row input[type=checkbox]{width:16px;height:16px;accent-color:var(--coral)}
   .avail-row input[type=time]{padding:7px 9px;border:1px solid rgba(27,56,143,.25);border-radius:3px;background:var(--field);color:var(--ink);font-family:'Newsreader',serif;box-shadow:inset 0 1px 2px rgba(27,56,143,.04);transition:border-color .2s var(--ease-out),box-shadow .2s var(--ease-out)}
   .avail-row input[type=time]:hover{border-color:rgba(27,56,143,.45)}
@@ -156,15 +163,16 @@
   .skip-link:focus{left:16px;top:16px}
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
   #main:focus{outline:none}
-  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms !important;transition-duration:.001ms !important}}
+  @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}*,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}}
   /* feed (Essential, self-serve) */
   .feed-gate{min-height:30vh;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--pencil);font-style:italic}
   .feed{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
   @media(max-width:720px){.feed{grid-template-columns:1fr}}
   .listing{border:1px solid rgba(27,56,143,.13);border-radius:4px;overflow:hidden;background:var(--paper);display:flex;flex-direction:column;transition:box-shadow .2s var(--ease-out),transform .2s var(--ease-out);box-shadow:var(--shadow-sm)}
   .listing:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
-  .photo{position:relative;height:190px;background-size:cover;background-position:center;background-color:var(--cream-deep);background-image:linear-gradient(135deg,rgba(27,56,143,.18),rgba(229,91,69,.18))}
-  .score{position:absolute;top:12px;left:12px;background:var(--ink);color:var(--cream);font-family:'Fraunces',serif;font-size:15px;font-weight:600;padding:6px 11px;border-radius:2px;display:flex;align-items:center;gap:6px}
+  .photo{position:relative;height:190px;background-size:cover;background-position:center;background-color:var(--cream-deep);background-image:linear-gradient(135deg,rgba(27,56,143,.18),rgba(229,91,69,.18));transition:transform .45s var(--ease-out)}
+  .listing:hover .photo{transform:scale(1.03)}
+  .score{position:absolute;top:12px;left:12px;background:var(--ink);color:var(--cream);font-family:'Fraunces',serif;font-size:15px;font-weight:600;padding:6px 11px;border-radius:2px;display:flex;align-items:center;gap:6px;box-shadow:0 3px 0 var(--ink-deep)}
   .score small{font-family:'Newsreader',serif;font-weight:400;font-size:11px;opacity:.85;text-transform:uppercase;letter-spacing:.04em}
   .fresh{position:absolute;top:12px;right:12px;background:rgba(244,239,229,.92);color:var(--ink-deep);font-size:12px;font-style:italic;padding:4px 9px;border-radius:2px}
   .listing-body{padding:18px 20px;display:flex;flex-direction:column;gap:10px;flex:1}
@@ -182,7 +190,14 @@
   .btn-ghost:hover{color:var(--coral-text)}
   .dismiss{background:none;border:none;color:var(--pencil);font-size:18px;cursor:pointer;line-height:1;min-width:44px;min-height:44px;display:inline-flex;align-items:center;justify-content:center;padding:0}
   .dismiss:hover{color:var(--coral-text)}
-  .paywall{max-width:520px;margin:8px auto 0;text-align:center;border:1px solid rgba(27,56,143,.13);border-radius:6px;padding:36px 32px;background:var(--paper);box-shadow:var(--shadow-md)}
+  .paywall{max-width:520px;margin:8px auto 0;text-align:center;border:1px solid rgba(27,56,143,.13);border-radius:6px;padding:52px 32px 36px;background:var(--paper);box-shadow:var(--shadow-md);position:relative;transform:rotate(-.4deg)}
+  .paywall::before{content:"";position:absolute;inset:0;background:var(--cream-deep);border:1px solid rgba(27,56,143,.08);border-radius:6px;transform:rotate(1.2deg) translate(6px,5px);z-index:-1}
+  .paywall::after{content:"";position:absolute;inset:0;background:#F7F2E7;border:1px solid rgba(27,56,143,.06);border-radius:6px;transform:rotate(-1.6deg) translate(-5px,8px);z-index:-2}
+  @media(max-width:600px){
+    .paywall::before{transform:rotate(.8deg) translate(3px,4px)}
+    .paywall::after{transform:rotate(-1deg) translate(-3px,5px)}
+  }
+  .pw-stamp{position:absolute;top:14px;right:14px;border:2.5px solid var(--coral);color:var(--coral-text);font-family:'Fraunces',serif;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:3px;transform:rotate(7deg);background:rgba(229,91,69,.04)}
   .paywall h2{font-family:'Fraunces',serif;font-weight:400;font-size:26px;color:var(--ink);margin-bottom:12px}
   .paywall p{font-size:16px;color:var(--ink-deep);margin-bottom:8px;line-height:1.6}
   .paywall .price-tag{font-family:'Fraunces',serif;font-size:34px;color:var(--ink);margin:18px 0}
@@ -264,6 +279,7 @@
         <p class="sub"><span data-lang="en">Only the standouts (appeal score over 60), with the agency number ready to call.</span><span data-lang="es">Solo los destacados (puntuación de atractivo superior a 60), con el número de la agencia listo para llamar.</span><span data-lang="uk">Лише найкращі (оцінка привабливості понад 60), з номером агентства, готовим до дзвінка.</span></p>
         <div class="feed-gate" id="feedGate"><span data-lang="en">Loading your feed…</span><span data-lang="es">Cargando tu feed…</span><span data-lang="uk">Завантаження стрічки…</span></div>
         <div class="paywall" id="paywall" hidden>
+          <span class="pw-stamp" aria-hidden="true"><span data-lang="en">Members only</span><span data-lang="es">Solo miembros</span><span data-lang="uk">Лише для членів</span></span>
           <p class="teaser-head" id="teaserHead" hidden><span data-lang="en">A peek at this week's standouts — subscribe to see the price, agency and number.</span><span data-lang="es">Un vistazo a los destacados de esta semana — suscríbete para ver el precio, la agencia y el número.</span><span data-lang="uk">Погляд на найкращі цього тижня — підпишіться, щоб побачити ціну, агентство та номер.</span></p>
           <div class="teaser-grid" id="teaserGrid" aria-hidden="true"></div>
           <div class="paywall-cta">
@@ -292,7 +308,7 @@
           <h3><span data-lang="en">Want these booked <em>for</em> you?</span><span data-lang="es">¿Quieres que las reservemos <em>por</em> ti?</span><span data-lang="uk">Хочете, щоб ми бронювали <em>за</em> вас?</span></h3>
           <p><span data-lang="en">On Pro, Julia calls the agency in native Spanish within minutes of a listing going live, presents your tenant profile, and books the viewing around your calendar — they appear right here.</span><span data-lang="es">Con Pro, Julia llama a la agencia en castellano nativo a los pocos minutos de publicarse el piso, presenta tu perfil de inquilino y reserva la visita según tu calendario — y aparecen aquí mismo.</span><span data-lang="uk">З Pro Julia телефонує агентству рідною іспанською за лічені хвилини після публікації, представляє ваш профіль орендаря та бронює перегляд під ваш календар — і вони з'являються тут.</span></p>
           <div class="upsell-actions">
-            <button class="btn-primary" onclick="askAboutPro()"><span data-lang="en">Ask about Pro →</span><span data-lang="es">Preguntar por Pro →</span><span data-lang="uk">Запитати про Pro →</span></button>
+            <button class="btn-primary" onclick="askAboutPro()"><span data-lang="en">Ask about Pro <span class="arr">→</span></span><span data-lang="es">Preguntar por Pro <span class="arr">→</span></span><span data-lang="uk">Запитати про Pro <span class="arr">→</span></span></button>
             <a class="btn-ghost" href="/#pro"><span data-lang="en">See how Pro works</span><span data-lang="es">Ver cómo funciona Pro</span><span data-lang="uk">Як працює Pro</span></a>
           </div>
         </aside>

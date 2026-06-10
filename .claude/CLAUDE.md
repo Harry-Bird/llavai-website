@@ -74,7 +74,11 @@ The forms/dashboard use a deliberate editorial print language. These are feature
   the sticky header. It is a backstop, not the fix — content must genuinely fit first.
 - **Verify overflow by measuring, not by eyeballing CSS.** Drive headless Chrome and compare
   `document.documentElement.scrollWidth` to `window.innerWidth`, and list any element whose
-  `getBoundingClientRect().right` exceeds the viewport. Chrome is at
+  `getBoundingClientRect().right` exceeds the viewport. **Set a mobile UA + `isMobile:true`
+  when measuring** — native form controls (esp. `<input type=time>`, ~200px) render far wider
+  than on desktop Chrome, so a narrow viewport alone can pass while real phones overflow
+  (this is how the account availability rows broke on Z Fold-width screens). Include 344px
+  (Z Fold cover) in the width sweep. Chrome is at
   `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`; `puppeteer-core` (pointed at
   system Chrome) works without downloading a browser. The earlier "it's the decoration" guess
   was wrong; one measurement found the real grid blowout immediately.

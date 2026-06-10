@@ -1,0 +1,10 @@
+# Keep internal/dev files out of the public deployment.
+# The repo root is otherwise served as-is by Vercel (no build step), so anything
+# not excluded here is reachable on www.llavai.com.
+.claude
+specs
+supabase
+SETUP.md
+content-queue.md
+index.html (OLD)
+.vercelignore

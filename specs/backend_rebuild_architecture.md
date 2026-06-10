@@ -158,6 +158,11 @@ Keep a one-time CSV export for safety, then remove all Google Sheets nodes.
   the execution used the new node names. End-to-end verified 2026-06-09 with an Essential
   test account: scrape ran, listing landed in feed, attempt skipped:not_pro, no call.
   **Remaining:** deactivate `Start Call v2.5` once CloudMailin points only at W1.
+  **Post-call (built 2026-06-10):** "Concierge — Post-Call Update (W2)" `3IugKzEahVXSZHwr`
+  closes step *h* — call_attempts → completed/failed + duration_minutes, viewings →
+  booked/declined/no_answer (+viewing_at). See `w2_retell_post_call_design.md`. Live and
+  synthetically verified; receives real events once Harry publishes the Retell agent draft
+  (replaces old Sheets "Call outcomes v3").
 - **Phase 3 — Frontend**: ✅ DONE (live) — `current_tier()` gating + Free teaser (`teaser_listings`), feed-preferences settings UI (scoring_prefs + seasonal/platform toggles), and the in-house **Llavai Calendar** (viewings self-manage + availability). Remaining: **W5 Pro apply→approve** flow.
 - **Phase 4 — Decommission** Google Sheets nodes + old workflow; add W6 retention.
 

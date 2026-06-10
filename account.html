@@ -16,15 +16,29 @@
     --cream:#F4EFE5;--cream-deep:#ECE5D5;--ink:#1B388F;--ink-deep:#142869;
     --coral:#E55B45;--coral-deep:#C8462F;--coral-text:#AB3B25;
     --pencil:#6E6253;--paper-shadow:rgba(27,56,143,0.08);
+    --ease-out: cubic-bezier(.21,.6,.35,1);
+    --shadow-sm: 0 1px 2px rgba(27,56,143,.05), 0 3px 8px rgba(27,56,143,.06);
+    --shadow-md: 0 2px 4px rgba(27,56,143,.05), 0 10px 24px rgba(27,56,143,.08), 0 20px 40px rgba(27,56,143,.05);
+    --shadow-lg: 0 4px 10px rgba(27,56,143,.07), 0 18px 40px rgba(27,56,143,.11), 0 36px 70px rgba(27,56,143,.10);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   [hidden]{display:none!important}  /* author display rules (e.g. .gate{display:flex}) otherwise beat the UA [hidden] rule */
   html{scroll-behavior:smooth;overflow-x:clip}
-  body{background:var(--cream);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;
+  body{background:var(--cream);color:var(--ink);font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip;min-height:100vh;display:flex;flex-direction:column;
     background-image:radial-gradient(ellipse 800px 600px at 15% 10%,rgba(229,91,69,.04) 0%,transparent 50%),radial-gradient(ellipse 600px 800px at 90% 60%,rgba(27,56,143,.05) 0%,transparent 50%)}
   .grain{position:fixed;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;z-index:100;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
   .container{max-width:880px;margin:0 auto;padding:0 32px;width:100%}
-  nav{padding:24px 32px;max-width:880px;margin:0 auto;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;position:relative;z-index:10}
+  nav{padding:28px 32px;max-width:880px;margin:0 auto;width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;position:relative;z-index:10}
+  /* ── condensing sticky header ── */
+  .site-header { position:sticky; top:0; z-index:40; border-bottom:1px solid transparent;
+    transition:background .35s var(--ease-out), box-shadow .35s var(--ease-out), border-color .35s var(--ease-out); }
+  .site-header nav { transition:padding .35s var(--ease-out); }
+  .site-header.scrolled { background:rgba(244,239,229,.82);
+    -webkit-backdrop-filter:blur(14px) saturate(1.4); backdrop-filter:blur(14px) saturate(1.4);
+    border-bottom-color:rgba(27,56,143,.10); box-shadow:0 1px 0 rgba(27,56,143,.04), 0 12px 30px rgba(27,56,143,.06); }
+  .site-header.scrolled nav { padding-top:15px; padding-bottom:15px; }
+  /* let the variable display serif size its forms optically */
+  h1, h2, h3, .nav-logo, .prefs-h, .score, .price, .price-tag, .tband { font-optical-sizing:auto; }
   .nav-logo{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
   .nav-logo .ai{color:var(--coral)}
   .nav-right{display:flex;align-items:center;gap:16px}
@@ -60,7 +74,7 @@
   .tab{background:none;border:none;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;color:var(--pencil);padding:12px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
   .tab:hover{color:var(--ink)}
   .tab.active{color:var(--ink);border-bottom-color:var(--coral);font-weight:600}
-  .panel{display:none;animation:fadeUp .35s ease-out forwards}
+  .panel{display:none;animation:fadeUp .35s var(--ease-out) forwards}
   .panel.active{display:block}
   @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
   .panel h2{font-family:'Fraunces',serif;font-weight:500;font-size:22px;color:var(--ink);margin-bottom:6px}
@@ -138,8 +152,8 @@
   .feed-gate{min-height:30vh;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--pencil);font-style:italic}
   .feed{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
   @media(max-width:720px){.feed{grid-template-columns:1fr}}
-  .listing{border:1px solid rgba(27,56,143,.12);border-radius:4px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s}
-  .listing:hover{box-shadow:0 12px 36px var(--paper-shadow);transform:translateY(-2px)}
+  .listing{border:1px solid rgba(27,56,143,.12);border-radius:4px;overflow:hidden;background:var(--cream);display:flex;flex-direction:column;transition:box-shadow .2s,transform .2s;box-shadow:var(--shadow-sm)}
+  .listing:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
   .photo{position:relative;height:190px;background-size:cover;background-position:center;background-color:var(--cream-deep);background-image:linear-gradient(135deg,rgba(27,56,143,.18),rgba(229,91,69,.18))}
   .score{position:absolute;top:12px;left:12px;background:var(--ink);color:var(--cream);font-family:'Fraunces',serif;font-size:15px;font-weight:600;padding:6px 11px;border-radius:2px;display:flex;align-items:center;gap:6px}
   .score small{font-family:'Newsreader',serif;font-weight:400;font-size:11px;opacity:.85;text-transform:uppercase;letter-spacing:.04em}
@@ -188,6 +202,7 @@
 <div class="grain" aria-hidden="true"></div>
 <a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
 
+<header class="site-header">
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
   <div class="nav-right">
@@ -201,6 +216,7 @@
     </div>
   </div>
 </nav>
+</header>
 
 <main id="main" tabindex="-1">
   <div class="container">
@@ -921,6 +937,10 @@ setInterval(function(){
   var panel=document.getElementById('panel-messages');
   if (sb && USER && panel && panel.classList.contains('active') && !document.hidden) loadMessages();
 }, 15000);
+
+// Condensing sticky header — toggles .scrolled past 12px of scroll.
+var __sh = document.querySelector('.site-header');
+if (__sh) { var __shScroll = function(){ __sh.classList.toggle('scrolled', window.scrollY > 12); }; __shScroll(); window.addEventListener('scroll', __shScroll, { passive:true }); }
 
 init();
 </script>

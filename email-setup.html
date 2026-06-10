@@ -20,6 +20,10 @@
     --coral-deep: #C8462F;
     --pencil: #6E6253;
     --paper-shadow: rgba(27, 56, 143, 0.08);
+    --ease-out: cubic-bezier(.21,.6,.35,1);
+    --shadow-sm: 0 1px 2px rgba(27,56,143,.05), 0 3px 8px rgba(27,56,143,.06);
+    --shadow-md: 0 2px 4px rgba(27,56,143,.05), 0 10px 24px rgba(27,56,143,.08), 0 20px 40px rgba(27,56,143,.05);
+    --shadow-lg: 0 4px 10px rgba(27,56,143,.07), 0 18px 40px rgba(27,56,143,.11), 0 36px 70px rgba(27,56,143,.10);
   }
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -33,7 +37,7 @@
     line-height: 1.55;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
-    overflow-x: hidden;
+    overflow-x: clip;
     background-image:
       radial-gradient(ellipse 800px 600px at 15% 10%, rgba(229, 91, 69, 0.04) 0%, transparent 50%),
       radial-gradient(ellipse 600px 800px at 90% 60%, rgba(27, 56, 143, 0.05) 0%, transparent 50%);
@@ -59,7 +63,7 @@
   /* NAV */
   nav {
     padding: 28px 32px;
-    max-width: 880px;
+    max-width: 1100px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -67,6 +71,13 @@
     position: relative;
     z-index: 10;
   }
+  .site-header { position:sticky; top:0; z-index:40; border-bottom:1px solid transparent;
+    transition:background .35s var(--ease-out), box-shadow .35s var(--ease-out), border-color .35s var(--ease-out); }
+  .site-header nav { transition:padding .35s var(--ease-out); }
+  .site-header.scrolled { background:rgba(244,239,229,.82);
+    -webkit-backdrop-filter:blur(14px) saturate(1.4); backdrop-filter:blur(14px) saturate(1.4);
+    border-bottom-color:rgba(27,56,143,.10); box-shadow:0 1px 0 rgba(27,56,143,.04), 0 12px 30px rgba(27,56,143,.06); }
+  .site-header.scrolled nav { padding-top:15px; padding-bottom:15px; }
   .nav-logo {
     font-family: 'Fraunces', serif;
     font-size: 24px;
@@ -96,7 +107,7 @@
     font-size: inherit;
     letter-spacing: inherit;
     text-transform: inherit;
-    transition: color 0.2s ease;
+    transition: color 0.2s var(--ease-out);
   }
   .lang-toggle button:hover { color: var(--ink); }
   .lang-toggle button.active {
@@ -223,14 +234,14 @@
     padding: 10px 18px;
     border-radius: 2px;
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.2s var(--ease-out);
     position: relative;
     white-space: nowrap;
     box-shadow: 0 3px 0 var(--coral-deep);
   }
   .copy-btn:hover { background: var(--coral-deep); transform: translateY(-1px); box-shadow: 0 4px 0 var(--coral-deep); }
   .copy-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--coral-deep); }
-  .copy-btn.copied { background: #2d8659; box-shadow: 0 3px 0 #1f5e3e; }
+  .copy-btn.copied { background: var(--coral); box-shadow: 0 3px 0 var(--coral-deep); }
 
   /* PROVIDER TABS */
   .provider-tabs {
@@ -250,7 +261,7 @@
     font-weight: 400;
     color: var(--pencil);
     letter-spacing: -0.01em;
-    transition: color 0.2s ease;
+    transition: color 0.2s var(--ease-out);
     position: relative;
     border-bottom: 2px solid transparent;
     margin-bottom: -1px;
@@ -421,7 +432,7 @@
 
   .callout.privacy::before {
     content: "✓";
-    background: #2d8659;
+    background: var(--coral);
     font-style: normal;
     font-size: 15px;
     font-weight: 700;
@@ -489,7 +500,7 @@
     font-size: 26px;
     color: var(--coral);
     line-height: 1;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s var(--ease-out);
     flex-shrink: 0;
   }
   .faq-item[open] summary::after { content: "−"; }
@@ -548,7 +559,7 @@
     font-weight: 500;
     padding: 12px 24px;
     border-radius: 2px;
-    transition: all 0.2s ease;
+    transition: all 0.2s var(--ease-out);
     box-shadow: 0 3px 0 var(--coral-deep);
     position: relative;
   }
@@ -569,17 +580,30 @@
   }
   .footer-row a { color: var(--ink); text-decoration: none; }
   .footer-row a:hover { color: var(--coral); }
+  /* footer aligns with the nav (1100px); the article keeps its 880px reading width */
+  footer .container { max-width: 1100px; }
 
   /* ANIMATIONS */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(16px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  .reveal { opacity: 0; animation: fadeUp 0.7s ease-out forwards; }
+  .reveal { opacity: 0; animation: fadeUp 0.7s var(--ease-out) forwards; }
   .reveal-1 { animation-delay: 0.05s; }
   .reveal-2 { animation-delay: 0.15s; }
   .reveal-3 { animation-delay: 0.25s; }
   .reveal-4 { animation-delay: 0.35s; }
+
+  /* let the variable display serif size its forms optically */
+  h1, .nav-logo, .part-title, .provider-tab, .step-body strong, .callout strong,
+  .other-providers h2, .faq h2, .faq-item summary, .help-cta h3, .address-block-label { font-optical-sizing: auto; }
+
+  /* ── respect reduced-motion preferences ── */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; }
+    .reveal { opacity: 1 !important; }
+  }
 
   /* ─── i18n: three languages ─────────────────────────────────────── */
   /* Default: show EN only */
@@ -625,11 +649,12 @@
 </head>
 
 <body>
-<div class="grain"></div>
+<div class="grain" aria-hidden="true"></div>
 
+<header class="site-header">
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
-  <div class="lang-toggle">
+  <div class="lang-toggle" role="group" aria-label="Select language">
     <button id="btn-en" class="active" onclick="setLang('en')">EN</button>
     <span class="lang-sep">/</span>
     <button id="btn-es" onclick="setLang('es')">ES</button>
@@ -637,6 +662,7 @@
     <button id="btn-uk" onclick="setLang('uk')">UA</button>
   </div>
 </nav>
+</header>
 
 <div class="container">
 
@@ -1291,6 +1317,10 @@
       }, 2500);
     });
   }
+
+  // ─── CONDENSING STICKY HEADER ──────────────────────────────────────
+  var __sh = document.querySelector('.site-header');
+  if (__sh) { var __shScroll = function(){ __sh.classList.toggle('scrolled', window.scrollY > 12); }; __shScroll(); window.addEventListener('scroll', __shScroll, { passive:true }); }
 </script>
 
 </body>

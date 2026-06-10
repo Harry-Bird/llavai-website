@@ -21,13 +21,17 @@
     --cream:#F4EFE5;--cream-deep:#ECE5D5;--ink:#1B388F;--ink-deep:#142869;
     --coral:#E55B45;--coral-deep:#C8462F;--coral-text:#AB3B25;
     --pencil:#6E6253;--paper-shadow:rgba(27,56,143,0.08);
+    --ease-out: cubic-bezier(.21,.6,.35,1);
+    --shadow-sm: 0 1px 2px rgba(27,56,143,.05), 0 3px 8px rgba(27,56,143,.06);
+    --shadow-md: 0 2px 4px rgba(27,56,143,.05), 0 10px 24px rgba(27,56,143,.08), 0 20px 40px rgba(27,56,143,.05);
+    --shadow-lg: 0 4px 10px rgba(27,56,143,.07), 0 18px 40px rgba(27,56,143,.11), 0 36px 70px rgba(27,56,143,.10);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{scroll-behavior:smooth;overflow-x:clip}
   body{
     background:var(--cream);color:var(--ink);
     font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55;font-weight:400;
-    -webkit-font-smoothing:antialiased;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column;
+    -webkit-font-smoothing:antialiased;overflow-x:clip;min-height:100vh;display:flex;flex-direction:column;
     background-image:
       radial-gradient(ellipse 800px 600px at 15% 10%,rgba(229,91,69,.04) 0%,transparent 50%),
       radial-gradient(ellipse 600px 800px at 90% 60%,rgba(27,56,143,.05) 0%,transparent 50%);
@@ -35,6 +39,13 @@
   .grain{position:fixed;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;z-index:100;
     background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
   nav{padding:28px 32px;max-width:1100px;margin:0 auto;width:100%;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:10}
+  .site-header { position:sticky; top:0; z-index:40; border-bottom:1px solid transparent;
+    transition:background .35s var(--ease-out), box-shadow .35s var(--ease-out), border-color .35s var(--ease-out); }
+  .site-header nav { transition:padding .35s var(--ease-out); }
+  .site-header.scrolled { background:rgba(244,239,229,.82);
+    -webkit-backdrop-filter:blur(14px) saturate(1.4); backdrop-filter:blur(14px) saturate(1.4);
+    border-bottom-color:rgba(27,56,143,.10); box-shadow:0 1px 0 rgba(27,56,143,.04), 0 12px 30px rgba(27,56,143,.06); }
+  .site-header.scrolled nav { padding-top:15px; padding-bottom:15px; }
   .nav-logo{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
   .nav-logo .ai{color:var(--coral)}
   .lang-toggle{display:flex;gap:4px;font-size:13px;font-family:'Newsreader',serif;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil);align-items:center}
@@ -43,10 +54,11 @@
   .lang-toggle button.active{color:var(--ink);font-weight:600;border-bottom:1.5px solid var(--coral)}
   .lang-sep{opacity:.4}
   main{flex:1;display:flex;align-items:center;justify-content:center;padding:40px 32px 90px}
-  .card{max-width:440px;width:100%;animation:fadeUp .5s ease-out forwards}
+  .card{max-width:440px;width:100%;animation:fadeUp .5s var(--ease-out) forwards}
   .section-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral-text);letter-spacing:.04em;margin-bottom:14px;display:flex;align-items:center;gap:16px}
   .section-eyebrow::before{content:"";width:32px;height:1px;background:var(--coral)}
-  h1{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(30px,4.4vw,44px);line-height:1.04;letter-spacing:-.025em;color:var(--ink);margin-bottom:14px;font-variation-settings:"SOFT" 60}
+  h1, .nav-logo{font-optical-sizing:auto}
+  h1{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(30px,4.4vw,44px);line-height:1.04;letter-spacing:-.025em;color:var(--ink);margin-bottom:14px;font-variation-settings:"SOFT" 60,"WONK" 0}
   h1 em{font-style:italic;color:var(--coral);font-variation-settings:"SOFT" 100,"WONK" 1}
   .lede{font-size:17px;line-height:1.6;color:var(--ink-deep);margin-bottom:32px}
   .field{display:flex;flex-direction:column;gap:7px;margin-bottom:20px}
@@ -70,7 +82,7 @@
   @keyframes spin{to{transform:rotate(360deg)}}
   @keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
   .sent{display:none;text-align:center}
-  .sent.visible{display:block;animation:fadeUp .4s ease-out forwards}
+  .sent.visible{display:block;animation:fadeUp .4s var(--ease-out) forwards}
   .sent-tick{width:60px;height:60px;background:var(--ink);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px}
   .back-link{display:inline-block;margin-top:8px;font-size:15px;color:var(--pencil);font-style:italic;text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
   .back-link:hover{color:var(--coral-text)}
@@ -106,6 +118,7 @@
 <div class="grain" aria-hidden="true"></div>
 <a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
 
+<header class="site-header">
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
   <div class="lang-toggle" role="group" aria-label="Select language">
@@ -116,6 +129,7 @@
     <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
   </div>
 </nav>
+</header>
 
 <main id="main" tabindex="-1">
 
@@ -210,6 +224,9 @@ function setLang(lang){
   try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
 }
 try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
+
+var __sh = document.querySelector('.site-header');
+if (__sh) { var __shScroll = function(){ __sh.classList.toggle('scrolled', window.scrollY > 12); }; __shScroll(); window.addEventListener('scroll', __shScroll, { passive:true }); }
 
 function lang(){ return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
 function val(id){ return (document.getElementById(id).value||'').trim(); }

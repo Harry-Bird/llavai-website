@@ -23,6 +23,10 @@
     --coral: #E55B45; --coral-deep: #C8462F;
     --coral-text: #AB3B25;
     --pencil: #6E6253;
+    --ease-out: cubic-bezier(.21,.6,.35,1);
+    --shadow-sm: 0 1px 2px rgba(27,56,143,.05), 0 3px 8px rgba(27,56,143,.06);
+    --shadow-md: 0 2px 4px rgba(27,56,143,.05), 0 10px 24px rgba(27,56,143,.08), 0 20px 40px rgba(27,56,143,.05);
+    --shadow-lg: 0 4px 10px rgba(27,56,143,.07), 0 18px 40px rgba(27,56,143,.11), 0 36px 70px rgba(27,56,143,.10);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; overflow-x: clip; }
@@ -30,7 +34,7 @@
     background: var(--cream); color: var(--ink);
     font-family: 'Newsreader', Georgia, serif; font-size: 18px;
     line-height: 1.55; font-weight: 400; -webkit-font-smoothing: antialiased;
-    overflow-x: hidden; min-height: 100vh;
+    overflow-x: clip; min-height: 100vh;
     display: flex; flex-direction: column;
     background-image:
       radial-gradient(ellipse 800px 600px at 15% 10%, rgba(229,91,69,.04) 0%, transparent 50%),
@@ -46,6 +50,13 @@
     display: flex; justify-content: space-between; align-items: center;
     position: relative; z-index: 10;
   }
+  .site-header { position:sticky; top:0; z-index:40; border-bottom:1px solid transparent;
+    transition:background .35s var(--ease-out), box-shadow .35s var(--ease-out), border-color .35s var(--ease-out); }
+  .site-header nav { transition:padding .35s var(--ease-out); }
+  .site-header.scrolled { background:rgba(244,239,229,.82);
+    -webkit-backdrop-filter:blur(14px) saturate(1.4); backdrop-filter:blur(14px) saturate(1.4);
+    border-bottom-color:rgba(27,56,143,.10); box-shadow:0 1px 0 rgba(27,56,143,.04), 0 12px 30px rgba(27,56,143,.06); }
+  .site-header.scrolled nav { padding-top:15px; padding-bottom:15px; }
   .nav-logo { font-family:'Fraunces',serif; font-size:24px; font-weight:600; letter-spacing:-.02em; color:var(--ink); text-decoration:none; }
   .nav-logo .ai { color:var(--coral); }
   .lang-toggle { display:flex; gap:4px; font-size:13px; font-family:'Newsreader',serif; letter-spacing:.05em; text-transform:uppercase; color:var(--pencil); align-items:center; }
@@ -65,24 +76,24 @@
     font-size: clamp(120px, 22vw, 220px); line-height: .85; color: var(--coral);
     letter-spacing: -.04em; margin-bottom: 24px;
     font-variation-settings: "SOFT" 100, "WONK" 1;
-    opacity: 0; animation: fadeUp .7s ease-out .1s forwards;
+    opacity: 0; animation: fadeUp .7s var(--ease-out) .1s forwards;
   }
   h1 {
     font-family: 'Fraunces', serif; font-weight: 350;
     font-size: clamp(32px, 4.5vw, 52px); line-height: 1.05;
     letter-spacing: -.02em; color: var(--ink); margin-bottom: 24px;
     font-variation-settings: "SOFT" 60;
-    opacity: 0; animation: fadeUp .7s ease-out .25s forwards;
+    opacity: 0; animation: fadeUp .7s var(--ease-out) .25s forwards;
   }
   h1 em { font-style: italic; color: var(--coral); font-variation-settings: "SOFT" 100, "WONK" 1; }
   .lede {
     font-size: 19px; line-height: 1.6; color: var(--ink-deep);
     max-width: 460px; margin: 0 auto 40px;
-    opacity: 0; animation: fadeUp .7s ease-out .4s forwards;
+    opacity: 0; animation: fadeUp .7s var(--ease-out) .4s forwards;
   }
   .cta-row {
     display: flex; gap: 16px; align-items: center; justify-content: center; flex-wrap: wrap;
-    opacity: 0; animation: fadeUp .7s ease-out .55s forwards;
+    opacity: 0; animation: fadeUp .7s var(--ease-out) .55s forwards;
   }
   .btn-primary {
     background: var(--ink); color: var(--cream); border: none;
@@ -109,6 +120,8 @@
   .footer-row a { color: var(--ink); text-decoration: none; }
   .footer-row a:hover { color: var(--coral-text); }
   @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  /* let the variable display serif size its forms optically */
+  .error-number, h1, .nav-logo { font-optical-sizing:auto; }
 
   /* ── focus + skip link + reduced motion (a11y) ── */
   :focus-visible { outline:2px solid var(--ink); outline-offset:3px; border-radius:2px; }
@@ -137,6 +150,7 @@
 <div class="grain" aria-hidden="true"></div>
 <a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
 
+<header class="site-header">
 <nav>
   <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
   <div class="lang-toggle" role="group" aria-label="Select language">
@@ -147,6 +161,7 @@
     <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
   </div>
 </nav>
+</header>
 
 <main id="main" tabindex="-1">
   <div class="container">
@@ -197,6 +212,10 @@
     try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
   }
   try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
+
+  // condensing sticky header
+  var __sh = document.querySelector('.site-header');
+  if (__sh) { var __shScroll = function(){ __sh.classList.toggle('scrolled', window.scrollY > 12); }; __shScroll(); window.addEventListener('scroll', __shScroll, { passive:true }); }
 </script>
 </body>
 </html>

@@ -40,6 +40,25 @@ faster applicants.
 - Tone: high-empathy, tactical, fiercely protective of the reader's time. Premium, editorial.
 - Always reuse the existing nav and footer. Primary CTA everywhere: link to `/get-started`.
 
+## Design vocabulary — the "wow kit" (June 2026; intentional, do NOT "clean up")
+The forms/dashboard use a deliberate editorial print language. These are features, not bugs:
+- **Stacked-paper cards**: key surfaces (`.dossier`, get-started/login `.card`, account
+  `.paywall`) sit slightly rotated (`rotate(-.4deg)`-ish) on offset pseudo-element sheets,
+  with a paperclip SVG (`.dclip`). Surface tokens: `--paper:#FBF8F1` (sheets),
+  `--field:#FFFDF9` (inputs).
+- **Live tenant dossier** (profile.html): sticky aside that renders Julia's call script
+  from form state in real time — JS-rendered, trilingual via the `DTXT` dict, aria-hidden
+  (decorative mirror of the form). Don't convert it to static data-lang spans.
+- **Hand-drawn pen circles**: the `viewDays` week row (`.toggle-group.days`) is borderless
+  Fraunces day names; checking one draws a wobbly coral SVG ellipse (`pathLength=100`
+  dashoffset animation). Injected by JS at load.
+- **Rubber stamps**: rotated bordered uppercase Fraunces chips — `.dstamp` (profile),
+  `.pw-stamp` (paywall), account `.badge` statuses. `b-calling` pulses on purpose.
+- **Paper-sheet motion**: `sheetIn`/`sheetOut` keyframes for step/tab transitions;
+  `.btn-primary`'s hard offset shadow `0 4px 0 var(--ink-deep)` is the site standard —
+  never replace with soft shadows.
+- All animations stay subordinate to the global `prefers-reduced-motion` kill rule.
+
 ## Mobile / responsive (read before touching layout)
 - Mobile-first. Layout must work edge-to-edge with no horizontal overflow / zoom-out from
   320px up. Verify at 320, 360, 393, 402, 430, 768.

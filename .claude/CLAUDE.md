@@ -9,8 +9,8 @@ faster applicants.
 - Static HTML, no framework, no build step. Plain HTML/CSS/JS in single files.
 - **Homepage is `index.html`** — edit it directly. `index.html (OLD)` is a stale leftover
   from a previous workflow (last touched in commit `ecf0a65`); ignore it. Do NOT copy
-  between the two. (It is still tracked in git and is safe to delete — confirm with the
-  owner first.)
+  between the two. (Still tracked in git but excluded from the live deploy via
+  `.vercelignore`; safe to delete — confirm with the owner first.)
 - profile.html is the multi-step tenant onboarding form. `/get-started` is the lead-capture
   entry that feeds into it.
 - New SEO/AEO guides live at: blog/<slug>/index.html
@@ -25,6 +25,11 @@ faster applicants.
   subdomain. When verifying the live site with curl, follow redirects (`curl -L`) or hit
   `https://www.llavai.com/` directly, or you'll just read an empty 307 body.
 - A push to `main` triggers a production deploy; it typically goes READY in ~1–2 minutes.
+- **The repo root is served as-is** (no build step), so every committed file is public on
+  www.llavai.com unless listed in `.vercelignore` (currently `.claude/`, `specs/`,
+  `supabase/`, `SETUP.md`, `content-queue.md`, `index.html (OLD)`). When adding new
+  internal docs/dirs, add them there too. Never commit secrets anywhere in the repo —
+  e.g. the secret n8n webhook paths live only in n8n/Retell/Stripe config, never in git.
 
 ## Brand
 - Colours: Cream canvas #F4EFE5, Deep Blue structure #1B388F, Coral accent #E55B45.
@@ -53,6 +58,19 @@ faster applicants.
   system Chrome) works without downloading a browser. The earlier "it's the decoration" guess
   was wrong; one measurement found the real grid blowout immediately.
 
+## Backend (Supabase-first)
+- The logged-in pages (signup/login/app/account) talk to **Supabase** directly from the
+  browser (anon key; security = RLS). Supabase is the **source of truth**. **n8n**
+  (`llavai.app.n8n.cloud`, service-role credential) is the automation layer: forwarded
+  Idealista alerts → client feed, Julia's Retell calls + post-call updates, Stripe sync.
+  Google Sheets is the legacy store, being decommissioned.
+- Architecture, state and per-feature designs live in `specs/backend_rebuild_architecture.md`
+  and `specs/*_design.md` (kept out of the public deploy — see `.vercelignore`). Claude's
+  project memory holds n8n credential IDs and the current open-task queue.
+- n8n Cloud gotcha: MCP `update_workflow` saves a **draft** — always `publish_workflow`
+  afterwards or production keeps running the old version. Retell mirrors this: PATCHing the
+  agent edits its draft; live calls use the *published* agent version.
+
 ## Git / publishing
 - Set identity if unset: `git config user.email noreply@anthropic.com && git config user.name Claude`
 - Commit and push straight to `main` — never open a PR; pushing to main deploys immediately.
@@ -61,6 +79,9 @@ faster applicants.
   flag the commits as unverified. (Not needed when working directly on `main`.)
 - End commit messages with: `Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>`
 - Commit clear, completed fixes without being asked; the owner prefers fixes land committed.
+- Backend sessions usually run in a git worktree (`.claude/worktrees/…`) and push straight
+  to origin/main. In any other checkout, `git pull` before relying on `specs/*.md` — they
+  may have moved underneath you.
 
 ## Hard rules
 - Never invent legal/financial figures about Spanish rentals; verify or defer to a professional.

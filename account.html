@@ -44,6 +44,18 @@
   .section-eyebrow::before{content:"";width:32px;height:1px;background:var(--coral)}
   h1{font-family:'Fraunces',serif;font-weight:350;font-size:clamp(28px,4vw,40px);line-height:1.05;letter-spacing:-.025em;color:var(--ink);font-variation-settings:"SOFT" 60}
   h1 em{font-style:italic;color:var(--coral)}
+  .plan-line{display:flex;align-items:center;gap:14px;margin-top:12px}
+  .plan-pill{font-family:'Newsreader',serif;font-size:12px;letter-spacing:.06em;text-transform:uppercase;padding:4px 11px;border:1.5px solid rgba(27,56,143,.3);border-radius:2px;color:var(--ink)}
+  .plan-pill.p-pro{background:var(--ink);border-color:var(--ink);color:var(--cream)}
+  .plan-pill.p-trial{border-style:dashed}
+  .upsell{border:1px solid rgba(27,56,143,.14);border-left:2px solid var(--coral);border-radius:2px;background:var(--cream-deep);padding:22px 24px;margin:6px 0 10px}
+  .upsell-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:13px;color:var(--coral-text);letter-spacing:.05em;text-transform:uppercase;margin-bottom:6px}
+  .upsell h3{font-family:'Fraunces',serif;font-weight:500;font-size:19px;color:var(--ink);margin-bottom:8px}
+  .upsell h3 em{font-style:italic;color:var(--coral)}
+  .upsell p{font-size:15px;color:var(--ink-deep);line-height:1.55;margin-bottom:16px}
+  .upsell-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .upsell-line{font-size:14px;color:var(--pencil);font-style:italic;margin:-14px 0 20px}
+  .upsell-line .btn-text{font-size:14px}
   .tabs{display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid rgba(27,56,143,.14);margin-bottom:28px}
   .tab{background:none;border:none;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;color:var(--pencil);padding:12px 14px;border-bottom:2px solid transparent;margin-bottom:-1px;transition:color .2s,border-color .2s}
   .tab:hover{color:var(--ink)}
@@ -207,6 +219,10 @@
       <div class="acct-head">
         <p class="section-eyebrow"><span data-lang="en">Your account</span><span data-lang="es">Tu cuenta</span><span data-lang="uk">Ваш акаунт</span></p>
         <h1><span data-lang="en">Hi</span><span data-lang="es">Hola</span><span data-lang="uk">Вітаємо</span>, <em id="greetName"></em></h1>
+        <p class="plan-line" id="planLine" hidden>
+          <span class="plan-pill" id="planPill"></span>
+          <button class="btn-text" id="upgradeLink" hidden onclick="askAboutPro()"><span data-lang="en">Upgrade to Pro</span><span data-lang="es">Mejorar a Pro</span><span data-lang="uk">Перейти на Pro</span></button>
+        </p>
       </div>
 
       <div class="tabs" role="tablist">
@@ -240,9 +256,21 @@
       <!-- PIPELINE -->
       <section class="panel" id="panel-pipeline" role="tabpanel" aria-labelledby="tab-pipeline" tabindex="0">
         <h2><span data-lang="en">Llavai Calendar</span><span data-lang="es">Calendario Llavai</span><span data-lang="uk">Календар Llavai</span></h2>
-        <p class="sub"><span data-lang="en">Viewings Julia booked for you, plus any you add yourself.</span><span data-lang="es">Visitas que Julia reservó por ti, más las que añadas tú.</span><span data-lang="uk">Перегляди, які забронювала Julia, та ті, що додасте ви.</span></p>
+        <!-- Pro wording is the default; applyTierUI() swaps it for non-Pro tiers -->
+        <p class="sub" id="pipelineSub"><span data-lang="en">Viewings Julia booked for you, plus any you add yourself.</span><span data-lang="es">Visitas que Julia reservó por ti, más las que añadas tú.</span><span data-lang="uk">Перегляди, які забронювала Julia, та ті, що додасте ви.</span></p>
         <div class="form-error" id="viewErr" role="alert"></div>
         <div id="pipelineList"></div>
+
+        <!-- Pro cross-sell — shown to free/trial/essential by applyTierUI() -->
+        <aside class="upsell" id="pipelineUpsell" hidden>
+          <p class="upsell-eyebrow"><span data-lang="en">Llavai Pro</span><span data-lang="es">Llavai Pro</span><span data-lang="uk">Llavai Pro</span></p>
+          <h3><span data-lang="en">Want these booked <em>for</em> you?</span><span data-lang="es">¿Quieres que las reservemos <em>por</em> ti?</span><span data-lang="uk">Хочете, щоб ми бронювали <em>за</em> вас?</span></h3>
+          <p><span data-lang="en">On Pro, Julia calls the agency in native Spanish within minutes of a listing going live, presents your tenant profile, and books the viewing around your calendar — they appear right here.</span><span data-lang="es">Con Pro, Julia llama a la agencia en castellano nativo a los pocos minutos de publicarse el piso, presenta tu perfil de inquilino y reserva la visita según tu calendario — y aparecen aquí mismo.</span><span data-lang="uk">З Pro Julia телефонує агентству рідною іспанською за лічені хвилини після публікації, представляє ваш профіль орендаря та бронює перегляд під ваш календар — і вони з'являються тут.</span></p>
+          <div class="upsell-actions">
+            <button class="btn-primary" onclick="askAboutPro()"><span data-lang="en">Ask about Pro →</span><span data-lang="es">Preguntar por Pro →</span><span data-lang="uk">Запитати про Pro →</span></button>
+            <a class="btn-ghost" href="/#pro"><span data-lang="en">See how Pro works</span><span data-lang="es">Ver cómo funciona Pro</span><span data-lang="uk">Як працює Pro</span></a>
+          </div>
+        </aside>
 
         <div class="cal-add">
           <h3 class="prefs-h"><span data-lang="en">Add a viewing</span><span data-lang="es">Añadir una visita</span><span data-lang="uk">Додати перегляд</span></h3>
@@ -266,7 +294,7 @@
       <!-- PROFILE -->
       <section class="panel" id="panel-profile" role="tabpanel" aria-labelledby="tab-profile" tabindex="0">
         <h2><span data-lang="en">Your tenant profile</span><span data-lang="es">Tu perfil de inquilino</span><span data-lang="uk">Ваш профіль орендаря</span></h2>
-        <p class="sub"><span data-lang="en">The details Julia uses to present you to agents. Keep them current.</span><span data-lang="es">Los datos que Julia usa para presentarte a los agentes. Mantenlos al día.</span><span data-lang="uk">Дані, які Julia використовує, щоб представити вас агентам. Тримайте їх актуальними.</span></p>
+        <p class="sub" id="profileSub"><span data-lang="en">The details Julia uses to present you to agents. Keep them current.</span><span data-lang="es">Los datos que Julia usa para presentarte a los agentes. Mantenlos al día.</span><span data-lang="uk">Дані, які Julia використовує, щоб представити вас агентам. Тримайте їх актуальними.</span></p>
         <div class="form-error" id="profileError" role="alert"></div>
         <div class="row-2">
           <div class="field"><label for="p_first"><span data-lang="en">First name</span><span data-lang="es">Nombre</span><span data-lang="uk">Ім'я</span></label><input id="p_first" type="text" autocomplete="given-name" /></div>
@@ -307,6 +335,7 @@
       <section class="panel" id="panel-documents" role="tabpanel" aria-labelledby="tab-documents" tabindex="0">
         <h2><span data-lang="en">Your documents</span><span data-lang="es">Tus documentos</span><span data-lang="uk">Ваші документи</span></h2>
         <p class="sub"><span data-lang="en">Private and encrypted. Only you and the Llavai team can access them.</span><span data-lang="es">Privados y cifrados. Solo tú y el equipo de Llavai pueden acceder.</span><span data-lang="uk">Приватні та зашифровані. Доступ лише у вас і команди Llavai.</span></p>
+        <p class="upsell-line" id="docsUpsell" hidden><span data-lang="en">On <strong>Pro</strong>, Julia has your paperwork ready the moment an agent asks for it — <button class="btn-text" onclick="askAboutPro()">ask about Pro</button>.</span><span data-lang="es">Con <strong>Pro</strong>, Julia tiene tu documentación lista en cuanto un agente la pide — <button class="btn-text" onclick="askAboutPro()">pregunta por Pro</button>.</span><span data-lang="uk">З <strong>Pro</strong> Julia має ваші документи напоготові, щойно агент їх попросить — <button class="btn-text" onclick="askAboutPro()">запитайте про Pro</button>.</span></p>
         <div class="form-error" id="docError" role="alert"></div>
         <div id="docList"></div>
         <div class="upload-box">
@@ -462,6 +491,8 @@ async function showDash(){
     document.getElementById('nv_when').min = now.toISOString().slice(0,16);
   }catch(e){}
   await flushPendingProfile();  // the lead→account join: write any pre-sign-in data into the row
+  TIER = await currentTier();   // fetch once, before the panels render tier-aware copy
+  applyTierUI();
   loadProfile();   // also sets the greeting
   loadPipeline();
   loadAvailability();
@@ -538,12 +569,55 @@ function card(l){
 }
 async function isSubscribed(){ try{ var r=await sb.rpc('has_active_subscription'); return !!r.data; }catch(e){ return false; } }
 async function currentTier(){ try{ var r=await sb.rpc('current_tier'); return r.data || 'free'; }catch(e){ return 'free'; } }
+
+/* ---- tier-aware UI (plan badge + Pro cross-sell) ----
+   'pro' members get the Julia concierge wording; everyone else gets self-serve
+   wording plus an upsell. 'trial' is a trial of Essential, NOT of Pro. */
+let TIER='free';
+const TIER_LABEL={
+  free:{en:'Free plan',es:'Plan gratis',uk:'Безкоштовний план'},
+  trial:{en:'Essential · trial',es:'Essential · prueba',uk:'Essential · пробний'},
+  essential:{en:'Essential',es:'Essential',uk:'Essential'},
+  pro:{en:'Pro',es:'Pro',uk:'Pro'}
+};
+function tri(t){ return '<span data-lang="en">'+t.en+'</span><span data-lang="es">'+t.es+'</span><span data-lang="uk">'+t.uk+'</span>'; }
+function applyTierUI(){
+  var label=TIER_LABEL[TIER]||TIER_LABEL.free;
+  var pill=document.getElementById('planPill');
+  pill.innerHTML=tri(label);
+  pill.className='plan-pill p-'+TIER;
+  document.getElementById('planLine').hidden=false;
+  var isPro = TIER==='pro';
+  // Upgrade link for paying self-serve users; free users get the feed paywall instead.
+  document.getElementById('upgradeLink').hidden = isPro || TIER==='free';
+  document.getElementById('pipelineUpsell').hidden = isPro;
+  document.getElementById('docsUpsell').hidden = isPro;
+  if (!isPro){
+    document.getElementById('pipelineSub').innerHTML=tri({
+      en:'Keep your viewings in one place — add the ones you book from your feed.',
+      es:'Todas tus visitas en un solo lugar — añade las que reserves desde tu feed.',
+      uk:'Усі ваші перегляди в одному місці — додавайте ті, що бронюєте зі стрічки.'});
+    document.getElementById('profileSub').innerHTML=tri({
+      en:'Your details and feed preferences. On Pro, Julia uses this profile to present you to agents.',
+      es:'Tus datos y preferencias del feed. Con Pro, Julia usa este perfil para presentarte a los agentes.',
+      uk:'Ваші дані та налаштування стрічки. З Pro Julia використовує цей профіль, щоб представляти вас агентам.'});
+  }
+}
+function askAboutPro(){
+  selectTab('messages');
+  var input=document.getElementById('msgInput');
+  if (input && !input.value.trim()){
+    input.value={en:"Hi — I'd like to know more about upgrading to Pro.",
+                 es:'Hola — me gustaría saber más sobre pasar a Pro.',
+                 uk:'Вітаю! Хочу дізнатися більше про перехід на Pro.'}[lang()];
+  }
+  if (input) input.focus();
+}
 async function initFeed(){
   if (feedStarted) return; feedStarted=true;
   if (qp('checkout')==='success') return activating();
-  var tier = await currentTier();
-  if (tier && tier !== 'free') return loadFeed();   // trial | essential | pro → real feed
-  return loadTeaser();                                // free → redacted teaser + paywall
+  if (TIER && TIER !== 'free') return loadFeed();   // trial | essential | pro → real feed
+  return loadTeaser();                               // free → redacted teaser + paywall
 }
 function band(min,max){ if(min==null) return ''; return '€'+Number(min).toLocaleString('es-ES')+'–'+Number(max).toLocaleString('es-ES'); }
 function teaserCard(l){
@@ -583,7 +657,7 @@ async function loadFeed(){
 async function activating(){
   fhide('paywall'); fhide('feed'); fhide('feedEmpty');
   var g=document.getElementById('feedGate'); g.textContent=(lang()==='es'?'Pago recibido — activando tu cuenta…':lang()==='uk'?'Оплату отримано — активуємо акаунт…':'Payment received — activating your account…'); fshow('feedGate');
-  for (var i=0;i<6;i++){ await new Promise(function(r){setTimeout(r,2000);}); if(await isSubscribed()){ try{ history.replaceState(null,'','/account#feed'); }catch(e){} return loadFeed(); } }
+  for (var i=0;i<6;i++){ await new Promise(function(r){setTimeout(r,2000);}); if(await isSubscribed()){ try{ history.replaceState(null,'','/account#feed'); }catch(e){} TIER=await currentTier(); applyTierUI(); return loadFeed(); } }
   // Still not active — but they HAVE paid. Never show this user the paywall again;
   // tell them what's happening and how to nudge it.
   var l=lang();
@@ -636,7 +710,15 @@ async function loadPipeline(){
   const { data, error } = await sb.from('viewings').select('*').order('created_at',{ascending:false});
   if (error){ wrap.innerHTML='<div class="empty">'+esc(friendly('load',error))+'</div>'; return; }
   if (!data || !data.length){
-    wrap.innerHTML='<div class="empty"><span data-lang="en">No viewings yet. As soon as Julia starts calling agencies for you, they\'ll appear here.</span><span data-lang="es">Aún no hay visitas. En cuanto Julia empiece a llamar a las agencias, aparecerán aquí.</span><span data-lang="uk">Поки що немає переглядів. Щойно Julia почне телефонувати агентствам, вони з\'являться тут.</span></div>'; return;
+    // Julia only calls for Pro — don't promise her to self-serve users.
+    var emptyCopy = (TIER==='pro')
+      ? {en:'No viewings yet. As soon as Julia starts calling agencies for you, they\'ll appear here.',
+         es:'Aún no hay visitas. En cuanto Julia empiece a llamar a las agencias, aparecerán aquí.',
+         uk:'Поки що немає переглядів. Щойно Julia почне телефонувати агентствам, вони з\'являться тут.'}
+      : {en:'No viewings yet. Spot a standout in your feed, call the agency, and add the viewing below.',
+         es:'Aún no hay visitas. Encuentra un piso destacado en tu feed, llama a la agencia y añade la visita abajo.',
+         uk:'Поки що немає переглядів. Знайдіть варіант у стрічці, зателефонуйте агентству та додайте перегляд нижче.'};
+    wrap.innerHTML='<div class="empty">'+tri(emptyCopy)+'</div>'; return;
   }
   const l=lang();
   wrap.innerHTML = data.map(function(v){

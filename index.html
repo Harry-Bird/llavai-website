@@ -276,6 +276,58 @@
   .tier-stamp { position:absolute; top:16px; right:16px; border:2.5px solid var(--coral); color:var(--coral-text); font-family:'Fraunces',serif; font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border-radius:3px; transform:rotate(7deg); background:rgba(229,91,69,.04); pointer-events:none; }
   .tier-stamp + .tier-tag { padding-right:128px; } /* keep the tag clear of the stamp on narrow cards */
   @media (prefers-reduced-motion: reduce) { .tier, .tier.featured { transform:none; } }
+
+  /* ===== Meet Julia — recorded voice intro (wow kit) ===== */
+  .meet-julia { background:var(--cream); padding:84px 0; }
+  .mj-card { position:relative; max-width:760px; margin:0 auto; background:var(--paper);
+    border:1.5px solid rgba(20,40,105,.16); border-radius:8px; padding:48px 44px;
+    box-shadow:0 18px 44px -30px rgba(20,40,105,.55); }
+  .mj-card::before { content:""; position:absolute; inset:0; z-index:-1; border-radius:8px;
+    background:var(--cream-deep); border:1.5px solid rgba(20,40,105,.12);
+    transform:rotate(-1.5deg); transform-origin:60% 50%; }
+  .mj-stamp { display:inline-block; border:2.5px solid var(--coral); color:var(--coral-text);
+    font-family:'Fraunces',serif; font-size:12px; font-weight:600; letter-spacing:.14em;
+    text-transform:uppercase; padding:5px 11px; border-radius:3px; transform:rotate(-3deg);
+    background:rgba(229,91,69,.05); margin-bottom:22px; }
+  .mj-card h2 { font-family:'Fraunces',serif; font-size:clamp(30px,5vw,44px); line-height:1.05;
+    color:var(--ink); margin:0 0 16px; }
+  .mj-card h2 em { font-style:italic; color:var(--coral-text); }
+  .mj-lede { font-family:'Newsreader',serif; font-size:18px; line-height:1.6;
+    color:var(--ink-deep); margin:0 0 28px; max-width:62ch; }
+  .julia-player { display:none; align-items:center; gap:18px; flex-wrap:wrap; margin:0 0 24px; }
+  .julia-player.ready { display:flex; }
+  .julia-play { display:inline-flex; align-items:center; gap:12px; cursor:pointer; border:0;
+    font-family:'Fraunces',serif; font-size:16px; font-weight:600; color:var(--cream);
+    background:var(--coral); padding:14px 24px 14px 19px; border-radius:6px;
+    box-shadow:0 4px 0 var(--ink-deep); transition:transform .12s var(--ease-out), box-shadow .12s var(--ease-out); }
+  .julia-play:hover { transform:translateY(-1px); box-shadow:0 5px 0 var(--ink-deep); }
+  .julia-play:active { transform:translateY(2px); box-shadow:0 2px 0 var(--ink-deep); }
+  .julia-play:focus-visible { outline:3px solid var(--ink); outline-offset:3px; }
+  .julia-play .ji-pause { display:none; }
+  .julia-player.playing .julia-play .ji-play { display:none; }
+  .julia-player.playing .julia-play .ji-pause { display:inline; }
+  .julia-wave { display:flex; align-items:center; gap:3px; height:22px; }
+  .julia-wave span { width:3px; height:7px; background:var(--coral); border-radius:2px; opacity:.4; }
+  .julia-player.playing .julia-wave span { opacity:1; animation:jwave 1s var(--ease-out) infinite; }
+  .julia-wave span:nth-child(2){animation-delay:.12s} .julia-wave span:nth-child(3){animation-delay:.24s}
+  .julia-wave span:nth-child(4){animation-delay:.36s} .julia-wave span:nth-child(5){animation-delay:.48s}
+  @keyframes jwave { 0%,100%{height:7px} 50%{height:22px} }
+  .mj-chips { display:flex; flex-wrap:wrap; gap:10px; margin:0 0 26px; padding:0; list-style:none; }
+  .mj-chips li { display:flex; align-items:center; gap:8px; font-family:'Fraunces',serif;
+    font-size:13px; font-weight:600; color:var(--ink); background:var(--field);
+    border:1.5px solid rgba(20,40,105,.14); border-radius:999px; padding:7px 14px; }
+  .mj-chips svg { width:15px; height:15px; flex:none; color:var(--coral); }
+  .mj-transcript { font-family:'Newsreader',serif; font-size:15px; color:var(--ink-deep); }
+  .mj-transcript summary { cursor:pointer; color:var(--coral-text); font-style:italic; width:fit-content; }
+  .mj-transcript summary:focus-visible { outline:3px solid var(--ink); outline-offset:3px; border-radius:2px; }
+  .mj-transcript p { margin:14px 0 0; line-height:1.65; }
+  .mj-transcript .mj-es { font-style:italic; color:var(--ink); }
+  .mj-transcript .mj-note { display:block; font-style:normal; font-size:13px; color:var(--ink); opacity:.7; margin-top:3px; }
+  @media (prefers-reduced-motion: reduce) {
+    .mj-card::before { transform:none; }
+    .julia-player.playing .julia-wave span { animation:none; height:14px; }
+  }
+  @media (max-width:600px) { .meet-julia { padding:60px 0; } .mj-card { padding:34px 22px; } }
   .tier-tag { font-family:'Newsreader',serif; font-style:italic; font-size:13px; letter-spacing:.04em; text-transform:uppercase; color:var(--coral-text); margin-bottom:10px; }
   .tier-name { font-family:'Fraunces',serif; font-size:26px; font-weight:500; color:var(--ink); margin-bottom:6px; }
   .tier-price { font-family:'Fraunces',serif; font-size:32px; font-weight:500; color:var(--ink); margin-bottom:4px; }
@@ -536,9 +588,9 @@
           <span data-lang="uk">Більше ніколи не робіть дзвінок, <span class="accent">якого боїтеся.</span></span>
         </h1>
         <p class="lede reveal reveal-3">
-          <span data-lang="en">Llavai watches the Barcelona market, scores every new flat, and shows you only the ones worth your time — call in one tap. Or let Julia call every agent for you, in native Spanish, within 60 seconds of a listing going live.</span>
-          <span data-lang="es">Llavai vigila el mercado de Barcelona, puntúa cada piso nuevo y te muestra solo los que merecen la pena — llama con un toque. O deja que Julia llame a cada inmobiliaria por ti, en castellano nativo, en los 60 segundos siguientes a que salga el piso.</span>
-          <span data-lang="uk">Llavai стежить за ринком Барселони, оцінює кожну нову квартиру й показує лише ті, що варті вашого часу — дзвоніть одним дотиком. Або дозвольте Julia подзвонити кожному агенту замість вас, рідною іспанською, упродовж 60 секунд після появи оголошення.</span>
+          <span data-lang="en">Llavai watches the Barcelona market, scores every new flat, and shows you only the ones worth your time — call in one tap. Or let Julia — Llavai's AI voice agent — call every agent for you, in native Spanish, within 60 seconds of a listing going live.</span>
+          <span data-lang="es">Llavai vigila el mercado de Barcelona, puntúa cada piso nuevo y te muestra solo los que merecen la pena — llama con un toque. O deja que Julia — la agente de voz con IA de Llavai — llame a cada inmobiliaria por ti, en castellano nativo, en los 60 segundos siguientes a que salga el piso.</span>
+          <span data-lang="uk">Llavai стежить за ринком Барселони, оцінює кожну нову квартиру й показує лише ті, що варті вашого часу — дзвоніть одним дотиком. Або дозвольте Julia — голосовій ШІ-агентці Llavai — подзвонити кожному агенту замість вас, рідною іспанською, упродовж 60 секунд після появи оголошення.</span>
         </p>
         <div class="cta-row reveal reveal-4">
           <a href="/get-started" class="btn-primary">
@@ -631,6 +683,70 @@
           <span data-lang="uk" class="inline">Жива стрічка у реальному часі</span>
         </p>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- MEET JULIA (recorded voice intro; player self-reveals only when audio/julia-intro.mp3 is present) -->
+<section class="meet-julia" id="julia" aria-labelledby="mj-h">
+  <div class="container">
+    <div class="mj-card reveal">
+      <span class="mj-stamp">
+        <span data-lang="en">AI voice agent</span><span data-lang="es" class="inline">Agente de voz IA</span><span data-lang="uk" class="inline">Голосова ШІ-агентка</span>
+      </span>
+      <h2 id="mj-h">
+        <span data-lang="en">Meet <em>Julia.</em></span>
+        <span data-lang="es">Te presento a <em>Julia.</em></span>
+        <span data-lang="uk">Знайомтесь — <em>Julia.</em></span>
+      </h2>
+      <p class="mj-lede">
+        <span data-lang="en">Julia is Llavai's AI voice agent — the “she” behind Pro and every call pack. The moment a flat worth having goes live, she phones the agency in native Barcelona Spanish, presents your profile like a pro, and lines up the viewing. A concierge, not a call centre — she never sleeps, never fumbles the Spanish, and never misses the 60-second window.</span>
+        <span data-lang="es">Julia es la agente de voz con IA de Llavai — la «ella» detrás de Pro y de cada pack de llamadas. En cuanto sale un piso que merece la pena, llama a la inmobiliaria en castellano de Barcelona, presenta tu perfil como es debido y agenda la visita. Una conserje, no un centro de llamadas — nunca duerme, nunca duda con el idioma y nunca pierde la ventana de 60 segundos.</span>
+        <span data-lang="uk">Julia — це голосова ШІ-агентка Llavai, та сама «вона» за Pro і кожним пакетом дзвінків. Щойно з'являється варта квартира, вона телефонує агентству рідною барселонською іспанською, гідно представляє ваш профіль і домовляється про перегляд. Консьєржка, а не колл-центр — ніколи не спить, не плутається в іспанській і не пропускає 60-секундне вікно.</span>
+      </p>
+
+      <div class="julia-player" id="juliaPlayer">
+        <button type="button" class="julia-play" id="juliaPlayBtn" aria-pressed="false" aria-controls="juliaAudio">
+          <svg class="ji-play" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 5v14l11-7z"/></svg>
+          <svg class="ji-pause" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true" focusable="false"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>
+          <span class="ji-label">
+            <span data-lang="en">Hear Julia introduce herself</span><span data-lang="es" class="inline">Escucha cómo se presenta Julia</span><span data-lang="uk" class="inline">Послухайте, як Julia представляється</span>
+          </span>
+        </button>
+        <span class="julia-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></span>
+      </div>
+      <audio id="juliaAudio" preload="metadata" src="audio/julia-intro.mp3"></audio>
+
+      <ul class="mj-chips">
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          <span data-lang="en">Calls within 60 seconds</span><span data-lang="es" class="inline">Llama en 60 segundos</span><span data-lang="uk" class="inline">Дзвонить за 60 секунд</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.7 2.5 15.3 0 18M12 3c-2.5 2.7-2.5 15.3 0 18"/></svg>
+          <span data-lang="en">Native Barcelona Spanish</span><span data-lang="es" class="inline">Castellano de Barcelona</span><span data-lang="uk" class="inline">Місцева барселонська іспанська</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="4" y="5" width="16" height="16" rx="2"/><path d="M4 10h16M8 3v4M16 3v4"/></svg>
+          <span data-lang="en">Books around your calendar</span><span data-lang="es" class="inline">Agenda según tu calendario</span><span data-lang="uk" class="inline">Бронює за вашим календарем</span>
+        </li>
+      </ul>
+
+      <details class="mj-transcript">
+        <summary>
+          <span data-lang="en">Read the transcript</span><span data-lang="es" class="inline">Leer la transcripción</span><span data-lang="uk" class="inline">Читати розшифровку</span>
+        </summary>
+        <p>
+          <span data-lang="en">“Hi — I'm Julia, the voice behind Llavai. When a great flat goes live in Barcelona, I call the agent for you — in native Spanish, within sixty seconds — so you never make the call you dread. Here's how I sound when I do…”</span>
+          <span data-lang="es">«Hola, soy Julia, la voz detrás de Llavai. Cuando sale un buen piso en Barcelona, llamo a la inmobiliaria por ti — en castellano nativo, en menos de sesenta segundos — para que tú no tengas que hacer la llamada que temes. Así sueno cuando lo hago…»</span>
+          <span data-lang="uk">«Привіт, я Julia, голос за Llavai. Коли в Барселоні з'являється гарна квартира, я телефоную агенту замість вас — рідною іспанською, менш ніж за шістдесят секунд — щоб вам не довелося робити дзвінок, якого ви боїтеся. Ось як я звучу…»</span>
+        </p>
+        <p class="mj-es" lang="es">“Hola, buenas tardes. Le llamo por el piso que acaba de salir en Gràcia. Tengo un inquilino con contrato indefinido y nómina, muy interesado — ¿sería posible concertar una visita?”
+          <span class="mj-note">
+            <span data-lang="en">— Julia, opening a real call in native Barcelona Spanish.</span><span data-lang="es" class="inline">— Julia, abriendo una llamada real en castellano de Barcelona.</span><span data-lang="uk" class="inline">— Julia відкриває справжній дзвінок рідною барселонською іспанською.</span>
+          </span>
+        </p>
+      </details>
     </div>
   </div>
 </section>
@@ -1404,6 +1520,36 @@
     });
   }, { threshold: 0.5 });
   doc.querySelectorAll('.sample-badge').forEach(function (b) { bio.observe(b); });
+})();
+</script>
+
+<script>
+/* Meet Julia — recorded voice intro. Progressive enhancement: the player only
+   appears once we know audio/julia-intro.mp3 is present and playable, so the
+   page never shows a dead play button before the clip is dropped in. */
+(function () {
+  var audio = document.getElementById('juliaAudio');
+  var player = document.getElementById('juliaPlayer');
+  var btn = document.getElementById('juliaPlayBtn');
+  if (!audio || !player || !btn) return;
+
+  function reveal() { player.classList.add('ready'); }
+  if (audio.readyState >= 1) reveal();
+  audio.addEventListener('loadedmetadata', reveal);
+  audio.addEventListener('canplay', reveal);
+  audio.addEventListener('error', function () { player.classList.remove('ready'); });
+
+  btn.addEventListener('click', function () {
+    if (audio.paused) { audio.play().catch(function () {}); } else { audio.pause(); }
+  });
+  audio.addEventListener('play', function () {
+    player.classList.add('playing'); btn.setAttribute('aria-pressed', 'true');
+  });
+  function stopped() {
+    player.classList.remove('playing'); btn.setAttribute('aria-pressed', 'false');
+  }
+  audio.addEventListener('pause', stopped);
+  audio.addEventListener('ended', stopped);
 })();
 </script>
 

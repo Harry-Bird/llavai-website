@@ -72,6 +72,25 @@ D11 ✅ homepage Pro price now €185/mo ×3 langs (matches account.html).
 STILL OPEN: D13 (AI Act, mid-July), D14 (Sheets decommission session),
 D15 (Apify cost before ~20 subs).
 
+## POST-LAUNCH AUDIT (2026-06-11 late evening — Harry found the messages bug)
+Full dead-end audit (3 parallel auditors: n8n estate / frontend / Supabase).
+FIXED LIVE (Harry authorized): W6 `2USsHXveBY166yTP` published + pg_net triggers
+on messages AND documents (migration messages_notify_trigger; redacted copy in
+supabase/migrations/) — emails ops on every client message, [PRO APPLICATION],
+and document upload. END-TO-END VERIFIED: test insert → pg_net 200 → W6 exec
+3105 success. Also covers the never-wired W5a handshake (frontend never POSTs
+to W5a — zero executions ever; left published, now redundant).
+UNPUBLISHED (zero legit executions, unauthenticated/legacy): Recall Attempts v1
+`4g0N2b6hfXo4u8iD`, Julia confirm logger `535Pb7vqeo14xY4n`, Call outcomes v3
+`CcCxPBYVkcNUt2cF`. teaser_listings: authenticated reduced to SELECT-only.
+Frontend fixes (b3bca47): availability wipe guard, dismiss/deleteDoc error
+honesty, profile success copy honest per-path.
+NOTED, not actioned: property_cache dead write (Apify cost lever, see D15);
+Profile Creation writes PII to Sheets only — lost-lead risk, raises D14
+priority; stripe-checkout webhook guessable (validated input, low risk);
+stale "DRAFT" sticky notes on live v2 workflows (Harry to edit text);
+Profile Creation needs errorWorkflow click + republish (Harry).
+
 **A. n8n v2 cutovers — ✅ DONE (kept for rollback reference)**
 Pre-check for all three: open the workflow in the n8n editor and confirm every
 HTTP/email node shows a GREEN credential (create_workflow_from_code "skipped

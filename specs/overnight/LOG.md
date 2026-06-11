@@ -57,10 +57,25 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
   risk (drafts don't run production). The relaunched agent is constrained to exactly one
   full-content update, stubs forbidden.
 
-## IN PROGRESS
-- n8n agent (3rd, tightly constrained): W1 business-hours gate as DRAFT — single atomic
-  full-workflow update between Should Call? and Trigger Retell Call, + errorWorkflow
-  setting + Cache Property undefined-body guard + explicit credential re-binding.
+- **W1 business-hours gate BUILT — as a parallel draft workflow** (W1 itself untouched):
+  "Concierge — Alert to Feed + Julia Call (W1-GATED draft)" `0hqUPqF8YsxJP1Et`,
+  validated (34 nodes), unpublished/inactive (activeVersion null). It is W1 reproduced
+  exactly + Business Hours Gate (Madrid, DST-proof) + Office Open? IF: open → Trigger
+  Retell Call unchanged; closed → Queue Call (call_queue insert, ignore-duplicates,
+  carrying the EXACT Retell payload) → call_attempts.skip_reason='after_hours_queued'.
+  Bonus: errorWorkflow wired + Cache Property undefined-body guard. Same webhook path
+  as W1, so go-live is an unpublish/publish swap with no CloudMailin change (cutover
+  sticky inside the workflow). Why a parallel workflow: see incident note below.
+
+## INCIDENT (no damage — documented for transparency)
+- **n8n MCP `update_workflow` is broken tonight (schema skew):** the live server demands
+  an undocumented `operations` array while advertising `{workflowId, code}`. All update
+  attempts were rejected at input validation (nothing saved). This is also the likely
+  story behind the earlier agents' deaths/probe attempt. Consequences: the W1 gate was
+  delivered as the parallel W1-GATED workflow above (creation API works fine), and the
+  W4 checkout-validation hardening became a documented hand-edit (below) instead of a
+  draft. Suggest merging the gotchas paragraph at the bottom of this file into
+  CLAUDE.md §Backend (a hook blocked me from editing CLAUDE.md unattended).
 
 ## QUEUED
 1. **Business-hours call gate + queue** (owner-requested): `call_queue` migration (apply,
@@ -99,10 +114,44 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
    PRODUCTION mode with the 4 sub events (M4 — W3 has never fired); check whether the
    MCP key is test or live mode (0 subscriptions visible).
 7. Delete stray empty storage bucket `"name documents"` in Supabase.
-8. Business-hours queue go-live (after reviewing tonight's build): publish W1 draft +
-   the drain workflow. Steps + rollback will be appended here once built.
+8. **Business-hours queue go-live (the cutover):**
+   a. Open BOTH new workflows in the n8n editor and confirm every HTTP/email node shows
+      a green credential (create_workflow_from_code may skip credential auto-assignment
+      — known caveat, ids are in the SDK code): "W1-GATED draft" `0hqUPqF8YsxJP1Et` and
+      "Call Queue Drain (W1.5)" `xpSI4mowbRPnjy03`.
+   b. Review the gate diff (only additions: Business Hours Gate, Office Open?, Queue
+      Call, Mark Attempt Queued For Hours, cutover sticky; plus errorWorkflow setting
+      and the Cache Property guard).
+   c. Cut over: unpublish W1 `rlv02UB1RHNnQl4i` → publish W1-GATED → publish the drain.
+      CloudMailin needs no change (same webhook path).
+   d. Verify: temporarily narrow the gate window (or send a synthetic off-hours alert)
+      → row lands in call_queue, no call; restore window → drain fires within 10 min.
+   e. Rollback: unpublish W1-GATED + drain, republish W1. Queue rows: one PATCH to
+      status='cancelled'.
 9. FYI: until #8 ships, the live W1 still calls at any hour on a real Pro alert.
+10. **W4 checkout hand-edit** (while publishing the trial draft, item #1 — MCP updates
+    are broken, see incident): in "Stripe — Create Checkout Session" add an IF/Code
+    validation after the webhook — require email (regex), UUID user_id, and `return_to`
+    matching ^https://(www\.)?llavai\.com(/|$) (else respond 400, don't call Stripe);
+    and remove the stale Vercel preview URL from the webhook's allowedOrigins.
+11. **W3 sync hand-edit** (do NOT update via MCP — its Stripe Trigger re-registers the
+    live webhook on full-replace, and update_workflow is broken anyway): in "Upsert
+    Subscription", stop forcing status:'active' on checkout.session.completed — let only
+    customer.subscription.created/updated set status (fixes the trial-shows-as-essential
+    race, audit R4). Small edit in the n8n editor.
 
 ## CONSTRAINTS IN FORCE
 Nothing published, no outbound contact, no workflow executions with side-effects,
 Stripe read-only, additive SQL only, everything reversible.
+
+## n8n MCP gotchas worth merging into CLAUDE.md §Backend (2026-06-11)
+- `update_workflow` can develop schema skew (server demanded an undocumented
+  `operations` array while advertising `{workflowId, code}`); when it does, build a NEW
+  never-published workflow via create_workflow_from_code (same webhook path is fine
+  while unpublished) and cut over by unpublish-old/publish-new.
+- `create_workflow_from_code` may SKIP credential auto-assignment on HTTP nodes even
+  when the SDK code pre-binds ids — verify green credentials in the editor before
+  publishing anything.
+- The MCP connection stalls/socket-drops under long sessions; after any failed write,
+  verify state read-only (versionId/activeVersionId/updatedAt) — drafts ≠ production,
+  so dead attempts usually changed nothing.

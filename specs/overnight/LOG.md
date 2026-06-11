@@ -1,18 +1,23 @@
 # Overnight session log — 2026-06-10/11
 
 ## STATUS
-Audit COMPLETE → `AUDIT_2026-06-10.md` (read that first). Headline findings: the 3-day
-trial was never published in n8n (live checkouts charge immediately) — one-click fix for
-you; an unauthenticated webhook can rewrite Julia's agent (unpublish it); W1 has no error
-handling (failed calls strand clients permanently); confirmed W1 will call at any hour —
-building your business-hours queue now. Phase 2 (safe fixes) + Phase 3 (builds, drafts
-only) in progress. Nothing published, no calls fired, Stripe untouched.
+Audit COMPLETE → `AUDIT_2026-06-10.md`. Roadmap COMPLETE → `ROADMAP.md` (read both).
+Business-hours queue: designed (`specs/business_hours_call_queue_design.md`) and the
+`call_queue` table is LIVE (additive migration, verified: RLS on, select-own only).
+Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain workflow
+(drafts only), repo-SQL truth sync. Nothing published, no calls fired, Stripe untouched.
 
 ## DONE
 - Phase 1 audit, 5 areas, all re-verified → specs/overnight/AUDIT_2026-06-10.md
+- Business-hours call queue: design doc + `business_hours_call_queue` migration applied
+  (additive; table verified live with RLS + select-own policy)
+- Product roadmap → specs/overnight/ROADMAP.md (Now/Next/Later, evidence-linked)
 
 ## IN PROGRESS
-- Phase 2: frontend fixes (checkout alert() B2, Enter-submit, placeholders, canonicals, undoDismiss)
+- Frontend fixes agent: checkout alert() B2 (partially in working tree), Enter-submit,
+  placeholders, canonicals, undoDismiss
+- n8n agent: W1 business-hours gate as DRAFT + new unpublished drain workflow (W1.5)
+- Repo SQL agent: regenerate schema.sql from live DB, migrations/ + proposed/ dirs, STRIPE.md
 
 ## QUEUED
 1. **Business-hours call gate + queue** (owner-requested): `call_queue` migration (apply,

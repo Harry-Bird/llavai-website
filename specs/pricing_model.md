@@ -72,6 +72,12 @@ never touch the phone again.**
   wanted). `call_allowance` stays counted in **calls** internally.
 
 ### Trial detail
+> **SUPERSEDED 2026-06-11** (owner): Julia is a PAYING-client feature — **trial users get
+> NO Julia calls.** The 5 free calls are now a **paying-Essential, user-claimed** perk
+> (account page button → `claim_trial_calls()`), and the landing trial hook dropped the
+> "+ 5 calls" promise. See `specs/w7_call_credits_design.md` + `supabase/STRIPE.md`. The
+> original model below is kept for context only.
+
 - New funnel hook: **"Essential free for 3 days + Julia's first 5 calls on us."**
 - Value framing = *"Watch Julia make your first 5 calls — in native Spanish, while you do
   nothing."* The felt value is the delegation/relief, NOT a viewing (5 calls at 1-in-10 ≈ 41%

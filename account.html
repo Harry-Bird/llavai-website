@@ -1044,6 +1044,8 @@ function buyPack(plan){
 }
 async function loadCallBalance(){
   var card=document.getElementById('callsCard'); if(!card||!sb) return;
+  // Julia / call packs are a paying-client feature — hide entirely from trial & free.
+  if(!(TIER==='essential' || TIER==='pro')){ card.hidden=true; return; }
   card.hidden=false;
   document.getElementById('callsSub').innerHTML=tri({
     en:'Each credit is one quality listing Julia calls for you — in native Spanish. Credits never expire.',

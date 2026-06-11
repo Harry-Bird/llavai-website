@@ -24,13 +24,19 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
   hardening migrations (anon RPC revoke, viewings source='self' check — verified safe
   against addViewing(), viewings.listing_id index); STRIPE.md refreshed.
   Follow-up noted: delete superseded listings.sql + migration-supabase-first.sql.
-- Frontend fixes 1+2 committed by agent (checkout alert() → trilingual inline error
-  bdb8e35; undoDismiss null-status fix 2b56186); fixes 3–6 still running.
+- Frontend fixes 1–6 ALL committed, headlessly verified, live-deploy spot-checked:
+  checkout alert() → trilingual inline error (bdb8e35), undoDismiss null fix (2b56186),
+  profile wizard Enter-advances via real forms (adde234), account add-viewing +
+  preferences Enter-submit (0047898), 4 placeholders translated ES/UK (90db793),
+  all canonicals/og/sitemap/robots → www host, no trailing slashes (8b6f1d4).
+- Phase 4 Sheets decommission: ordered 6-step reversible plan →
+  specs/phase4_sheets_decommission_plan.md (no data migration needed anywhere).
 
 ## IN PROGRESS
-- Frontend fixes agent: Enter-submit wraps, placeholders, SEO canonicals (3–6)
 - n8n agent (relaunched after transient API death, zero changes lost): W1 business-hours
   gate as DRAFT + new unpublished drain workflow (W1.5)
+- Frontend agent: W5 "Apply for Pro" CTA in account.html (pro_status states, rubber-stamp
+  vocabulary, trilingual; calls the live apply_for_pro() RPC)
 
 ## QUEUED
 1. **Business-hours call gate + queue** (owner-requested): `call_queue` migration (apply,

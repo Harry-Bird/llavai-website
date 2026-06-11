@@ -2,6 +2,7 @@
 # The repo root is otherwise served as-is by Vercel (no build step), so anything
 # not excluded here is reachable on www.llavai.com.
 .claude
+.agents
 specs
 supabase
 SETUP.md

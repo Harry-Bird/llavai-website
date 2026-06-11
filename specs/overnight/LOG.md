@@ -32,11 +32,16 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
 - Phase 4 Sheets decommission: ordered 6-step reversible plan →
   specs/phase4_sheets_decommission_plan.md (no data migration needed anywhere).
 
+- W5 "Apply for Pro" CTA LIVE (72cac5d): apply form in #pipelineUpsell → live
+  apply_for_pro() RPC; APPLICATION RECEIVED / APPROVED rubber stamps; trilingual;
+  friendly('apply') errors; 322/322 headless checks (4 tiers × 5 statuses × 3 langs,
+  mobile overflow clean). Applications land in the messages table — check Messages
+  triage in the morning. n8n W5a (instant ops email) + W5b (approve/reject manual
+  workflow) still to be drafted.
+
 ## IN PROGRESS
 - n8n agent (relaunched after transient API death, zero changes lost): W1 business-hours
   gate as DRAFT + new unpublished drain workflow (W1.5)
-- Frontend agent: W5 "Apply for Pro" CTA in account.html (pro_status states, rubber-stamp
-  vocabulary, trilingual; calls the live apply_for_pro() RPC)
 
 ## QUEUED
 1. **Business-hours call gate + queue** (owner-requested): `call_queue` migration (apply,

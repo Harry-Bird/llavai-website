@@ -1,5 +1,21 @@
 # Overnight session log — 2026-06-10/11
 
+## MORNING EXECUTION — ROUND 2 (Retell publish + cutover DONE)
+- ✅ **#3 Retell agent v1 PUBLISHED** (verified: is_published:true, webhook→W2, 12
+  analysis fields, Harry's prompt edits shipped). The W2 Setup workflow's publish node
+  had a bug (415: no Content-Type; then the API requires {"version":1}) — fixed via a
+  one-shot workflow. All three setup workflows archived per the design. Post-call data
+  now flows to Supabase/dashboard, not Sheets.
+- ✅ **#8 BUSINESS-HOURS CUTOVER LIVE** (joint effort — Harry published the drain from
+  the UI, Claude swapped W1): old W1 deactivated, W1-GATED active on the same webhook
+  path, drain active. **Julia can no longer call outside Mon–Fri 08:00–18:00 Madrid.**
+  Credential confidence: in-code bindings proven at runtime by executions 3046/3049.
+  🖱 Remaining verify: run the synthetic unknown-sender curl (in chat) → expect green
+  execution ending at "Alert Unknown Sender". 🖱 Cosmetic: rename "…(W1-GATED draft)"
+  to drop "draft" in the UI (MCP rename unavailable).
+- Evidence note: the "credentials skipped during auto-assignment" warning on MCP-created
+  workflows is noise — bindings work at runtime.
+
 ## MORNING EXECUTION (2026-06-11, with Harry's blanket permission)
 Checklist results — ✅ done by Claude, 🖱 needs one Harry click, the permission
 classifier blocked the rest of the automation (it still enforces last night's

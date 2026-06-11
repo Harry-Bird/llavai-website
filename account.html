@@ -853,8 +853,8 @@ async function undoDismiss(id){
   clearTimeout(el._undoTimer);
   el.innerHTML=el.dataset.prevHtml;
   var prev=el.dataset.status;
-  // Always write the rollback — a null status simply means "back to fresh".
-  if(!sb)return; try{ await sb.from('listings').update({status:prev||null}).eq('id',id);}catch(e){}
+  // Always write the rollback — listings.status is NOT NULL, so fall back to 'new' (fresh).
+  if(!sb)return; try{ await sb.from('listings').update({status:prev||'new'}).eq('id',id);}catch(e){}
 }
 function checkoutError(rawError){
   var el=document.getElementById('checkoutErr');

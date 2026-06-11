@@ -5,4 +5,4 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://llavai.com/sitemap.xml
+Sitemap: https://www.llavai.com/sitemap.xml

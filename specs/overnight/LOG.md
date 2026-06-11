@@ -10,9 +10,11 @@
   the UI, Claude swapped W1): old W1 deactivated, W1-GATED active on the same webhook
   path, drain active. **Julia can no longer call outside Mon–Fri 08:00–18:00 Madrid.**
   Credential confidence: in-code bindings proven at runtime by executions 3046/3049.
-  🖱 Remaining verify: run the synthetic unknown-sender curl (in chat) → expect green
-  execution ending at "Alert Unknown Sender". 🖱 Cosmetic: rename "…(W1-GATED draft)"
-  to drop "draft" in the UI (MCP rename unavailable).
+  ✅ VERIFIED IN PRODUCTION (execution 3052, Harry-authorized synthetic alert):
+  webhook → classify → Supabase RPC (cred ✓) → unknown-sender ops email delivered
+  (SMTP cred ✓); Retell/Apify never reached. Stripe endpoint also confirmed = W3's
+  trigger webhookId, all 4 events. 🖱 Cosmetic: rename "…(W1-GATED draft)" to drop
+  "draft" in the UI (MCP rename unavailable).
 - Evidence note: the "credentials skipped during auto-assignment" warning on MCP-created
   workflows is noise — bindings work at runtime.
 

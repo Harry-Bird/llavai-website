@@ -71,6 +71,12 @@
   .upsell-actions{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
   .upsell-line{font-size:14px;color:var(--pencil);font-style:italic;margin:-14px 0 20px}
   .upsell-line .btn-text{font-size:14px}
+  /* Pro application states — same rubber-stamp vocabulary as .pw-stamp / .badge */
+  .pro-state{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .pro-stamp{display:inline-block;border:2.5px solid var(--coral);color:var(--coral-text);font-family:'Fraunces',serif;font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;padding:5px 10px;border-radius:3px;transform:rotate(-2deg);background:rgba(229,91,69,.04);white-space:nowrap}
+  .pro-stamp.ok{border-color:var(--ink);color:var(--ink);background:rgba(27,56,143,.04)}
+  .upsell p.pro-state-line{font-size:14.5px;font-style:italic;color:var(--pencil);margin:0}
+  .upsell p.pro-note{font-size:13.5px;font-style:italic;color:var(--pencil);margin:12px 0 0}
   /* file-folder tabs — the dashboard is a stack of paper files */
   .tabs{display:flex;gap:5px;flex-wrap:wrap;align-items:flex-end;border-bottom:1px solid rgba(27,56,143,.16);margin-bottom:28px}
   .tab{background:none;border:1px solid transparent;border-bottom:none;border-radius:7px 7px 0 0;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;color:var(--pencil);padding:11px 15px 12px;margin-bottom:-1px;transition:color .2s,background .25s var(--ease-out),box-shadow .25s var(--ease-out)}
@@ -379,10 +385,26 @@
           <p class="upsell-eyebrow"><span data-lang="en">Llavai Pro</span><span data-lang="es">Llavai Pro</span><span data-lang="uk">Llavai Pro</span></p>
           <h3><span data-lang="en">Want these booked <em>for</em> you?</span><span data-lang="es">¿Quieres que las reservemos <em>por</em> ti?</span><span data-lang="uk">Хочете, щоб ми бронювали <em>за</em> вас?</span></h3>
           <p><span data-lang="en">On Pro, Julia calls the agency in native Spanish within minutes of a listing going live, presents your tenant profile, and books the viewing around your calendar — they appear right here.</span><span data-lang="es">Con Pro, Julia llama a la agencia en castellano nativo a los pocos minutos de publicarse el piso, presenta tu perfil de inquilino y reserva la visita según tu calendario — y aparecen aquí mismo.</span><span data-lang="uk">З Pro Julia телефонує агентству рідною іспанською за лічені хвилини після публікації, представляє ваш профіль орендаря та бронює перегляд під ваш календар — і вони з'являються тут.</span></p>
-          <div class="upsell-actions">
-            <button class="btn-primary" onclick="askAboutPro()"><span data-lang="en">Ask about Pro <span class="arr">→</span></span><span data-lang="es">Preguntar por Pro <span class="arr">→</span></span><span data-lang="uk">Запитати про Pro <span class="arr">→</span></span></button>
-            <a class="btn-ghost" href="/#pro"><span data-lang="en">See how Pro works</span><span data-lang="es">Ver cómo funciona Pro</span><span data-lang="uk">Як працює Pro</span></a>
+          <!-- pro_status: 'none'/null/'rejected' → apply form -->
+          <div id="proApplyWrap" hidden>
+            <form class="upsell-actions" onsubmit="event.preventDefault();applyForPro()">
+              <button type="submit" class="btn-primary" id="applyProBtn"><span data-lang="en">Apply for Pro <span class="arr">→</span></span><span data-lang="es">Solicitar Pro <span class="arr">→</span></span><span data-lang="uk">Подати заявку на Pro <span class="arr">→</span></span></button>
+              <button type="button" class="btn-text" onclick="askAboutPro()"><span data-lang="en">Questions? Ask about Pro</span><span data-lang="es">¿Dudas? Pregunta por Pro</span><span data-lang="uk">Є питання? Запитайте про Pro</span></button>
+              <a class="btn-ghost" href="/#pro"><span data-lang="en">See how Pro works</span><span data-lang="es">Ver cómo funciona Pro</span><span data-lang="uk">Як працює Pro</span></a>
+            </form>
+            <p class="pro-note"><span data-lang="en">€185/month — every application is reviewed personally. You only pay after you're approved.</span><span data-lang="es">185 €/mes — revisamos cada solicitud personalmente. Solo pagas después de ser aprobado.</span><span data-lang="uk">€185/міс — кожну заявку розглядаємо особисто. Ви платите лише після схвалення.</span></p>
           </div>
+          <!-- pro_status: 'applied' → rubber stamp, no button -->
+          <div class="pro-state" id="proAppliedWrap" role="status" hidden>
+            <span class="pro-stamp"><span data-lang="en">Application received</span><span data-lang="es">Solicitud recibida</span><span data-lang="uk">Заявку отримано</span></span>
+            <p class="pro-state-line"><span data-lang="en">We'll reply within 1 business day.</span><span data-lang="es">Te responderemos en 1 día laborable.</span><span data-lang="uk">Ми відповімо протягом 1 робочого дня.</span></p>
+          </div>
+          <!-- pro_status: 'approved' → stamp + checkout pointer -->
+          <div class="pro-state" id="proApprovedWrap" role="status" hidden>
+            <span class="pro-stamp ok"><span data-lang="en">Approved</span><span data-lang="es">Aprobada</span><span data-lang="uk">Схвалено</span></span>
+            <p class="pro-state-line"><span data-lang="en">Check your email for your checkout link.</span><span data-lang="es">Revisa tu correo — ahí tienes tu enlace de pago.</span><span data-lang="uk">Перевірте пошту — там ваше посилання для оплати.</span></p>
+          </div>
+          <div class="form-error" id="proErr" role="alert" style="margin:14px 0 0"></div>
         </aside>
 
         <div class="cal-add sheet">
@@ -559,7 +581,10 @@ const ERR_COPY = {
         uk:'Не вдалося зберегти. Спробуйте ще раз або напишіть на hello@llavai.com.'},
   checkout:{en:"Couldn't start checkout just now. Please try again, or email hello@llavai.com and we'll set you up.",
         es:'No se pudo iniciar el pago ahora mismo. Inténtalo de nuevo o escribe a hello@llavai.com y te lo activamos.',
-        uk:'Не вдалося розпочати оплату. Спробуйте ще раз або напишіть на hello@llavai.com — і ми все налаштуємо.'}
+        uk:'Не вдалося розпочати оплату. Спробуйте ще раз або напишіть на hello@llavai.com — і ми все налаштуємо.'},
+  apply:{en:"Couldn't send your application just now. Please try again, or email hello@llavai.com and we'll sort it.",
+        es:'No se pudo enviar tu solicitud ahora mismo. Inténtalo de nuevo o escribe a hello@llavai.com y lo resolvemos.',
+        uk:'Не вдалося надіслати заявку. Спробуйте ще раз або напишіть на hello@llavai.com — і ми все владнаємо.'}
 };
 function friendly(kind, rawError){
   if (rawError) { try { console.error('[llavai]', rawError.message||rawError); } catch(e){} }
@@ -774,6 +799,32 @@ function applyTierUI(){
       es:'Tus datos y preferencias del feed. Con Pro, Julia usa este perfil para presentarte a los agentes.',
       uk:'Ваші дані та налаштування стрічки. З Pro Julia використовує цей профіль, щоб представляти вас агентам.'});
   }
+  applyProUI();
+}
+/* ---- Pro application (W5) — state lives in profiles.pro_status ----
+   undefined = not loaded yet (show nothing); 'none'/null/'rejected' = can apply;
+   'applied'/'approved' = rubber stamp. Approval itself only ever happens server-side. */
+let PRO_STATUS;
+function applyProUI(){
+  var wrap=document.getElementById('proApplyWrap'); if(!wrap) return;
+  var loaded = PRO_STATUS!==undefined;
+  wrap.hidden = !(loaded && (!PRO_STATUS || PRO_STATUS==='none' || PRO_STATUS==='rejected'));
+  document.getElementById('proAppliedWrap').hidden = PRO_STATUS!=='applied';
+  document.getElementById('proApprovedWrap').hidden = PRO_STATUS!=='approved';
+}
+async function applyForPro(){
+  var btn=document.getElementById('applyProBtn'), err=document.getElementById('proErr');
+  err.classList.remove('visible');
+  btn.disabled=true;
+  try{
+    var r=await sb.rpc('apply_for_pro');            // returns 'applied', or the current status (idempotent)
+    if(r.error) throw r.error;
+    PRO_STATUS = (r.data==='approved') ? 'approved' : 'applied';
+    applyProUI();                                    // flip to the stamp in place — no reload
+  }catch(e){
+    err.textContent=friendly('apply',e); err.classList.add('visible');
+  }
+  btn.disabled=false;
 }
 function askAboutPro(){
   selectTab('messages');
@@ -1073,9 +1124,12 @@ function updateMix(){
 }
 WEIGHT_IDS.forEach(function(id){ var el=document.getElementById(id); if(el) el.addEventListener('change', updateMix); });
 async function loadProfile(){
+  // select('*') already carries pro_status — the W5 application state rides the existing query.
   const { data, error } = await sb.from('profiles').select('*').eq('id',USER.id).single();
   const p = data || {};
   document.getElementById('greetName').textContent = p.first_name || (USER.email||'').split('@')[0];
+  PRO_STATUS = p.pro_status || 'none';
+  applyProUI();
   PFIELDS.forEach(function(f){ const el=document.getElementById(PMAP[f]); if(el) el.value = p[f]==null?'':p[f]; });
   // feed prefs
   applyPrefLang();

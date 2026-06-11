@@ -466,7 +466,7 @@
             <label><input type="checkbox" id="pf_seasonal" /><span data-lang="en">Include seasonal / temporary rentals</span><span data-lang="es">Incluir alquileres de temporada</span><span data-lang="uk">Включати сезонну / тимчасову оренду</span></label>
             <label><input type="checkbox" id="pf_platform" /><span data-lang="en">Include platform listings (Spotahome, etc.)</span><span data-lang="es">Incluir anuncios de plataformas (Spotahome, etc.)</span><span data-lang="uk">Включати оголошення платформ (Spotahome тощо)</span></label>
           </div>
-          <div class="field"><label for="pf_context"><span data-lang="en">Anything else to tune your matches?</span><span data-lang="es">¿Algo más para afinar tus resultados?</span><span data-lang="uk">Щось іще, щоб налаштувати результати?</span></label><textarea id="pf_context" placeholder="e.g. quiet street, near a metro, ground floor is fine"></textarea></div>
+          <div class="field"><label for="pf_context"><span data-lang="en">Anything else to tune your matches?</span><span data-lang="es">¿Algo más para afinar tus resultados?</span><span data-lang="uk">Щось іще, щоб налаштувати результати?</span></label><textarea id="pf_context" placeholder="e.g. quiet street, near a metro, ground floor is fine" data-ph-en="e.g. quiet street, near a metro, ground floor is fine" data-ph-es="p. ej. calle tranquila, cerca del metro, un bajo me vale" data-ph-uk="напр., тиха вулиця, біля метро, перший поверх підходить"></textarea></div>
         </div>
 
         <button type="submit" class="btn-primary" id="saveProfileBtn"><span data-lang="en">Save changes</span><span data-lang="es">Guardar</span><span data-lang="uk">Зберегти</span></button>
@@ -535,6 +535,7 @@ function setLang(lang){
   if (lang !== 'en') document.body.classList.add(lang);
   document.documentElement.lang = lang;
   ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
+  document.querySelectorAll('[data-ph-en]').forEach(function(el){ el.placeholder = el.getAttribute('data-ph-'+lang) || el.getAttribute('data-ph-en'); });
   try { if(typeof applyPrefLang==='function') applyPrefLang(); } catch(e) {}
   try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
 }

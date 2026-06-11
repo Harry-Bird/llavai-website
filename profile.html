@@ -380,7 +380,7 @@
         <label for="nationalityOther" style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)">
           <span data-lang="en">Your nationality</span><span data-lang="es">Tu nacionalidad</span><span data-lang="uk">Ваше громадянство</span>
         </label>
-        <input type="text" id="nationalityOther" placeholder="e.g. Colombian" />
+        <input type="text" id="nationalityOther" placeholder="e.g. Colombian" data-ph-en="e.g. Colombian" data-ph-es="p. ej. colombiana" data-ph-uk="напр., колумбійське" />
       </div>
       <div class="field">
         <label for="residencyStatus"><span data-lang="en">Residency status <span class="req">*</span></span><span data-lang="es">Situación de residencia <span class="req">*</span></span><span data-lang="uk">Статус проживання <span class="req">*</span></span></label>
@@ -437,7 +437,7 @@
       <div class="field-row-2">
         <div class="field">
           <label for="profession"><span data-lang="en">Profession <span class="req">*</span></span><span data-lang="es">Profesión <span class="req">*</span></span><span data-lang="uk">Професія <span class="req">*</span></span></label>
-          <input type="text" id="profession" placeholder="e.g. Software Engineer" aria-required="true" />
+          <input type="text" id="profession" placeholder="e.g. Software Engineer" data-ph-en="e.g. Software Engineer" data-ph-es="p. ej. ingeniero/a de software" data-ph-uk="напр., інженер-програміст" aria-required="true" />
         </div>
         <div class="field">
           <label for="employmentType"><span data-lang="en">Employment type <span class="req">*</span></span><span data-lang="es">Tipo de contrato <span class="req">*</span></span><span data-lang="uk">Тип зайнятості <span class="req">*</span></span></label>
@@ -507,7 +507,7 @@
       </div>
       <div class="conditional-field" id="guarantorDetailsWrap">
         <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)" for="guarantorDetails"><span data-lang="en">Brief guarantor details</span><span data-lang="es">Datos del avalista</span><span data-lang="uk">Дані про поручителя</span></label>
-        <input type="text" id="guarantorDetails" placeholder="e.g. Spanish resident, property owner in Barcelona" />
+        <input type="text" id="guarantorDetails" placeholder="e.g. Spanish resident, property owner in Barcelona" data-ph-en="e.g. Spanish resident, property owner in Barcelona" data-ph-es="p. ej. residente en España, propietario de una vivienda en Barcelona" data-ph-uk="напр., резидент Іспанії, власник нерухомості в Барселоні" />
         <span class="field-hint"><span data-lang="en">Handy for Julia to have ready — it can reassure a hesitant agent.</span><span data-lang="es">Útil que Julia lo tenga a mano — puede tranquilizar a un agente indeciso.</span><span data-lang="uk">Корисно, щоб Julia мала це напоготові — це може заспокоїти нерішучого агента.</span></span>
       </div>
     </div>
@@ -707,6 +707,7 @@ function setLang(lang) {
   if (lang !== 'en') document.body.classList.add(lang);
   document.documentElement.lang = lang;
   ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
+  document.querySelectorAll('[data-ph-en]').forEach(function(el){ el.placeholder = el.getAttribute('data-ph-'+lang) || el.getAttribute('data-ph-en'); });
   try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
   if (window.renderDossierAll) renderDossierAll();
 }

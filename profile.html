@@ -319,8 +319,8 @@
     </a>
   </div>
 
-  <!-- STEP 1: PERSONAL -->
-  <div id="step1" class="step-panel">
+  <!-- STEP 1: PERSONAL (form so Enter advances the step) -->
+  <form id="step1" class="step-panel" onsubmit="event.preventDefault();nextStep(1)">
     <div class="step-header">
       <p class="section-eyebrow">
         <span data-lang="en">Step 1 of 4</span><span data-lang="es">Paso 1 de 4</span><span data-lang="uk">Крок 1 з 4</span>
@@ -416,12 +416,12 @@
     </div>
     <div class="form-nav">
       <span></span>
-      <button class="btn-primary" onclick="nextStep(1)"><span data-lang="en">Continue →</span><span data-lang="es">Continuar →</span><span data-lang="uk">Далі →</span></button>
+      <button type="submit" class="btn-primary"><span data-lang="en">Continue →</span><span data-lang="es">Continuar →</span><span data-lang="uk">Далі →</span></button>
     </div>
-  </div>
+  </form>
 
-  <!-- STEP 2: FINANCIAL -->
-  <div id="step2" class="step-panel" style="display:none">
+  <!-- STEP 2: FINANCIAL (form so Enter advances the step) -->
+  <form id="step2" class="step-panel" style="display:none" onsubmit="event.preventDefault();nextStep(2)">
     <div class="step-header">
       <p class="section-eyebrow"><span data-lang="en">Step 2 of 4</span><span data-lang="es">Paso 2 de 4</span><span data-lang="uk">Крок 2 з 4</span></p>
       <h1><span data-lang="en">Your <em>financial</em> profile</span><span data-lang="es">Tu perfil <em>económico</em></span><span data-lang="uk">Ваш <em>фінансовий</em> профіль</span></h1>
@@ -512,13 +512,13 @@
       </div>
     </div>
     <div class="form-nav">
-      <button class="btn-back" onclick="prevStep(2)"><span data-lang="en">← Back</span><span data-lang="es">← Atrás</span><span data-lang="uk">← Назад</span></button>
-      <button class="btn-primary" onclick="nextStep(2)"><span data-lang="en">Continue →</span><span data-lang="es">Continuar →</span><span data-lang="uk">Далі →</span></button>
+      <button type="button" class="btn-back" onclick="prevStep(2)"><span data-lang="en">← Back</span><span data-lang="es">← Atrás</span><span data-lang="uk">← Назад</span></button>
+      <button type="submit" class="btn-primary"><span data-lang="en">Continue →</span><span data-lang="es">Continuar →</span><span data-lang="uk">Далі →</span></button>
     </div>
-  </div>
+  </form>
 
-  <!-- STEP 3: PREFERENCES -->
-  <div id="step3" class="step-panel" style="display:none">
+  <!-- STEP 3: PREFERENCES (form so Enter advances the step) -->
+  <form id="step3" class="step-panel" style="display:none" onsubmit="event.preventDefault();nextStep(3)">
     <div class="step-header">
       <p class="section-eyebrow"><span data-lang="en">Step 3 of 4</span><span data-lang="es">Paso 3 de 4</span><span data-lang="uk">Крок 3 з 4</span></p>
       <!-- EDIT: Step 3 heading + subtitle -->
@@ -621,13 +621,13 @@
       </div>
     </div>
     <div class="form-nav">
-      <button class="btn-back" onclick="prevStep(3)"><span data-lang="en">← Back</span><span data-lang="es">← Atrás</span><span data-lang="uk">← Назад</span></button>
-      <button class="btn-primary" onclick="nextStep(3)"><span data-lang="en">Review my profile →</span><span data-lang="es">Revisar mi perfil →</span><span data-lang="uk">Переглянути мій профіль →</span></button>
+      <button type="button" class="btn-back" onclick="prevStep(3)"><span data-lang="en">← Back</span><span data-lang="es">← Atrás</span><span data-lang="uk">← Назад</span></button>
+      <button type="submit" class="btn-primary"><span data-lang="en">Review my profile →</span><span data-lang="es">Revisar mi perfil →</span><span data-lang="uk">Переглянути мій профіль →</span></button>
     </div>
-  </div>
+  </form>
 
-  <!-- STEP 4: REVIEW -->
-  <div id="step4" class="step-panel" style="display:none">
+  <!-- STEP 4: REVIEW (form so Enter confirms) -->
+  <form id="step4" class="step-panel" style="display:none" onsubmit="event.preventDefault();submitProfile()">
     <div class="step-header">
       <p class="section-eyebrow"><span data-lang="en">Almost there</span><span data-lang="es">Casi listo</span><span data-lang="uk">Майже готово</span></p>
       <h1><span data-lang="en">Check your <em>profile</em></span><span data-lang="es">Revisa tu <em>perfil</em></span><span data-lang="uk">Перевірте ваш <em>профіль</em></span></h1>
@@ -643,8 +643,8 @@
       <span data-lang="uk">Підтверджуючи, ви погоджуєтесь, що Llavai телефонуватиме агентствам і бронюватиме перегляди від вашого імені, використовуючи профіль вище. Жодних платежів зараз — ми зв'яжемося, щоб підтвердити ваш акаунт.</span>
     </div>
     <div class="form-nav">
-      <button class="btn-back" onclick="prevStep(4)"><span data-lang="en">← Edit</span><span data-lang="es">← Editar</span><span data-lang="uk">← Редагувати</span></button>
-      <button class="btn-primary" id="btnConfirm" onclick="submitProfile()">
+      <button type="button" class="btn-back" onclick="prevStep(4)"><span data-lang="en">← Edit</span><span data-lang="es">← Editar</span><span data-lang="uk">← Редагувати</span></button>
+      <button type="submit" class="btn-primary" id="btnConfirm">
         <span id="confirmBtnText">
           <span data-lang="en">Confirm & send to Llavai →</span>
           <span data-lang="es">Confirmar y enviar a Llavai →</span>
@@ -653,7 +653,7 @@
         <span class="spinner" id="submitSpinner"></span>
       </button>
     </div>
-  </div>
+  </form>
 
 </div><!-- /.profile-form-col -->
 

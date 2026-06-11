@@ -1,4 +1,4 @@
--- PROPOSED — NOT YET APPLIED. Review, then apply via migration and move to ../migrations/.
+-- APPLIED 2026-06-11 (launch night, Harry approved live).
 --
 -- Why: viewings_insert_own currently lets a signed-in user insert a viewing
 -- row with ANY source value (e.g. source='julia'), letting them forge rows

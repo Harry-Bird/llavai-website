@@ -1,4 +1,4 @@
--- PROPOSED — NOT YET APPLIED. Review, then apply via migration and move to ../migrations/.
+-- APPLIED 2026-06-11 (launch night, Harry approved live).
 --
 -- Why: viewings.listing_id is a foreign key to listings(id) with
 -- ON DELETE SET NULL, but it has no index. Every listings delete (and any

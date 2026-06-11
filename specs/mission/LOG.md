@@ -58,9 +58,13 @@ plan — accepted risk (auth is magic-link). Remaining items renumbered below.
 **DONE 2026-06-11 evening (launch night, Harry approving live):** A1 ✅ A2 ✅ A3 ✅
 (all three cutovers published + live-verified; rollback IDs below remain valid),
 C8 ✅ (W3 fired 4×, trialing + cancel verified), C9 ✅ (Starter 410/2,500),
-B6-partial (leaked-password: N/A on free plan, magic-link auth — accepted).
-STILL OPEN: B4 (errorWorkflow clicks), B5 (Profile Creation draft), B6 (proposed
-migrations + empty bucket), B7 ([Lavai typo), D10–D15.
+B5 ✅ (Profile Creation draft 24704158 published — onError fix live; rollback
+republish 15831bc9), B6 ✅ (all 4 proposed migrations APPLIED + moved to
+supabase/migrations/; anon→current_tier verified 42501 permission denied;
+leaked-password N/A on free plan — accepted; bucket delete = dashboard-only,
+SQL blocked by storage.protect_delete).
+STILL OPEN: B4 (errorWorkflow clicks: W3, Feed Backfill, W5a — hand-edit),
+B7 ([Lavai typo), bucket click, D10–D15 decisions.
 
 **A. n8n v2 cutovers — ✅ DONE (kept for rollback reference)**
 Pre-check for all three: open the workflow in the n8n editor and confirm every

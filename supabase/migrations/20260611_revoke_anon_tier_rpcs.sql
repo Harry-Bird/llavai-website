@@ -1,4 +1,4 @@
--- PROPOSED — NOT YET APPLIED. Review, then apply via migration and move to ../migrations/.
+-- APPLIED 2026-06-11 (launch night, Harry approved live).
 --
 -- Why (audit R8): current_tier(), is_pro() and has_active_subscription() are
 -- SECURITY DEFINER and currently executable by PUBLIC and anon as well as

@@ -1,4 +1,4 @@
--- PROPOSED — NOT APPLIED (mission F1, 2026-06-11). Review + apply via Supabase
+-- APPLIED 2026-06-11 (launch night, Harry approved live).
 -- dashboard SQL editor or ask Claude to apply after approval.
 --
 -- WHY: weekend Pro alerts die silently. call_queue.expires_at defaults to now()+48h,

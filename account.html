@@ -90,6 +90,7 @@
   .empty{padding:32px;text-align:center;color:var(--pencil);font-style:italic;border:1px dashed rgba(27,56,143,.18);border-radius:6px;background:rgba(27,56,143,.02)}
   /* pipeline */
   .viewing{border:1px solid rgba(27,56,143,.13);border-radius:4px;padding:18px 20px;margin-bottom:14px;background:var(--paper);box-shadow:var(--shadow-sm);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+  .viewing>div:first-child{flex:1;min-width:0} /* long Julia notes must not push the status stamp off the row */
   .viewing,.doc-row{transition:box-shadow .2s var(--ease-out),transform .2s var(--ease-out)}
   .viewing:hover,.doc-row:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
   .viewing h3{font-family:'Fraunces',serif;font-size:18px;font-weight:500;color:var(--ink);margin-bottom:4px}
@@ -103,6 +104,10 @@
   .badge.b-booked,.badge.b-confirmed{color:var(--ink)}
   .badge.b-attended{border-color:var(--ink);background:var(--ink)!important;color:var(--cream)}
   .badge.b-declined,.badge.b-no_answer{color:var(--pencil);text-decoration:line-through;opacity:.55}
+  .badge.b-queued{color:var(--ink);opacity:.75;border-style:dashed}
+  /* Julia's post-call summary — the concierge showing her work */
+  .vnotes{margin-top:8px;font-size:14px;font-style:italic;color:var(--ink-deep);background:rgba(229,91,69,.06);border-left:2px solid var(--coral);padding:8px 12px;border-radius:2px;line-height:1.5;white-space:pre-wrap}
+  .vnotes b{font-style:normal;font-family:'Newsreader',serif;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--coral-text);display:block;margin-bottom:3px}
   /* forms */
   .field{display:flex;flex-direction:column;gap:7px;margin-bottom:18px}
   .field label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)}
@@ -965,7 +970,26 @@ async function loadPipeline(){
   const wrap=document.getElementById('pipelineList');
   const { data, error } = await sb.from('viewings').select('*').order('created_at',{ascending:false});
   if (error){ wrap.innerHTML='<div class="empty">'+esc(friendly('load',error))+'</div>'; return; }
-  if (!data || !data.length){
+  // Off-hours queue (RLS select-own; rows exist only for Pro): show Julia's pending work.
+  let queued=[];
+  try{
+    const q=await sb.from('call_queue').select('id,property_id,status,created_at,listings(title,neighbourhood,price)').in('status',['pending','processing']).order('created_at',{ascending:false});
+    if(q && q.data) queued=q.data;
+  }catch(e){ /* table hidden from non-Pro or older policies — fine, show nothing */ }
+  const qHtml = queued.map(function(c){
+    const l2=lang();
+    const li=c.listings||{};
+    const title=li.title || (l2==='es'?'Piso':l2==='uk'?'Квартира':'Listing');
+    const bits=[]; if(li.neighbourhood) bits.push(esc(li.neighbourhood)); if(li.price) bits.push('€'+esc(li.price));
+    const isProc=c.status==='processing';
+    const st=isProc ? (STATUS.calling[l2]) : (l2==='es'?'En cola':l2==='uk'?'У черзі':'Queued');
+    const note=isProc?'':'<div class="meta">'+(l2==='es'?'Julia llamará en cuanto abran las oficinas (lun–vie 8–18h)':
+      l2==='uk'?'Julia зателефонує, щойно відкриються офіси (пн–пт 8–18)':
+      'Julia calls the moment offices open (Mon–Fri 8–18h)')+'</div>';
+    return '<div class="viewing"><div><h3>'+esc(title)+'</h3>'+(bits.length?'<div class="meta">'+bits.join(' · ')+'</div>':'')+note+'</div>'
+      +'<div style="display:flex;align-items:center;gap:8px"><span class="badge '+(isProc?'b-calling':'b-queued')+'">'+esc(st)+'</span></div></div>';
+  }).join('');
+  if ((!data || !data.length) && !qHtml){
     // Julia only calls for Pro — don't promise her to self-serve users.
     var emptyCopy = (TIER==='pro')
       ? {en:'No viewings yet. As soon as Julia starts calling agencies for you, they\'ll appear here.',
@@ -977,7 +1001,7 @@ async function loadPipeline(){
     wrap.innerHTML='<div class="empty">'+tri(emptyCopy)+'</div>'; return;
   }
   const l=lang();
-  wrap.innerHTML = data.map(function(v){
+  wrap.innerHTML = qHtml + (data||[]).map(function(v){
     const st=STATUS[v.status]||{en:v.status,es:v.status,uk:v.status};
     const title = v.listing_title || (l==='es'?'Piso':l==='uk'?'Квартира':'Listing');
     const bits=[]; if(v.neighbourhood) bits.push(esc(v.neighbourhood)); if(v.price) bits.push('€'+esc(v.price)); if(v.agency_name) bits.push(esc(v.agency_name));
@@ -985,7 +1009,11 @@ async function loadPipeline(){
     const link = v.listing_url ? ' · <a href="'+esc(v.listing_url)+'" target="_blank" rel="noopener">'+(l==='es'?'ver':l==='uk'?'дивитися':'view')+'</a>' : '';
     const del = (v.source==='self') ? (function(){ var r=lang()==='es'?'Quitar':lang()==='uk'?'Прибрати':'Remove';
       return '<button class="del" title="'+r+'" aria-label="'+r+'" onclick="deleteViewing(\''+esc(v.id)+'\')">×</button>'; })() : '';
-    return '<div class="viewing"><div><h3>'+esc(title)+'</h3><div class="meta">'+bits.join(' · ')+link+'</div>'+when+'</div><div style="display:flex;align-items:center;gap:8px"><span class="badge b-'+esc(v.status)+'">'+esc(st[l])+'</span>'+del+'</div></div>';
+    // Julia's call summary (W2 post-call writes viewings.notes) — the concierge's work, visible
+    const notes = v.notes ? '<div class="vnotes"><b>'+(v.source==='julia'
+      ? (l==='es'?'Resumen de la llamada de Julia':l==='uk'?'Підсумок дзвінка Julia':"Julia's call summary")
+      : (l==='es'?'Notas':l==='uk'?'Нотатки':'Notes'))+'</b>'+esc(v.notes)+'</div>' : '';
+    return '<div class="viewing"><div><h3>'+esc(title)+'</h3><div class="meta">'+bits.join(' · ')+link+'</div>'+when+notes+'</div><div style="display:flex;align-items:center;gap:8px"><span class="badge b-'+esc(v.status)+'">'+esc(st[l])+'</span>'+del+'</div></div>';
   }).join('');
 }
 async function addViewing(){

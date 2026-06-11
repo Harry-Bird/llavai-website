@@ -1,16 +1,22 @@
 # Mission log — production-ready + launch-grade (started 2026-06-11)
 
 ## STATUS (read this first)
-Phase 0 (orient + checkpoint) complete. Tag `pre-mission` = 2406434. Now running
-Phase 1: 4 parallel audit sub-agents (reliability / web app / marketing+conversion /
-business ideas). Nothing has been changed yet beyond mission state files.
+Phase 1 in progress. Business-ideas agent DONE (7 proposals in specs/proposals/,
+committed). Reliability / web-app / marketing agents still running. No production
+changes made. Tag `pre-mission` = 2406434.
 
 ## DONE
 - Phase 0: read CLAUDE.md, overnight AUDIT/LOG/ROADMAP, retro, backend architecture.
   Tagged `pre-mission`, created RESET.md + this log.
+- Phase 1 (area 4, business): 7 proposals in specs/proposals/ — AI-disclosure Art.50
+  script, Pro call economics/allowance, trial 3→7d design, Julia-on-demand bridge tier,
+  growth-first-100, retention-after-keys, price-drop digest. Plus model findings to
+  merge into AUDIT.md. CROSS-CHECK PENDING: its 🔴 "trial charges €19" cites the OLD
+  audit B1; overnight LOG says W4 trial was published+verified 06-11 — reliability
+  agent will confirm published state before this is treated as open.
 
 ## IN PROGRESS
-- Phase 1 gap audit (4 sub-agents).
+- Phase 1 gap audit: reliability, web-app, marketing agents running.
 
 ## QUEUED
 (seeded from Phase 1 results, ordered by user impact — pending)

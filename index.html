@@ -370,6 +370,19 @@
   html.has-js .feed.feed--offset > .sample:nth-child(1) { animation-delay:-3.5s; }
   html.has-js .feed.feed--offset > .sample:nth-child(2) { animation-delay:-10.5s; }
   html.has-js .feed.feed--offset > .sample:nth-child(3) { animation-delay:-17.5s; }
+  /* opening beat: hold a static stack ~12s before cycling (JS adds .cycling, staggered
+     per deck). Readers take in the front card, and the shuffle's image fade-ins stop
+     emitting post-load LCP candidates (hurts real-user LCP, not just lab). The cycling
+     delays drop each card into the MIDDLE of its hold zone (front 6%, back 39.3%,
+     middle 72.7%) so the static→cycling handoff is seamless — no snap. These rules sit
+     after the feed--offset delays on purpose: same specificity, source order wins. */
+  html.has-js .feed:not(.cycling) > .sample { animation:none; }
+  html.has-js .feed:not(.cycling) > .sample:nth-child(1) { z-index:3; }
+  html.has-js .feed:not(.cycling) > .sample:nth-child(2) { transform:translate(26px,32px) scale(.91) rotate(3.2deg); z-index:1; }
+  html.has-js .feed:not(.cycling) > .sample:nth-child(3) { transform:translate(13px,16px) scale(.955) rotate(1.7deg); z-index:2; }
+  html.has-js .feed.cycling > .sample:nth-child(1) { animation-delay:-1.26s; }
+  html.has-js .feed.cycling > .sample:nth-child(2) { animation-delay:-8.25s; }
+  html.has-js .feed.cycling > .sample:nth-child(3) { animation-delay:-15.27s; }
   @keyframes cardShuffle {
     /* FRONT — held while the card on top is read */
     0%   { transform:translate(0,0) scale(1) rotate(0); z-index:3; opacity:1; }
@@ -1231,6 +1244,12 @@
 <script>
 (function () {
   var doc = document;
+
+  // ── start the deck shuffle after the opening beat (see .feed:not(.cycling) CSS);
+  //    decks stagger by a half-cycle so the two never shuffle in sync ──
+  doc.querySelectorAll('.feed').forEach(function (f, i) {
+    setTimeout(function () { f.classList.add('cycling'); }, 12000 + i * 10500);
+  });
 
   // ── condensing header on scroll ──
   var header = doc.querySelector('.site-header');

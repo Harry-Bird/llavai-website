@@ -345,7 +345,7 @@
     max-width: 600px;
     line-height: 1.12;
   }
-  .faq-heading em { font-style: italic; color: var(--coral); }
+  .faq-heading em { font-style: italic; color: var(--coral-text); } /* a11y: coral fails contrast on cream at this size */
   .faq-list { max-width: 720px; }
   .faq-item {
     border-bottom: 1px solid rgba(27,56,143,.1);
@@ -418,6 +418,18 @@
   /* ── nav sign-in link ── */
   .nav-link { font-family:'Newsreader',serif; font-size:15px; color:var(--pencil); text-decoration:none; }
   .nav-link:hover { color:var(--ink); }
+
+  /* related guides (mission M8: kill the crawl cul-de-sac) */
+  .related-guides{padding:8px 0 56px}
+  .related-guides .rg-wrap{max-width:760px;margin:0 auto;padding:0 32px}
+  .rg-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral-text);letter-spacing:.04em;margin-bottom:10px}
+  .rg-head{font-family:'Fraunces',serif;font-weight:400;font-size:24px;letter-spacing:-.01em;margin-bottom:18px;color:var(--ink)}
+  .rg-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+  .rg-list a{color:var(--ink);text-decoration:none;border-bottom:1px solid rgba(27,56,143,.25);padding-bottom:2px;font-size:18px}
+  .rg-list a:hover{color:var(--coral-text);border-color:var(--coral)}
+  .rg-all{margin-top:22px;font-size:15px}
+  .rg-all a{color:var(--pencil);text-decoration:none}
+  .rg-all a:hover{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -854,6 +866,20 @@
       </div>
 
     </div>
+  </div>
+</section>
+
+<!-- RELATED GUIDES -->
+<section class="related-guides">
+  <div class="rg-wrap">
+    <p class="rg-eyebrow"><span data-lang="en">Keep reading</span><span data-lang="es" class="inline">Sigue leyendo</span><span data-lang="uk" class="inline">Читайте далі</span></p>
+    <h2 class="rg-head"><span data-lang="en">Related guides</span><span data-lang="es" class="inline">Guías relacionadas</span><span data-lang="uk" class="inline">Схожі посібники</span></h2>
+    <ul class="rg-list">
+      <li><a href="/blog/barcelona-rent-control-zona-tensionada"><span data-lang="en">Barcelona rent control: zona tensionada explained</span><span data-lang="es" class="inline">Control de alquiler en Barcelona: zona tensionada</span><span data-lang="uk" class="inline">Контроль орендної плати в Барселоні: zona tensionada</span></a></li>
+      <li><a href="/blog/rent-apartment-barcelona-foreigner"><span data-lang="en">How to rent in Barcelona as a foreigner</span><span data-lang="es" class="inline">Cómo alquilar en Barcelona siendo extranjero</span><span data-lang="uk" class="inline">Як орендувати квартиру в Барселоні іноземцю</span></a></li>
+      <li><a href="/blog/rental-cover-letter-spanish-barcelona"><span data-lang="en">How to write a rental cover letter in Spanish</span><span data-lang="es" class="inline">Cómo escribir una carta de presentación para alquilar</span><span data-lang="uk" class="inline">Як написати супровідний лист іспанською для оренди</span></a></li>
+    </ul>
+    <p class="rg-all"><a href="/blog"><span data-lang="en">← All renting guides</span><span data-lang="es" class="inline">← Todas las guías</span><span data-lang="uk" class="inline">← Усі посібники</span></a></p>
   </div>
 </section>
 

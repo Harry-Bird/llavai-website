@@ -1,13 +1,13 @@
 # Product Marketing Context
 
-*Last updated: 2026-06-11 (auto-drafted from site copy at launch; review pending)*
+*Last updated: 2026-06-11 (auto-drafted from site copy at launch; pricing model revised same day — see `specs/pricing_model.md`)*
 
 ## Product Overview
-**One-liner:** Llavai is an AI rental concierge that helps expats win Barcelona flats — it surfaces the best new listings first, and on Pro, "Julia" calls the estate agents in native Spanish within ~60 seconds and books the viewings.
+**One-liner:** Llavai is an AI rental concierge that helps expats win Barcelona flats — it surfaces the best new listings first, and on Pro, "Julia" calls every agent for you in native Spanish within ~60 seconds, so you never make the call you dread. *(Headline sells the **calling done for you** — the verb we control — NOT "books the viewings", which over-promises while call→viewing CvR is <1 in 10. See Pricing model below + `specs/pricing_model.md`.)*
 **What it does:** Llavai watches the Barcelona rental market, scores every new listing 0–100 for appeal, and shows subscribers only the ones worth their time with the agency's number one tap away. On the Pro plan, Julia (the AI voice agent) calls agencies within ~60 seconds of a listing going live, presents the tenant's profile in native Spanish, and books viewings around their calendar.
 **Product category:** AI rental concierge / apartment-hunting service (customers search things like "how to rent in Barcelona as a foreigner", "rent apartment Barcelona expat" — they search the *problem*, not the category).
 **Product type:** B2C subscription SaaS (Essential) + AI-powered concierge service (Pro, application-gated).
-**Business model:** Monthly subscription via Stripe. Free 3-day trial of Essential, no payment details at signup, every account confirmed personally. Essential €19/mo (self-serve feed + one-tap calling). Pro €185/mo (Julia calls + books; "every application is reviewed personally — you only pay after you're approved"). Launched 2026-06-11.
+**Business model:** Monthly subscription + prepaid call packs via Stripe. **Value metric = volume of agent calls made *for* the customer** (the verb we control; >60-score listings only, so volume ≠ spam). Tiers: **Essential €19/mo** (self-serve feed + one-tap calling — *you* call, €0 Julia cost, ~100% margin, kept paid as the cash engine). **Call Packs €12/€49/€119** (1/5/15 prepaid Julia calls — bridge between tiers + Pro overage; ~95% margin since Julia costs ~€0.53/call). **Pro €185/mo** (Julia calls every quality listing for you, ~60 calls/mo coverage + pack overage; application-reviewed, pay-after-approval). **Trial:** free 3-day Essential **+ Julia's first 5 calls on us** (demonstrates delegation, not a booking), no card at signup, every account confirmed personally. **White-glove (~€390+) deferred** until a human-in-loop exists. **Pay-per-viewing** is the eventual destination, gated on CvR. Launched 2026-06-11. Full model + unit economics + roadmap: `specs/pricing_model.md`.
 
 ## Target Audience
 **Target customers:** Expats and internationals moving to (or within) Barcelona who don't speak fluent Spanish — professionals with steady income, couples, families, students. Site is trilingual EN/ES/UA, so Ukrainian newcomers are an explicit audience segment.
@@ -83,15 +83,16 @@ B2C, single decision-maker — full B2B persona table not applicable. Two buyer 
 - "Julia calls the agents in Spanish — you just show up"
 - (Collect real customer phrasings post-launch)
 **Words to use:** flats (not apartments, in EN copy), viewings, agents/agencies, listing, dossier, tenant profile, "first in the queue", appeal score, hands-off.
-**Words to avoid:** "bot"/"robocall" (Julia is a concierge, not a robot); never promise Julia/concierge calling to non-Pro users (trial = trial of Essential); never invent legal/financial figures about Spanish rentals (hard rule — verify or defer to a professional); don't describe the Pro call allowance in *minutes* — `call_allowance` counts **calls**.
+**Words to avoid:** "bot"/"robocall" (Julia is a concierge, not a robot); never invent legal/financial figures about Spanish rentals (hard rule — verify or defer to a professional); don't describe the call allowance / packs in *minutes* — `call_allowance` and packs count **calls**; **don't headline/sell "books your viewings"** — lead on the *calling done for you* (calls→viewings CvR is <1 in 10; selling the outcome over-promises). Julia still attempts booking on every call; we just don't sell it. *(Trial now includes 5 free Julia calls, so the old "never promise Julia to non-Pro / trial = Essential only" rule is relaxed for the trial taste — but a free **Essential** trial still isn't a free **Pro**.)*
 **Glossary:**
 | Term | Meaning |
 |------|---------|
 | Julia | The AI voice agent who calls agencies in native Spanish (Retell-powered; "she", named, personal) |
 | Appeal score | 0–100 listing score; >60 makes the feed; on Pro, Julia calls those automatically |
 | Dossier | The tenant profile document Julia presents to agents (also a signature UI element) |
-| Essential | €19/mo self-serve tier: scored feed + one-tap calling |
-| Pro | €185/mo concierge tier: Julia calls + books viewings; application-reviewed |
+| Essential | €19/mo self-serve tier: scored feed + one-tap calling (you call; €0 Julia cost) |
+| Call Pack | Prepaid Julia calls — €12/€49/€119 for 1/5/15 (counts calls, not minutes); bridge + Pro overage |
+| Pro | €185/mo concierge tier: Julia calls every >60 listing for you (~60/mo + pack overage); application-reviewed |
 | Fianza / NIE / nómina / zona tensionada | Spanish rental terms the audience is actively googling — used accurately in blog content |
 
 ## Brand Voice

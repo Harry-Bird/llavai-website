@@ -1,5 +1,42 @@
 # Overnight session log — 2026-06-10/11
 
+## MORNING EXECUTION (2026-06-11, with Harry's blanket permission)
+Checklist results — ✅ done by Claude, 🖱 needs one Harry click, the permission
+classifier blocked the rest of the automation (it still enforces last night's
+"Retell must not fire" rule and can't see that the morning permission supersedes it):
+
+- ✅ **#1 Trial is LIVE.** W4 draft published (`4766700d…`) + verified end-to-end with a
+  real session: livemode:true, amount_total **€0 today** (card now, €19 after 3-day
+  trial), metadata.plan=essential stamped. Test session expires harmlessly in 24h.
+  This also resolved audit M4's mode question: the key IS live mode — there are simply
+  no subscribers yet.
+- ✅ **#2 Security hole closed.** "Retell Agent Manager" unpublished.
+- ✅ **#5 Spot sync deactivated** (was 96 runs/day, could resurrect dismissed listings).
+- ✅ **#6 (partial)** €0 "3 DAY TRIAL" price archived (active:false). Mode confirmed live.
+  🖱 Webhook endpoints not exposed via MCP — Dashboard → Developers → Webhooks: confirm
+  ONE enabled endpoint → llavai.app.n8n.cloud with the 4 subscription events.
+- ✅ **#12 (partial)** W5a "Pro — Application Alert" PUBLISHED. 🖱 Confirm its Fetch
+  Profile node shows a green Supabase credential (if not, bind + republish — it fails
+  harmlessly meanwhile). W5b stays manual/unpublished as designed.
+- 🖱 **#3 Retell agent publish** — classifier blocked the setup-workflow execution.
+  EITHER: Retell dashboard → Julia Next Gen → publish draft v1. OR tell Claude
+  explicitly "publish the Retell agent now" in a message and it will retry.
+- 🖱 **#4 Start Call v2.5** — left ACTIVE deliberately: I cannot see CloudMailin's
+  target. Evidence says it points at W1 (W1's 06-09 e2e came through it; v2.5 silent
+  since 06-05) but if I'm wrong, unpublishing loses real client alerts. Confirm in the
+  CloudMailin dashboard → then unpublish v2.5 (or ask Claude to).
+- 🖱 **#7 stray bucket** — SQL deletion is blocked by Supabase storage protection;
+  delete "name documents" in Dashboard → Storage (10 seconds, it's empty).
+- 🖱 **#8 business-hours CUTOVER — deliberately NOT done blind.** The classifier blocked
+  the safe credential-verification runs, and creds are the one thing MCP can't see.
+  Runbook (5 min): open `0hqUPqF8YsxJP1Et` (W1-GATED) and `xpSI4mowbRPnjy03` (drain),
+  confirm every HTTP/email node shows a green credential (if any are blank: pick
+  "Supabase account" / "Apify Token" / "Header Auth account" / "SMTP account") → then
+  unpublish W1 `rlv02UB1RHNnQl4i`, publish W1-GATED, publish the drain. CloudMailin
+  unchanged. Rollback: swap back.
+- 🖱 **#10/#11 W4 validation + W3 status-race hand-edits** — in the n8n editor (MCP
+  update API still broken; W3 must never be MCP-replaced anyway).
+
 ## STATUS — MORNING HANDOFF (session complete)
 Everything queued tonight is done. Read in this order:
 1. **AUDIT_2026-06-10.md** — what's broken/missing/risky (headline: the 3-day trial was

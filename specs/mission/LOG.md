@@ -1,14 +1,19 @@
 # Mission log — production-ready + launch-grade (started 2026-06-11)
 
 ## STATUS (read this first)
-MISSION COMPLETE — read specs/mission/LAUNCH-REPORT.md first, then §NEEDS HARRY
-below (15 ordered items). Live and verified: honest-copy/funnel/SEO/perf batch
-(mobile Lighthouse 86–99 across runs, was 77–84; desktop 98/100/100/100), web-app
-trilingual+a11y batch, related-guides, Julia's-work dashboard surface, wow-kit on
-tiers + email-setup, WebP demo images, deck opening beat. Built as never-published
-drafts (independently verified inactive): Drain v2 LZzSF0CfiXxiE06G, W1-GATED v2
-IAqF3sVJDuQqK2hm, W4 v2 rSUCsckVa9dJ5BxE. 9 proposals in specs/proposals/.
-If resuming: nothing is QUEUED; everything actionable is NEEDS HARRY.
+MISSION COMPLETE + LAUNCH-NIGHT CUTOVERS DONE (2026-06-11 evening, Harry live-approving).
+All three n8n v2 cutovers are PUBLISHED and verified in production (Harry authorized
+unpublish/publish explicitly): Drain v2 LZzSF0CfiXxiE06G (first cron tick green),
+W1-GATED v2 IAqF3sVJDuQqK2hm (403 no-secret / 200 with-secret verified by live curl;
+CloudMailin free plan = secret moved to ?secret= query param, gate accepts header OR
+query), W4 v2 rSUCsckVa9dJ5BxE (junk POST → 400 verified). W3 FIRED IN PRODUCTION for
+the first time: real test checkout hsdb23+launchtest@gmail.com → trialing/essential
+with real Stripe ids; cancel-at-period-end processed (status stays trialing until
+2026-06-14, deleted-event → canceled branch verified statically in W3). Stripe no-code
+customer portal activated; account.html plan line now has "Manage subscription ·
+cancel anytime" (commit 255f178). n8n plan: Starter, 410/2,500 June executions —
+headroom OK post-drain-v2. Leaked-password protection unavailable on Supabase free
+plan — accepted risk (auth is magic-link). Remaining items renumbered below.
 
 ## DONE
 - Phase 0: orient + checkpoint (pre-mission tag, RESET.md, this log).
@@ -50,7 +55,14 @@ If resuming: nothing is QUEUED; everything actionable is NEEDS HARRY.
 
 ## NEEDS HARRY (in execution order, each reversible)
 
-**A. n8n v2 cutovers (~15 min total; can be done independently of each other)**
+**DONE 2026-06-11 evening (launch night, Harry approving live):** A1 ✅ A2 ✅ A3 ✅
+(all three cutovers published + live-verified; rollback IDs below remain valid),
+C8 ✅ (W3 fired 4×, trialing + cancel verified), C9 ✅ (Starter 410/2,500),
+B6-partial (leaked-password: N/A on free plan, magic-link auth — accepted).
+STILL OPEN: B4 (errorWorkflow clicks), B5 (Profile Creation draft), B6 (proposed
+migrations + empty bucket), B7 ([Lavai typo), D10–D15.
+
+**A. n8n v2 cutovers — ✅ DONE (kept for rollback reference)**
 Pre-check for all three: open the workflow in the n8n editor and confirm every
 HTTP/email node shows a GREEN credential (create_workflow_from_code "skipped
 credential auto-assignment" caveat; ids are pre-bound in code but verify visually).

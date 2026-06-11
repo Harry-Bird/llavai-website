@@ -96,6 +96,9 @@
 <!-- premium pass: enable JS-gated reveal/motion before first paint (no-JS fallback shows everything) -->
 <script>document.documentElement.classList.add('has-js');</script>
 
+<!-- LCP: preload the two hero-critical latin fonts (Fraunces h1, Newsreader lede) -->
+<link rel="preload" href="/fonts/6NUV8FyLNQOQZAnv9ZwIlOk.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/cY9AfjOCX1hbuyalUrK4397yjA.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="/fonts.css">
 <style>
   :root {
@@ -209,6 +212,9 @@
   .reveal { transition:opacity .8s var(--ease-out), transform .8s var(--ease-out); }
   html.has-js .reveal { opacity:0; transform:translateY(22px); }
   html.has-js .reveal.in { opacity:1; transform:none; }
+  /* LCP: above-the-fold hero must paint immediately — slide-in only, never opacity-gated
+     (JS-held opacity:0 delayed LCP ~1.6s; Lighthouse perf 84 → see mission audit M9) */
+  html.has-js .hero-grid .reveal { opacity:1; }
   .reveal-1{transition-delay:.05s} .reveal-2{transition-delay:.18s} .reveal-3{transition-delay:.31s} .reveal-4{transition-delay:.44s}
 
   /* ── focus + skip link (a11y) ── */
@@ -482,9 +488,9 @@
             <span data-lang="uk">Почати</span>
           </a>
           <span class="meta-note">
-            <span data-lang="en">Two plans · from €19/mo</span>
-            <span data-lang="es">Dos planes · desde 19 €/mes</span>
-            <span data-lang="uk">Два плани · від 19 €/міс</span>
+            <span data-lang="en">Free 3-day trial · plans from €19/mo</span>
+            <span data-lang="es">Prueba gratis de 3 días · planes desde 19 €/mes</span>
+            <span data-lang="uk">3 дні безкоштовно · плани від 19 €/міс</span>
           </span>
         </div>
       </div>
@@ -579,9 +585,9 @@
       <span data-lang="uk">Два способи користуватись Llavai</span>
     </p>
     <h2>
-      <span data-lang="en">Pick your pace. <em>Both win you the flat.</em></span>
-      <span data-lang="es">Elige tu ritmo. <em>Ambos te consiguen el piso.</em></span>
-      <span data-lang="uk">Оберіть свій темп. <em>Обидва приведуть до квартири.</em></span>
+      <span data-lang="en">Pick your pace. <em>Both get you to the viewing first.</em></span>
+      <span data-lang="es">Elige tu ritmo. <em>Ambos te llevan el primero a la visita.</em></span>
+      <span data-lang="uk">Оберіть свій темп. <em>Обидва приведуть вас на перегляд першим.</em></span>
     </h2>
     <div class="tiers-grid">
       <!-- Essential (self-serve, featured) -->
@@ -621,7 +627,7 @@
             <span data-lang="uk">Дзвінок одним дотиком: номер агентства прямо у стрічці</span>
           </li>
         </ul>
-        <a href="/login?next=/account" class="btn-primary">
+        <a href="/get-started?plan=essential" class="btn-primary">
           <span data-lang="en">Get started →</span>
           <span data-lang="es">Empezar →</span>
           <span data-lang="uk">Почати →</span>
@@ -1020,7 +1026,7 @@
       <span data-lang="uk">Все, що вам потрібно для <em>оренди в Барселоні.</em></span>
     </h2>
     <div class="guides-grid">
-      <a href="/blog/rent-apartment-barcelona-foreigner/" class="guide-card" style="text-decoration:none;">
+      <a href="/blog/rent-apartment-barcelona-foreigner" class="guide-card" style="text-decoration:none;">
         <p class="guide-card-tag">
           <span data-lang="en">Step-by-step guide</span>
           <span data-lang="es" class="inline">Guía paso a paso</span>
@@ -1042,7 +1048,7 @@
           <span data-lang="uk" class="inline">Читати посібник →</span>
         </span>
       </a>
-      <a href="/blog/documents-to-rent-barcelona/" class="guide-card" style="text-decoration:none;">
+      <a href="/blog/documents-to-rent-barcelona" class="guide-card" style="text-decoration:none;">
         <p class="guide-card-tag">
           <span data-lang="en">Documents checklist</span>
           <span data-lang="es" class="inline">Lista de documentos</span>
@@ -1064,7 +1070,7 @@
           <span data-lang="uk" class="inline">Читати посібник →</span>
         </span>
       </a>
-      <a href="/blog/barcelona-rental-deposit-fianza/" class="guide-card" style="text-decoration:none;">
+      <a href="/blog/barcelona-rental-deposit-fianza" class="guide-card" style="text-decoration:none;">
         <p class="guide-card-tag">
           <span data-lang="en">Deposit rules</span>
           <span data-lang="es" class="inline">Reglas de la fianza</span>
@@ -1086,7 +1092,7 @@
           <span data-lang="uk" class="inline">Читати посібник →</span>
         </span>
       </a>
-      <a href="/blog/rental-cover-letter-spanish-barcelona/" class="guide-card" style="text-decoration:none;">
+      <a href="/blog/rental-cover-letter-spanish-barcelona" class="guide-card" style="text-decoration:none;">
         <p class="guide-card-tag">
           <span data-lang="en">Template + phrases</span>
           <span data-lang="es" class="inline">Plantilla + frases</span>
@@ -1108,7 +1114,7 @@
           <span data-lang="uk" class="inline">Читати посібник →</span>
         </span>
       </a>
-      <a href="/blog/barcelona-rent-control-zona-tensionada/" class="guide-card" style="text-decoration:none;">
+      <a href="/blog/barcelona-rent-control-zona-tensionada" class="guide-card" style="text-decoration:none;">
         <p class="guide-card-tag">
           <span data-lang="en">Rent control</span>
           <span data-lang="es" class="inline">Control de alquiler</span>
@@ -1130,7 +1136,7 @@
           <span data-lang="uk" class="inline">Читати посібник →</span>
         </span>
       </a>
-      <a href="/blog/best-neighbourhoods-barcelona-rent-expat/" class="guide-card" style="text-decoration:none;">
+      <a href="/blog/best-neighbourhoods-barcelona-rent-expat" class="guide-card" style="text-decoration:none;">
         <p class="guide-card-tag">
           <span data-lang="en">Neighbourhood guide</span>
           <span data-lang="es" class="inline">Guía de barrios</span>
@@ -1296,9 +1302,9 @@
 
 <div class="mobile-cta-bar">
   <a href="/get-started" class="btn-primary" style="flex:1;text-align:center;font-size:15px;padding:14px 24px">
-    <span data-lang="en">Get started — it's free</span>
-    <span data-lang="es">Empezar — es gratis</span>
-    <span data-lang="uk">Почати — це безкоштовно</span>
+    <span data-lang="en">Get started — free 3-day trial</span>
+    <span data-lang="es">Empezar — prueba gratis de 3 días</span>
+    <span data-lang="uk">Почати — 3 дні безкоштовно</span>
   </a>
 </div>
 </body>

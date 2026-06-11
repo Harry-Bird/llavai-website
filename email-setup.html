@@ -184,11 +184,19 @@
   }
 
   /* ADDRESS BLOCK */
+  /* wow kit: the forwarding address is THE artifact of this page — stacked paper + stamp */
+  .address-wrap { position: relative; margin: 40px 0 56px; transform: rotate(-.4deg); }
+  .address-wrap::before { content: ""; position: absolute; inset: 0; background: var(--cream-deep); border: 1px solid rgba(27,56,143,.08); border-radius: 4px; transform: rotate(1.1deg) translate(6px,6px); z-index: -1; }
+  .address-wrap::after { content: ""; position: absolute; inset: 0; background: #F7F2E7; border: 1px solid rgba(27,56,143,.06); border-radius: 4px; transform: rotate(-1.4deg) translate(-5px,8px); z-index: -2; }
+  .fwd-stamp { position: absolute; top: -14px; right: 18px; z-index: 2; border: 2.5px solid var(--coral); color: var(--coral-text); background: var(--cream); font-family: 'Fraunces', serif; font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; transform: rotate(4deg); pointer-events: none; }
+  .fwd-stamp span { display: none; }
+  body:not(.es):not(.uk) .fwd-stamp [data-lang="en"], body.es .fwd-stamp [data-lang="es"], body.uk .fwd-stamp [data-lang="uk"] { display: inline; }
+  @media (prefers-reduced-motion: reduce) { .address-wrap { transform: none; } }
   .address-block {
     background: var(--ink);
     color: var(--cream);
     padding: 24px 28px;
-    margin: 40px 0 56px;
+    margin: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -708,7 +716,9 @@
     <span data-lang="es">La dirección de reenvío</span>
     <span data-lang="uk">Адреса для пересилання</span>
   </p>
-  <div class="address-block reveal reveal-3">
+  <div class="address-wrap reveal reveal-3">
+  <span class="fwd-stamp" aria-hidden="true"><span data-lang="en">Forward this</span><span data-lang="es">Reenvía esto</span><span data-lang="uk">Пересилайте це</span></span>
+  <div class="address-block">
     <div>
       <div class="address-block-label">
         <span data-lang="en">You'll need this address below</span>
@@ -724,6 +734,7 @@
         <span data-lang="uk">Скопіювати адресу</span>
       </span>
     </button>
+  </div>
   </div>
 
   <!-- PROVIDER TABS -->

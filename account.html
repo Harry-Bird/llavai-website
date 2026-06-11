@@ -342,6 +342,8 @@
         <p class="plan-line" id="planLine" hidden>
           <span class="plan-pill" id="planPill"></span>
           <button class="btn-text" id="upgradeLink" hidden onclick="askAboutPro()"><span data-lang="en">Upgrade to Pro</span><span data-lang="es">Mejorar a Pro</span><span data-lang="uk">Перейти на Pro</span></button>
+          <!-- Stripe no-code customer portal: user enters their email, Stripe emails a sign-in link. -->
+          <a class="btn-text" id="manageBilling" hidden href="https://billing.stripe.com/p/login/6oU3cv0oH4ah4Tf65BaEE00" target="_blank" rel="noopener"><span data-lang="en">Manage subscription</span><span data-lang="es">Gestionar suscripción</span><span data-lang="uk">Керувати підпискою</span></a>
         </p>
         <p class="status-line" id="statusLine" hidden><span class="status-dot" aria-hidden="true"></span><span id="statusText"></span></p>
       </div>
@@ -792,6 +794,8 @@ function applyTierUI(){
   var isPro = TIER==='pro';
   // Upgrade link for paying self-serve users; free users get the feed paywall instead.
   document.getElementById('upgradeLink').hidden = isPro || TIER==='free';
+  // Paying tiers can self-serve billing (incl. cancel) via the Stripe customer portal.
+  document.getElementById('manageBilling').hidden = TIER==='free';
   document.getElementById('pipelineUpsell').hidden = isPro;
   document.getElementById('docsUpsell').hidden = isPro;
   // Tier-aware system status under the greeting — what Llavai is doing right now.

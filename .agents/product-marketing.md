@@ -40,10 +40,11 @@ B2C, single decision-maker — full B2B persona table not applicable. Two buyer 
 **Emotional tension:** Rejection fatigue, the anxiety of "competing in a sport nobody trained you for", feeling like a second-class applicant because of language.
 
 ## Competitive Landscape
-**Direct:** Relocation agents / personal flat-hunters — falls short because they're expensive, human-scale (can't call within 60 seconds of every listing), and often serve corporate moves, not ordinary renters.
+**Direct (vs Essential):** Casa Radar (casaradar.io) — Barcelona-only rental alert aggregator for expats ("The easy way to find a Rental place in Barcelona"; free + PRO tiers). Tracks 10+ listing sites and private WhatsApp groups where flats appear pre-publicly. Falls short because it stops at the alert: no appeal scoring/curation (volume over signal), no one-tap calling layout, and nothing to help you *act* on the alert — the renter still makes the fast Spanish call alone. Their pre-public WhatsApp-group sourcing is a real edge to watch (and a potential roadmap item for Llavai's listing sources). No competitor for Pro: nobody else calls agents.
+**Direct (vs Pro):** Relocation agents / personal flat-hunters — falls short because they're expensive, human-scale (can't call within 60 seconds of every listing), and often serve corporate moves, not ordinary renters.
 **Secondary:** Idealista saved-search alerts + DIY calling — falls short because everyone gets the same alert simultaneously, the listings are cluttered, and the renter still has to make the Spanish call themselves, fast.
 **Indirect:** Facebook/WhatsApp expat groups, walking neighbourhoods, "a friend who speaks Spanish" — falls short because it's slow, unscalable, and dependent on favours.
-*(No like-for-like AI-calling competitor is named in the site copy — worth confirming whether any exist and how to pre-empt them.)*
+*(No like-for-like AI-calling competitor known as of June 2026 — Julia is the moat; positioning against alert tools should pivot to "the alert is the starting gun, not the win".)*
 
 ## Differentiation
 **Key differentiators:**

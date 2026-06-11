@@ -1,13 +1,14 @@
 # Mission log — production-ready + launch-grade (started 2026-06-11)
 
 ## STATUS (read this first)
-Phase 2 largely complete. SHIPPED LIVE (all measured-verified): conversion batch 1
-(honest copy, funnel, SEO, LCP), web-app trilingual/a11y batch, related-guides blocks,
-dashboard "Julia's work" surface (queued calls + call summaries), tier-card wow kit,
-email-setup wow kit + get-started JSON-LD. BUILT AS NEVER-PUBLISHED n8n DRAFTS
-(independently verified inactive): Drain v2, W1-GATED v2, W4 v2 — go-live runbook
-under NEEDS HARRY. Remaining: proposals wrap-up, LAUNCH-REPORT.md (Phase 3).
-Tags: pre-mission=2406434, checkpoint/{reliability,conversion,webapp}-start.
+MISSION COMPLETE — read specs/mission/LAUNCH-REPORT.md first, then §NEEDS HARRY
+below (15 ordered items). Live and verified: honest-copy/funnel/SEO/perf batch
+(mobile Lighthouse 86–99 across runs, was 77–84; desktop 98/100/100/100), web-app
+trilingual+a11y batch, related-guides, Julia's-work dashboard surface, wow-kit on
+tiers + email-setup, WebP demo images, deck opening beat. Built as never-published
+drafts (independently verified inactive): Drain v2 LZzSF0CfiXxiE06G, W1-GATED v2
+IAqF3sVJDuQqK2hm, W4 v2 rSUCsckVa9dJ5BxE. 9 proposals in specs/proposals/.
+If resuming: nothing is QUEUED; everything actionable is NEEDS HARRY.
 
 ## DONE
 - Phase 0: orient + checkpoint (pre-mission tag, RESET.md, this log).

@@ -27,6 +27,10 @@ Look around, then `git checkout main` to come back.
 | `checkpoint/reliability-start` | Before reliability workstream (29d94fc — audit only at that point) | `git revert --no-edit checkpoint/reliability-start..main && git push` |
 | `checkpoint/conversion-start` | Before the marketing/conversion edits (ed033cb) | `git revert --no-edit checkpoint/conversion-start..main && git push` |
 | `checkpoint/webapp-start` | Before the signed-in web-app fixes (e6feb50) | `git revert --no-edit checkpoint/webapp-start..main && git push` |
+| `checkpoint/reliability-done` | Reliability workstream complete (drafts built, runbook written) | reference point |
+| `checkpoint/conversion-done` | Conversion + perf workstream complete | reference point |
+| `checkpoint/webapp-done` | Web-app workstream complete | reference point |
+| `checkpoint/mission-done` | Final mission state incl. LAUNCH-REPORT.md | `git revert --no-edit pre-mission..checkpoint/mission-done && git push` undoes the whole mission |
 
 (Workstream tags `checkpoint/<name>-start` / `checkpoint/<name>-done` are added here as
 each workstream begins/ends.)

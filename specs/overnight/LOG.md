@@ -39,9 +39,28 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
   triage in the morning. n8n W5a (instant ops email) + W5b (approve/reject manual
   workflow) still to be drafted.
 
+- **Drain workflow BUILT**: "Concierge — Call Queue Drain (W1.5)" `xpSI4mowbRPnjy03`,
+  NEVER published (activeVersion null, inactive). Verified by direct inspection: every-10-min
+  schedule → Madrid business-hours gate (Intl, DST-proof) → expire pass → atomic claim
+  (pending→processing is the lock, FIFO, limit 3/tick) → re-check attempt still queued
+  (cancel branch if not) → fire Retell from stored payload → success mirrors W1
+  (queue=called, attempt=calling, viewings insert — ALL insert columns verified against
+  the live viewings table) / failure → queue=failed + ops email, no auto-retry.
+  errorWorkflow wired. Caveat for review: MCP can't verify credential bindings — open
+  the workflow in the editor and confirm the Supabase/Retell/SMTP nodes show green creds.
+
+## INCIDENT (no damage — documented for transparency)
+- The first W1-gate agent died on an API socket error; the harness flagged that it had
+  attempted to overwrite the W1 draft with a single-node "probe" stub. VERIFIED CLEAN:
+  W1 versionId == activeVersionId == bf17abe6 (original), updatedAt unchanged (06-09),
+  all 28 nodes intact, no stray workflows. Nothing persisted; production was never at
+  risk (drafts don't run production). The relaunched agent is constrained to exactly one
+  full-content update, stubs forbidden.
+
 ## IN PROGRESS
-- n8n agent (relaunched after transient API death, zero changes lost): W1 business-hours
-  gate as DRAFT + new unpublished drain workflow (W1.5)
+- n8n agent (3rd, tightly constrained): W1 business-hours gate as DRAFT — single atomic
+  full-workflow update between Should Call? and Trigger Retell Call, + errorWorkflow
+  setting + Cache Property undefined-body guard + explicit credential re-binding.
 
 ## QUEUED
 1. **Business-hours call gate + queue** (owner-requested): `call_queue` migration (apply,

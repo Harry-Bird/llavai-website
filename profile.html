@@ -310,16 +310,32 @@
       <span data-lang="es"><em>Ya estás.</em> Estamos configurando tu búsqueda.</span>
       <span data-lang="uk"><em>Ви в системі.</em> Ми налаштовуємо ваш пошук.</span>
     </h2>
-    <p>
-      <span data-lang="en">We've received your full profile. We'll be in touch shortly to confirm your account — your dossier is now ready to convince agents the moment a flat appears.</span>
-      <span data-lang="es">Hemos recibido tu perfil completo. Nos pondremos en contacto pronto para confirmar tu cuenta — tu dossier ya está listo para convencer a las agencias en cuanto salga un piso.</span>
-      <span data-lang="uk">Ми отримали ваш повний профіль. Ми незабаром зв'яжемося, щоб підтвердити ваш акаунт — ваше досьє готове переконати агентства, щойно з'явиться квартира.</span>
-    </p>
-    <p>
-      <span data-lang="en">Check your email — including your spam folder.</span>
-      <span data-lang="es">Revisa tu correo, incluida la carpeta de spam.</span>
-      <span data-lang="uk">Перевірте електронну пошту — включаючи папку зі спамом.</span>
-    </p>
+    <!-- Variant shown when a sign-in email actually went out (OTP / not-signed-in paths) -->
+    <div id="successOtp">
+      <p>
+        <span data-lang="en">We've received your full profile. We'll be in touch shortly to confirm your account — your dossier is now ready to convince agents the moment a flat appears.</span>
+        <span data-lang="es">Hemos recibido tu perfil completo. Nos pondremos en contacto pronto para confirmar tu cuenta — tu dossier ya está listo para convencer a las agencias en cuanto salga un piso.</span>
+        <span data-lang="uk">Ми отримали ваш повний профіль. Ми незабаром зв'яжемося, щоб підтвердити ваш акаунт — ваше досьє готове переконати агентства, щойно з'явиться квартира.</span>
+      </p>
+      <p>
+        <span data-lang="en">Check your email — including your spam folder.</span>
+        <span data-lang="es">Revisa tu correo, incluida la carpeta de spam.</span>
+        <span data-lang="uk">Перевірте електронну пошту — включаючи папку зі спамом.</span>
+      </p>
+    </div>
+    <!-- Variant for signed-in users: no email is sent, the row is saved directly -->
+    <div id="successSigned" hidden>
+      <p>
+        <span data-lang="en">Your full profile is saved — your dossier is ready to convince agents the moment a flat appears.</span>
+        <span data-lang="es">Tu perfil completo está guardado — tu dossier está listo para convencer a las agencias en cuanto salga un piso.</span>
+        <span data-lang="uk">Ваш повний профіль збережено — ваше досьє готове переконати агентства, щойно з'явиться квартира.</span>
+      </p>
+      <p>
+        <span data-lang="en"><a href="/account">See your feed and dossier in your account →</a></span>
+        <span data-lang="es"><a href="/account">Ve tu feed y tu dossier en tu cuenta →</a></span>
+        <span data-lang="uk"><a href="/account">Перегляньте стрічку та досьє у своєму акаунті →</a></span>
+      </p>
+    </div>
     <a href="/" class="back-link">
       <span data-lang="en">← Back to Llavai</span>
       <span data-lang="es">← Volver a Llavai</span>
@@ -1017,8 +1033,11 @@ async function submitProfile() {
     client_email:email, client_phone:val('phone'), client_status:'pending'
   };
 
-  function succeed(){
+  function succeed(emailSent){
     try{ localStorage.removeItem(DRAFT_KEY); }catch(e){}  // submitted — drop the draft
+    // Honest success copy: only promise "check your email" when one actually went out.
+    var so=document.getElementById('successOtp'), ss=document.getElementById('successSigned');
+    if (so && ss){ so.hidden = !emailSent; ss.hidden = !!emailSent; }
     document.getElementById('progressWrap').style.display='none';
     document.getElementById('step4').style.display='none';
     var dc=document.getElementById('dossierCol'); if(dc) dc.style.display='none';
@@ -1049,7 +1068,7 @@ async function submitProfile() {
         const r=await sb.from('profiles').update(profileRow).eq('id',session.user.id);
         await alertReq;
         if (r.error) throw new Error(r.error.message);
-        succeed(); return;
+        succeed(false); return;   // signed in — no email goes out
       }
       // Not signed in → stash the full profile, send a magic link; /account flushes it.
       try { localStorage.setItem('llavai-profile-pending', JSON.stringify(profileRow)); } catch(e) {}
@@ -1059,13 +1078,13 @@ async function submitProfile() {
         options:{ data:{ first_name:val('firstName'), phone:val('phone') }, emailRedirectTo:location.origin+'/account' }
       }).then(function(r){return {ok:!r.error};}).catch(function(){return {ok:false};});
       const alertRes=await alertReq;
-      if (otp.ok || alertRes.ok) { succeed(); } else { fail(); }
+      if (otp.ok || alertRes.ok) { succeed(otp.ok); } else { fail(); }   // only promise an email if the OTP went out
       return;
     }
     // Supabase not configured → keep the funnel alive via the alert + localStorage.
     try { localStorage.setItem('llavai-profile-pending', JSON.stringify(profileRow)); } catch(e) {}
     const alertRes=await alertReq;
-    if (alertRes.ok) { succeed(); } else { fail(); }
+    if (alertRes.ok) { succeed(false); } else { fail(); }   // no Supabase — no email goes out
   } catch(err) {
     fail();
   }

@@ -935,7 +935,16 @@ async function dismiss(id){
   var undo = l==='es'?'Deshacer':l==='uk'?'Повернути':'Undo';
   el.innerHTML='<div class="dismissed-bar">'+msg+' · <button class="btn-ghost" onclick="undoDismiss(\''+esc(id)+'\')">'+undo+'</button></div>';
   el._undoTimer=setTimeout(function(){ el.remove(); },6000);
-  if(!sb)return; try{ await sb.from('listings').update({status:'dismissed'}).eq('id',id);}catch(e){}
+  if(!sb)return;
+  try{
+    const r=await sb.from('listings').update({status:'dismissed'}).eq('id',id);
+    if (r.error) throw r.error;
+  }catch(e){
+    // The dismissal didn't stick — restore the card instead of lying.
+    clearTimeout(el._undoTimer);
+    el.innerHTML=el.dataset.prevHtml;
+    try{ console.error('[llavai]', e.message||e); }catch(_){}
+  }
 }
 async function undoDismiss(id){
   var el=document.getElementById('l-'+id); if(!el) return;
@@ -1125,14 +1134,32 @@ function avPreset(name){
   wrap.addEventListener('input', onEdit);
   wrap.addEventListener('change', onEdit);
 })();
+// Guard: if the load fails (network/RLS), the form renders all-unchecked — an
+// innocent Save would then wipe the user's real windows (Julia books against them).
+let availLoadOk=false;
 async function loadAvailability(){
   if(!document.getElementById('availRows')) return;
-  let rows={}; try{ const r=await sb.from('availability').select('*'); (r.data||[]).forEach(function(a){ rows[a.weekday]=a; }); }catch(e){}
+  let rows={};
+  try{
+    const r=await sb.from('availability').select('*');
+    if (r.error) throw r.error;                       // supabase returns {error}, it doesn't throw
+    (r.data||[]).forEach(function(a){ rows[a.weekday]=a; });
+    availLoadOk=true;
+  }catch(e){
+    availLoadOk=false;
+    var err=document.getElementById('availErr');
+    if (err){ err.textContent=friendly('load',e); err.classList.add('visible'); }
+  }
   renderAvailRows(rows);
 }
 async function saveAvailability(){
   const btn=document.getElementById('saveAvailBtn'), err=document.getElementById('availErr');
   btn.disabled=true; err.classList.remove('visible');
+  if (!availLoadOk){
+    // Never let an unloaded form overwrite real windows — re-fetch instead of saving.
+    err.textContent=friendly('load',null); err.classList.add('visible');
+    btn.disabled=false; loadAvailability(); return;
+  }
   const rows=[];
   document.querySelectorAll('#availRows .avail-row').forEach(function(r){
     if(r.querySelector('.av-on').checked){
@@ -1279,8 +1306,14 @@ async function downloadDoc(path){
 }
 async function deleteDoc(id, path){
   if (!confirm({en:'Delete this document?',es:'¿Eliminar este documento?',uk:'Видалити цей документ?'}[lang()])) return;
-  await sb.storage.from('documents').remove([path]);
-  await sb.from('documents').delete().eq('id', id);
+  var docErr=document.getElementById('docError');
+  if (docErr) docErr.classList.remove('visible');
+  try{
+    const rm=await sb.storage.from('documents').remove([path]); if (rm.error) throw rm.error;
+    const del=await sb.from('documents').delete().eq('id', id); if (del.error) throw del.error;
+  }catch(e){
+    if (docErr){ docErr.textContent=friendly('save',e); docErr.classList.add('visible'); }
+  }
   loadDocuments();
 }
 

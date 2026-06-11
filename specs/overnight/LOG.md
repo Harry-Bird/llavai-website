@@ -12,6 +12,10 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
 - Business-hours call queue: design doc + `business_hours_call_queue` migration applied
   (additive; table verified live with RLS + select-own policy)
 - Product roadmap → specs/overnight/ROADMAP.md (Now/Next/Later, evidence-linked)
+- W5 Pro apply→approve: design doc (specs/w5_pro_application_design.md) + migration
+  `w5_apply_for_pro` APPLIED (additive RPC, verified: secdef, authenticated-only,
+  anon revoked). n8n W5a/W5b drafts + frontend CTA pending (queued behind running agents).
+  Mirror this migration into supabase/migrations/ after the SQL-truth agent finishes.
 
 ## IN PROGRESS
 - Frontend fixes agent: checkout alert() B2 (partially in working tree), Enter-submit,

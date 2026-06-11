@@ -359,6 +359,7 @@
             <div class="price-tag">€19<small><span data-lang="en">/month</span><span data-lang="es">/mes</span><span data-lang="uk">/міс</span></small></div>
             <p style="font-size:14px;color:var(--pencil)"><span data-lang="en">Start with a 3-day free trial. Cancel anytime.</span><span data-lang="es">Empieza con una prueba gratis de 3 días. Cancela cuando quieras.</span><span data-lang="uk">Почніть із 3-денної безкоштовної пробної версії. Скасуйте будь-коли.</span></p>
             <a href="#" class="btn-primary" id="subscribeBtn"><span data-lang="en">Start free trial</span><span data-lang="es">Empezar prueba gratis</span><span data-lang="uk">Почати пробний період</span></a>
+            <div class="form-error" id="checkoutErr" role="alert" style="margin:14px 0 0;text-align:left"></div>
           </div>
         </div>
         <div class="feed" id="feed" hidden></div>
@@ -550,7 +551,10 @@ const ERR_COPY = {
         uk:'Не вдалося завантажити. Оновіть сторінку або напишіть на hello@llavai.com.'},
   save:{en:"Couldn't save that. Please try again, or email hello@llavai.com.",
         es:'No se pudo guardar. Inténtalo de nuevo o escribe a hello@llavai.com.',
-        uk:'Не вдалося зберегти. Спробуйте ще раз або напишіть на hello@llavai.com.'}
+        uk:'Не вдалося зберегти. Спробуйте ще раз або напишіть на hello@llavai.com.'},
+  checkout:{en:"Couldn't start checkout just now. Please try again, or email hello@llavai.com and we'll set you up.",
+        es:'No se pudo iniciar el pago ahora mismo. Inténtalo de nuevo o escribe a hello@llavai.com y te lo activamos.',
+        uk:'Не вдалося розпочати оплату. Спробуйте ще раз або напишіть на hello@llavai.com — і ми все налаштуємо.'}
 };
 function friendly(kind, rawError){
   if (rawError) { try { console.error('[llavai]', rawError.message||rawError); } catch(e){} }
@@ -852,16 +856,22 @@ async function undoDismiss(id){
   // Always write the rollback — a null status simply means "back to fresh".
   if(!sb)return; try{ await sb.from('listings').update({status:prev||null}).eq('id',id);}catch(e){}
 }
+function checkoutError(rawError){
+  var el=document.getElementById('checkoutErr');
+  el.textContent=friendly('checkout', rawError);
+  el.classList.add('visible');
+}
 async function subscribe(){
   if (!USER){ location.href='/login?next=/account'; return; }
-  if (!CHECKOUT){ alert("Checkout isn't live yet — email hello@llavai.com."); return; }
-  var btn=document.getElementById('subscribeBtn'), label=btn.textContent; btn.textContent='…';
+  document.getElementById('checkoutErr').classList.remove('visible');
+  if (!CHECKOUT){ checkoutError('checkout webhook not configured'); return; }
+  var btn=document.getElementById('subscribeBtn'), label=btn.innerHTML; btn.textContent='…';
   try{
     var res=await fetch(CHECKOUT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({ user_id:USER.id, email:USER.email, return_to:location.origin+'/account' })});
     var data=await res.json().catch(function(){return {};});
     if(res.ok && data.url){ location.href=data.url; return; }
     throw new Error(data.error||('HTTP '+res.status));
-  }catch(err){ btn.textContent=label; alert('Could not start checkout. Please try again, or email hello@llavai.com.'); }
+  }catch(err){ btn.innerHTML=label; checkoutError(err); }
 }
 document.getElementById('subscribeBtn').addEventListener('click', function(e){ e.preventDefault(); subscribe(); });
 

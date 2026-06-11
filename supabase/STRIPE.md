@@ -33,13 +33,17 @@ lives only in n8n.
   monthly **calls** (DB trigger `set_pro_call_allowance` sets/refills it on Pro activation +
   each billing period). Service-role-only RPCs `grant_pack_credits`, `grant_trial_calls`,
   `consume_call`; authenticated `call_balance()`/`available_calls()` for the account UI.
-- **Workflow "Stripe — Credits, trial & allowance (W7)"** (`lohfpJ1X1lbRADno`, active):
+- **Workflow "Stripe — Pack credits (W7)"** (`lohfpJ1X1lbRADno`, active):
   own Stripe Trigger → classify → native Supabase "create row" into `call_credit_ledger`.
   - `checkout.session.completed` + `mode=payment` → grant N credits (N from
     `metadata.credits`, fallback `amount_total` 1200/4900/11900 → 1/5/15; user from
     `client_reference_id`). Idempotent via unique `source_ref` = Stripe event id.
-  - `customer.subscription.created` (Essential, `trialing`) → grant **5 trial calls**
-    (once per account; `source_ref='trial:'+uid`).
+- **Trial 5 free calls are USER-CLAIMED, not automatic.** The account page shows a
+  "Claim your 5 free calls" button for trial/Essential users who haven't claimed; it calls
+  the authenticated RPC `claim_trial_calls()` (once per account, Essential-only, all
+  enforced server-side; `source_ref='trial:'+uid`). `call_balance()` returns
+  `can_claim_trial` so the UI knows when to show the button. Once claimed, the 5 credits
+  sit in the ledger and Julia calls the next 5 qualifying listings (no pause, no picking).
 - **"Stripe — Subscription sync"** got one guard node ("Skip Pack Sessions"): pack
   `checkout.session.completed` (`mode=payment`) no longer upserts a `subscriptions` row.
 - **Consumption**: DB trigger `trg_consume_on_calling` decrements one credit (Pro allowance

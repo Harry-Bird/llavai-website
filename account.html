@@ -302,6 +302,8 @@
   .calls-bal{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink)}
   .calls-bal.zero{color:var(--pencil);font-weight:500}
   .calls-sub{font-size:13.5px;color:var(--pencil);margin:8px 0 13px;max-width:520px}
+  .claim-btn{display:inline-flex;align-items:center;margin:0 0 8px}
+  .claim-note{font-size:12.5px;font-style:italic;color:var(--pencil);margin:0 0 14px;max-width:520px}
   .pack-buy{display:flex;gap:10px;flex-wrap:wrap}
   .packbtn{position:relative;flex:1 1 0;min-width:88px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;
     border:1px solid rgba(27,56,143,.2);border-radius:4px;background:var(--field);padding:11px 10px 10px;transition:transform .15s var(--ease-out),box-shadow .15s var(--ease-out),border-color .15s}
@@ -369,6 +371,15 @@
             <span class="calls-bal" id="callsBal"></span>
           </div>
           <p class="calls-sub" id="callsSub"></p>
+          <!-- Trial 5-free-calls: user-claimed (they decide when to start). Once claimed,
+               Julia calls the next 5 qualifying listings automatically. Shown only when
+               call_balance().can_claim_trial is true. -->
+          <button type="button" class="btn-primary claim-btn" id="claimTrialBtn" hidden onclick="claimTrial()">
+            <span data-lang="en">Claim your 5 free calls <span class="arr">→</span></span>
+            <span data-lang="es">Reclama tus 5 llamadas gratis <span class="arr">→</span></span>
+            <span data-lang="uk">Отримайте 5 безкоштовних дзвінків <span class="arr">→</span></span>
+          </button>
+          <p class="claim-note" id="claimNote" hidden><span data-lang="en">Once claimed, Julia calls the next 5 quality listings for you — it can't be paused.</span><span data-lang="es">Una vez reclamadas, Julia llama por ti a los próximos 5 pisos de calidad — no se puede pausar.</span><span data-lang="uk">Після отримання Julia зателефонує щодо наступних 5 якісних оголошень — це не можна призупинити.</span></p>
           <div class="pack-buy">
             <button type="button" class="packbtn" onclick="buyPack('pack1')" aria-label="Buy 1 call for 12 euros">
               <span class="pk-n">1</span><span class="pk-l"><span data-lang="en">call</span><span data-lang="es">llamada</span><span data-lang="uk">дзвінок</span></span><span class="pk-p">€12</span>
@@ -630,7 +641,10 @@ const ERR_COPY = {
         uk:'Не вдалося розпочати оплату. Спробуйте ще раз або напишіть на hello@llavai.com — і ми все налаштуємо.'},
   apply:{en:"Couldn't send your application just now. Please try again, or email hello@llavai.com and we'll sort it.",
         es:'No se pudo enviar tu solicitud ahora mismo. Inténtalo de nuevo o escribe a hello@llavai.com y lo resolvemos.',
-        uk:'Не вдалося надіслати заявку. Спробуйте ще раз або напишіть на hello@llavai.com — і ми все владнаємо.'}
+        uk:'Не вдалося надіслати заявку. Спробуйте ще раз або напишіть на hello@llavai.com — і ми все владнаємо.'},
+  claim:{en:"Couldn't claim your free calls just now. Please try again, or email hello@llavai.com.",
+        es:'No se pudieron reclamar tus llamadas gratis ahora mismo. Inténtalo de nuevo o escribe a hello@llavai.com.',
+        uk:'Не вдалося отримати безкоштовні дзвінки. Спробуйте ще раз або напишіть на hello@llavai.com.'}
 };
 function friendly(kind, rawError){
   if (rawError) { try { console.error('[llavai]', rawError.message||rawError); } catch(e){} }
@@ -1043,7 +1057,22 @@ async function loadCallBalance(){
       es:total+(total===1?' llamada disponible':' llamadas disponibles'),
       uk:total+' дзвінків доступно' });
     bal.classList.toggle('zero', total<=0);
+    var claimBtn=document.getElementById('claimTrialBtn'), claimNote=document.getElementById('claimNote');
+    if(claimBtn){ claimBtn.hidden = !b.can_claim_trial; }
+    if(claimNote){ claimNote.hidden = !b.can_claim_trial; }
   }catch(e){ bal.textContent=''; bal.classList.add('zero'); }
+}
+/* Trial 5-free-calls: user claims them when they're ready (claim_trial_calls is
+   authenticated, once per account, Essential/trial only — all enforced server-side). */
+async function claimTrial(){
+  if(!sb||!USER) return;
+  var btn=document.getElementById('claimTrialBtn'), err=document.getElementById('packErr');
+  err.classList.remove('visible'); btn.disabled=true;
+  try{
+    var r=await sb.rpc('claim_trial_calls'); if(r.error) throw r.error;
+    btn.hidden=true; document.getElementById('claimNote').hidden=true;
+    await loadCallBalance();
+  }catch(e){ err.textContent=friendly('claim', e); err.classList.add('visible'); btn.disabled=false; }
 }
 
 /* ---- pipeline ---- */

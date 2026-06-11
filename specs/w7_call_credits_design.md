@@ -55,7 +55,8 @@ RLS: select_own; NO user writes (service-role only, via RPCs)
 | `available_calls()` → int | authenticated (own) | total, convenience |
 | `consume_call(uid, property)` → jsonb | **service_role only** | atomic: allowance→credit; `{consumed, source, remaining}`. Idempotent per (uid,property) via `source_ref='consume:'||uid||':'||property` |
 | `grant_pack_credits(uid, n, source_ref)` → jsonb | **service_role only** | idempotent grant (on conflict source_ref do nothing) |
-| `grant_trial_calls(uid, n=5)` → jsonb | **service_role only** | once per account (guard: no prior `trial_grant`) |
+| `claim_trial_calls()` → jsonb | authenticated (own) | **user-claimed** 5 free calls; once per account, trial/Essential only, all checked server-side |
+| `grant_trial_calls(uid, n=5)` → jsonb | **service_role only** | ops/manual grant (no longer auto-called; trial is user-claimed) |
 | `reset_pro_allowance(uid, n=60)` → void | **service_role only** | set `call_allowance` on Pro create/renew |
 
 Per-user atomicity in `consume_call`/grants via `pg_advisory_xact_lock(hashtextextended(uid::text,0))`
@@ -80,7 +81,9 @@ Essential/Pro subscriptions unchanged.
   MCP). Idempotency = unique `source_ref` + node `onError: continueRegularOutput`.
   - `checkout.session.completed` + `mode=payment` → `grant_pack` (credits from
     `metadata.credits`, fallback `amount_total`; user from `client_reference_id`).
-  - `customer.subscription.created` + Essential `trialing` → `grant_trial` (5 calls, once).
+  - **Trial is NOT auto-granted here** (owner decision 2026-06-11): the 5 free calls are
+    **user-claimed** via a "Claim your 5 free calls" button → `claim_trial_calls()` RPC.
+    The user decides when to start them; the workflow only handles pack purchases.
 - **Subscription sync**: one guard node added — pack sessions (`mode=payment`) skip the
   `subscriptions` upsert (else they'd clobber `stripe_subscription_id`).
 - **Pro allowance**: handled entirely DB-side by trigger `set_pro_call_allowance` (no n8n

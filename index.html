@@ -107,6 +107,7 @@
     --coral: #E55B45; --coral-deep: #C8462F;
     --coral-text: #AB3B25; /* AA-compliant coral for small text: 5.42:1 on cream */
     --pencil: #6E6253; --paper-shadow: rgba(27,56,143,0.08);
+    --paper: #FBF8F1; /* stacked-paper sheet tone (wow kit) */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; overflow-x: clip; }
@@ -247,10 +248,16 @@
   .tiers { padding:90px 0; border-top:1px solid rgba(27,56,143,.12); }
   .tiers-grid { display:grid; grid-template-columns:1fr 1fr; gap:28px; margin-top:30px; align-items:stretch; }
   @media(max-width:820px){ .tiers-grid { grid-template-columns:1fr; gap:20px; } }
-  .tier { border:1px solid rgba(27,56,143,.14); border-radius:4px; padding:32px 30px; background:var(--cream); display:flex; flex-direction:column; transition:box-shadow .2s, transform .2s; }
-  .tier:hover { box-shadow:0 8px 32px var(--paper-shadow); transform:translateY(-2px); }
-  .tier.featured { border-color:var(--coral); box-shadow:0 12px 40px var(--paper-shadow); }
-  .tier.featured:hover { box-shadow:0 16px 48px var(--paper-shadow); transform:translateY(-2px); }
+  /* tier cards join the wow kit: stacked-paper sheets, slight counter-rotation, stamp */
+  .tier { position:relative; border:1px solid rgba(27,56,143,.14); border-radius:4px; padding:32px 30px; background:var(--paper); display:flex; flex-direction:column; transition:box-shadow .2s, transform .2s; transform:rotate(.35deg); }
+  .tier::after { content:""; position:absolute; inset:0; background:var(--cream-deep); border:1px solid rgba(27,56,143,.08); border-radius:4px; transform:rotate(-1.1deg) translate(-4px,7px); z-index:-1; }
+  .tier:hover { box-shadow:0 8px 32px var(--paper-shadow); transform:rotate(.35deg) translateY(-2px); }
+  .tier.featured { border-color:var(--coral); box-shadow:0 12px 40px var(--paper-shadow); transform:rotate(-.4deg); }
+  .tier.featured::after { transform:rotate(1.2deg) translate(5px,6px); }
+  .tier.featured:hover { box-shadow:0 16px 48px var(--paper-shadow); transform:rotate(-.4deg) translateY(-2px); }
+  .tier-stamp { position:absolute; top:16px; right:16px; border:2.5px solid var(--coral); color:var(--coral-text); font-family:'Fraunces',serif; font-size:12px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; padding:5px 10px; border-radius:3px; transform:rotate(7deg); background:rgba(229,91,69,.04); pointer-events:none; }
+  .tier-stamp + .tier-tag { padding-right:128px; } /* keep the tag clear of the stamp on narrow cards */
+  @media (prefers-reduced-motion: reduce) { .tier, .tier.featured { transform:none; } }
   .tier-tag { font-family:'Newsreader',serif; font-style:italic; font-size:13px; letter-spacing:.04em; text-transform:uppercase; color:var(--coral-text); margin-bottom:10px; }
   .tier-name { font-family:'Fraunces',serif; font-size:26px; font-weight:500; color:var(--ink); margin-bottom:6px; }
   .tier-price { font-family:'Fraunces',serif; font-size:32px; font-weight:500; color:var(--ink); margin-bottom:4px; }
@@ -635,6 +642,7 @@
       </div>
       <!-- Pro (concierge, by application) -->
       <div class="tier">
+        <span class="tier-stamp" aria-hidden="true"><span data-lang="en">Julia calls</span><span data-lang="es" class="inline">Julia llama</span><span data-lang="uk" class="inline">Julia дзвонить</span></span>
         <p class="tier-tag">
           <span data-lang="en">Done for you · by application</span>
           <span data-lang="es">Lo hacemos por ti · por solicitud</span>

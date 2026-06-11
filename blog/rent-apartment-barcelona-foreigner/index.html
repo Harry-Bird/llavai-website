@@ -849,6 +849,7 @@
     document.body.classList.remove('es','uk');
     if (lang !== 'en') document.body.classList.add(lang);
     document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-toggle[role=group]').forEach(function(g){ g.setAttribute('aria-label', lang==='es'?'Seleccionar idioma':lang==='uk'?'Вибрати мову':'Select language'); });
     ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
     try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
   }

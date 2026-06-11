@@ -85,6 +85,14 @@
   .progress-step.active .step-label{color:var(--ink);font-weight:600}
   .progress-step.done .step-label{color:var(--ink)}
   @media(max-width:600px){.step-label{display:none}.progress-step.active .step-label{display:inline}.progress-step::after{margin:0 4px}}
+  /* ≤340px (Z Fold cover & similar): four dots + the longest active label ("PREFERENCIAS")
+     overflowed by ~11px and the last dot was clipped — tighten, don't hide */
+  @media(max-width:340px){
+    .step-dot{width:26px;height:26px;font-size:12px}
+    .progress-step{gap:6px}
+    .progress-step::after{margin:0 2px}
+    .step-label{font-size:10px;letter-spacing:.02em}
+  }
   .step-header{margin-bottom:40px;animation:fadeUp .5s var(--ease-out) forwards}
   .section-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral-text);letter-spacing:.04em;margin-bottom:14px;display:flex;align-items:center;gap:16px}
   .section-eyebrow::before{content:"";width:32px;height:1px;background:var(--coral)}
@@ -706,6 +714,7 @@ function setLang(lang) {
   document.body.classList.remove('es','uk');
   if (lang !== 'en') document.body.classList.add(lang);
   document.documentElement.lang = lang;
+  document.querySelectorAll('.lang-toggle[role=group]').forEach(function(g){ g.setAttribute('aria-label', lang==='es'?'Seleccionar idioma':lang==='uk'?'Вибрати мову':'Select language'); });
   ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
   document.querySelectorAll('[data-ph-en]').forEach(function(el){ el.placeholder = el.getAttribute('data-ph-'+lang) || el.getAttribute('data-ph-en'); });
   try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
@@ -899,10 +908,26 @@ function row(key, value) {
   return '<div class="review-row"><span class="review-key">'+key+'</span><span class="review-val">'+value+'</span></div>';
 }
 
+/* step-4 review: translate stored English values for display (values stay English in the DB) */
+const RVT={
+  en:{},
+  es:{Single:'Solo/a',Couple:'Pareja',Family:'Familia',Flatmates:'Compañeros',Yes:'Sí',No:'No',
+      'Foreign payslips':'Nóminas extranjeras','Bank statements only':'Solo extractos bancarios',
+      'Working on it':'En ello',Any:'Cualquiera',Studio:'Estudio',
+      'Morning (9–13h)':'Mañana (9–13h)','Afternoon (13–18h)':'Tarde (13–18h)','Evening (18–21h)':'Final del día (18–21h)',Flexible:'Flexible',mo:'/mes'},
+  uk:{Single:'Один/Одна',Couple:'Пара',Family:"Сім'я",Flatmates:'Сусіди',Yes:'Так',No:'Ні',
+      'Foreign payslips':'Іноземні листки','Bank statements only':'Лише банківські виписки',
+      'Working on it':'Вирішуємо',Any:'Будь-який',Studio:'Студія',
+      'Morning (9–13h)':'Ранок (9–13h)','Afternoon (13–18h)':'День (13–18h)','Evening (18–21h)':'Вечір (18–21h)',Flexible:'Гнучко',mo:'/міс'}
+};
+function rv(x){ if(x==null||x==='') return x; var t=RVT[lang()]; return (t&&t[x]!==undefined)?t[x]:x; }
+/* native selects show "EN / ES / UK" — echo only the active language's segment in the review */
+function rvSel(text){ var p=String(text).split(' / '); if(p.length!==3) return text; return p[lang()==='es'?1:lang()==='uk'?2:0]; }
+function rvDays(arr){ var d=DTXT[lang()].days; return arr.map(function(x){ return d[x]||x; }).join(', '); }
 function buildReview() {
   const movingAs=radio('movingAs');
   const natVal=val('nationality')==='other'?val('nationalityOther'):val('nationality');
-  const occupants=movingAs&&movingAs!=='Single'?movingAs+' ('+val('numPeople')+')':movingAs;
+  const occupants=movingAs&&movingAs!=='Single'?rv(movingAs)+' ('+val('numPeople')+')':rv(movingAs);
   const hInc=document.getElementById('householdIncome');
   const hIncText=hInc.value?hInc.options[hInc.selectedIndex].text:'';
   const emp=document.getElementById('employmentType');
@@ -915,29 +940,29 @@ function buildReview() {
   html+=row('Email', val('email'));
   html+=row(L('phone'), val('phone'));
   html+=row(L('nat'), natVal);
-  html+=row(L('res'), res.options[res.selectedIndex]?.text||'');
+  html+=row(L('res'), rvSel(res.options[res.selectedIndex]?.text||''));
   html+=row(L('mov'), occupants);
   html+='</div>';
 
   html+='<div class="review-block">';
   html+='<button type="button" class="review-section-head" onclick="goToStep(2)"><span>'+L('financial')+'</span><span class="edit-link">'+L('edit')+'</span></button>';
   html+=row(L('prof'), val('profession'));
-  html+=row(L('emp'), emp.options[emp.selectedIndex]?.text||'');
+  html+=row(L('emp'), rvSel(emp.options[emp.selectedIndex]?.text||''));
   html+=row(L('inc'), inc.options[inc.selectedIndex]?.text||'');
   if (hIncText) html+=row(L('hhInc'), hIncText);
-  html+=row(L('nom'), radio('hasNominas'));
-  html+=row(L('guar'), radio('hasGuarantor')+(val('guarantorDetails')?' — '+val('guarantorDetails'):''));
+  html+=row(L('nom'), rv(radio('hasNominas')));
+  html+=row(L('guar'), rv(radio('hasGuarantor'))+(val('guarantorDetails')?' — '+val('guarantorDetails'):''));
   html+='</div>';
 
   html+='<div class="review-block">';
   html+='<button type="button" class="review-section-head" onclick="goToStep(3)"><span>'+L('prefs')+'</span><span class="edit-link">'+L('edit')+'</span></button>';
-  html+=row(L('budget'), val('maxBudget')?'€'+val('maxBudget')+'/mo':'');
-  html+=row(L('beds'), val('bedrooms')==='studio'?'Studio':val('bedrooms'));
+  html+=row(L('budget'), val('maxBudget')?'€'+val('maxBudget')+(rv('mo')==='mo'?'/mo':rv('mo')):'');
+  html+=row(L('beds'), val('bedrooms')==='studio'?rv('Studio'):val('bedrooms'));
   html+=row(L('areas'), checkboxes('areas').join(', '));
-  const vdays=checkboxes('viewDays').join(', ');
-  const vtime=radio('viewTime');
+  const vdays=rvDays(checkboxes('viewDays'));
+  const vtime=rv(radio('viewTime'));
   html+=row(L('avail'), vdays+(vtime?' — '+vtime:''));
-  html+=row(L('con'), radio('contactMethod')+(val('telegramUsername')?' ('+val('telegramUsername')+')':''));
+  html+=row(L('con'), rv(radio('contactMethod'))+(val('telegramUsername')?' ('+val('telegramUsername')+')':''));
   if (val('idealistaUrl')) html+=row('Idealista URL', val('idealistaUrl'));
   if (val('agentQuestions')) html+=row(L('qs'), val('agentQuestions'));
   if (val('additionalNotes')) html+=row(L('notes'), val('additionalNotes'));

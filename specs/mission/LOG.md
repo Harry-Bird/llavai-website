@@ -63,8 +63,14 @@ republish 15831bc9), B6 ✅ (all 4 proposed migrations APPLIED + moved to
 supabase/migrations/; anon→current_tier verified 42501 permission denied;
 leaked-password N/A on free plan — accepted; bucket delete = dashboard-only,
 SQL blocked by storage.protect_delete).
-STILL OPEN: B4 (errorWorkflow clicks: W3, Feed Backfill, W5a — hand-edit),
-B7 ([Lavai typo), bucket click, D10–D15 decisions.
+B4 ✅ B7 ✅ bucket ✅ (Harry's clicks, confirmed by Harry 2026-06-11 evening).
+D10 ✅ past_due = paid for 7 days from last Stripe event (all 3 tier functions,
+migration past_due_grace_and_call_allowance; anon-revoke survived the replace —
+re-verified 401). D12 ✅ Harry chose 1000 min/mo; enforcement counts CALLS, so
+set call_allowance=300 (~1000 min at ~3.3 min/call) — column default + all rows.
+D11 ✅ homepage Pro price now €185/mo ×3 langs (matches account.html).
+STILL OPEN: D13 (AI Act, mid-July), D14 (Sheets decommission session),
+D15 (Apify cost before ~20 subs).
 
 **A. n8n v2 cutovers — ✅ DONE (kept for rollback reference)**
 Pre-check for all three: open the workflow in the n8n editor and confirm every

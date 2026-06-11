@@ -1,11 +1,19 @@
 # Overnight session log — 2026-06-10/11
 
-## STATUS
-Audit COMPLETE → `AUDIT_2026-06-10.md`. Roadmap COMPLETE → `ROADMAP.md` (read both).
-Business-hours queue: designed (`specs/business_hours_call_queue_design.md`) and the
-`call_queue` table is LIVE (additive migration, verified: RLS on, select-own only).
-Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain workflow
-(drafts only), repo-SQL truth sync. Nothing published, no calls fired, Stripe untouched.
+## STATUS — MORNING HANDOFF (session complete)
+Everything queued tonight is done. Read in this order:
+1. **AUDIT_2026-06-10.md** — what's broken/missing/risky (headline: the 3-day trial was
+   never published; an open webhook can rewrite Julia's agent).
+2. **NEEDS HARRY below** — 11 morning actions, ~30–40 min of clicking, each with rollback.
+   Items 1–5 are the high-impact ones; item 8 is your business-hours queue cutover.
+3. **ROADMAP.md** — Now/Next/Later, evidence-linked.
+Shipped live tonight (all verified headlessly): 6 frontend fixes + the W5 "Apply for
+Pro" flow (CTA + RPC). Applied to the DB (additive only): call_queue + apply_for_pro.
+Built as never-published drafts awaiting your review: W1-GATED (business-hours gate),
+Call Queue Drain (W1.5), Pro Application Alert (W5a), Pro Approve/Reject (W5b, stays
+manual forever). Guarantees held all night: no publishes, no outbound contact, no calls,
+Stripe read-only, everything reversible. One tooling incident (n8n update API schema
+skew) — no damage, documented below, workaround already applied.
 
 ## DONE
 - Phase 1 audit, 5 areas, all re-verified → specs/overnight/AUDIT_2026-06-10.md
@@ -67,6 +75,22 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
   as W1, so go-live is an unpublish/publish swap with no CloudMailin change (cutover
   sticky inside the workflow). Why a parallel workflow: see incident note below.
 
+- **W5a + W5b BUILT as never-published drafts** (verified inactive, activeVersion null):
+  - "Pro — Application Alert (W5a)" `Ic18iiJwshQjo2zG` (7 nodes): webhook → email
+    validate → profile lookup (must exist + pro_status='applied') → ops email to
+    harry.bird@llavai.com. Webhook path is random 32-hex — lives only in n8n, NOT
+    written here (repo no-secrets rule); open the workflow to read it. Wiring the
+    frontend's best-effort POST to it is optional (the messages row from apply_for_pro()
+    is already the source of truth, working tonight).
+  - "Pro — Approve or Reject (W5b, manual)" `qf7hdl8rvb2CBJVP` (12 nodes): MEANT to stay
+    unpublished forever — run manually with the "Input — Edit Before Running" Set node
+    ({email, action approve|reject}). Approve: pro_status → approved, creates the Pro
+    Stripe checkout session (€185 price, no trial, plan/user_id metadata so W3 maps it),
+    emails the client the link (owner-initiated by you running it). Reject: pro_status →
+    rejected. Throws clearly on bad input or wrong application state.
+  - Same credential caveat as the other new workflows: confirm green creds on the HTTP
+    nodes before first use (Supabase + the LIVE "Stripe account" `G2B8q9RMvmtML0x7`).
+
 ## INCIDENT (no damage — documented for transparency)
 - **n8n MCP `update_workflow` is broken tonight (schema skew):** the live server demands
   an undocumented `operations` array while advertising `{workflowId, code}`. All update
@@ -77,23 +101,16 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
   draft. Suggest merging the gotchas paragraph at the bottom of this file into
   CLAUDE.md §Backend (a hook blocked me from editing CLAUDE.md unattended).
 
-## QUEUED
-1. **Business-hours call gate + queue** (owner-requested): `call_queue` migration (apply,
-   additive) + W1 gate as DRAFT + drain workflow (new, unpublished). Must queue, not skip
-   — a skip permanently consumes the dedup slot (audit M1).
-2. Repo schema truth: regenerate supabase/schema.sql from live DB + correct the stale
-   "no user writes to viewings" note (audit M6). Repo-only, safe tonight.
-3. W1 hardening drafts: errorWorkflow wiring, Cache Property undefined-body guard,
-   transient-scrape retry-ability (audit M2/minor).
-4. W4 checkout input validation + return_to allow-list, drop preview origin (draft) (R6).
-5. W3 sync: stop forcing status 'active' on checkout.session.completed; period-end field
-   fix (draft) (R4).
-6. W5 Pro apply→approve flow: design + build (frontend apply CTA can ship; n8n side draft).
-7. Migration files (write, do NOT apply): revoke anon EXECUTE on tier RPCs (R8);
-   viewings insert with check source='self'; index on viewings(listing_id).
-8. STRIPE.md refresh; teaser_listings SECURITY DEFINER documentation comment (R7).
-9. W2.1: callback_later retry via call_queue; call_allowance enforcement design.
-10. Phase 4 design: Sheets decommission plan incl. Profile Creation → Supabase lead capture.
+## QUEUED — all original items closed; deliberately NOT done tonight
+- Transient-scrape retry-ability in W1 (audit minor): failed Apify scrapes still consume
+  the dedup slot. Natural home is the call_queue retry pattern (W2.1) — roadmap item 11.
+- W2.1 build (callback_later retries + call_allowance enforcement): designed in outline
+  (call_queue design §4: reason='callback_later' + not_before; allowance check in the
+  drain's re-verify step) — roadmap item 11, build next session.
+- Frontend POST to W5a (optional best-effort speed alert): needs the webhook path, which
+  would be public in the HTML like the checkout URL — your call (NEEDS HARRY 12).
+- Sheets decommission execution: plan ready (specs/phase4_sheets_decommission_plan.md),
+  blocked on morning approvals (Retell publish, CloudMailin confirm).
 
 ## NEEDS HARRY (morning checklist — each with rollback)
 1. **Publish W4 checkout draft** `7v8gjHd91PtNBSa1` — ships the 3-day trial + plan
@@ -139,6 +156,15 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
     Subscription", stop forcing status:'active' on checkout.session.completed — let only
     customer.subscription.created/updated set status (fixes the trial-shows-as-essential
     race, audit R4). Small edit in the n8n editor.
+12. **W5 go-live**: verify creds on W5a `Ic18iiJwshQjo2zG` + W5b `qf7hdl8rvb2CBJVP`
+    (HTTP nodes may show unbound — known caveat), then publish W5a only (W5b stays
+    manual/unpublished forever). Applications already reach you via the Messages tab
+    without it; W5a just adds an instant ops email. Optional: wire account.html's
+    apply flow to POST to W5a's webhook (path is in the workflow; it would be public
+    in the HTML like the checkout URL — same posture, your call). Test the full loop
+    with a test account: apply → messages row + (if published) ops email → W5b approve
+    → checkout link lands → pay test → current_tier()='pro'. Rollback: unpublish W5a;
+    the RPC/CTA are harmless without approval.
 
 ## CONSTRAINTS IN FORCE
 Nothing published, no outbound contact, no workflow executions with side-effects,

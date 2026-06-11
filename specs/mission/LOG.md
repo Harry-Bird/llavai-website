@@ -1,10 +1,12 @@
 # Mission log — production-ready + launch-grade (started 2026-06-11)
 
 ## STATUS (read this first)
-Phase 1: business + reliability audits DONE (see specs/mission/AUDIT.md); web-app +
-marketing agents still running. Phase 2 reliability workstream STARTING (top item F1:
-weekend queue-expiry silent death). Trial-is-live CONFIRMED in published state (stale
-B1 claim dismissed). No production changes made yet. Tag `pre-mission` = 2406434.
+Phase 2 reliability workstream RUNNING: builder sub-agent is creating 3 never-published
+n8n drafts (Drain v2 = F1 expiry alert/release + F9 cron + F6 allowance; W1-GATED v2 =
+F7 secret gate + explicit 96h expires_at; W4 v2 = F2 validation + errorWorkflow).
+Audits done: reliability, marketing, business (AUDIT.md). Web-app agent still running.
+expires_at 96h migration → supabase/proposed/ (classifier ruled ALTER non-additive;
+W1-GATED v2 fixes it at insert anyway). Production untouched. Tag pre-mission = 2406434.
 
 ## DONE
 - Phase 0: read CLAUDE.md, overnight AUDIT/LOG/ROADMAP, retro, backend architecture.
@@ -43,3 +45,17 @@ B1 claim dismissed). No production changes made yet. Tag `pre-mission` = 2406434
 - D0 (2026-06-11): Mission state lives in specs/mission/ (already inside .vercelignore's
   `specs` exclusion — verified, so nothing here is served publicly). Alternative: new
   top-level dir + new .vercelignore entry; rejected as needless surface.
+- D1 (2026-06-11, after checkpoint/reliability-start): F1 fix routed through workflow
+  drafts (W1-GATED v2 sets expires_at=+96h at insert) instead of a live DB ALTER — the
+  permission classifier ruled ALTER COLUMN SET DEFAULT outside "additive"; respected,
+  not worked around. The ALTER lives in supabase/proposed/20260611_call_queue_expiry_96h.sql
+  (with UNDO) as belt-and-braces for any future insert path. Alternative: ask Harry to
+  apply mid-mission; rejected — the draft swap covers it and batches Harry's clicks.
+- D2 (2026-06-11): On queue expiry, drain v2 DELETEs the call_attempts row scoped to
+  status=queued AND skip_reason=after_hours_queued — frees the dedup slot so a future
+  re-alert can retry, can never touch a real call record. Alternative (PATCH to skipped)
+  keeps dedup blocked forever; rejected as it preserves the silent-loss failure mode.
+- D3 (2026-06-11): call_allowance semantics in drain v2: NULL = unlimited (all current
+  rows NULL → zero behavior change until Harry sets values). Enforcement = skip + ops
+  email, never silent. Pricing/quota numbers themselves stay a Harry decision
+  (specs/proposals/pro-call-economics-and-allowance.md).

@@ -77,4 +77,46 @@ as designed; no execution failures since 06-10.
 
 ## Area 2 — Web app quality (PENDING — agent running)
 
-## Area 3 — Marketing & conversion (PENDING — agent running)
+## Area 3 — Marketing & conversion (COMPLETE)
+
+Lighthouse (live): / 84-100-100-100 · /get-started 89-100-100-100 · guide 88-96-100-100.
+Zero overflow at 320–430 incl. 344 (mobile UA); trilingual parity perfect (145/145/145
+data-lang on index); JSON-LD valid everywhere it exists; no console errors; no invented
+legal figures in guides. Artifacts: /tmp/llavai-verify/shots/ + lh-*.json.
+
+### 🔴
+- **M1 · "Win you the flat" overpromise cluster** — 6 live locations × 3 languages
+  (index.html:582-584 tiers H2 above pricing; blog/index.html:396-398 "Julia виграє
+  квартиру"; deposit + rent-control + neighbourhoods guide CTAs). Llavai books
+  viewings. Rewrite to viewing-truthful copy ("Both get you to the viewing first").  (C)
+- **M2 · Neighbourhoods guide (live, 584cb0c) has broken canonical + malformed sitemap
+  entry** — apex + trailing slash = double redirect; newest content may not index.
+  Fix both to https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat. (C)
+- **M3 · Featured Essential card CTA → /login?next=/account** (index.html:624) — the
+  highest-intent click lands on "Sign in", skips lead capture entirely. → /get-started. (C)
+
+### 🟡
+- **M4 · "it's free" sticky bar vs "from €19/mo" hero in one mobile fold** — trial never
+  mentioned. Fix: "Get started — free 3-day trial". (C)
+- **M5 · Trial terms hidden until after email capture** — add one reassure line on
+  get-started: "Free 3-day trial of Essential (€19/mo after) · cancel anytime · no
+  payment details now." (C)
+- **M6 · Julia promised to non-Pro audiences** (get-started meta description + success
+  screen for essential leads; blog hub CTA sub; profile success). Condition on plan=pro
+  or plan-neutral rewrite. (C)
+- **M7 · /blog hub missing the 2 newest guides** (rent-control + neighbourhoods). (C)
+- **M8 · Guides are crawl cul-de-sacs** — no related-guides block, no breadcrumb to
+  /blog (only cover-letter interlinks). (C)
+- **M9 · Homepage LCP 3.8s: reveal animation holds hero .lede at opacity:0 ~1.6s** —
+  exempt above-fold hero from JS-gated opacity (+ consider preloading 2 hero woff2).
+  Should clear Perf ≥90. (C)
+- **M10 · No hreflang / per-language URLs** — trilingual content invisible to search.
+  Strategic; needs /es/ /ua/ paths; do NOT bolt hreflang onto single-URL. (proposal-level)
+- **M11 · Pro has no price anywhere public** ("By application") — overlaps business 🟡;
+  recommend showing €185 or "reply within 24h with pricing". (C copy + H business call)
+
+### 🟢
+- P1 trailing-slash internal links (308 hop) · P2 guide FAQ coral em contrast (use
+  --coral-text) · P3 homepage lacks wow kit (tier-card stamps; hero live-dossier idea =
+  strongest move) · P4 WHO/WHY-NOW buried in lede · P5 sitemap lastmod stale for / ·
+  P6 get-started JSON-LD absent · P7 local checkout was behind origin (now pulled).

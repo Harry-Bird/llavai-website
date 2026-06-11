@@ -38,12 +38,15 @@ lives only in n8n.
   - `checkout.session.completed` + `mode=payment` → grant N credits (N from
     `metadata.credits`, fallback `amount_total` 1200/4900/11900 → 1/5/15; user from
     `client_reference_id`). Idempotent via unique `source_ref` = Stripe event id.
-- **Trial 5 free calls are USER-CLAIMED, not automatic.** The account page shows a
-  "Claim your 5 free calls" button for trial/Essential users who haven't claimed; it calls
-  the authenticated RPC `claim_trial_calls()` (once per account, Essential-only, all
-  enforced server-side; `source_ref='trial:'+uid`). `call_balance()` returns
-  `can_claim_trial` so the UI knows when to show the button. Once claimed, the 5 credits
-  sit in the ledger and Julia calls the next 5 qualifying listings (no pause, no picking).
+- **Julia is a PAYING-client feature.** Trial Essential users (`status='trialing'`, card
+  given but not yet charged) get **NO** Julia calls, even with credits. "Paying" = tier
+  `essential` (active/charged) or `pro`. The W1 call gate enforces this at cutover.
+- **The 5 free calls are USER-CLAIMED by paying Essential users, not automatic.** The
+  account page shows a "Claim your 5 free calls" button only when `current_tier()='essential'`
+  and not yet claimed; it calls `claim_trial_calls()` (authenticated, once per account,
+  paying-Essential-only, all server-side). `call_balance()` returns `can_claim_trial` for
+  the UI. Once claimed, the 5 credits sit in the ledger and Julia calls the next 5
+  qualifying listings (no pause, no picking).
 - **"Stripe — Subscription sync"** got one guard node ("Skip Pack Sessions"): pack
   `checkout.session.completed` (`mode=payment`) no longer upserts a `subscriptions` row.
 - **Consumption**: DB trigger `trg_consume_on_calling` decrements one credit (Pro allowance

@@ -91,12 +91,13 @@ Essential/Pro subscriptions unchanged.
   (detected via `current_period_end` advancing, which the sync already writes).
 - **Consumption**: DB trigger `trg_consume_on_calling` calls `consume_call(user,property)`
   when a `call_attempts` row is marked `'calling'` (idempotent per listing). **W1
-  (`rlv02UB1RHNnQl4i`) is not yet live**; `get_call_client` now returns `available_calls`, so
-  at W1 cutover change its `Process & Decide` gate:
-  `if (!client.is_pro) {…'not_pro'}` → `if (!(client.available_calls > 0)) {…'no_credit'}`
-  (documented on W1's sticky note). Then any-tier-with-credit (Essential pack, trial) gets
-  calls, not Pro-only. **Art 50 AI-disclosure** for non-Pro calling is the open gate on that
-  cutover (see project memory, ~mid-July).
+  (`rlv02UB1RHNnQl4i`) is not yet live**; `get_call_client` now returns `tier` +
+  `available_calls`, so at W1 cutover change its `Process & Decide` gate:
+  `if (!client.is_pro) {…'not_pro'}` →
+  `if (!((client.is_pro || client.tier==='essential') && client.available_calls > 0)) {…'no_credit'}`
+  (documented on W1's sticky note). **Julia is a PAYING-client feature**: `tier==='essential'`
+  (active/charged) or Pro. **Trial users get NO calls even with credits** — `'trial'` is
+  excluded. **Art 50 AI-disclosure** is the open gate on that cutover (~mid-July).
 
 ## 6. Frontend (account.html)
 

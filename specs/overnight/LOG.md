@@ -17,11 +17,20 @@ Three parallel build agents in flight: frontend fixes, n8n W1-draft + drain work
   anon revoked). n8n W5a/W5b drafts + frontend CTA pending (queued behind running agents).
   Mirror this migration into supabase/migrations/ after the SQL-truth agent finishes.
 
+- Repo SQL truth (audit M6) COMPLETE: schema.sql regenerated from live DB (6 missing
+  tables, both views incl. teaser SECURITY DEFINER warning, 5 functions, 10 policies,
+  ~21 columns now captured; stale viewings comment corrected); supabase/migrations/
+  mirrors call_queue + w5_apply_for_pro; supabase/proposed/ holds 3 reviewed-NOT-applied
+  hardening migrations (anon RPC revoke, viewings source='self' check — verified safe
+  against addViewing(), viewings.listing_id index); STRIPE.md refreshed.
+  Follow-up noted: delete superseded listings.sql + migration-supabase-first.sql.
+- Frontend fixes 1+2 committed by agent (checkout alert() → trilingual inline error
+  bdb8e35; undoDismiss null-status fix 2b56186); fixes 3–6 still running.
+
 ## IN PROGRESS
-- Frontend fixes agent: checkout alert() B2 (partially in working tree), Enter-submit,
-  placeholders, canonicals, undoDismiss
-- n8n agent: W1 business-hours gate as DRAFT + new unpublished drain workflow (W1.5)
-- Repo SQL agent: regenerate schema.sql from live DB, migrations/ + proposed/ dirs, STRIPE.md
+- Frontend fixes agent: Enter-submit wraps, placeholders, SEO canonicals (3–6)
+- n8n agent (relaunched after transient API death, zero changes lost): W1 business-hours
+  gate as DRAFT + new unpublished drain workflow (W1.5)
 
 ## QUEUED
 1. **Business-hours call gate + queue** (owner-requested): `call_queue` migration (apply,

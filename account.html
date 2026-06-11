@@ -295,6 +295,22 @@
   .skel-card .ph{height:190px;background:var(--cream-deep)}
   .skel-card .ln{height:14px;background:var(--cream-deep);border-radius:3px;margin:16px 20px 0}
   @keyframes shimmer{from{background-position:200% 0}to{background-position:-200% 0}}
+  /* ── call packs: prepaid Julia calls (W7) — stacked-paper card + pack chips ── */
+  .calls-card{position:relative;margin-top:18px;border:1px solid rgba(27,56,143,.16);border-radius:5px;background:var(--paper);box-shadow:var(--shadow-sm);padding:16px 18px 15px}
+  .calls-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .calls-stamp{font-family:'Fraunces',serif;font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--coral-text);border:1.5px solid var(--coral);border-radius:3px;padding:3px 8px;transform:rotate(-2deg)}
+  .calls-bal{font-family:'Fraunces',serif;font-size:18px;font-weight:600;color:var(--ink)}
+  .calls-bal.zero{color:var(--pencil);font-weight:500}
+  .calls-sub{font-size:13.5px;color:var(--pencil);margin:8px 0 13px;max-width:520px}
+  .pack-buy{display:flex;gap:10px;flex-wrap:wrap}
+  .packbtn{position:relative;flex:1 1 0;min-width:88px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;
+    border:1px solid rgba(27,56,143,.2);border-radius:4px;background:var(--field);padding:11px 10px 10px;transition:transform .15s var(--ease-out),box-shadow .15s var(--ease-out),border-color .15s}
+  .packbtn:hover{transform:translateY(-2px);box-shadow:0 4px 0 var(--ink-deep);border-color:var(--ink)}
+  .packbtn.best{border-color:var(--coral)}
+  .packbtn .pk-n{font-family:'Fraunces',serif;font-size:25px;font-weight:600;color:var(--ink);line-height:1}
+  .packbtn .pk-l{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--pencil)}
+  .packbtn .pk-p{font-family:'Fraunces',serif;font-size:15px;font-weight:600;color:var(--coral-text);margin-top:3px}
+  .packbtn .pk-tag{position:absolute;top:-8px;left:50%;transform:translateX(-50%);background:var(--coral);color:var(--cream);font-family:'Fraunces',serif;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:2px 7px;border-radius:2px;white-space:nowrap}
   [data-lang="es"],[data-lang="uk"]{display:none}
   body.es [data-lang="en"],body.es [data-lang="uk"]{display:none}
   body.es [data-lang="es"]{display:inline}
@@ -346,6 +362,27 @@
           <a class="btn-text" id="manageBilling" hidden href="https://billing.stripe.com/p/login/6oU3cv0oH4ah4Tf65BaEE00" target="_blank" rel="noopener"><span data-lang="en">Manage subscription · cancel anytime</span><span data-lang="es">Gestionar suscripción · cancela cuando quieras</span><span data-lang="uk">Керувати підпискою · скасуйте будь-коли</span></a>
         </p>
         <p class="status-line" id="statusLine" hidden><span class="status-dot" aria-hidden="true"></span><span id="statusText"></span></p>
+        <!-- Call packs (W7): prepaid Julia calls. Each credit = one quality listing called for you. -->
+        <div class="calls-card" id="callsCard" hidden>
+          <div class="calls-head">
+            <span class="calls-stamp" aria-hidden="true"><span data-lang="en">Julia calls</span><span data-lang="es">Llamadas de Julia</span><span data-lang="uk">Дзвінки Julia</span></span>
+            <span class="calls-bal" id="callsBal"></span>
+          </div>
+          <p class="calls-sub" id="callsSub"></p>
+          <div class="pack-buy">
+            <button type="button" class="packbtn" onclick="buyPack('pack1')" aria-label="Buy 1 call for 12 euros">
+              <span class="pk-n">1</span><span class="pk-l"><span data-lang="en">call</span><span data-lang="es">llamada</span><span data-lang="uk">дзвінок</span></span><span class="pk-p">€12</span>
+            </button>
+            <button type="button" class="packbtn best" onclick="buyPack('pack5')" aria-label="Buy 5 calls for 49 euros">
+              <span class="pk-tag"><span data-lang="en">Popular</span><span data-lang="es">Popular</span><span data-lang="uk">Популярний</span></span>
+              <span class="pk-n">5</span><span class="pk-l"><span data-lang="en">calls</span><span data-lang="es">llamadas</span><span data-lang="uk">дзвінки</span></span><span class="pk-p">€49</span>
+            </button>
+            <button type="button" class="packbtn" onclick="buyPack('pack15')" aria-label="Buy 15 calls for 119 euros">
+              <span class="pk-n">15</span><span class="pk-l"><span data-lang="en">calls</span><span data-lang="es">llamadas</span><span data-lang="uk">дзвінки</span></span><span class="pk-p">€119</span>
+            </button>
+          </div>
+          <p class="checkout-err" id="packErr"></p>
+        </div>
       </div>
 
       <div class="tabs" role="tablist">
@@ -674,6 +711,9 @@ async function showDash(){
   await flushPendingProfile();  // the lead→account join: write any pre-sign-in data into the row
   TIER = await currentTier();   // fetch once, before the panels render tier-aware copy
   applyTierUI();
+  loadCallBalance();            // W7: "N Julia calls available" + pack-buy chips
+  // Returning from a pack purchase: the W7 webhook credits a moment later, so re-poll.
+  if (qp('checkout')==='success'){ [4000,9000,15000].forEach(function(t){ setTimeout(loadCallBalance,t); }); }
   loadProfile();   // also sets the greeting
   loadPipeline();
   loadAvailability();
@@ -972,6 +1012,39 @@ async function subscribe(){
   }catch(err){ btn.innerHTML=label; checkoutError(err); }
 }
 document.getElementById('subscribeBtn').addEventListener('click', function(e){ e.preventDefault(); subscribe(); });
+
+/* ---- call packs + balance (W7) ----
+   Packs are live Stripe Payment Links (one-time). We pass the signed-in user via
+   ?client_reference_id so the W7 credits workflow can credit the right account.
+   call_balance() RPC drives the "N Julia calls available" line. */
+const PACK_LINKS = {
+  pack1:'https://buy.stripe.com/6oU3cv0oH4ah4Tf65BaEE00',
+  pack5:'https://buy.stripe.com/00w14ndbt4ahetP3XtaEE01',
+  pack15:'https://buy.stripe.com/8x2fZh4EXbCJadz8dJaEE02'
+};
+function buyPack(plan){
+  var url=PACK_LINKS[plan]; if(!url) return;
+  var err=document.getElementById('packErr'); err.classList.remove('visible');
+  if(!USER){ location.href='/login?next=/account'; return; }
+  location.href = url+'?client_reference_id='+encodeURIComponent(USER.id)+'&prefilled_email='+encodeURIComponent(USER.email||'');
+}
+async function loadCallBalance(){
+  var card=document.getElementById('callsCard'); if(!card||!sb) return;
+  card.hidden=false;
+  document.getElementById('callsSub').innerHTML=tri({
+    en:'Each credit is one quality listing Julia calls for you — in native Spanish. Credits never expire.',
+    es:'Cada crédito es un piso de calidad que Julia llama por ti — en español nativo. Los créditos no caducan.',
+    uk:'Кожен кредит — це якісне оголошення, щодо якого Julia телефонує за вас рідною іспанською. Кредити не згоряють.'});
+  var bal=document.getElementById('callsBal');
+  try{
+    var r=await sb.rpc('call_balance'); if(r.error) throw r.error;
+    var b=r.data||{}, total=(b.total!=null)?b.total:0;
+    bal.innerHTML=tri({ en:total+(total===1?' call available':' calls available'),
+      es:total+(total===1?' llamada disponible':' llamadas disponibles'),
+      uk:total+' дзвінків доступно' });
+    bal.classList.toggle('zero', total<=0);
+  }catch(e){ bal.textContent=''; bal.classList.add('zero'); }
+}
 
 /* ---- pipeline ---- */
 const STATUS = {

@@ -11,6 +11,41 @@ lives only in n8n.
 - **Llavai Pro** — €185 / month recurring, **no trial** (concierge calling
   starts immediately).
   - Product: `prod_UfqE6N1h4FyXFm` · Price: `price_1TgUXvF7TyaJ4FziJhqXMovY`
+- **Call Packs** — one-time payments (`mode: payment`, NOT subscriptions), live mode.
+  Prepaid Julia calls; credited to `call_credit_ledger`. Value is **CALLS, never minutes**.
+  See `specs/w7_call_credits_design.md`. Sold via **Stripe Payment Links** (static URLs) —
+  the account page links to them with `?client_reference_id=<user_id>&prefilled_email=<email>`
+  so the right account is credited. (Payment Links were chosen because the n8n MCP can't bind
+  the Stripe credential to a *new* httpRequest node, and the one existing checkout node can't
+  serve both subscription + payment mode in one form body.)
+  - `pack1` — 1 call €12 · Product `prod_UgcGZ6Iqq4WMNP` · Price `price_1ThF2AF7TyaJ4FzibA5LGuSM`
+    · Link `https://buy.stripe.com/6oU3cv0oH4ah4Tf65BaEE00` (plink_1ThFV8F7TyaJ4FziH2ClCnhD)
+  - `pack5` — 5 calls €49 · Product `prod_UgcGMkM0C5QtY8` · Price `price_1ThF2JF7TyaJ4Fzih3Wb4X6p`
+    · Link `https://buy.stripe.com/00w14ndbt4ahetP3XtaEE01` (plink_1ThFVNF7TyaJ4Fzi4FNNyHRP)
+  - `pack15` — 15 calls €119 · Product `prod_UgcGmcO6rbKgZr` · Price `price_1ThF2UF7TyaJ4FzimTaaP55l`
+    · Link `https://buy.stripe.com/8x2fZh4EXbCJadz8dJaEE02` (plink_1ThFVUF7TyaJ4Fzif82STYmV)
+  - Each link carries `metadata{kind:pack, credits:N}` and redirects to
+    `/account?checkout=success`.
+
+## Call-credits backend (W7, live)
+- **Tables/RPCs** (`migration w7_call_credits` + follow-ups): `call_credit_ledger` (persistent
+  pack/trial credits, balance = sum(delta)); `subscriptions.call_allowance` = Pro's ~60
+  monthly **calls** (DB trigger `set_pro_call_allowance` sets/refills it on Pro activation +
+  each billing period). Service-role-only RPCs `grant_pack_credits`, `grant_trial_calls`,
+  `consume_call`; authenticated `call_balance()`/`available_calls()` for the account UI.
+- **Workflow "Stripe — Credits, trial & allowance (W7)"** (`lohfpJ1X1lbRADno`, active):
+  own Stripe Trigger → classify → native Supabase "create row" into `call_credit_ledger`.
+  - `checkout.session.completed` + `mode=payment` → grant N credits (N from
+    `metadata.credits`, fallback `amount_total` 1200/4900/11900 → 1/5/15; user from
+    `client_reference_id`). Idempotent via unique `source_ref` = Stripe event id.
+  - `customer.subscription.created` (Essential, `trialing`) → grant **5 trial calls**
+    (once per account; `source_ref='trial:'+uid`).
+- **"Stripe — Subscription sync"** got one guard node ("Skip Pack Sessions"): pack
+  `checkout.session.completed` (`mode=payment`) no longer upserts a `subscriptions` row.
+- **Consumption**: DB trigger `trg_consume_on_calling` decrements one credit (Pro allowance
+  first, then pack/trial credits) when a `call_attempts` row is marked `'calling'`. Dormant
+  until **W1 is activated**; at that cutover, flip W1's call gate from `!is_pro`/`not_pro`
+  to `!(available_calls>0)`/`no_credit` (documented on W1's sticky note + the design doc).
 - **Tier is derived, not stored**: `public.subscriptions(plan, status)` →
   `current_tier()` maps to `'pro' | 'essential' | 'trial' | 'free'`
   (`plan='pro'` + active/trialing → pro; `status='active'` → essential;

@@ -24,6 +24,9 @@ Look around, then `git checkout main` to come back.
 | Tag | What it represents | Rollback command |
 |---|---|---|
 | `pre-mission` | State before this mission touched anything (commit 2406434, 2026-06-11) | `git revert --no-edit pre-mission..main && git push` |
+| `checkpoint/reliability-start` | Before reliability workstream (29d94fc — audit only at that point) | `git revert --no-edit checkpoint/reliability-start..main && git push` |
+| `checkpoint/conversion-start` | Before the marketing/conversion edits (ed033cb) | `git revert --no-edit checkpoint/conversion-start..main && git push` |
+| `checkpoint/webapp-start` | Before the signed-in web-app fixes (e6feb50) | `git revert --no-edit checkpoint/webapp-start..main && git push` |
 
 (Workstream tags `checkpoint/<name>-start` / `checkpoint/<name>-done` are added here as
 each workstream begins/ends.)

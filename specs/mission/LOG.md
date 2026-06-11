@@ -11,6 +11,19 @@ W1-GATED v2 fixes it at insert anyway). Production untouched. Tag pre-mission = 
 ## DONE
 - Phase 0: read CLAUDE.md, overnight AUDIT/LOG/ROADMAP, retro, backend architecture.
   Tagged `pre-mission`, created RESET.md + this log.
+- Phase 1: ALL FOUR audits complete → AUDIT.md (reliability, web-app, marketing,
+  business). Web-app: NO launch blockers.
+- Conversion batch 1 (e6feb50, deployed): overpromise copy gone everywhere ("win the
+  flat" → viewing-truthful, 3 langs), featured-tier CTA /login→/get-started?plan=
+  essential, trial marketed (hero note + sticky bar + get-started reassure), Julia
+  promises plan-scoped, neighbourhoods canonical/sitemap fixed, hub +2 cards,
+  trailing slashes dropped, LCP fix (hero opacity exemption + font preloads).
+  All verified headlessly (mission-conversion-1.js).
+- Web-app batch (c19f0f1, deployed): feed/teaser cards trilingual (facts/chips/seller/
+  /mes/dismiss), profile review value translation + select-segment echo, doc-type
+  labels trilingual, ≤340px progress-dot fix, email-setup WAI-ARIA tabs +
+  focus-visible, lang-toggle aria-label trilingual ×15 pages. Verified via auditor
+  re-check (a6) + 72-combo sweep.
 - Phase 1 (area 4, business): 7 proposals in specs/proposals/ — AI-disclosure Art.50
   script, Pro call economics/allowance, trial 3→7d design, Julia-on-demand bridge tier,
   growth-first-100, retention-after-keys, price-drop digest. Plus model findings to

@@ -75,7 +75,32 @@ as designed; no execution failures since 06-10.
   trial-design-time-to-first-win, julia-on-demand-bridge-tier, growth-first-100-users,
   retention-after-the-keys, essential-engagement-price-drop-digest.
 
-## Area 2 — Web app quality (PENDING — agent running)
+## Area 2 — Web app quality (COMPLETE)
+
+No 🔴. Healthy (measured): zero overflow 320–768 incl. 344 on every page incl. POPULATED
+account states (Z Fold time-input fix holds); zero console errors × 3 langs; keyboard
+complete (chips, WAI-ARIA tabs, Enter-submit); tier/pro_status states all correct; wow
+kit genuinely premium on login/get-started/profile/account. Re-check script:
+/tmp/llavai-verify/a6-recheck-findings.js (run after fixes).
+
+### 🟡
+- **W1 · Feed cards mixed-language in ES/UK** — card()/teaserCard()/prettyFeat() hardcode
+  "3 bed · 2 bath · 85 m²", chips "A/C, Terrace…", "· agent", title="Dismiss", "/mo".
+  Fix: dicts in card() (~account.html:718) + dismiss aria-label. (C)
+- **W2 · profile step-4 review echoes English values** ("Couple (2)", "Yes", "Mon, Wed —
+  Flexible") under translated labels. Fix in buildReview() (~profile.html:902) via
+  existing DTXT dicts + Yes/No//mo dicts. (C)
+- **W3 · get-started success promises Julia to every lead** — FIXED in conversion batch 1
+  (plan-neutral dossier copy; meta description too).
+- **W4 · Documents tab raw enums** — "bank_statement · date"; #docType options
+  English-only. Fix: one value→trilingual dict for select + loadDocuments(). (C)
+
+### 🟢
+- W5 · profile step-3 progress dot clipped at 320px (not 344+). W6 · aria-label "Select
+  language" untranslated ×7 pages. W7 · <title> stays English on setLang. W8 ·
+  email-setup tabs lack ARIA pattern + :focus-visible CSS. W9 · email-setup lacks wow
+  kit entirely (flattest signed-in page). W10 · nits: 👋 emoji, native file input,
+  @yourusername placeholder, title="Remove", noscript refresh drops ?checkout=success.
 
 ## Area 3 — Marketing & conversion (COMPLETE)
 

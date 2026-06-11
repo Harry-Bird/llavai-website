@@ -387,11 +387,13 @@
 
         <div class="cal-add sheet">
           <h3 class="prefs-h"><span data-lang="en">Add a viewing</span><span data-lang="es">Añadir una visita</span><span data-lang="uk">Додати перегляд</span></h3>
+          <form onsubmit="event.preventDefault();addViewing()">
           <div class="row-2">
             <div class="field"><label for="nv_title"><span data-lang="en">Listing / address</span><span data-lang="es">Piso / dirección</span><span data-lang="uk">Оголошення / адреса</span></label><input id="nv_title" type="text" /></div>
             <div class="field"><label for="nv_when"><span data-lang="en">Date &amp; time</span><span data-lang="es">Fecha y hora</span><span data-lang="uk">Дата та час</span></label><input id="nv_when" type="datetime-local" /></div>
           </div>
-          <button class="btn-ghost" id="addViewBtn" onclick="addViewing()"><span data-lang="en">Add to calendar</span><span data-lang="es">Añadir al calendario</span><span data-lang="uk">Додати в календар</span></button>
+          <button type="submit" class="btn-ghost" id="addViewBtn"><span data-lang="en">Add to calendar</span><span data-lang="es">Añadir al calendario</span><span data-lang="uk">Додати в календар</span></button>
+          </form>
         </div>
 
         <div class="prefs-block sheet" id="availBlock">
@@ -421,6 +423,7 @@
         <h2><span data-lang="en">Your tenant profile</span><span data-lang="es">Tu perfil de inquilino</span><span data-lang="uk">Ваш профіль орендаря</span></h2>
         <p class="sub" id="profileSub"><span data-lang="en">The details Julia uses to present you to agents. Keep them current.</span><span data-lang="es">Los datos que Julia usa para presentarte a los agentes. Mantenlos al día.</span><span data-lang="uk">Дані, які Julia використовує, щоб представити вас агентам. Тримайте їх актуальними.</span></p>
         <div class="form-error" id="profileError" role="alert"></div>
+        <form onsubmit="event.preventDefault();saveProfile()">
         <div class="sheet">
         <div class="row-2">
           <div class="field"><label for="p_first"><span data-lang="en">First name</span><span data-lang="es">Nombre</span><span data-lang="uk">Ім'я</span></label><input id="p_first" type="text" autocomplete="given-name" /></div>
@@ -466,8 +469,9 @@
           <div class="field"><label for="pf_context"><span data-lang="en">Anything else to tune your matches?</span><span data-lang="es">¿Algo más para afinar tus resultados?</span><span data-lang="uk">Щось іще, щоб налаштувати результати?</span></label><textarea id="pf_context" placeholder="e.g. quiet street, near a metro, ground floor is fine"></textarea></div>
         </div>
 
-        <button class="btn-primary" id="saveProfileBtn" onclick="saveProfile()"><span data-lang="en">Save changes</span><span data-lang="es">Guardar</span><span data-lang="uk">Зберегти</span></button>
+        <button type="submit" class="btn-primary" id="saveProfileBtn"><span data-lang="en">Save changes</span><span data-lang="es">Guardar</span><span data-lang="uk">Зберегти</span></button>
         <span class="saved" id="profileSaved" role="status" aria-live="polite"><span data-lang="en">Saved ✓</span><span data-lang="es">Guardado ✓</span><span data-lang="uk">Збережено ✓</span></span>
+        </form>
       </section>
 
       <!-- DOCUMENTS -->

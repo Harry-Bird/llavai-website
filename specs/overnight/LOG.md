@@ -5,9 +5,14 @@
   only). The last unguarded calling path is gone. Rollback: republish nQGk9hfDb4L6VVnx.
 - Recall Attempts v1 deactivation deferred to Phase 4 (classifier scoped it out of
   today's authorization; inert anyway — its Retell node is disabled).
-- Remaining open: W3 status-race hand-edit, W4 validation hand-edit, "name documents"
-  bucket delete, W1-GATED rename, Phase 4 execution per
-  specs/phase4_sheets_decommission_plan.md.
+- ✅ **#11 W3 status-race FIXED** (Harry hand-edit, Claude-verified live, version
+  8836e378, 09:31): checkout.session.completed no longer writes `status` (bare
+  `undefined` dropped by JSON.stringify) — `trialing` survives any event order.
+  First attempt had `'undefined'` as a string (would have clobbered trialing with
+  garbage); caught on verification, corrected, republished. Lesson: verify published
+  expression text, not just the publish action.
+- Remaining open: W4 validation hand-edit, "name documents" bucket delete,
+  W1-GATED rename, Phase 4 execution per specs/phase4_sheets_decommission_plan.md.
 
 ## MORNING EXECUTION — ROUND 2 (Retell publish + cutover DONE)
 - ✅ **#3 Retell agent v1 PUBLISHED** (verified: is_published:true, webhook→W2, 12

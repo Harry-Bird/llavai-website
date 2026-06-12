@@ -28,9 +28,13 @@ faster applicants.
   **After editing any English `index.html` or `blog/*/index.html`, re-run it** or the `/es/`
   copy drifts: `NODE_PATH=/tmp/llavai-verify/node_modules node scripts/gen-locales.js`
   (needs puppeteer-core + system Chrome; the site itself stays build-free; `scripts/` is in
-  `.vercelignore`). Per-page Spanish title/description live in the script's PAGES map. UA
-  (`/uk/`) is a deferred fast-follow — add `'uk'` to LOCALES + a `uk` head map, then the
-  hreflang clusters pick it up. Don't hand-edit files under `/es/`.
+  `.vercelignore`). Per-page locale title/description live in the script's PAGES map.
+  **Both `/es/` and `/uk/` ship** (LOCALES=['es','uk']); add another locale by extending
+  LOCALES + each page's head map. On the localized pages (homepage + blog) the language
+  toggle is a real navigating link (EN→`/`, ES→`/es/…`, UA→`/uk/…`) and the localStorage
+  auto-switch is neutralized, so the URL reflects the language. The funnel/app pages
+  (get-started, login, account, profile) are NOT localized — they keep the in-place
+  setLang() toggle. Don't hand-edit files under `/es/` or `/uk/`.
 - The repo auto-deploys to live the moment changes are pushed to the main branch on GitHub
   (Vercel). HTML is served with `must-revalidate`, so a normal reload picks up new deploys.
 

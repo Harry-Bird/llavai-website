@@ -2,144 +2,243 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.llavai.com/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/" />
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/" />
+    <changefreq>monthly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/" />
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/blog</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog" />
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/blog</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog" />
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/blog</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog" />
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/blog/rent-apartment-barcelona-foreigner</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rent-apartment-barcelona-foreigner" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/rent-apartment-barcelona-foreigner" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rent-apartment-barcelona-foreigner" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/rent-apartment-barcelona-foreigner" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/rent-apartment-barcelona-foreigner" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/blog/rent-apartment-barcelona-foreigner</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rent-apartment-barcelona-foreigner" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/rent-apartment-barcelona-foreigner" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rent-apartment-barcelona-foreigner" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/rent-apartment-barcelona-foreigner" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/rent-apartment-barcelona-foreigner" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/blog/rent-apartment-barcelona-foreigner</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/rent-apartment-barcelona-foreigner" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rent-apartment-barcelona-foreigner" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/rent-apartment-barcelona-foreigner" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/rent-apartment-barcelona-foreigner" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/blog/documents-to-rent-barcelona</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/documents-to-rent-barcelona" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/documents-to-rent-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/documents-to-rent-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/documents-to-rent-barcelona" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/documents-to-rent-barcelona" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/blog/documents-to-rent-barcelona</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/documents-to-rent-barcelona" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/documents-to-rent-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/documents-to-rent-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/documents-to-rent-barcelona" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/documents-to-rent-barcelona" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/blog/documents-to-rent-barcelona</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/documents-to-rent-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/documents-to-rent-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/documents-to-rent-barcelona" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/documents-to-rent-barcelona" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/blog/barcelona-rental-deposit-fianza</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rental-deposit-fianza" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/barcelona-rental-deposit-fianza" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rental-deposit-fianza" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/barcelona-rental-deposit-fianza" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/barcelona-rental-deposit-fianza" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/blog/barcelona-rental-deposit-fianza</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rental-deposit-fianza" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/barcelona-rental-deposit-fianza" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rental-deposit-fianza" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/barcelona-rental-deposit-fianza" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/barcelona-rental-deposit-fianza" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/blog/barcelona-rental-deposit-fianza</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/barcelona-rental-deposit-fianza" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rental-deposit-fianza" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/barcelona-rental-deposit-fianza" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/barcelona-rental-deposit-fianza" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rental-cover-letter-spanish-barcelona" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rental-cover-letter-spanish-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/rental-cover-letter-spanish-barcelona" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/blog/rental-cover-letter-spanish-barcelona</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rental-cover-letter-spanish-barcelona" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rental-cover-letter-spanish-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/rental-cover-letter-spanish-barcelona" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/blog/rental-cover-letter-spanish-barcelona</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rental-cover-letter-spanish-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/rental-cover-letter-spanish-barcelona" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/blog/barcelona-rent-control-zona-tensionada</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rent-control-zona-tensionada" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/barcelona-rent-control-zona-tensionada" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rent-control-zona-tensionada" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/barcelona-rent-control-zona-tensionada" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/barcelona-rent-control-zona-tensionada" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/blog/barcelona-rent-control-zona-tensionada</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rent-control-zona-tensionada" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/barcelona-rent-control-zona-tensionada" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rent-control-zona-tensionada" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/barcelona-rent-control-zona-tensionada" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/barcelona-rent-control-zona-tensionada" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/blog/barcelona-rent-control-zona-tensionada</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/barcelona-rent-control-zona-tensionada" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/barcelona-rent-control-zona-tensionada" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/barcelona-rent-control-zona-tensionada" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/barcelona-rent-control-zona-tensionada" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/best-neighbourhoods-barcelona-rent-expat" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/best-neighbourhoods-barcelona-rent-expat" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/best-neighbourhoods-barcelona-rent-expat" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/blog/best-neighbourhoods-barcelona-rent-expat</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/best-neighbourhoods-barcelona-rent-expat" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/best-neighbourhoods-barcelona-rent-expat" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/best-neighbourhoods-barcelona-rent-expat" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/blog/best-neighbourhoods-barcelona-rent-expat</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/best-neighbourhoods-barcelona-rent-expat" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/best-neighbourhoods-barcelona-rent-expat" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/blog/avoid-rental-scams-barcelona</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/avoid-rental-scams-barcelona" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/avoid-rental-scams-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/avoid-rental-scams-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/avoid-rental-scams-barcelona" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/avoid-rental-scams-barcelona" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.llavai.com/es/blog/avoid-rental-scams-barcelona</loc>
-    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/avoid-rental-scams-barcelona" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/avoid-rental-scams-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/avoid-rental-scams-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/avoid-rental-scams-barcelona" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/avoid-rental-scams-barcelona" />
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.llavai.com/uk/blog/avoid-rental-scams-barcelona</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/avoid-rental-scams-barcelona" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/avoid-rental-scams-barcelona" />
+    <xhtml:link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/avoid-rental-scams-barcelona" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/avoid-rental-scams-barcelona" />
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

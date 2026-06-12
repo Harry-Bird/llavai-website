@@ -8,6 +8,7 @@
 <link rel="canonical" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
 <link rel="alternate" hreflang="en" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
 <link rel="alternate" hreflang="es" href="https://www.llavai.com/es/blog/rental-cover-letter-spanish-barcelona" />
+<link rel="alternate" hreflang="uk" href="https://www.llavai.com/uk/blog/rental-cover-letter-spanish-barcelona" />
 <link rel="alternate" hreflang="x-default" href="https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona" />
 
 <link rel="icon" href="/favicon.ico" sizes="any" />
@@ -474,9 +475,9 @@
     <div class="lang-toggle" role="group" aria-label="Select language">
       <button id="btn-en" class="active" aria-pressed="true" onclick="setLang('en')">EN</button>
       <span class="lang-sep" aria-hidden="true">/</span>
-      <button id="btn-es" aria-pressed="false" onclick="setLang('es')">ES</button>
+      <button id="btn-es" aria-pressed="false" onclick="location.href='/es/blog/rental-cover-letter-spanish-barcelona'">ES</button>
       <span class="lang-sep" aria-hidden="true">/</span>
-      <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
+      <button id="btn-uk" aria-pressed="false" onclick="location.href='/uk/blog/rental-cover-letter-spanish-barcelona'">UA</button>
     </div>
   </div>
 </nav>
@@ -981,7 +982,7 @@
     ['en','es','uk'].forEach(function(l){ var b=document.getElementById('btn-'+l); b.classList.toggle('active', l===lang); b.setAttribute('aria-pressed', String(l===lang)); });
     try { localStorage.setItem('llavai-lang', lang); } catch(e) {}
   }
-  try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') setLang(s); } catch(e) {}
+  try { const s = localStorage.getItem('llavai-lang'); if(s==='es'||s==='uk') void 0; } catch(e) {}
 
   var __sh = document.querySelector('.site-header');
   if (__sh) { var __shScroll = function(){ __sh.classList.toggle('scrolled', window.scrollY > 12); }; __shScroll(); window.addEventListener('scroll', __shScroll, { passive:true }); }

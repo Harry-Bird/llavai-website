@@ -274,6 +274,18 @@
   .status-dot::after{content:"";position:absolute;inset:-4px;border-radius:50%;border:1.5px solid var(--coral);opacity:0;animation:ping 2.6s var(--ease-out) infinite}
   @keyframes ping{0%{transform:scale(.4);opacity:.8}70%,100%{transform:scale(1.3);opacity:0}}
   .status-line.s-off .status-dot{background:var(--pencil)}
+  .status-line.s-warn{color:var(--coral-text);font-weight:600}
+  /* ── forwarding setup banner: required before any feed/calls ── */
+  .setup-banner{display:flex;align-items:center;gap:14px;margin-top:16px;text-decoration:none;
+    border:1.5px solid var(--coral);border-radius:5px;background:#FDEEEA;padding:14px 16px;
+    box-shadow:0 4px 0 var(--coral-deep);transition:transform .15s var(--ease-out),box-shadow .15s var(--ease-out)}
+  .setup-banner:hover{transform:translateY(-2px);box-shadow:0 6px 0 var(--coral-deep)}
+  .setup-banner .sb-clip{flex:none;width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--coral);color:var(--cream)}
+  .setup-banner .sb-body{flex:1 1 auto;min-width:0}
+  .setup-banner .sb-title{display:block;font-family:'Fraunces',serif;font-size:16px;font-weight:600;color:var(--ink);line-height:1.25}
+  .setup-banner .sb-sub{display:block;font-size:13px;color:var(--ink-deep);line-height:1.45;margin-top:2px}
+  .setup-banner .sb-cta{flex:none;font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--coral-text);white-space:nowrap}
+  @media(max-width:540px){.setup-banner{flex-wrap:wrap}.setup-banner .sb-cta{width:100%;text-align:right}}
   .status-line.s-off .status-dot::after{animation:none}
   /* ── scoring mix: live visualisation of the feed weights ── */
   .mix{margin:4px 0 24px}
@@ -364,6 +376,19 @@
           <a class="btn-text" id="manageBilling" hidden href="https://billing.stripe.com/p/login/6oU3cv0oH4ah4Tf65BaEE00" target="_blank" rel="noopener"><span data-lang="en">Manage subscription · cancel anytime</span><span data-lang="es">Gestionar suscripción · cancela cuando quieras</span><span data-lang="uk">Керувати підпискою · скасуйте будь-коли</span></a>
         </p>
         <p class="status-line" id="statusLine" hidden><span class="status-dot" aria-hidden="true"></span><span id="statusText"></span></p>
+        <!-- Forwarding setup: REQUIRED before any feed/calls. Shown for trial/Essential/Pro
+             until profiles.alert_email_verified. Both tiers need it — Essential to fill the
+             feed, Pro for that + Julia calls. Links to the existing /email-setup guide. -->
+        <a class="setup-banner" id="setupBanner" href="/email-setup" hidden>
+          <span class="sb-clip" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg>
+          </span>
+          <span class="sb-body">
+            <span class="sb-title"><span data-lang="en">One-time setup: forward your Idealista alerts</span><span data-lang="es">Configuración única: reenvía tus alertas de Idealista</span><span data-lang="uk">Одноразове налаштування: пересилайте сповіщення Idealista</span></span>
+            <span class="sb-sub"><span data-lang="en">Llavai only sees new flats — and fills your feed — once your Idealista alerts forward to it. About 3 minutes, one time.</span><span data-lang="es">Llavai solo ve los pisos nuevos — y llena tu feed — cuando le reenvías tus alertas de Idealista. Unos 3 minutos, una sola vez.</span><span data-lang="uk">Llavai бачить нові квартири — і наповнює вашу стрічку — лише коли ви пересилаєте сповіщення Idealista. Близько 3 хвилин, один раз.</span></span>
+          </span>
+          <span class="sb-cta"><span data-lang="en">Set up now</span><span data-lang="es">Configurar</span><span data-lang="uk">Налаштувати</span> <span class="arr">→</span></span>
+        </a>
         <!-- Call packs (W7): prepaid Julia calls. Each credit = one quality listing called for you. -->
         <div class="calls-card" id="callsCard" hidden>
           <div class="calls-head">
@@ -724,7 +749,9 @@ async function showDash(){
   }catch(e){}
   await flushPendingProfile();  // the lead→account join: write any pre-sign-in data into the row
   TIER = await currentTier();   // fetch once, before the panels render tier-aware copy
+  await loadForwardingVerified(); // gates the forwarding-setup banner + status line
   applyTierUI();
+  renderSetupBanner();          // "set up forwarding" — required before any feed/calls
   loadCallBalance();            // W7: "N Julia calls available" + pack-buy chips
   // Returning from a pack purchase: the W7 webhook credits a moment later, so re-poll.
   if (qp('checkout')==='success'){ [4000,9000,15000].forEach(function(t){ setTimeout(loadCallBalance,t); }); }
@@ -832,6 +859,7 @@ async function currentTier(){ try{ var r=await sb.rpc('current_tier'); return r.
    'pro' members get the Julia concierge wording; everyone else gets self-serve
    wording plus an upsell. 'trial' is a trial of Essential, NOT of Pro. */
 let TIER='free';
+let FWD_VERIFIED=true;  // has the client forwarded their Idealista alerts? (profiles.alert_email_verified)
 const TIER_LABEL={
   free:{en:'Free plan',es:'Plan gratis',uk:'Безкоштовний план'},
   trial:{en:'Essential · trial',es:'Essential · prueba',uk:'Essential · пробний'},
@@ -864,9 +892,15 @@ function applyTierUI(){
            es:'En pausa — desbloquea tu feed para empezar a vigilar Idealista.',
            uk:'Призупинено — розблокуйте стрічку, щоб почати стеження за Idealista.'}
   };
+  STATUS_LINE.setup = {en:'Action needed — set up email forwarding so Llavai can see new flats.',
+           es:'Acción necesaria — configura el reenvío de correo para que Llavai vea los pisos nuevos.',
+           uk:'Потрібна дія — налаштуйте пересилання пошти, щоб Llavai бачив нові квартири.'};
+  // Until Idealista alerts are forwarded, NOTHING comes through — say so plainly instead of "Live".
+  var needsFwd = (TIER!=='free' && !FWD_VERIFIED);
   var sl=document.getElementById('statusLine');
   sl.classList.toggle('s-off', TIER==='free');
-  document.getElementById('statusText').innerHTML = tri(isPro ? STATUS_LINE.pro : TIER==='free' ? STATUS_LINE.free : STATUS_LINE.paid);
+  sl.classList.toggle('s-warn', needsFwd);
+  document.getElementById('statusText').innerHTML = tri(needsFwd ? STATUS_LINE.setup : isPro ? STATUS_LINE.pro : TIER==='free' ? STATUS_LINE.free : STATUS_LINE.paid);
   sl.hidden=false;
   if (!isPro){
     document.getElementById('feedSub').innerHTML=tri({
@@ -1041,6 +1075,21 @@ function buyPack(plan){
   var err=document.getElementById('packErr'); err.classList.remove('visible');
   if(!USER){ location.href='/login?next=/account'; return; }
   location.href = url+'?client_reference_id='+encodeURIComponent(USER.id)+'&prefilled_email='+encodeURIComponent(USER.email||'');
+}
+/* Forwarding setup: every paying/trialing client must forward their Idealista alerts to
+   Llavai or nothing comes through. profiles.alert_email_verified flips true once W1 relays
+   their Gmail verification code. Until then, show the blocking setup banner. */
+async function loadForwardingVerified(){
+  FWD_VERIFIED = true;
+  if(!sb || !USER || TIER==='free') return;
+  try{
+    var r = await sb.from('profiles').select('alert_email_verified').eq('id', USER.id).single();
+    FWD_VERIFIED = !!(r.data && r.data.alert_email_verified);
+  }catch(e){ FWD_VERIFIED = false; }  // on error, prompt rather than hide
+}
+function renderSetupBanner(){
+  var b=document.getElementById('setupBanner'); if(!b) return;
+  b.hidden = !(TIER!=='free' && !FWD_VERIFIED);
 }
 async function loadCallBalance(){
   var card=document.getElementById('callsCard'); if(!card||!sb) return;

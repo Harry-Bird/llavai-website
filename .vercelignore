@@ -5,6 +5,7 @@
 .agents
 specs
 supabase
+scripts
 SETUP.md
 content-queue.md
 index.html (OLD)

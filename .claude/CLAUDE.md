@@ -18,6 +18,19 @@ faster applicants.
 - New SEO/AEO guides live at: blog/<slug>/index.html
 - Every page is trilingual: English / Spanish / Ukrainian, using the [data-lang] span system
   and the EN/ES/UA setLang() toggle from index.html. Always replicate that exactly.
+- **SEO locale pages (`/es/…`)**: the in-place [data-lang] toggle is invisible to search
+  (one URL, mixed-language source, no hreflang), so the homepage + blog ALSO ship as
+  monolingual Spanish files under `/es/` with reciprocal hreflang. These are GENERATED, not
+  hand-edited: `scripts/gen-locales.js` renders each English source, strips non-`es`
+  [data-lang] elements, rewrites the head (title/description/og/canonical + hreflang) and
+  the toggle, absolutizes relative asset paths, neutralizes the localStorage auto-switch,
+  and regenerates `sitemap.xml` + the reciprocal hreflang on the English originals.
+  **After editing any English `index.html` or `blog/*/index.html`, re-run it** or the `/es/`
+  copy drifts: `NODE_PATH=/tmp/llavai-verify/node_modules node scripts/gen-locales.js`
+  (needs puppeteer-core + system Chrome; the site itself stays build-free; `scripts/` is in
+  `.vercelignore`). Per-page Spanish title/description live in the script's PAGES map. UA
+  (`/uk/`) is a deferred fast-follow — add `'uk'` to LOCALES + a `uk` head map, then the
+  hreflang clusters pick it up. Don't hand-edit files under `/es/`.
 - The repo auto-deploys to live the moment changes are pushed to the main branch on GitHub
   (Vercel). HTML is served with `must-revalidate`, so a normal reload picks up new deploys.
 

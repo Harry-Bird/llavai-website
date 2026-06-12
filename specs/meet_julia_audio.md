@@ -20,13 +20,43 @@ Out of public deploy (`.vercelignore` → `specs/`).
   `aria-pressed` state, keyboard-focusable. Verified EN/ES/UK, 344–1100px, no overflow.
 
 ## TO DO — generate `audio/julia-intro.mp3`
-Drop a web-optimised MP3 at `audio/julia-intro.mp3` (mono, ~20–30s, small). The moment it's
+Drop a web-optimised MP3 at `audio/julia-intro.mp3` (~20–30s, small). The moment it's
 committed, the play button self-activates.
 
-**Match the real Julia voice** (don't use a generic TTS voice): render the script through the
-same voice the Retell agent uses — get the Retell agent's `voice_id` + provider
-(ElevenLabs / OpenAI / PlayHT / …) and TTS the script with it, or capture audio from a real
-Retell call. Keys stay in n8n/Retell config, **never in git**.
+### Julia's REAL voice config (read from Retell 2026-06-12 — copy this exactly)
+- **Retell agent id:** `agent_774cc5844d7d7824eb70b63fe4` (from the n8n create-call payload;
+  from_number `+34931228994`).
+- **ElevenLabs voice:** `UOIqAnmS11Reiei1Ytkc` — "Carolina · Natural, Neutral and Clear"
+  (Retell wraps it as `custom_voice_731f471c118fb611ab5b3645d0`). **It's a Voice-Library voice.**
+- **Model** `eleven_turbo_v2_5` · **voice_temperature** 1.2 · **voice_speed** 1.06 ·
+  volume 0.88 · language es-ES · normalize_for_speech on.
+- Mapped to ElevenLabs API settings (already wired into the generator):
+  `model_id=eleven_turbo_v2_5`, stability 0.4, similarity_boost 0.75, style 0.0,
+  use_speaker_boost true, speed 1.06.
+
+### ⚠️ BLOCKER hit 2026-06-12 — and how to clear it
+Rendering via the ElevenLabs API returned **HTTP 402**: *"Free users cannot use library
+voices via the API."* The standalone ElevenLabs key is **free tier**; Carolina is a library
+voice. (Retell can use it because Retell carries its own paid ElevenLabs access.) The voice
+IS saved in the account's "My Voices" — only the *free-tier API* path is blocked. Fix, pick one:
+- **Path A (likely free):** render manually in the ElevenLabs **dashboard → Text to Speech**
+  (web UI isn't API-blocked): voice Carolina, model Turbo v2.5, speed 1.06, stability ~40%,
+  similarity 75%, style 0%, paste the script below, download MP3 → `audio/julia-intro.mp3`.
+- **Path B ($5):** upgrade the key's account to **ElevenLabs Starter**, then run the generator
+  (one command) — settings already match.
+
+### Generator (regenerate if missing — it lives OUTSIDE the repo, ephemeral)
+`/tmp/llavai-verify/gen-julia.sh` — reads `ELEVENLABS_API_KEY` from env (never in git),
+voice id + matched settings hard-coded, writes `~/llavai-website/audio/julia-intro.mp3`.
+Run: `export ELEVENLABS_API_KEY=sk_... && bash /tmp/llavai-verify/gen-julia.sh`.
+Retell config reader: `/tmp/llavai-verify/retell-voice.sh` (reads `RETELL_API_KEY`).
+**After the MP3 exists:** re-run the overflow/visual check, confirm the player reveals, then
+`git add audio/julia-intro.mp3` + commit.
+
+### 🔐 Keys shared in chat 2026-06-12 → ROTATE
+The ElevenLabs + Retell API keys were pasted into the session to run the above. They were
+used only as transient env vars (never written to repo/disk), but should be **rotated** in
+the ElevenLabs and Retell dashboards. (Retell key name was "CLAUDE".)
 
 ### Approved-pending script (matches the on-page transcript)
 **Intro (English, warm):**

@@ -127,6 +127,11 @@
   .field input:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(229,91,69,.13)}
   .field input:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .field-hint{font-size:13px;color:var(--pencil);font-style:italic;line-height:1.4}
+  /* email typo nudge — passwordless means a wrong address never gets the link, so catch it early */
+  .email-suggest{display:none;align-self:flex-start;margin-top:2px;background:rgba(229,91,69,.08);border:1px dashed rgba(229,91,69,.38);color:var(--coral-text);font-family:'Newsreader',serif;font-size:14px;font-style:italic;line-height:1.4;padding:7px 12px;border-radius:3px;cursor:pointer;text-align:left;transition:background .2s var(--ease-out)}
+  .email-suggest.visible{display:inline-block;animation:noteIn .3s var(--ease-out)}
+  .email-suggest:hover{background:rgba(229,91,69,.15)}
+  .email-suggest b{font-style:normal;font-weight:600}
   .btn-primary{background:var(--ink);color:var(--cream);border:none;font-family:'Newsreader',serif;font-size:16px;font-weight:500;letter-spacing:.01em;padding:16px 32px;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:all .25s;box-shadow:0 4px 0 var(--ink-deep);text-decoration:none;text-align:center;width:100%}
   .btn-primary:hover{background:var(--ink-deep);transform:translateY(-1px);box-shadow:0 5px 0 var(--ink-deep)}
   .btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink-deep)}
@@ -151,6 +156,12 @@
   .success-screen .btn-primary{max-width:340px;margin:0 auto}
   .success-screen .back-link{display:inline-block;margin-top:24px;font-size:15px;color:var(--pencil);font-style:italic;text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px}
   .success-screen .back-link:hover{color:var(--coral-text)}
+  /* recovery row: resend the magic link / fix a wrong address without re-doing the form */
+  .sent-actions{margin:0 auto 4px;font-size:15px;color:var(--pencil)}
+  .btn-text{background:none;border:none;cursor:pointer;font-family:'Newsreader',serif;font-size:15px;font-style:italic;color:var(--pencil);text-decoration:underline;text-decoration-color:var(--coral);text-underline-offset:3px;padding:10px 6px;transition:color .2s}
+  .btn-text:hover{color:var(--coral-text)}
+  .btn-text:disabled{opacity:.5;cursor:default;text-decoration:none}
+  .success-screen .lang-sep{display:inline}
   footer{padding:30px 32px 40px;border-top:1px solid rgba(27,56,143,.12)}
   .footer-row{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--pencil)}
   .footer-row a{color:var(--ink);text-decoration:none}
@@ -233,7 +244,10 @@
         </div>
         <div class="field">
           <label for="email">Email <span class="req">*</span></label>
-          <input type="email" id="email" autocomplete="email" placeholder="you@email.com" aria-required="true" />
+          <input type="email" id="email" autocomplete="email" placeholder="you@email.com" aria-required="true" aria-describedby="emailSuggest" />
+          <button type="button" class="email-suggest" id="emailSuggest" hidden onclick="applyEmailSuggestion()" aria-live="polite">
+            <span data-lang="en">Did you mean </span><span data-lang="es">¿Quisiste decir </span><span data-lang="uk">Можливо, ви мали на увазі </span><b id="emailSuggestVal"></b><span data-lang="en">?</span><span data-lang="es" class="inline">?</span><span data-lang="uk" class="inline">?</span>
+          </button>
         </div>
         <div class="field">
           <label for="phone">
@@ -241,7 +255,12 @@
             <span data-lang="es">Teléfono / WhatsApp <span class="opt">(opcional)</span></span>
             <span data-lang="uk">Телефон / WhatsApp <span class="opt">(необов'язково)</span></span>
           </label>
-          <input type="tel" id="phone" autocomplete="tel" placeholder="+34 600 000 000" />
+          <input type="tel" id="phone" autocomplete="tel" placeholder="+34 600 000 000" aria-describedby="phoneHint" />
+          <p class="field-hint" id="phoneHint">
+            <span data-lang="en">So Julia can WhatsApp you the moment a flat worth calling appears.</span>
+            <span data-lang="es">Para que Julia pueda escribirte por WhatsApp en cuanto aparezca un piso que merezca la llamada.</span>
+            <span data-lang="uk">Щоб Julia могла написати вам у WhatsApp, щойно з'явиться квартира, варта дзвінка.</span>
+          </p>
         </div>
       </div>
 
@@ -270,28 +289,68 @@
     <div class="success-tick" aria-hidden="true">
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M5 14L11 20L23 8" stroke="#F4EFE5" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-    <h1>
+    <!-- Essential / trial heading (default) -->
+    <h1 id="successHeading">
       <span data-lang="en"><em>You're on the list.</em></span>
       <span data-lang="es"><em>Ya estás en la lista.</em></span>
       <span data-lang="uk"><em>Ви у списку.</em></span>
     </h1>
+    <!-- Pro application heading (shown when ?plan=pro) -->
+    <h1 id="successHeadingPro" hidden>
+      <span data-lang="en"><em>Application received.</em></span>
+      <span data-lang="es"><em>Solicitud recibida.</em></span>
+      <span data-lang="uk"><em>Заявку отримано.</em></span>
+    </h1>
+
+    <!-- Email-status line — sign-in link WAS sent. Names the address + nudges spam, so a
+         mistyped or filtered email is recoverable rather than a silent dead end. -->
     <p id="successEmailNote">
-      <span data-lang="en">We've emailed you a secure sign-in link for your dashboard — check your inbox. Next: build your full tenant profile, so the moment a flat appears your dossier is ready to convince the agent.</span>
-      <span data-lang="es">Te hemos enviado por email un enlace seguro de acceso a tu panel — revisa tu bandeja de entrada. Siguiente paso: crea tu perfil completo de inquilino, para que en cuanto salga un piso tu dossier convenza al agente.</span>
-      <span data-lang="uk">Ми надіслали вам на email безпечне посилання для входу в кабінет — перевірте пошту. Наступний крок: створіть повний профіль орендаря, щоб щойно з'явиться квартира, ваше досьє переконало агента.</span>
+      <span data-lang="en">We've emailed a secure sign-in link to <strong id="sentEmail"></strong>. Check your inbox — and your spam folder, just in case.</span>
+      <span data-lang="es">Hemos enviado un enlace de acceso seguro a <strong id="sentEmailEs"></strong>. Revisa tu bandeja de entrada — y la carpeta de spam, por si acaso.</span>
+      <span data-lang="uk">Ми надіслали безпечне посилання для входу на <strong id="sentEmailUk"></strong>. Перевірте вхідні — і теж папку зі спамом, про всяк випадок.</span>
     </p>
     <!-- Shown instead when the sign-in email could NOT be sent (the team alert still
          captured the lead) — never claim an email exists that doesn't. -->
     <p id="successNoEmailNote" hidden>
-      <span data-lang="en">We've got your details and we'll be in touch shortly to set up your dashboard access. Next: build your full tenant profile, so the moment a flat appears your dossier is ready to convince the agent.</span>
-      <span data-lang="es">Tenemos tus datos y te contactaremos pronto para darte acceso a tu panel. Siguiente paso: crea tu perfil completo de inquilino, para que en cuanto salga un piso tu dossier convenza al agente.</span>
-      <span data-lang="uk">Ми отримали ваші дані й незабаром зв'яжемося, щоб налаштувати доступ до кабінету. Наступний крок: створіть повний профіль орендаря, щоб щойно з'явиться квартира, ваше досьє переконало агента.</span>
+      <span data-lang="en">We've got your details and we'll be in touch shortly to set up your dashboard access.</span>
+      <span data-lang="es">Tenemos tus datos y te contactaremos pronto para darte acceso a tu panel.</span>
+      <span data-lang="uk">Ми отримали ваші дані й незабаром зв'яжемося, щоб налаштувати доступ до кабінету.</span>
     </p>
+
+    <!-- Recovery row — only shown when a link actually went out (otpOk) -->
+    <p class="sent-actions" id="resendRow" hidden>
+      <button type="button" class="btn-text" id="resendBtn" onclick="resendLead()">
+        <span data-lang="en">Resend the link</span><span data-lang="es" class="inline">Reenviar el enlace</span><span data-lang="uk" class="inline">Надіслати ще раз</span>
+      </button>
+      <span class="lang-sep" aria-hidden="true">·</span>
+      <button type="button" class="btn-text" onclick="editLead()">
+        <span data-lang="en">Use a different email</span><span data-lang="es" class="inline">Usar otro email</span><span data-lang="uk" class="inline">Інший email</span>
+      </button>
+    </p>
+
+    <!-- Pro applicants: set expectations on the human review (shown when ?plan=pro) -->
+    <p id="successProLine" hidden>
+      <span data-lang="en">We review every Pro application personally and will reply by email. Build your tenant profile now so Julia's ready to call the moment you're approved.</span>
+      <span data-lang="es">Revisamos cada solicitud Pro personalmente y te responderemos por email. Crea tu perfil de inquilino ahora para que Julia esté lista para llamar en cuanto te aprobemos.</span>
+      <span data-lang="uk">Ми розглядаємо кожну заявку Pro особисто й відповімо на email. Створіть профіль орендаря зараз, щоб Julia була готова телефонувати, щойно вас схвалять.</span>
+    </p>
+    <!-- Essential next-step framing (hidden for Pro, which uses the line above) -->
+    <p id="successNextLine">
+      <span data-lang="en">No need to wait for the email — start your tenant profile now so your dossier is ready the moment a flat appears.</span>
+      <span data-lang="es">No hace falta esperar al email — empieza tu perfil de inquilino ahora para que tu dossier esté listo en cuanto salga un piso.</span>
+      <span data-lang="uk">Не обов'язково чекати на email — почніть профіль орендаря зараз, щоб ваше досьє було готове, щойно з'явиться квартира.</span>
+    </p>
+
     <a href="/profile" class="btn-primary">
-      <span data-lang="en">Build my full profile → (2 min)</span>
-      <span data-lang="es">Crear mi perfil completo → (2 min)</span>
-      <span data-lang="uk">Створити повний профіль → (2 хв)</span>
+      <span data-lang="en">Start my tenant profile <span class="arr">→</span></span>
+      <span data-lang="es">Empezar mi perfil de inquilino <span class="arr">→</span></span>
+      <span data-lang="uk">Почати профіль орендаря <span class="arr">→</span></span>
     </a>
+    <p class="reassure">
+      <span data-lang="en">Takes a few minutes · saved as you go, so you can finish later.</span>
+      <span data-lang="es">Tarda unos minutos · se guarda solo, así puedes terminar más tarde.</span>
+      <span data-lang="uk">Займає кілька хвилин · зберігається автоматично, тож можна завершити пізніше.</span>
+    </p>
     <div>
       <a href="/" class="back-link">
         <span data-lang="en">← I'll do it later</span>
@@ -344,6 +403,64 @@ if (__sh) { var __shScroll = function(){ __sh.classList.toggle('scrolled', windo
 function lang(){ return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
 function val(id){ return (document.getElementById(id).value||'').trim(); }
 
+// ── Email typo nudge ──────────────────────────────────────────────────────
+// Passwordless = a mistyped address never receives the link and the account is
+// dead on arrival, so we catch the obvious slips before submit. Conservative:
+// only suggest a correction for known providers, never for unknown domains.
+const DOMAIN_FIX = {
+  'gmial.com':'gmail.com','gmai.com':'gmail.com','gmal.com':'gmail.com','gnail.com':'gmail.com',
+  'gmaill.com':'gmail.com','gamil.com':'gmail.com','gmail.co':'gmail.com','gmail.con':'gmail.com',
+  'gmail.cm':'gmail.com','gmail.comm':'gmail.com',
+  'hotmial.com':'hotmail.com','hotmai.com':'hotmail.com','hotmal.com':'hotmail.com',
+  'hotmail.co':'hotmail.com','hotmail.con':'hotmail.com','hotmil.com':'hotmail.com',
+  'outlok.com':'outlook.com','outloo.com':'outlook.com','outlook.co':'outlook.com','outlook.con':'outlook.com',
+  'yaho.com':'yahoo.com','yahooo.com':'yahoo.com','yhaoo.com':'yahoo.com','yahoo.co':'yahoo.com','yahoo.con':'yahoo.com',
+  'iclod.com':'icloud.com','icloud.co':'icloud.com','iclould.com':'icloud.com'
+};
+function suggestEmail(email){
+  const at = email.lastIndexOf('@');
+  if (at < 1) return null;
+  const local = email.slice(0, at);
+  const domain = email.slice(at + 1).toLowerCase();
+  let fixed = DOMAIN_FIX[domain] || null;
+  if (!fixed) {
+    // Generic TLD slip (.con/.cmo/.vom/.comm/.cm → .com) only for the big providers.
+    const t = domain.replace(/\.(con|cmo|vom|comm|cm)$/, '.com');
+    if (t !== domain && /^(gmail|hotmail|outlook|yahoo|icloud|live|me|aol|proton|protonmail)\./.test(t)) fixed = t;
+  }
+  return (fixed && fixed !== domain) ? (local + '@' + fixed) : null;
+}
+let SUGGESTED = '';
+// Remembered across the success screen so "resend"/"different email" work without a refill.
+let LAST_EMAIL = '', LAST_FIRST = '', LAST_PHONE = '';
+function checkEmailTypo(){
+  const box = document.getElementById('emailSuggest');
+  const s = suggestEmail(val('email'));
+  SUGGESTED = s || '';
+  if (s) {
+    document.getElementById('emailSuggestVal').textContent = s;
+    box.hidden = false; box.classList.add('visible');
+  } else {
+    box.hidden = true; box.classList.remove('visible');
+  }
+}
+function applyEmailSuggestion(){
+  if (SUGGESTED) document.getElementById('email').value = SUGGESTED;
+  const box = document.getElementById('emailSuggest');
+  box.hidden = true; box.classList.remove('visible');
+  document.getElementById('email').focus();
+}
+(function(){
+  const e = document.getElementById('email');
+  if (!e) return;
+  e.addEventListener('blur', checkEmailTypo);
+  // typing again clears a stale suggestion
+  e.addEventListener('input', function(){
+    const box = document.getElementById('emailSuggest');
+    if (box && !box.hidden){ box.hidden = true; box.classList.remove('visible'); }
+  });
+})();
+
 const MSGS = {
   firstName: {en:'Please enter your first name.', es:'Por favor, introduce tu nombre.', uk:'Будь ласка, введіть ваше ім\'я.'},
   email:     {en:'Please enter a valid email address.', es:'Por favor, introduce un email válido.', uk:'Будь ласка, введіть дійсну електронну адресу.'},
@@ -367,6 +484,7 @@ async function submitLead(){
 
   if (!firstName){ showError(MSGS.firstName[l]); return; }
   if (!email || !EMAIL_RE.test(email)){ showError(MSGS.email[l]); return; }
+  LAST_EMAIL = email; LAST_FIRST = firstName; LAST_PHONE = phone;
 
   const btn = document.getElementById('btnSubmit');
   const txt = document.getElementById('submitText');
@@ -418,8 +536,20 @@ async function submitLead(){
   const otpOk = sb ? results[0].ok : false;
 
   if (anyOk) {
+    // Email-status copy: only claim a link exists if one actually sent.
     document.getElementById('successEmailNote').hidden = !otpOk;
     document.getElementById('successNoEmailNote').hidden = otpOk;
+    if (otpOk) ['sentEmail','sentEmailEs','sentEmailUk'].forEach(function(id){
+      var el = document.getElementById(id); if (el) el.textContent = email;
+    });
+    // Resend / different-email only make sense when a link went out.
+    document.getElementById('resendRow').hidden = !otpOk;
+    // Pro vs Essential framing.
+    var isPro = PLAN === 'pro';
+    document.getElementById('successHeading').hidden = isPro;
+    document.getElementById('successHeadingPro').hidden = !isPro;
+    document.getElementById('successProLine').hidden = !isPro;
+    document.getElementById('successNextLine').hidden = isPro;
     document.getElementById('captureCard').style.display = 'none';
     const success = document.getElementById('successScreen');
     success.classList.add('visible');
@@ -430,6 +560,34 @@ async function submitLead(){
     showError(MSGS.network[l]);
     btn.disabled = false; txt.style.display = ''; spinner.classList.remove('visible');
   }
+}
+
+// Resend the sign-in link to the same address, with the same profile metadata.
+async function resendLead(){
+  if (!sb || !LAST_EMAIL) return;
+  const b = document.getElementById('resendBtn');
+  b.disabled = true;
+  const { error } = await sb.auth.signInWithOtp({
+    email: LAST_EMAIL,
+    options: { data: { first_name: LAST_FIRST, phone: LAST_PHONE || '', intended_plan: PLAN }, emailRedirectTo: location.origin + '/account' }
+  });
+  b.disabled = false;
+  if (!error){
+    const orig = b.innerHTML;
+    b.textContent = {en:'Sent ✓', es:'Enviado ✓', uk:'Надіслано ✓'}[lang()];
+    setTimeout(function(){ b.innerHTML = orig; }, 3000);
+  }
+}
+
+// Wrong address? Return to the form (re-enabled) so they can fix it and resubmit.
+function editLead(){
+  document.getElementById('successScreen').classList.remove('visible');
+  document.getElementById('captureCard').style.display = '';
+  const btn = document.getElementById('btnSubmit');
+  const txt = document.getElementById('submitText');
+  const spinner = document.getElementById('spinner');
+  btn.disabled = false; txt.style.display = ''; spinner.classList.remove('visible');
+  const e = document.getElementById('email'); e.focus(); e.select();
 }
 </script>
 </body>

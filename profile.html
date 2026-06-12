@@ -3,12 +3,16 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Tenant onboarding form (behind lead capture) — thin/no searchable content.
+     noindex so it isn't indexed as a thin page; follow so it still passes link equity.
+     Also removed from sitemap.xml. /get-started stays the indexed funnel entry. -->
+<meta name="robots" content="noindex,follow" />
 
 <!-- EDIT: Page title -->
-<title>Llavai — Your tenant profile</title>
+<title>Llavai: Your tenant profile</title>
 
 <!-- EDIT: Page description -->
-<meta name="description" content="Build your Barcelona tenant profile in two minutes — so Julia can call agents and book viewings the moment a great new listing appears." />
+<meta name="description" content="Build your Barcelona tenant profile in two minutes, so Julia can call agents and book viewings the moment a great new listing appears." />
 
 <!-- EDIT: Canonical URL of this page (clean URL — Vercel hides the .html) -->
 <link rel="canonical" href="https://www.llavai.com/profile" />
@@ -29,7 +33,7 @@
 <meta property="og:image" content="https://www.llavai.com/og-image.jpg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta property="og:image:alt" content="Llavai — Barcelona apartments don't wait. Neither does Llavai." />
+<meta property="og:image:alt" content="Llavai. Barcelona apartments don't wait. Neither does Llavai." />
 <meta property="og:locale" content="en_GB" />
 <meta property="og:locale:alternate" content="es_ES" />
 <meta property="og:locale:alternate" content="uk_UA" />
@@ -313,22 +317,22 @@
     <!-- Variant shown when a sign-in email actually went out (OTP / not-signed-in paths) -->
     <div id="successOtp">
       <p>
-        <span data-lang="en">We've received your full profile. We'll be in touch shortly to confirm your account — your dossier is now ready to convince agents the moment a flat appears.</span>
-        <span data-lang="es">Hemos recibido tu perfil completo. Nos pondremos en contacto pronto para confirmar tu cuenta — tu dossier ya está listo para convencer a las agencias en cuanto salga un piso.</span>
-        <span data-lang="uk">Ми отримали ваш повний профіль. Ми незабаром зв'яжемося, щоб підтвердити ваш акаунт — ваше досьє готове переконати агентства, щойно з'явиться квартира.</span>
+        <span data-lang="en">We've received your full profile. We'll be in touch shortly to confirm your account. Your dossier is now ready to convince agents the moment a flat appears.</span>
+        <span data-lang="es">Hemos recibido tu perfil completo. Nos pondremos en contacto pronto para confirmar tu cuenta. Tu dossier ya está listo para convencer a las agencias en cuanto salga un piso.</span>
+        <span data-lang="uk">Ми отримали ваш повний профіль. Ми незабаром зв'яжемося, щоб підтвердити ваш акаунт. Ваше досьє готове переконати агентства, щойно з'явиться квартира.</span>
       </p>
       <p>
-        <span data-lang="en">Check your email — including your spam folder.</span>
+        <span data-lang="en">Check your email, including your spam folder.</span>
         <span data-lang="es">Revisa tu correo, incluida la carpeta de spam.</span>
-        <span data-lang="uk">Перевірте електронну пошту — включаючи папку зі спамом.</span>
+        <span data-lang="uk">Перевірте електронну пошту, включаючи папку зі спамом.</span>
       </p>
     </div>
     <!-- Variant for signed-in users: no email is sent, the row is saved directly -->
     <div id="successSigned" hidden>
       <p>
-        <span data-lang="en">Your full profile is saved — your dossier is ready to convince agents the moment a flat appears.</span>
-        <span data-lang="es">Tu perfil completo está guardado — tu dossier está listo para convencer a las agencias en cuanto salga un piso.</span>
-        <span data-lang="uk">Ваш повний профіль збережено — ваше досьє готове переконати агентства, щойно з'явиться квартира.</span>
+        <span data-lang="en">Your full profile is saved. Your dossier is ready to convince agents the moment a flat appears.</span>
+        <span data-lang="es">Tu perfil completo está guardado. Tu dossier está listo para convencer a las agencias en cuanto salga un piso.</span>
+        <span data-lang="uk">Ваш повний профіль збережено. Ваше досьє готове переконати агентства, щойно з'явиться квартира.</span>
       </p>
       <p>
         <span data-lang="en"><a href="/account">See your feed and dossier in your account →</a></span>
@@ -377,9 +381,9 @@
         <label for="phone"><span data-lang="en">Phone <span class="req">*</span></span><span data-lang="es">Teléfono <span class="req">*</span></span><span data-lang="uk">Телефон <span class="req">*</span></span></label>
         <input type="tel" id="phone" autocomplete="tel" placeholder="+34 600 000 000" aria-required="true" />
         <span class="field-hint">
-          <span data-lang="en">Include country code — it's how we'll reach you about your viewings.</span>
-          <span data-lang="es">Incluye el prefijo del país — así te contactaremos sobre tus visitas.</span>
-          <span data-lang="uk">Вкажіть код країни — так ми зв'язуватимемося з вами щодо ваших переглядів.</span>
+          <span data-lang="en">Include country code. It's how we'll reach you about your viewings.</span>
+          <span data-lang="es">Incluye el prefijo del país. Así te contactaremos sobre tus visitas.</span>
+          <span data-lang="uk">Вкажіть код країни. Так ми зв'язуватимемося з вами щодо ваших переглядів.</span>
         </span>
       </div>
       <div class="field-divider"></div>
@@ -532,7 +536,7 @@
       <div class="conditional-field" id="guarantorDetailsWrap">
         <label style="font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)" for="guarantorDetails"><span data-lang="en">Brief guarantor details</span><span data-lang="es">Datos del avalista</span><span data-lang="uk">Дані про поручителя</span></label>
         <input type="text" id="guarantorDetails" placeholder="e.g. Spanish resident, property owner in Barcelona" data-ph-en="e.g. Spanish resident, property owner in Barcelona" data-ph-es="p. ej. residente en España, propietario de una vivienda en Barcelona" data-ph-uk="напр., резидент Іспанії, власник нерухомості в Барселоні" />
-        <span class="field-hint"><span data-lang="en">Handy for Julia to have ready — it can reassure a hesitant agent.</span><span data-lang="es">Útil que Julia lo tenga a mano — puede tranquilizar a un agente indeciso.</span><span data-lang="uk">Корисно, щоб Julia мала це напоготові — це може заспокоїти нерішучого агента.</span></span>
+        <span class="field-hint"><span data-lang="en">Handy for Julia to have ready. It can reassure a hesitant agent.</span><span data-lang="es">Útil que Julia lo tenga a mano. Puede tranquilizar a un agente indeciso.</span><span data-lang="uk">Корисно, щоб Julia мала це напоготові. Це може заспокоїти нерішучого агента.</span></span>
       </div>
     </div>
     <div class="form-nav">
@@ -548,9 +552,9 @@
       <!-- EDIT: Step 3 heading + subtitle -->
       <h1><span data-lang="en">What you're <em>looking for</em></span><span data-lang="es">Qué <em>buscas</em></span><span data-lang="uk">Що ви <em>шукаєте</em></span></h1>
       <p class="sub">
-        <span data-lang="en">Your budget and the areas you want — plus when you can view and how we should reach you.</span>
-        <span data-lang="es">Tu presupuesto y las zonas que quieres — y cuándo puedes visitar y cómo contactarte.</span>
-        <span data-lang="uk">Ваш бюджет і бажані райони — а також коли ви можете дивитися й як з вами зв'язатися.</span>
+        <span data-lang="en">Your budget and the areas you want, plus when you can view and how we should reach you.</span>
+        <span data-lang="es">Tu presupuesto y las zonas que quieres, y cuándo puedes visitar y cómo contactarte.</span>
+        <span data-lang="uk">Ваш бюджет і бажані райони, а також коли ви можете дивитися й як з вами зв'язатися.</span>
       </p>
     </div>
     <div class="form-error" id="err3" role="alert" aria-live="assertive"></div>
@@ -588,7 +592,7 @@
           <div class="toggle-chip"><input type="checkbox" name="areas" id="area_santandreu" value="Sant Andreu" /><label for="area_santandreu">Sant Andreu</label></div>
           <div class="toggle-chip"><input type="checkbox" name="areas" id="area_noubarris" value="Nou Barris" /><label for="area_noubarris">Nou Barris</label></div>
         </div>
-        <span class="field-hint"><span data-lang="en">Pick any that work — leave blank if you're open to anywhere.</span><span data-lang="es">Marca las que quieras — déjalo en blanco si te vale cualquier zona.</span><span data-lang="uk">Оберіть будь-які — залиште порожнім, якщо вам підходить будь-який район.</span></span>
+        <span class="field-hint"><span data-lang="en">Pick any that work. Leave blank if you're open to anywhere.</span><span data-lang="es">Marca las que quieras. Déjalo en blanco si te vale cualquier zona.</span><span data-lang="uk">Оберіть будь-які. Залиште порожнім, якщо вам підходить будь-який район.</span></span>
       </div>
       <div class="field-divider"></div>
       <div class="field">
@@ -629,7 +633,7 @@
       <div class="field">
         <label for="idealistaUrl"><span data-lang="en">Idealista alert URL</span><span data-lang="es">URL de alerta de Idealista</span><span data-lang="uk">URL сповіщення Idealista</span></label>
         <input type="url" id="idealistaUrl" placeholder="https://www.idealista.com/alquiler-viviendas/..." />
-        <span class="field-hint"><span data-lang="en">Optional — paste your saved Idealista search link.</span><span data-lang="es">Opcional — pega el enlace de tu búsqueda guardada de Idealista.</span><span data-lang="uk">Необов'язково — вставте посилання на збережений пошук Idealista.</span></span>
+        <span class="field-hint"><span data-lang="en">Optional: paste your saved Idealista search link.</span><span data-lang="es">Opcional: pega el enlace de tu búsqueda guardada de Idealista.</span><span data-lang="uk">Необов'язково: вставте посилання на збережений пошук Idealista.</span></span>
       </div>
       <div class="field-divider"></div>
       <div class="field">
@@ -662,9 +666,9 @@
     <div id="reviewContent"></div>
     <!-- EDIT: Consent / confirmation note -->
     <div class="review-confirm-note">
-      <span data-lang="en">By confirming, you agree to Llavai calling estate agents and booking viewings on your behalf using the profile above. No payment is taken now — we'll be in touch to confirm your account and next steps.</span>
-      <span data-lang="es">Al confirmar, aceptas que Llavai llame a las inmobiliarias y reserve visitas en tu nombre usando el perfil de arriba. No se realiza ningún pago ahora — nos pondremos en contacto para confirmar tu cuenta.</span>
-      <span data-lang="uk">Підтверджуючи, ви погоджуєтесь, що Llavai телефонуватиме агентствам і бронюватиме перегляди від вашого імені, використовуючи профіль вище. Жодних платежів зараз — ми зв'яжемося, щоб підтвердити ваш акаунт.</span>
+      <span data-lang="en">By confirming, you agree to Llavai calling estate agents and booking viewings on your behalf using the profile above. No payment is taken now. We'll be in touch to confirm your account and next steps.</span>
+      <span data-lang="es">Al confirmar, aceptas que Llavai llame a las inmobiliarias y reserve visitas en tu nombre usando el perfil de arriba. No se realiza ningún pago ahora. Nos pondremos en contacto para confirmar tu cuenta.</span>
+      <span data-lang="uk">Підтверджуючи, ви погоджуєтесь, що Llavai телефонуватиме агентствам і бронюватиме перегляди від вашого імені, використовуючи профіль вище. Жодних платежів зараз. Ми зв'яжемося, щоб підтвердити ваш акаунт.</span>
     </div>
     <div class="form-nav">
       <button type="button" class="btn-back" onclick="prevStep(4)"><span data-lang="en">← Edit</span><span data-lang="es">← Editar</span><span data-lang="uk">← Редагувати</span></button>
@@ -1098,43 +1102,43 @@ async function submitProfile() {
 // so all of its copy is JS-rendered from this dict — one source for 3 languages.
 function escd(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 const DTXT={
-  en:{eyebrow:'what julia says — call script', title:'Your tenant dossier',
-      foot:'Julia reads this to agents in native Spanish — within her first 20 seconds on the phone.',
+  en:{eyebrow:'what julia says: call script', title:'Your tenant dossier',
+      foot:'Julia reads this to agents in native Spanish, within her first 20 seconds on the phone.',
       stamp:'Ready to call',
       notes:{1:'Agents decide in the first minute of a call. A complete dossier is how you win it. — julia',
-             2:'Income and nóminas answer an agent’s first two questions — before they’re asked. — julia',
+             2:'Income and nóminas answer an agent’s first two questions, before they’re asked. — julia',
              3:'Tenants with weekday slots get viewings booked roughly twice as fast. — julia',
              4:'Everything checks out. I’m ready to dial. — julia'},
       tpl:function(v){ return '<span class="es-open">«Buenos días — llamo de parte de '+v.name+'.»</span> '
-        +v.name+' is a '+v.prof+', '+v.mov+', earning '+v.inc+' a month'+v.guar+'. They’re looking for a '+v.beds+' around '+v.areas+', up to '+v.budget+'/month — and can view on '+v.days+', '+v.time+'.'; },
+        +v.name+' is a '+v.prof+', '+v.mov+', earning '+v.inc+' a month'+v.guar+'. They’re looking for a '+v.beds+' around '+v.areas+', up to '+v.budget+'/month, and can view on '+v.days+', '+v.time+'.'; },
       mov:{Single:'moving solo',Couple:'moving as a couple',Family:'moving with family',Flatmates:'moving with flatmates'},
       guar:', with a guarantor ready', anyArea:'anywhere in Barcelona', studio:'studio',
       beds:function(n){return n+'-bedroom flat'}, privInc:'a solid income',
       time:{'Morning (9–13h)':'mornings','Afternoon (13–18h)':'afternoons','Evening (18–21h)':'evenings','Flexible':'any time'},
       days:{Mon:'Mon',Tue:'Tue',Wed:'Wed',Thu:'Thu',Fri:'Fri',Sat:'Sat',Sun:'Sun'}},
-  es:{eyebrow:'lo que dice julia — guion de llamada', title:'Tu dossier de inquilino',
-      foot:'Julia se lo lee a los agentes en español nativo — en sus primeros 20 segundos al teléfono.',
+  es:{eyebrow:'lo que dice julia: guion de llamada', title:'Tu dossier de inquilino',
+      foot:'Julia se lo lee a los agentes en español nativo, en sus primeros 20 segundos al teléfono.',
       stamp:'Lista para llamar',
       notes:{1:'Los agentes deciden en el primer minuto de llamada. Un dossier completo es lo que te hace ganar. — julia',
-             2:'Ingresos y nóminas responden a sus dos primeras preguntas — antes de que las hagan. — julia',
+             2:'Ingresos y nóminas responden a sus dos primeras preguntas, antes de que las hagan. — julia',
              3:'Con huecos entre semana, las visitas se reservan casi el doble de rápido. — julia',
              4:'Todo en orden. Lista para marcar. — julia'},
       tpl:function(v){ return '<span class="es-open">«Buenos días — llamo de parte de '+v.name+'.»</span> '
-        +v.name+' es '+v.prof+', '+v.mov+', con '+v.inc+' al mes'+v.guar+'. Busca '+v.beds+' por '+v.areas+', hasta '+v.budget+'/mes — y puede visitar '+v.days+', '+v.time+'.'; },
+        +v.name+' es '+v.prof+', '+v.mov+', con '+v.inc+' al mes'+v.guar+'. Busca '+v.beds+' por '+v.areas+', hasta '+v.budget+'/mes, y puede visitar '+v.days+', '+v.time+'.'; },
       mov:{Single:'se muda solo/a',Couple:'se muda en pareja',Family:'se muda con su familia',Flatmates:'se muda con compañeros'},
       guar:', con avalista listo', anyArea:'cualquier zona de Barcelona', studio:'un estudio',
       beds:function(n){return 'un piso de '+n+' habitaciones'}, privInc:'ingresos sólidos',
       time:{'Morning (9–13h)':'por las mañanas','Afternoon (13–18h)':'por las tardes','Evening (18–21h)':'al final del día','Flexible':'a cualquier hora'},
       days:{Mon:'lun',Tue:'mar',Wed:'mié',Thu:'jue',Fri:'vie',Sat:'sáb',Sun:'dom'}},
-  uk:{eyebrow:'що каже julia — сценарій дзвінка', title:'Ваше досьє орендаря',
-      foot:'Julia читає це агентам рідною іспанською — в перші 20 секунд дзвінка.',
+  uk:{eyebrow:'що каже julia: сценарій дзвінка', title:'Ваше досьє орендаря',
+      foot:'Julia читає це агентам рідною іспанською, в перші 20 секунд дзвінка.',
       stamp:'Готова дзвонити',
       notes:{1:'Агенти вирішують у першу хвилину дзвінка. Повне досьє — це ваша перевага. — julia',
-             2:'Дохід і nóminas відповідають на перші два питання агента — ще до того, як їх поставлять. — julia',
+             2:'Дохід і nóminas відповідають на перші два питання агента, ще до того, як їх поставлять. — julia',
              3:'З вільними буднями перегляди бронюються вдвічі швидше. — julia',
              4:'Все готово. Я набираю номер. — julia'},
       tpl:function(v){ return '<span class="es-open">«Buenos días — llamo de parte de '+v.name+'.»</span> '
-        +v.name+' — '+v.prof+', '+v.mov+', з доходом '+v.inc+' на місяць'+v.guar+'. Шукає '+v.beds+' у '+v.areas+', до '+v.budget+'/міс — і може дивитися '+v.days+', '+v.time+'.'; },
+        +v.name+' — '+v.prof+', '+v.mov+', з доходом '+v.inc+' на місяць'+v.guar+'. Шукає '+v.beds+' у '+v.areas+', до '+v.budget+'/міс, і може дивитися '+v.days+', '+v.time+'.'; },
       mov:{Single:'переїжджає сам/сама',Couple:'переїжджає парою',Family:'переїжджає з сім’єю',Flatmates:'переїжджає із сусідами'},
       guar:', з поручителем напоготові', anyArea:'будь-якому районі Барселони', studio:'студію',
       beds:function(n){return 'квартиру з '+n+' кімн.'}, privInc:'стабільний дохід',

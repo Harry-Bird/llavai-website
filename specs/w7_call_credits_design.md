@@ -90,14 +90,17 @@ Essential/Pro subscriptions unchanged.
   reset node, no over-grant race) — set to 60 on Pro activation and on each new billing period
   (detected via `current_period_end` advancing, which the sync already writes).
 - **Consumption**: DB trigger `trg_consume_on_calling` calls `consume_call(user,property)`
-  when a `call_attempts` row is marked `'calling'` (idempotent per listing). **W1
-  (`rlv02UB1RHNnQl4i`) is not yet live**; `get_call_client` now returns `tier` +
-  `available_calls`, so at W1 cutover change its `Process & Decide` gate:
-  `if (!client.is_pro) {…'not_pro'}` →
-  `if (!((client.is_pro || client.tier==='essential') && client.available_calls > 0)) {…'no_credit'}`
-  (documented on W1's sticky note). **Julia is a PAYING-client feature**: `tier==='essential'`
-  (active/charged) or Pro. **Trial users get NO calls even with credits** — `'trial'` is
-  excluded. **Art 50 AI-disclosure** is the open gate on that cutover (~mid-July).
+  when a `call_attempts` row is marked `'calling'` (idempotent per listing).
+- **Live caller**: the business-hours **gated W1 v2 `IAqF3sVJDuQqK2hm`** + **drain v2
+  `LZzSF0CfiXxiE06G`** are PUBLISHED & ACTIVE. Go-live = point CloudMailin at
+  `…/webhook/pro-concierge-inbox?secret=<inbox secret>` (owner action).
+- **Essential flip (DONE 2026-06-12, migration `w7_06`)**: rather than hand-edit W1's 13.6KB
+  `Process & Decide` node (whose only use of `client.is_pro` is the gate line), we redefined
+  **`get_call_client.is_pro`** (service-role fn, consumed only by W1's gate) to mean
+  **"Julia MAY CALL"** = `(active Pro OR active Essential) AND available_calls > 0`. So:
+  Pro (within ~60/mo allowance + packs) ✓, paying Essential with a pack/claimed credit ✓,
+  **trial & free never** ✓. True tier stays in `tier`. Also enforces Pro's monthly cap.
+  **Art 50 AI-disclosure** cleared per owner.
 
 ## 6. Frontend (account.html)
 

@@ -371,6 +371,7 @@
 
 <script src="/supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/track.js"></script>
 <script>
 // n8n alert webhook — receives ONLY a non-financial "new lead" ping so the team /
 // Julia are notified instantly. The system of record is Supabase (see specs/).
@@ -459,6 +460,9 @@ function applyEmailSuggestion(){
     const box = document.getElementById('emailSuggest');
     if (box && !box.hidden){ box.hidden = true; box.classList.remove('visible'); }
   });
+  // funnel: someone started filling the form (fires once)
+  const form = document.getElementById('leadForm');
+  if (form && window.trackOnce) form.addEventListener('focusin', function(){ trackOnce('form_start', { plan: PLAN }); }, { once: true });
 })();
 
 const MSGS = {
@@ -555,6 +559,7 @@ async function submitLead(){
     success.classList.add('visible');
     window.scrollTo({top:0, behavior:'smooth'});
     success.focus();
+    if (window.track) track('lead_submit', { plan: PLAN, step: otpOk ? 'link_sent' : 'no_link' });
   } else {
     // Everything failed — don't pretend we captured them.
     showError(MSGS.network[l]);

@@ -711,6 +711,7 @@
 
 <script src="/supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/track.js"></script>
 <script>
 // n8n alert webhook — receives ONLY a non-financial "profile completed" ping.
 // The full profile (incl. financials) is written to Supabase under RLS, never here.
@@ -881,6 +882,7 @@ function swapStep(from,to){
     nxt.classList.remove('entering'); void nxt.offsetWidth; nxt.classList.add('entering');
     currentStep=to; updateProgress(to);
     if (window.dossierStep) dossierStep(to);
+    if (window.track) track('profile_step', { step: String(to) });
     window.scrollTo({top:0,behavior:'smooth'});
   },200);
 }
@@ -1045,6 +1047,7 @@ async function submitProfile() {
     success.classList.add('visible');
     window.scrollTo({top:0,behavior:'smooth'});
     success.focus();
+    if (window.track) track('profile_complete', { step: emailSent ? 'link_sent' : 'signed_in' });
   }
   function fail(){
     const msg={
@@ -1202,6 +1205,7 @@ document.querySelectorAll('.card-option label').forEach(function(l){
   l.insertAdjacentHTML('beforeend','<svg class="tick" viewBox="0 0 24 24" aria-hidden="true"><path pathLength="100" d="M20 6 9 17l-5-5"/></svg>');
 });
 renderDossierAll();
+if (window.trackOnce) trackOnce('profile_start');
 </script>
 </body>
 </html>

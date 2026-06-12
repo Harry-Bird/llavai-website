@@ -631,7 +631,12 @@
 
 <script src="/supabase-config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="/track.js"></script>
 <script>
+// Captured before the Supabase client consumes the URL — did the user arrive via a
+// magic link (token in the hash, or PKCE ?code in the query)? Used to fire the
+// 'magic_link_clicked' funnel event only on a genuine magic-link landing.
+var __viaMagicLink = /access_token=|refresh_token=|[?&]code=/.test((location.hash || '') + (location.search || ''));
 function setLang(lang){
   document.body.classList.remove('es','uk');
   if (lang !== 'en') document.body.classList.add(lang);
@@ -723,6 +728,7 @@ async function init(){
   let started=false;
   function start(session){
     if(started) return; started=true; USER=session.user;
+    if (__viaMagicLink && window.trackOnce) trackOnce('magic_link_clicked');
     var nx = nextDest();
     try{ localStorage.removeItem('llavai-next'); }catch(e){}
     if (nx && nx !== '/account' && nx !== location.pathname){ location.replace(nx); return; }

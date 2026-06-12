@@ -1,0 +1,9 @@
+# Secrets — NEVER commit. The Instagram long-lived token lives here only.
+scripts/social/.env
+.env
+.env.local
+
+# Local tooling
+node_modules
+/tmp
+.DS_Store

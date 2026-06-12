@@ -1,0 +1,37 @@
+{
+  "_comment": "Llavai Instagram post queue. status: draft (skipped) → ready (next --next picks it) → published. For images, set image_url to a PUBLIC url, e.g. https://www.llavai.com/social-assets/launch.jpg (put the file in /social-assets/, then commit+push so Vercel serves it). type: image | carousel | reel. Captions are seeded by Claude in Llavai's voice — edit freely.",
+  "items": [
+    {
+      "id": "launch-fastest-tenant",
+      "type": "image",
+      "status": "draft",
+      "image_url": "https://www.llavai.com/social-assets/REPLACE-ME.jpg",
+      "alt_text": "Llavai — Julia calls Barcelona estate agents in native Spanish within 60 seconds.",
+      "caption": "In Barcelona, the flat doesn't go to the best tenant. It goes to the fastest one.\n\nYou found the listing. You sent the message. By the time the agent read it, a dozen other people had already phoned.\n\nJulia — Llavai's AI concierge — calls the agent in native Spanish within 60 seconds of a listing going live. While you're at work. While you're asleep. While everyone else is still typing.\n\nYour first 5 calls are free.\n→ llavai.com\n\n#Barcelona #BarcelonaRentals #ExpatsInBarcelona #MovingToBarcelona #PisoEnBarcelona"
+    },
+    {
+      "id": "launch-language-barrier",
+      "type": "image",
+      "status": "draft",
+      "image_url": "https://www.llavai.com/social-assets/REPLACE-ME.jpg",
+      "alt_text": "Stop losing flats to a language you're still learning — Llavai.",
+      "caption": "\"Lo siento, ya está alquilado.\"\n\nBy the fourth time you hear it, you start to wonder if the flat was ever really available — or if your accent gave you away on the voicemail.\n\nJulia doesn't have an accent. She's a native-Spanish AI that calls the agent the moment a flat appears, books the viewing, and sends you the recording so you know exactly what was said.\n\nStop losing flats to a language you're still learning.\n→ llavai.com\n\n#BarcelonaLife #ExpatLife #BarcelonaApartments #AlquilerBarcelona #RelocateToSpain"
+    },
+    {
+      "id": "launch-how-it-works",
+      "type": "image",
+      "status": "draft",
+      "image_url": "https://www.llavai.com/social-assets/REPLACE-ME.jpg",
+      "alt_text": "How Llavai works: listing goes live, Julia calls in 60 seconds, viewing booked.",
+      "caption": "How it works, in three moves:\n\n1. A flat that fits your search goes live.\n2. Julia calls the agent in native Spanish — within 60 seconds.\n3. You get the viewing, the recording, and the agent's reply, in your language.\n\nNo broken Spanish on a nervous phone call. No refreshing Idealista at midnight. Just the viewings, booked.\n\nFirst 5 calls free → llavai.com\n\n#Barcelona #BarcelonaHousing #DigitalNomadBarcelona #ExpatsInSpain #BcnRentals"
+    },
+    {
+      "id": "launch-ukrainian",
+      "type": "image",
+      "status": "draft",
+      "image_url": "https://www.llavai.com/social-assets/REPLACE-ME.jpg",
+      "alt_text": "Llavai supports Ukrainian speakers searching for flats in Barcelona.",
+      "caption": "Шукаєте квартиру в Барселоні, але не розмовляєте іспанською?\n\nLooking for a flat in Barcelona but don't speak Spanish? Julia calls the agent for you — in native Spanish, within 60 seconds of a listing going live — and sends you everything that was said, in your language.\n\nПерші 5 дзвінків безкоштовно. Your first 5 calls are free.\n→ llavai.com\n\n#Барселона #УкраїнціВІспанії #Barcelona #UkrainiansInSpain #BarcelonaRentals"
+    }
+  ]
+}

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Rent affordability calculator: what Barcelona agents will approve | Llavai</title>
+<meta name="description" content="Free Barcelona rent calculator. Enter your salary and household income to see the rent bands estate agents are most likely to approve, based on the Spanish 3× income rule." />
+<link rel="canonical" href="https://www.llavai.com/rent-calculator" />
+
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#F4EFE5" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Llavai" />
+<meta property="og:url" content="https://www.llavai.com/rent-calculator" />
+<meta property="og:title" content="Rent affordability calculator: what Barcelona agents will approve" />
+<meta property="og:description" content="Enter your income, see the rent bands agents say yes to. Free, built on the Spanish 3× income rule." />
+<meta property="og:image" content="https://www.llavai.com/og-image.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="en_GB" />
+<meta property="og:locale:alternate" content="es_ES" />
+<meta property="og:locale:alternate" content="uk_UA" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Rent affordability calculator | Llavai" />
+<meta name="twitter:description" content="See the rent bands Barcelona agents will approve, free." />
+<meta name="twitter:image" content="https://www.llavai.com/og-image.jpg" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Llavai Rent Affordability Calculator",
+  "url": "https://www.llavai.com/rent-calculator",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Web",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "EUR" },
+  "description": "Free Barcelona rent calculator built on the Spanish 3× income rule. Shows the rent bands estate agents are most likely to approve.",
+  "inLanguage": "en",
+  "publisher": { "@type": "Organization", "name": "Llavai", "url": "https://www.llavai.com" }
+}
+</script>
+
+<link rel="stylesheet" href="/fonts.css">
+<style>
+  :root{
+    --cream:#F4EFE5;--cream-deep:#ECE5D5;--ink:#1B388F;--ink-deep:#142869;
+    --coral:#E55B45;--coral-deep:#C8462F;--coral-text:#AB3B25;
+    --pencil:#6E6253;--paper-shadow:rgba(27,56,143,0.08);
+    --ease-out: cubic-bezier(.21,.6,.35,1);
+    --shadow-sm: 0 1px 2px rgba(27,56,143,.05), 0 3px 8px rgba(27,56,143,.06);
+    --shadow-md: 0 2px 4px rgba(27,56,143,.05), 0 10px 24px rgba(27,56,143,.08), 0 20px 40px rgba(27,56,143,.05);
+    --paper:#FBF8F1; --field:#FFFDF9;
+    --ok:#2E7D46; --ok-soft:#E7F1E3; --amber:#B07A1E; --amber-soft:#F6EEDD;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{
+    background:var(--cream);color:var(--ink);
+    font-family:'Newsreader',Georgia,serif;font-size:18px;line-height:1.55;font-weight:400;
+    -webkit-font-smoothing:antialiased;overflow-x:clip;min-height:100vh;display:flex;flex-direction:column;
+    background-image:
+      radial-gradient(ellipse 800px 600px at 15% 10%,rgba(229,91,69,.04) 0%,transparent 50%),
+      radial-gradient(ellipse 600px 800px at 90% 60%,rgba(27,56,143,.05) 0%,transparent 50%);
+  }
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.35;mix-blend-mode:multiply;z-index:100;
+    background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E")}
+  nav{padding:28px 32px;max-width:1100px;margin:0 auto;width:100%;display:flex;justify-content:space-between;align-items:center;position:relative;z-index:10}
+  .site-header{position:sticky;top:0;z-index:40;border-bottom:1px solid transparent;transition:background .35s var(--ease-out),box-shadow .35s var(--ease-out),border-color .35s var(--ease-out)}
+  .site-header nav{transition:padding .35s var(--ease-out)}
+  .site-header.scrolled{background:rgba(244,239,229,.82);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);border-bottom-color:rgba(27,56,143,.10);box-shadow:0 1px 0 rgba(27,56,143,.04),0 12px 30px rgba(27,56,143,.06)}
+  .site-header.scrolled nav{padding-top:15px;padding-bottom:15px}
+  .nav-logo{font-family:'Fraunces',serif;font-size:24px;font-weight:600;letter-spacing:-.02em;color:var(--ink);text-decoration:none}
+  .nav-logo .ai{color:var(--coral)}
+  .lang-toggle{display:flex;gap:4px;font-size:13px;font-family:'Newsreader',serif;letter-spacing:.05em;text-transform:uppercase;color:var(--pencil);align-items:center}
+  .lang-toggle button{background:none;border:none;cursor:pointer;color:var(--pencil);padding:10px;font-family:inherit;font-size:inherit;letter-spacing:inherit;text-transform:inherit;transition:color .2s}
+  .lang-toggle button:hover{color:var(--ink)}
+  .lang-toggle button.active{color:var(--ink);font-weight:600;border-bottom:1.5px solid var(--coral)}
+  .lang-sep{opacity:.4}
+  main{flex:1;display:flex;align-items:flex-start;justify-content:center;padding:40px 32px 90px}
+  .wrap{max-width:580px;width:100%}
+  .section-eyebrow{font-family:'Newsreader',serif;font-style:italic;font-size:15px;color:var(--coral-text);letter-spacing:.04em;margin-bottom:14px;display:flex;align-items:center;gap:16px}
+  .section-eyebrow::before{content:"";width:32px;height:1px;background:var(--coral)}
+  h1{font-family:'Fraunces',serif;font-optical-sizing:auto;font-weight:350;font-size:clamp(30px,4.4vw,46px);line-height:1.04;letter-spacing:-.025em;color:var(--ink);margin-bottom:14px;font-variation-settings:"SOFT" 60,"WONK" 0}
+  h1 em{font-style:italic;color:var(--coral);font-variation-settings:"SOFT" 100,"WONK" 1}
+  .lede{font-size:17px;line-height:1.6;color:var(--ink-deep);margin-bottom:30px;max-width:480px}
+  /* calculator card — the stacked-paper sheet, matching the site */
+  .card{position:relative;width:100%;background:var(--paper);border:1px solid rgba(27,56,143,.13);border-radius:6px;padding:34px 34px 30px;box-shadow:var(--shadow-md);transform:rotate(-.4deg);animation:sheetIn .55s var(--ease-out)}
+  .card::before{content:"";position:absolute;inset:0;background:var(--cream-deep);border:1px solid rgba(27,56,143,.08);border-radius:6px;transform:rotate(1.2deg) translate(6px,5px);z-index:-1}
+  .card::after{content:"";position:absolute;inset:0;background:#F7F2E7;border:1px solid rgba(27,56,143,.06);border-radius:6px;transform:rotate(-1.6deg) translate(-5px,8px);z-index:-2}
+  .dclip{position:absolute;top:-15px;left:26px;width:22px;height:44px;color:var(--pencil);opacity:.85}
+  @keyframes sheetIn{from{opacity:0;transform:translateY(18px) rotate(.4deg)}to{opacity:1;transform:translateY(0) rotate(-.4deg)}}
+  .inner{transform:rotate(.4deg)}  /* counter-rotate content so text sits straight on the tilted sheet */
+  .fields{display:flex;flex-direction:column;gap:16px;margin-bottom:22px}
+  .field{display:flex;flex-direction:column;gap:7px}
+  .field label{font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil);transition:color .2s var(--ease-out)}
+  .field:focus-within label{color:var(--coral-text)}
+  .euro{position:relative;display:flex;align-items:center}
+  .euro .sym{position:absolute;left:14px;font-family:'Fraunces',serif;font-weight:600;color:var(--pencil);pointer-events:none}
+  .euro input{padding:13px 16px 13px 30px;min-height:48px;font-family:'Fraunces',serif;font-weight:600;font-size:19px;border:1px solid rgba(27,56,143,.25);background:var(--field);color:var(--ink);border-radius:3px;outline:none;width:100%;box-shadow:inset 0 1px 2px rgba(27,56,143,.04);transition:border-color .2s var(--ease-out),box-shadow .2s var(--ease-out)}
+  .euro .per{position:absolute;right:14px;font-size:12px;color:var(--pencil);font-style:italic;pointer-events:none}
+  .euro input:hover{border-color:rgba(27,56,143,.45)}
+  .euro input:focus{border-color:var(--coral);box-shadow:0 0 0 3px rgba(229,91,69,.13)}
+  /* result hero */
+  .result{background:var(--ok-soft);border:1px solid rgba(46,125,70,.2);border-radius:5px;padding:14px 16px;margin-bottom:18px}
+  .result .rl{font-size:11px;font-family:'Newsreader',serif;letter-spacing:.07em;text-transform:uppercase;color:var(--ok);font-weight:600}
+  .result .rb{font-family:'Fraunces',serif;font-weight:600;font-size:32px;letter-spacing:-.015em;color:var(--ink);line-height:1.05;margin-top:3px}
+  .result .rb small{font-family:'Newsreader',serif;font-weight:400;font-size:14px;color:var(--pencil)}
+  .result .rn{font-size:13px;color:var(--ink-deep);margin-top:5px;line-height:1.45}
+  /* gauge */
+  .gauge{height:14px;border-radius:8px;display:flex;overflow:hidden;border:1px solid rgba(27,56,143,.12);margin-top:8px}
+  .gauge i{display:block;height:100%}
+  .gauge .g{background:var(--ok)} .gauge .a{background:var(--amber)} .gauge .r{background:var(--coral)}
+  .gtrack{position:relative;height:22px}
+  .gmark{position:absolute;top:-32px;transform:translateX(-50%);transition:left .14s var(--ease-out)}
+  .gmark .lab{font:600 11px 'Newsreader',serif;background:var(--ink);color:var(--cream);border-radius:4px;padding:2px 7px;white-space:nowrap}
+  .gmark .pin{width:2px;height:30px;background:var(--ink);margin:1px auto 0}
+  /* band legend */
+  .bands{margin-top:6px}
+  .band{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid rgba(27,56,143,.09)}
+  .band:last-child{border:0}
+  .band .sw{width:12px;height:12px;border-radius:3px;flex:none;margin-top:4px}
+  .band .bt{font-size:14px;font-weight:600;color:var(--ink);font-family:'Newsreader',serif}
+  .band .bd{font-size:12.5px;color:var(--pencil);font-style:italic;line-height:1.35}
+  .band .bv{margin-left:auto;font-family:'Fraunces',serif;font-weight:600;font-size:14px;color:var(--ink);white-space:nowrap;padding-left:8px}
+  /* slider */
+  .slider{margin-top:18px}
+  .slabel{display:flex;align-items:center;font-size:12px;font-family:'Newsreader',serif;letter-spacing:.06em;text-transform:uppercase;color:var(--pencil)}
+  .slabel b{margin-left:auto;font-family:'Fraunces',serif;font-size:18px;color:var(--ink);text-transform:none;letter-spacing:0}
+  input[type=range]{width:100%;margin-top:10px;height:44px;background:transparent;accent-color:var(--coral);cursor:pointer}
+  .verdict{margin-top:12px;display:flex;align-items:center;gap:10px;border-radius:6px;padding:12px 14px;font-size:14px;font-weight:600;font-family:'Newsreader',serif}
+  .verdict svg{width:18px;height:18px;flex:none}
+  .v-ok{background:var(--ok-soft);color:var(--ok)} .v-am{background:var(--amber-soft);color:var(--amber)} .v-rd{background:rgba(229,91,69,.1);color:var(--coral-deep)}
+  /* CTA */
+  .btn-primary{margin-top:22px;background:var(--ink);color:var(--cream);border:none;font-family:'Newsreader',serif;font-size:16px;font-weight:500;padding:16px 28px;border-radius:2px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:9px;transition:all .25s;box-shadow:0 4px 0 var(--ink-deep);width:100%;text-decoration:none;min-height:52px}
+  .btn-primary svg{width:17px;height:17px}
+  .btn-primary:hover{background:var(--ink-deep);transform:translateY(-1px);box-shadow:0 5px 0 var(--ink-deep)}
+  .btn-primary:active{transform:translateY(2px);box-shadow:0 2px 0 var(--ink-deep)}
+  .freenote{font-size:13px;color:var(--pencil);font-style:italic;text-align:center;margin-top:12px}
+  /* explainer */
+  .explain{margin-top:40px;max-width:520px}
+  .explain h2{font-family:'Fraunces',serif;font-weight:400;font-size:22px;color:var(--ink);margin-bottom:10px;letter-spacing:-.01em}
+  .explain p{font-size:15.5px;color:var(--ink-deep);line-height:1.6;margin-bottom:12px}
+  footer{padding:30px 32px 40px;border-top:1px solid rgba(27,56,143,.12)}
+  .footer-row{max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;font-size:14px;color:var(--pencil)}
+  .footer-row a{color:var(--ink);text-decoration:none}
+  .footer-row a:hover{color:var(--coral-text)}
+  .skip-link{position:absolute;left:-9999px;top:0;z-index:200;background:var(--ink);color:var(--cream);padding:12px 20px;border-radius:2px;font-family:'Newsreader',serif;font-size:15px;text-decoration:none}
+  .skip-link:focus{left:16px;top:16px}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:2px}
+  #main:focus{outline:none}
+  @media(max-width:600px){
+    main{padding:28px 18px 70px}.card{padding:26px 22px 24px}
+    .card::before{transform:rotate(.9deg) translate(4px,4px)}.card::after{transform:rotate(-1.1deg) translate(-3px,6px)}
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation-duration:.001ms !important;animation-iteration-count:1 !important;transition-duration:.001ms !important}
+    .card{opacity:1 !important;transform:rotate(-.4deg) !important}
+  }
+  [data-lang="es"],[data-lang="uk"]{display:none}
+  body.es [data-lang="en"],body.es [data-lang="uk"]{display:none}
+  body.es [data-lang="es"]{display:block} body.es [data-lang="es"].inline{display:inline} body.es h1 [data-lang="es"]{display:inline}
+  body.uk [data-lang="en"],body.uk [data-lang="es"]{display:none}
+  body.uk [data-lang="uk"]{display:block} body.uk [data-lang="uk"].inline{display:inline} body.uk h1 [data-lang="uk"]{display:inline}
+</style>
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<a class="skip-link" href="#main"><span data-lang="en">Skip to content</span><span data-lang="es">Saltar al contenido</span><span data-lang="uk">Перейти до вмісту</span></a>
+
+<header class="site-header">
+<nav>
+  <a href="/" class="nav-logo">Llav<span class="ai">ai</span></a>
+  <div class="lang-toggle" role="group" aria-label="Select language">
+    <button id="btn-en" class="active" aria-pressed="true" onclick="setLang('en')">EN</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button id="btn-es" aria-pressed="false" onclick="setLang('es')">ES</button>
+    <span class="lang-sep" aria-hidden="true">/</span>
+    <button id="btn-uk" aria-pressed="false" onclick="setLang('uk')">UA</button>
+  </div>
+</nav>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap">
+  <p class="section-eyebrow"><span data-lang="en">Free rent calculator</span><span data-lang="es">Calculadora de alquiler gratis</span><span data-lang="uk">Безкоштовний калькулятор оренди</span></p>
+  <h1>
+    <span data-lang="en">Know what you can <em>actually rent.</em></span>
+    <span data-lang="es">Descubre lo que <em>de verdad</em> puedes alquilar.</span>
+    <span data-lang="uk">Дізнайтеся, що ви <em>справді</em> можете орендувати.</span>
+  </h1>
+  <p class="lede">
+    <span data-lang="en">Barcelona agents want your income to be at least three times the rent. Put your numbers in to see the bands they say yes to, before you spend a viewing finding out the hard way.</span>
+    <span data-lang="es">Las agencias de Barcelona quieren que tus ingresos sean al menos el triple del alquiler. Pon tus cifras y mira las bandas a las que dicen que sí, antes de gastar una visita en descubrirlo.</span>
+    <span data-lang="uk">Агенції в Барселоні хочуть, щоб ваш дохід був щонайменше втричі більшим за оренду. Введіть свої цифри й побачте діапазони, на які кажуть «так», перш ніж марнувати перегляд.</span>
+  </p>
+
+  <section class="card" aria-labelledby="calc-h">
+    <svg class="dclip" viewBox="0 0 24 48" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M18 13v20a6 6 0 0 1-12 0V11a4 4 0 0 1 8 0v20a2 2 0 0 1-4 0V13"/></svg>
+    <div class="inner">
+      <h2 id="calc-h" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Rent affordability calculator</h2>
+      <div class="fields">
+        <div class="field">
+          <label for="sal"><span data-lang="en">Your net monthly salary</span><span data-lang="es">Tu salario neto mensual</span><span data-lang="uk">Ваша чиста місячна зарплата</span></label>
+          <div class="euro"><span class="sym" aria-hidden="true">€</span><input id="sal" type="number" inputmode="numeric" min="0" step="50" value="2900" aria-describedby="calc-h"><span class="per" aria-hidden="true">/mo</span></div>
+        </div>
+        <div class="field">
+          <label for="hh"><span data-lang="en">Household income (you + anyone sharing)</span><span data-lang="es">Ingresos del hogar (tú + quien comparta)</span><span data-lang="uk">Дохід домогосподарства (ви + співмешканці)</span></label>
+          <div class="euro"><span class="sym" aria-hidden="true">€</span><input id="hh" type="number" inputmode="numeric" min="0" step="50" value="4200"><span class="per" aria-hidden="true">/mo</span></div>
+        </div>
+      </div>
+
+      <div class="result" aria-live="polite">
+        <div class="rl"><span data-lang="en">Most likely approved, up to</span><span data-lang="es">Más probable de aprobar, hasta</span><span data-lang="uk">Найімовірніше схвалять, до</span></div>
+        <div class="rb" id="green">€1.400 <small>/mo</small></div>
+        <div class="rn"><span data-lang="en">Agents want income of at least 3× the rent. Stay below this line and you're the easy yes.</span><span data-lang="es">Las agencias quieren ingresos de al menos 3× el alquiler. Quédate por debajo de esta línea y eres el sí fácil.</span><span data-lang="uk">Агенції хочуть дохід щонайменше 3× оренди. Залишайтеся нижче цієї межі, і ви легке «так».</span></div>
+      </div>
+
+      <div class="gauge" aria-hidden="true"><i class="g" id="gg"></i><i class="a" id="ga"></i><i class="r" id="gr"></i></div>
+      <div class="gtrack" aria-hidden="true"><div class="gmark" id="mark"><div class="lab" id="marklab">€1.400</div><div class="pin"></div></div></div>
+
+      <div class="bands">
+        <div class="band"><span class="sw" style="background:var(--ok)"></span><div><div class="bt"><span data-lang="en">Most likely approved</span><span data-lang="es">Más probable de aprobar</span><span data-lang="uk">Найімовірніше схвалять</span></div><div class="bd"><span data-lang="en">Income is 3× the rent or more</span><span data-lang="es">Ingresos de 3× el alquiler o más</span><span data-lang="uk">Дохід 3× оренди або більше</span></div></div><span class="bv" id="b1">≤ €1.400</span></div>
+        <div class="band"><span class="sw" style="background:var(--amber)"></span><div><div class="bt"><span data-lang="en">Risky</span><span data-lang="es">Arriesgado</span><span data-lang="uk">Ризиковано</span></div><div class="bd"><span data-lang="en">Between 2.5× and 3×. A guarantor helps</span><span data-lang="es">Entre 2,5× y 3×. Un aval ayuda</span><span data-lang="uk">Між 2,5× і 3×. Поручитель допоможе</span></div></div><span class="bv" id="b2">€1.400-1.680</span></div>
+        <div class="band"><span class="sw" style="background:var(--coral)"></span><div><div class="bt"><span data-lang="en">Out of band</span><span data-lang="es">Fuera de rango</span><span data-lang="uk">Поза діапазоном</span></div><div class="bd"><span data-lang="en">Under 2.5×. Agents usually say no</span><span data-lang="es">Por debajo de 2,5×. Suelen rechazarlo</span><span data-lang="uk">Нижче 2,5×. Зазвичай відмовляють</span></div></div><span class="bv" id="b3">> €1.680</span></div>
+      </div>
+
+      <div class="slider">
+        <label class="slabel" for="rent"><span data-lang="en">Try a rent</span><span data-lang="es">Prueba un alquiler</span><span data-lang="uk">Спробуйте оренду</span><b id="rentval">€1.400</b></label>
+        <input id="rent" type="range" min="400" max="2600" step="50" value="1400" aria-describedby="vtext">
+        <div class="verdict v-ok" id="verdict"><svg id="vicon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg><span id="vtext">€1.400 · most likely approved</span></div>
+      </div>
+
+      <button class="btn-primary" id="seeMatches" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>
+        <span data-lang="en">Show me flats in my band</span><span data-lang="es">Muéstrame pisos en mi banda</span><span data-lang="uk">Покажіть квартири в моєму діапазоні</span>
+      </button>
+      <p class="freenote"><span data-lang="en">Free to use. Sign up to save it and see live matches.</span><span data-lang="es">Gratis. Regístrate para guardarlo y ver coincidencias en directo.</span><span data-lang="uk">Безкоштовно. Зареєструйтеся, щоб зберегти й бачити збіги наживо.</span></p>
+    </div>
+  </section>
+
+  <section class="explain">
+    <h2><span data-lang="en">How agents decide</span><span data-lang="es">Cómo deciden las agencias</span><span data-lang="uk">Як вирішують агенції</span></h2>
+    <p><span data-lang="en">Most Barcelona agencies use a simple rule: your monthly income should be at least three times the rent. A guarantor (an <em>aval</em>) or a few months upfront can soften a borderline case, but the 3× line is what gets you to the front of the queue.</span><span data-lang="es">La mayoría de las agencias de Barcelona usan una regla simple: tus ingresos mensuales deben ser al menos el triple del alquiler. Un aval o unos meses por adelantado pueden ayudar en un caso límite, pero la línea de 3× es la que te pone al frente de la cola.</span><span data-lang="uk">Більшість агенцій у Барселоні користуються простим правилом: ваш місячний дохід має бути щонайменше втричі більшим за оренду. Поручитель (<em>aval</em>) чи кілька місяців наперед можуть допомогти в межовому випадку, але саме межа 3× виводить вас уперед черги.</span></p>
+    <p><span data-lang="en">Sharing a flat? Add everyone's income together. Most agents assess the household, not just one name on the contract.</span><span data-lang="es">¿Compartes piso? Suma los ingresos de todos: la mayoría de las agencias evalúan el hogar, no solo un nombre en el contrato.</span><span data-lang="uk">Винаймаєте разом? Додайте дохід усіх. Більшість агенцій оцінюють домогосподарство, а не одне ім'я в договорі.</span></p>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="footer-row">
+    <span>© 2026 Llavai · <span data-lang="en">Built in Barcelona</span><span data-lang="es">Hecho en Barcelona</span><span data-lang="uk">Створено в Барселоні</span> · <a href="/privacy"><span data-lang="en">Privacy</span><span data-lang="es">Privacidad</span><span data-lang="uk">Конфіденційність</span></a></span>
+    <span><a href="mailto:hello@llavai.com">hello@llavai.com</a></span>
+  </div>
+</footer>
+
+<script src="/supabase-config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  // Supabase client (anon key is public by design; security is RLS). Used only to detect a session for the CTA.
+  var CONFIGURED = !!(window.LLAVAI_SUPABASE_URL && window.LLAVAI_SUPABASE_ANON_KEY && !/YOUR-PROJECT|YOUR-ANON/.test(window.LLAVAI_SUPABASE_URL + window.LLAVAI_SUPABASE_ANON_KEY));
+  window.sb = (CONFIGURED && window.supabase) ? window.supabase.createClient(window.LLAVAI_SUPABASE_URL, window.LLAVAI_SUPABASE_ANON_KEY) : null;
+  function setLang(l){
+    document.body.classList.remove('es','uk');
+    if (l !== 'en') document.body.classList.add(l);
+    document.documentElement.lang = l;
+    ['en','es','uk'].forEach(function(x){ var b=document.getElementById('btn-'+x); b.classList.toggle('active', x===l); b.setAttribute('aria-pressed', String(x===l)); });
+    try { localStorage.setItem('llavai-lang', l); } catch(e) {}
+  }
+  function lang(){ return document.body.classList.contains('es') ? 'es' : document.body.classList.contains('uk') ? 'uk' : 'en'; }
+  try { var s = localStorage.getItem('llavai-lang'); if (s==='es'||s==='uk') setLang(s); } catch(e) {}
+  var __sh = document.querySelector('.site-header');
+  if (__sh) { var f=function(){ __sh.classList.toggle('scrolled', window.scrollY>12); }; f(); window.addEventListener('scroll', f, {passive:true}); }
+</script>
+<script type="module">
+  import { computeBands, classifyRent, formatEuro } from '/js/rent-calc.mjs';
+  const $ = id => document.getElementById(id);
+  const VTXT = {
+    approved:{en:'most likely approved',es:'más probable de aprobar',uk:'найімовірніше схвалять'},
+    risky:{en:'risky, a guarantor helps',es:'arriesgado, un aval ayuda',uk:'ризиковано, поручитель допоможе'},
+    out:{en:'out of band, agents usually say no',es:'fuera de rango, suelen rechazarlo',uk:'поза діапазоном, зазвичай відмовляють'},
+    unknown:{en:'add your income to see',es:'añade tus ingresos para verlo',uk:'додайте дохід, щоб побачити'}
+  };
+  const TICK = '<path d="M20 6 9 17l-5-5"/>';
+  const WARN = '<path d="M12 9v4M12 17h.01M10.3 4.3 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0Z"/>';
+  function curLang(){ return document.body.classList.contains('es')?'es':document.body.classList.contains('uk')?'uk':'en'; }
+  function render(){
+    const b = computeBands($('sal').value, $('hh').value);
+    $('green').innerHTML = formatEuro(b.green) + ' <small>/mo</small>';
+    $('b1').textContent = '≤ ' + formatEuro(b.green);
+    $('b2').textContent = formatEuro(b.green) + '-' + formatEuro(b.amber).replace('€','');
+    $('b3').textContent = '> ' + formatEuro(b.amber);
+    const sm = b.scaleMax || 1;
+    $('gg').style.width = Math.max(0, b.green / sm * 100) + '%';
+    $('ga').style.width = Math.max(0, (b.amber - b.green) / sm * 100) + '%';
+    $('gr').style.width = Math.max(0, 100 - (b.amber / sm * 100)) + '%';
+    const r = Number($('rent').value);
+    $('rent').max = Math.max(800, Math.round(b.scaleMax) || 2600);
+    $('rentval').textContent = formatEuro(r);
+    $('mark').style.left = Math.min(100, Math.max(0, r / sm * 100)) + '%';
+    $('marklab').textContent = formatEuro(r);
+    const cls = classifyRent(r, b);
+    const L = curLang();
+    $('vtext').textContent = formatEuro(r) + ' · ' + VTXT[cls][L];
+    $('verdict').className = 'verdict ' + (cls==='approved'?'v-ok':cls==='out'?'v-rd':'v-am');
+    $('vicon').innerHTML = cls==='approved' ? TICK : WARN;
+  }
+  ['sal','hh','rent'].forEach(id => $(id).addEventListener('input', render));
+  ['btn-en','btn-es','btn-uk'].forEach(id => $(id).addEventListener('click', () => setTimeout(render, 0)));
+  render();
+
+  // CTA — capture the band, route logged-in users to the filtered feed, others to sign-up first.
+  $('seeMatches').addEventListener('click', async () => {
+    const b = computeBands($('sal').value, $('hh').value);
+    const band = { max: Math.round(b.green), riskyMax: Math.round(b.amber) };
+    try { localStorage.setItem('llavai-rent-band', JSON.stringify(band)); } catch(e) {}
+    const dest = '/account?band=' + band.max;
+    let signedIn = false;
+    try { if (window.sb) { const { data } = await window.sb.auth.getSession(); signedIn = !!(data && data.session); } } catch(e) {}
+    if (!signedIn) { try { localStorage.setItem('llavai-next', dest); } catch(e) {} }
+    location.href = signedIn ? dest : '/get-started';
+  });
+</script>
+</body>
+</html>

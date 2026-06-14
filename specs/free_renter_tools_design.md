@@ -2,9 +2,15 @@
 
 Status: APPROVED (design), 2026-06-14. Sub-project ③ of the "Llavai signed-in app" program.
 Surfaces: public website (logged-out, SEO/lead-gen) + in-app (logged-in, saved/cloud).
-Owner directives: build the UI via the **ui-ux-pro-max** skill; write/edit ALL public-facing copy
-(tool pages, CTAs, cover-letter templates, share-page text) through the **humanizer** skill, then apply
-the Llavai copy voice (British/intl spelling); keep the site build-free.
+Owner directives (skill stack):
+- UI via **ui-ux-pro-max**.
+- Back-end / full-stack + security via **fullstack-guardian** — run its security checklist BEFORE coding
+  (auth, authz, input validation client + server, output encoding/XSS, parameterized queries, no hardcoded
+  secrets, log security events). Applies especially to the PII pieces below (storage, share tokens, edge fns).
+- ALL public-facing copy (tool pages, CTAs, cover-letter templates, share-page text) via **humanizer**,
+  then the Llavai copy voice (British/intl spelling).
+- **context-engineering** when authoring any agent/command/subagent prompts.
+- Keep the site build-free.
 
 ## 1. Context & why
 
@@ -125,6 +131,9 @@ sole token-gated reader. Follow the wrapped-`(select auth.uid())` pattern (W8 pe
 - Cover-letter proxy: key server-side only; **rate-limit** the public path (e.g. a `tool_usage(ip_hash,
   tool, day, count)` table or edge KV; cap N/day/IP) to bound LLM cost/abuse.
 - Storage bucket: RLS-own; signed URLs only; never list other users' objects.
+- Implementation runs the **fullstack-guardian** security checklist before coding each component: auth +
+  authz checks, input validation on client AND server, output encoding, parameterized queries, secrets only
+  in env (never in client/source), and logging of security-relevant events (share access, revocations).
 
 ## 8. Lead capture
 

@@ -117,11 +117,22 @@ const server = http.createServer((req, res) => {
       if (over > 0) fails.push(`overflow ${over}px@${w}`);
     }
 
+    // 6) Profile panel exposes the Rent calculator tools link (-> /rent-calculator)
+    await page.goto(base, { waitUntil: 'domcontentloaded', timeout: 30000 });
+    const t6 = await page.evaluate(() => {
+      const a = document.querySelector('#panel-profile a.tool-link');
+      return { present: !!a, href: a ? a.getAttribute('href') : null, hasIcon: !!(a && a.querySelector('svg')), label: a ? a.textContent : '' };
+    });
+    if (!t6.present) fails.push('tools link missing from profile panel');
+    if (t6.href !== '/rent-calculator') fails.push('tools link href=' + t6.href);
+    if (!t6.hasIcon) fails.push('tools link missing icon');
+    if (!/Rent calculator/.test(t6.label)) fails.push('tools link label=' + t6.label);
+
     if (errs.length) fails.push('JSERR:' + errs.join(' | '));
   } catch (e) { fails.push('THREW:' + e.message); }
 
   await browser.close();
   server.close();
-  console.log(fails.length ? 'FAIL: ' + fails.join('; ') : 'OK: band chip renders, filter coerces, Clear works, fallback + invalid handled, no overflow');
+  console.log(fails.length ? 'FAIL: ' + fails.join('; ') : 'OK: band chip renders, filter coerces, Clear works, fallback + invalid handled, tools link present, no overflow');
   process.exit(fails.length ? 1 : 0);
 })();

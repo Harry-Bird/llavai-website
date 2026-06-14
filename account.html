@@ -274,6 +274,16 @@
   .sheet:nth-of-type(even)::before{transform:rotate(-.5deg) translate(-4px,5px)}
   @media(max-width:560px){.sheet{padding:20px 16px}.sheet::before{transform:rotate(.4deg) translate(3px,4px)}.sheet:nth-of-type(even)::before{transform:rotate(-.4deg) translate(-3px,4px)}}
   .prefs-block.sheet{border-top:0;padding-top:24px;margin-top:0}
+  /* Tools row (Profile panel) — link out to the free rent calculator */
+  .tool-link{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--ink);padding:8px 0;min-width:0}
+  .tool-link .tool-ic{flex:none;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border:1px solid rgba(27,56,143,.18);border-radius:6px;background:var(--field);color:var(--coral-text)}
+  .tool-link .tool-ic svg{width:21px;height:21px}
+  .tool-link .tool-tx{min-width:0;display:flex;flex-direction:column;gap:2px}
+  .tool-link .tool-h{font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:var(--ink);transition:color .2s var(--ease-out)}
+  .tool-link .tool-d{font-size:13.5px;color:var(--pencil);font-style:italic;line-height:1.35}
+  .tool-link .tool-arr{margin-left:auto;flex:none;color:var(--coral);font-family:'Fraunces',serif;font-size:18px;transition:transform .2s var(--ease-out)}
+  .tool-link:hover .tool-h{color:var(--coral-text)}
+  .tool-link:hover .tool-arr{transform:translateX(3px)}
   /* ── tier-aware system status line ── */
   .status-line{display:flex;align-items:center;gap:9px;margin-top:10px;font-size:14.5px;font-style:italic;color:var(--pencil)}
   .status-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--coral);flex:none}
@@ -581,6 +591,18 @@
         <button type="submit" class="btn-primary" id="saveProfileBtn"><span data-lang="en">Save changes</span><span data-lang="es">Guardar</span><span data-lang="uk">Зберегти</span></button>
         <span class="saved" id="profileSaved" role="status" aria-live="polite"><span data-lang="en">Saved ✓</span><span data-lang="es">Guardado ✓</span><span data-lang="uk">Збережено ✓</span></span>
         </form>
+
+        <div class="sheet">
+          <h3 class="prefs-h"><span data-lang="en">Tools</span><span data-lang="es">Herramientas</span><span data-lang="uk">Інструменти</span></h3>
+          <a class="tool-link" href="/rent-calculator">
+            <span class="tool-ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="8" x2="16" y1="6" y2="6"/><line x1="16" x2="16" y1="14" y2="18"/><path d="M16 10h.01"/><path d="M12 10h.01"/><path d="M8 10h.01"/><path d="M12 14h.01"/><path d="M8 14h.01"/><path d="M12 18h.01"/><path d="M8 18h.01"/></svg></span>
+            <span class="tool-tx">
+              <span class="tool-h"><span data-lang="en">Rent calculator</span><span data-lang="es">Calculadora de alquiler</span><span data-lang="uk">Калькулятор оренди</span></span>
+              <span class="tool-d"><span data-lang="en">Check the rent agents are likely to approve for your income.</span><span data-lang="es">Mira el alquiler que las agencias suelen aprobar según tus ingresos.</span><span data-lang="uk">Подивіться, яку оренду агенції зазвичай схвалюють за вашим доходом.</span></span>
+            </span>
+            <span class="tool-arr" aria-hidden="true">→</span>
+          </a>
+        </div>
       </section>
 
       <!-- DOCUMENTS -->

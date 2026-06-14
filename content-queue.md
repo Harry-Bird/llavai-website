@@ -10,4 +10,4 @@ Tick [x] once the page is live.
 - [x] Barcelona rent control explained — zona tensionada, the price index, what landlords can legally charge. Slug: barcelona-rent-control-zona-tensionada
 - [x] Best neighbourhoods in Barcelona to rent as an expat — Eixample, Gràcia, Poblenou, Sant Martí compared. Slug: best-neighbourhoods-barcelona-rent-expat
 - [x] How to spot and avoid rental scams in Barcelona — red flags, safe payment rules, what to verify. Slug: avoid-rental-scams-barcelona
-- [ ] Renting in Barcelona without a Spanish bank account — options, workarounds, aval bancario alternatives. Slug: rent-barcelona-no-spanish-bank-account
+- [x] Renting in Barcelona without a Spanish bank account — options, workarounds, aval bancario alternatives. Slug: rent-barcelona-no-spanish-bank-account

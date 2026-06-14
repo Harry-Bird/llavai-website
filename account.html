@@ -1002,7 +1002,9 @@ async function loadFeed(){
   var feedEl=document.getElementById('feed');
   feedEl.innerHTML=new Array(4).fill('<div class="skel-card" aria-hidden="true"><div class="ph"></div><div class="ln" style="width:55%"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:40%"></div></div>').join('');
   fshow('feed');
-  var res = await sb.from('listings').select('*').gte('appeal_score',60).neq('status','dismissed').order('created_at',{ascending:false});
+  // Explicit column list (not select('*')): the raw ~60 kB/row jsonb blob is never rendered, and
+  // shipping it blows the egress budget at scale. Keep this list in sync with card()/factsFor().
+  var res = await sb.from('listings').select('id,status,appeal_score,photos,price,currency,price_per_m2,features,advertised_phone,first_activation,property_url,agency_name,user_type,rooms,bathrooms,area_m2').gte('appeal_score',60).neq('status','dismissed').order('created_at',{ascending:false}).limit(60);
   if (res.error){ fhide('feed'); document.getElementById('feedEmpty').textContent=friendly('load',res.error); fshow('feedEmpty'); return; }
   if (!res.data || !res.data.length){ fhide('feed'); fshow('feedEmpty'); return; }
   feedEl.innerHTML = res.data.map(card).join('');

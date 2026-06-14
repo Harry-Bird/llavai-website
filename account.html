@@ -215,6 +215,12 @@
   .feed-gate{min-height:30vh;display:flex;align-items:center;justify-content:center;text-align:center;color:var(--pencil);font-style:italic}
   .feed{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
   @media(max-width:720px){.feed{grid-template-columns:1fr}}
+  /* band filter chip — set by the rent calculator's "see flats in my band" CTA */
+  .band-chip{display:flex;align-items:center;gap:11px;flex-wrap:wrap;margin:0 0 20px;padding:11px 15px;min-width:0;background:rgba(27,56,143,.04);border:1px solid rgba(27,56,143,.16);border-left:3px solid var(--coral);border-radius:4px;font-family:'Newsreader',serif;font-size:14.5px;font-style:italic;line-height:1.4;color:var(--ink-deep)}
+  .band-chip svg{width:17px;height:17px;flex:none;color:var(--coral-text);stroke-width:2}
+  .band-chip .bc-txt{min-width:0}
+  .band-chip b{font-family:'Fraunces',serif;font-style:normal;font-weight:600;color:var(--ink);white-space:nowrap}
+  .band-chip .bc-clear{margin-left:auto;min-height:36px;padding:7px 8px;white-space:nowrap}
   .listing{border:1px solid rgba(27,56,143,.13);border-radius:4px;overflow:hidden;background:var(--paper);display:flex;flex-direction:column;transition:box-shadow .2s var(--ease-out),transform .2s var(--ease-out);box-shadow:var(--shadow-sm)}
   .listing:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
   .photo{position:relative;height:190px;background-size:cover;background-position:center;background-color:var(--cream-deep);background-image:linear-gradient(135deg,rgba(27,56,143,.18),rgba(229,91,69,.18));transition:transform .45s var(--ease-out)}
@@ -434,6 +440,7 @@
         <h2><span data-lang="en">Today's best listings</span><span data-lang="es">Los mejores pisos de hoy</span><span data-lang="uk">Найкращі оголошення сьогодні</span></h2>
         <!-- Pro wording is the default; applyTierUI() swaps it for non-Pro tiers -->
         <p class="sub" id="feedSub"><span data-lang="en">Only the standouts (appeal score over 60). Julia calls the best ones for you, and every agency number is here if you'd rather dial yourself.</span><span data-lang="es">Solo los destacados (puntuación superior a 60). Julia llama a los mejores por ti, y tienes el número de cada agencia si prefieres llamar tú.</span><span data-lang="uk">Лише найкращі (оцінка понад 60). Julia телефонує щодо найкращих за вас, а номер агентства поруч, якщо хочете подзвонити самі.</span></p>
+        <div class="band-chip" id="bandChip" role="status" aria-live="polite" hidden></div>
         <div class="feed-gate" id="feedGate"><span data-lang="en">Loading your feed…</span><span data-lang="es">Cargando tu feed…</span><span data-lang="uk">Завантаження стрічки…</span></div>
         <div class="paywall" id="paywall" hidden>
           <span class="pw-stamp" aria-hidden="true"><span data-lang="en">Members only</span><span data-lang="es">Solo miembros</span><span data-lang="uk">Лише для членів</span></span>
@@ -996,15 +1003,50 @@ async function loadTeaser(){
   } else { grid.innerHTML=''; if(head) head.hidden=true; }
   fshow('paywall');
 }
+// Rent-band filter: the calculator's "see flats in my band" CTA passes a price ceiling via
+// ?band= or the llavai-rent-band localStorage key. Coerce to a positive integer; anything
+// else (missing, zero, negative, garbage) means no filter.
+function bandMax(){
+  var v=0;
+  try{ var q=qp('band'); if(q!=null && q!=='' && isFinite(+q)) v=Math.round(+q); }catch(e){}
+  if(v<=0){ try{ var s=JSON.parse(localStorage.getItem('llavai-rent-band')||'null'); if(s && isFinite(+s.max)) v=Math.round(+s.max); }catch(e){ v=0; } }
+  return v>0 ? v : 0;
+}
+// Manual "." grouping (not toLocaleString) — es-ES omits the separator on 4-digit numbers,
+// so this mirrors rent-calc.mjs formatEuro() and renders €1.400 identically everywhere.
+function bandEuro(n){ var v=Math.round(Number(n)||0); return '€'+String(Math.abs(v)).replace(/\B(?=(\d{3})+(?!\d))/g,'.'); }
+function renderBandChip(){
+  var el=document.getElementById('bandChip'); if(!el) return;
+  var bm=bandMax();
+  if(!bm){ el.hidden=true; el.innerHTML=''; return; }
+  var l=lang(), v=bandEuro(bm);   // v is digits + dots only (coerced int) — safe to inline
+  var txt = l==='es' ? 'Mostrando pisos en tu banda, hasta <b>'+v+'</b>.'
+          : l==='uk' ? 'Показуємо квартири у вашому діапазоні, до <b>'+v+'</b>.'
+          : 'Showing flats in your band, up to <b>'+v+'</b>.';
+  var clr = l==='es'?'Quitar':l==='uk'?'Очистити':'Clear';
+  el.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3z"/></svg>'
+    + '<span class="bc-txt">'+txt+'</span>'
+    + '<button type="button" class="btn-text bc-clear" id="bandClear">'+clr+'</button>';
+  el.hidden=false;
+  var btn=document.getElementById('bandClear'); if(btn) btn.addEventListener('click', clearBand);
+}
+function clearBand(){
+  try{ localStorage.removeItem('llavai-rent-band'); }catch(e){}
+  try{ var u=new URL(location.href); u.searchParams.delete('band'); history.replaceState(null,'',u.pathname+u.search+u.hash); }catch(e){}
+  loadFeed();
+}
 async function loadFeed(){
   fhide('paywall'); fhide('feedGate');
+  renderBandChip();
   // Skeleton cards reserve the layout while listings load — no content jump.
   var feedEl=document.getElementById('feed');
   feedEl.innerHTML=new Array(4).fill('<div class="skel-card" aria-hidden="true"><div class="ph"></div><div class="ln" style="width:55%"></div><div class="ln" style="width:80%"></div><div class="ln" style="width:40%"></div></div>').join('');
   fshow('feed');
   // Explicit column list (not select('*')): the raw ~60 kB/row jsonb blob is never rendered, and
   // shipping it blows the egress budget at scale. Keep this list in sync with card()/factsFor().
-  var res = await sb.from('listings').select('id,status,appeal_score,photos,price,currency,price_per_m2,features,advertised_phone,first_activation,property_url,agency_name,user_type,rooms,bathrooms,area_m2').gte('appeal_score',60).neq('status','dismissed').order('created_at',{ascending:false}).limit(60);
+  var query = sb.from('listings').select('id,status,appeal_score,photos,price,currency,price_per_m2,features,advertised_phone,first_activation,property_url,agency_name,user_type,rooms,bathrooms,area_m2').gte('appeal_score',60).neq('status','dismissed');
+  var bm = bandMax(); if (bm) query = query.lte('price', bm);   // rent-band ceiling from the calculator CTA
+  var res = await query.order('created_at',{ascending:false}).limit(60);
   if (res.error){ fhide('feed'); document.getElementById('feedEmpty').textContent=friendly('load',res.error); fshow('feedEmpty'); return; }
   if (!res.data || !res.data.length){ fhide('feed'); fshow('feedEmpty'); return; }
   feedEl.innerHTML = res.data.map(card).join('');

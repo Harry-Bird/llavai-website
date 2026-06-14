@@ -1,0 +1,24 @@
+# Llavai
+
+> Llavai is an AI rental concierge for Barcelona. Its AI voice agent, "Julia", calls estate agents in native Spanish within ~60 seconds of a new listing going live and books viewings. It is built for expats who don't speak fluent Spanish and keep losing flats to faster applicants.
+
+## How it works
+- Llavai monitors every new Barcelona rental listing, scores each one for appeal, and lays out the facts that matter so you skip the duds.
+- Essential (€19/month) is self-serve: you call, but you see the best flats first.
+- Pro (€185/month, by application): Julia calls every quality listing for you in native Barcelona Spanish, presents your tenant profile, and asks for a viewing.
+- Pay-as-you-go call packs (1 call €12, 5 calls €49, 15 calls €119) bridge the two.
+
+## Key pages
+- [Home](https://www.llavai.com/)
+- [Get started](https://www.llavai.com/get-started)
+- [Pricing (machine-readable)](https://www.llavai.com/pricing.md)
+- [Guides](https://www.llavai.com/blog)
+
+## Guides — renting in Barcelona
+- [How to rent an apartment in Barcelona as a foreigner](https://www.llavai.com/blog/rent-apartment-barcelona-foreigner)
+- [What documents you need to rent in Barcelona](https://www.llavai.com/blog/documents-to-rent-barcelona)
+- [Barcelona rental deposit rules (fianza)](https://www.llavai.com/blog/barcelona-rental-deposit-fianza)
+- [How to write a rental cover letter in Spanish](https://www.llavai.com/blog/rental-cover-letter-spanish-barcelona)
+- [Barcelona rent control explained (zona tensionada)](https://www.llavai.com/blog/barcelona-rent-control-zona-tensionada)
+- [Best neighbourhoods in Barcelona to rent as an expat](https://www.llavai.com/blog/best-neighbourhoods-barcelona-rent-expat)
+- [How to spot and avoid rental scams in Barcelona](https://www.llavai.com/blog/avoid-rental-scams-barcelona)

@@ -2,7 +2,9 @@
 
 Status: APPROVED (design), 2026-06-14. Sub-project ③ of the "Llavai signed-in app" program.
 Surfaces: public website (logged-out, SEO/lead-gen) + in-app (logged-in, saved/cloud).
-Owner directive: build the UI via the **ui-ux-pro-max** skill; keep the site build-free.
+Owner directives: build the UI via the **ui-ux-pro-max** skill; write/edit ALL public-facing copy
+(tool pages, CTAs, cover-letter templates, share-page text) through the **humanizer** skill, then apply
+the Llavai copy voice (British/intl spelling); keep the site build-free.
 
 ## 1. Context & why
 
